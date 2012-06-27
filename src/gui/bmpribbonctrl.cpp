@@ -24,6 +24,7 @@ BitmapRibbonCtrl::BitmapRibbonCtrl(  wxWindow* parent ):
 BitmapRibbonCtrl::~BitmapRibbonCtrl(void)
 {
 	Clear();
+	delete mThumbnails;
 }
 
 void BitmapRibbonCtrl::Clear()

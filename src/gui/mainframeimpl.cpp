@@ -42,6 +42,7 @@ MainFrameImpl::MainFrameImpl(void):
 	mFontEditor->GetSymbolPanel()->Bind( wxEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
 
 	m_mgr.Update();
+
 }
 
 MainFrameImpl::~MainFrameImpl(void)

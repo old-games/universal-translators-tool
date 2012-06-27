@@ -88,8 +88,10 @@ function Operations.loadDAT( filename )
 	repeat
 		local bytes = fh:read( bufsize )
 		num = num + 1
-		print ( bytes:len() )
-	until bytes ~= nil or bytes:len() ~= bufsize
+		if bytes ~= nil and bytes:len() == bufsize then
+		
+		end
+	until not bytes
 	print ("Symbols: ", num)
 	fh:close()
 end
