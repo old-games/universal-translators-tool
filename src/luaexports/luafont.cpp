@@ -18,6 +18,7 @@ void FontRegister()
 {
 	Get().register_class<RGBA>();
 	Get().register_class<SymbolInfo>();
+	Get().register_class<FontInfo>();
 }
 
 }   // namespace Lua
@@ -42,4 +43,13 @@ EXPORT_OOLUA_FUNCTIONS_4_CONST(RGBA,
 ///
 EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( SymbolInfo, GetPixel, SetPixel, SetData, SetValues )
 EXPORT_OOLUA_FUNCTIONS_0_CONST( SymbolInfo )
+
+
+
+
+///
+/// Экспорт класса SymbolInfo
+///
+EXPORT_OOLUA_FUNCTIONS_1_NON_CONST( FontInfo, SetValues )
+EXPORT_OOLUA_FUNCTIONS_0_CONST( FontInfo )
 

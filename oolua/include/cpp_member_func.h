@@ -108,6 +108,15 @@
 #define OOLUA_MEM_FUNC_8_CONST_RENAME(name,return_value,func,P1,P2,P3,P4,P5,P6,P7,P8)\
 	LUA_CLASS_MEMBER_FUNCTION_8(name,return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,OOLUA_CONST_FUNC)
 
+#define OOLUA_MEM_FUNC_9(return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,P9)\
+	LUA_CLASS_MEMBER_FUNCTION_9(func,return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,P9,OOLUA_NON_CONST_FUNC)
+#define OOLUA_MEM_FUNC_9_CONST(return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,P9)\
+	LUA_CLASS_MEMBER_FUNCTION_9(func,return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,P9,OOLUA_CONST_FUNC)
+#define OOLUA_MEM_FUNC_9_RENAME(name,return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,P9)\
+	LUA_CLASS_MEMBER_FUNCTION_9(name,return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,P9,OOLUA_NON_CONST_FUNC)
+#define OOLUA_MEM_FUNC_9_CONST_RENAME(name,return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,P9)\
+	LUA_CLASS_MEMBER_FUNCTION_9(name,return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,P9,OOLUA_CONST_FUNC)
+
 
 //proxy implementations
 #define LUA_CLASS_MEMBER_FUNCTION_0(func_name,return_value,func,mod)\
@@ -206,6 +215,17 @@ int func_name(lua_State* const l)mod\
 	OOLUA::INTERNAL::Proxy_caller<R,class_,LVD::is_void< R::type >::value >::call<P1_,P2_,P3_,P4_,P5_,P6_,P7_,P8_,funcType>(l,m_this,&class_::func,p1,p2,p3,p4,p5,p6,p7,p8);\
 	OOLUA_BACK_INTERNAL_8\
 	return INTERNAL::lua_return_count< Type_list<R ,P1_,P2_,P3_,P4_,P5_,P6_,P7_,P8_ >::type> ::out;\
+}
+#define LUA_CLASS_MEMBER_FUNCTION_9(func_name,return_value,func,P1,P2,P3,P4,P5,P6,P7,P8,P9,mod)\
+int func_name(lua_State* const l)mod\
+{\
+	assert(m_this);\
+	OOLUA_PARAMS_INTERNAL_9(P1,P2,P3,P4,P5,P6,P7,P8,P9)\
+	typedef INTERNAL::return_type_traits<return_value > R;\
+	typedef R::type (class_::*funcType )(P1_::type,P2_::type,P3_::type,P4_::type,P5_::type,P6_::type,P7_::type,P8_::type,P9_::type)mod ;\
+	OOLUA::INTERNAL::Proxy_caller<R,class_,LVD::is_void< R::type >::value >::call<P1_,P2_,P3_,P4_,P5_,P6_,P7_,P8_,P9_,funcType>(l,m_this,&class_::func,p1,p2,p3,p4,p5,p6,p7,p8,p9);\
+	OOLUA_BACK_INTERNAL_9\
+	return INTERNAL::lua_return_count< Type_list<R ,P1_,P2_,P3_,P4_,P5_,P6_,P7_,P8_,P9_ >::type> ::out;\
 }
 
 

@@ -124,6 +124,29 @@ RGBA SymbolInfo::GetPixel( int x, int y )
 	return res;
 }
 
+
+
+
+void FontInfo::SetValues( int maxHeight, int minHeight, int maxWidth, int minWidth,
+				int bpp /* BPP::bppMono */,
+				int fontCodePage /* wxFONTENCODING_DEFAULT */,
+				int baseLine /* 0 */,
+				int capLine /* 0 */,
+				int lowLine /* 0 */)
+{
+	mMaxWidth = maxWidth;
+	mMaxHeight = maxHeight;
+	mMinWidth = minWidth;
+	mMinHeight = minHeight;
+	mBPP = bpp;
+	mFontCodePage = fontCodePage;
+	mBaseLine = baseLine;
+	mCapLine = capLine;
+	mLowLine = lowLine;
+}
+
+
+
 void FontInfo::SetSymbolsNum(size_t n)
 {
 	if (n >= MINIMUM_SYMBOLS_NUM)

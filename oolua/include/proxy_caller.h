@@ -49,6 +49,10 @@
 	OOLUA_CONVERTER7\
 	OOLUA_CONVERTER(8)
 
+#define OOLUA_CONVERTER9\
+	OOLUA_CONVERTER8\
+	OOLUA_CONVERTER(9)
+
 namespace OOLUA
 {
 	namespace INTERNAL
@@ -120,6 +124,13 @@ struct Proxy_caller<R,C, 0 >
 		typename R::type r( (m_this->*ptr2mem) (p1_,p2_,p3_,p4_,p5_,p6_,p7_,p8_) );
 		Member_func_helper<R,R::owner>::push2lua(l,r);
 	}
+	template<typename P1,typename P2,typename P3,typename P4,typename P5,typename P6,typename P7,typename P8,typename P9,typename FuncType>
+	static void call(lua_State* const  l,C* m_this,FuncType ptr2mem,typename P1::pull_type&  p1,typename P2::pull_type&  p2,typename P3::pull_type&  p3,typename P4::pull_type&  p4,typename P5::pull_type&  p5,typename P6::pull_type&  p6,typename P7::pull_type&  p7,typename P8::pull_type&  p8,typename P9::pull_type&  p9)
+	{
+		OOLUA_CONVERTER9
+		typename R::type r( (m_this->*ptr2mem) (p1_,p2_,p3_,p4_,p5_,p6_,p7_,p8_,p9_) );
+		Member_func_helper<R,R::owner>::push2lua(l,r);
+	}
 
 };
 
@@ -178,6 +189,12 @@ struct Proxy_caller<R,C, 1 >
 	{
 		OOLUA_CONVERTER8
 		(m_this->*ptr2mem)(p1_,p2_,p3_,p4_,p5_,p6_,p7_,p8_);
+	}
+	template<typename P1,typename P2,typename P3,typename P4,typename P5,typename P6,typename P7,typename P8,typename P9,typename FuncType>
+	static void call(lua_State* const  /*l*/,C* m_this,FuncType ptr2mem,typename P1::pull_type&  p1,typename P2::pull_type&  p2,typename P3::pull_type&  p3,typename P4::pull_type&  p4,typename P5::pull_type&  p5,typename P6::pull_type&  p6,typename P7::pull_type&  p7,typename P8::pull_type&  p8,typename P9::pull_type&  p9)
+	{
+		OOLUA_CONVERTER9
+		(m_this->*ptr2mem)(p1_,p2_,p3_,p4_,p5_,p6_,p7_,p8_,p9_);
 	}
 
 };
@@ -248,6 +265,13 @@ struct Proxy_none_member_caller<R,0 >
 		typename R::type r( (*ptr2func) (p1_,p2_,p3_,p4_,p5_,p6_,p7_,p8_) );
 		Member_func_helper<R,R::owner>::push2lua(l,r);
 	}
+	template<typename P1,typename P2,typename P3,typename P4,typename P5,typename P6,typename P7,typename P8,typename P9,typename FuncType>
+	static void call(lua_State* const  l,FuncType ptr2func,typename P1::pull_type&  p1,typename P2::pull_type&  p2,typename P3::pull_type&  p3,typename P4::pull_type&  p4,typename P5::pull_type&  p5,typename P6::pull_type&  p6,typename P7::pull_type&  p7,typename P8::pull_type&  p8,typename P9::pull_type&  p9)
+	{
+		OOLUA_CONVERTER9
+		typename R::type r( (*ptr2func) (p1_,p2_,p3_,p4_,p5_,p6_,p7_,p8_,p9_) );
+		Member_func_helper<R,R::owner>::push2lua(l,r);
+	}
 };
 
 template <typename R >
@@ -306,6 +330,12 @@ struct Proxy_none_member_caller<R, 1 >
 		OOLUA_CONVERTER8
 		(*ptr2func)(p1_,p2_,p3_,p4_,p5_,p6_,p7_,p8_);
 	}
+	template<typename P1,typename P2,typename P3,typename P4,typename P5,typename P6,typename P7,typename P8,typename P9,typename FuncType>
+	static void call(lua_State* const  /*l*/,FuncType ptr2func,typename P1::pull_type&  p1,typename P2::pull_type&  p2,typename P3::pull_type&  p3,typename P4::pull_type&  p4,typename P5::pull_type&  p5,typename P6::pull_type&  p6,typename P7::pull_type&  p7,typename P8::pull_type&  p8,typename P9::pull_type&  p9)
+	{
+		OOLUA_CONVERTER9
+		(*ptr2func)(p1_,p2_,p3_,p4_,p5_,p6_,p7_,p8_,p9_);
+	}
 
 };
 	}//end INTERNAL namespace
@@ -320,6 +350,7 @@ struct Proxy_none_member_caller<R, 1 >
 #undef OOLUA_CONVERTER6
 #undef OOLUA_CONVERTER7
 #undef OOLUA_CONVERTER8
+#undef OOLUA_CONVERTER9
 
 
 #endif 

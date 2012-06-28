@@ -107,12 +107,19 @@ public:
 		mBaseLine( 0 ),
 		mCapLine( 0 ),
 		mLowLine( 0 ),
-		mBPP( -1 ),
+		mBPP( BPP::bppMono ),
 		mFontCodePage( 0 )
 	{
 		SetSymbolsNum( MINIMUM_SYMBOLS_NUM );
 		memset(mPalette, 0, sizeof(mPalette));
 	}
+
+	void SetValues( int maxHeight, int minHeight, int maxWidth, int minWidth,
+					int bpp = BPP::bppMono,
+					int fontCodePage = wxFONTENCODING_DEFAULT,
+					int baseLine = 0,
+					int capLine = 0,
+					int lowLine = 0 );
 
 	size_t GetSymbolsNum()
 	{
