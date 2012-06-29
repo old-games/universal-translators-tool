@@ -85,15 +85,24 @@ function Operations.loadDAT( filename )
 	local height = 16
 	local bufsize = width * height
 	local num = 0
+	local font = FontInfo:new()
+	--void FontInfo::SetValues( int maxHeight, int minHeight, int maxWidth, int minWidth,
+	--			int bpp /* BPP::bppMono */,
+	--			int fontCodePage /* wxFONTENCODING_DEFAULT */,
+	--			int baseLine /* 0 */,
+	--			int capLine /* 0 */,
+	--			int lowLine /* 0 */)
+	font:SetValues( width,  height, 0, 0, BPP.bpp8, 0, 0, 0, 0 )
 	repeat
 		local bytes = fh:read( bufsize )
 		num = num + 1
 		if bytes ~= nil and bytes:len() == bufsize then
-		
+			font:AddSymbol( bytes, 16, 16 )
 		end
 	until not bytes
 	print ("Symbols: ", num)
 	fh:close()
+	editFont( font )
 end
 
 

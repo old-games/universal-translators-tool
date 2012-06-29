@@ -11,6 +11,11 @@
 #include "luafont.h"
 #include "luacontrol.h"
 
+
+static int editFont(lua_State *L);
+
+
+
 namespace Lua
 {
 
@@ -19,6 +24,9 @@ void FontRegister()
 	Get().register_class<RGBA>();
 	Get().register_class<SymbolInfo>();
 	Get().register_class<FontInfo>();
+
+	// 
+	lua_register(Lua::Get(), "editFont", editFont);
 }
 
 }   // namespace Lua
@@ -50,6 +58,22 @@ EXPORT_OOLUA_FUNCTIONS_0_CONST( SymbolInfo )
 ///
 /// Экспорт класса SymbolInfo
 ///
-EXPORT_OOLUA_FUNCTIONS_1_NON_CONST( FontInfo, SetValues )
+EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( FontInfo, SetValues, AddSymbol )
 EXPORT_OOLUA_FUNCTIONS_0_CONST( FontInfo )
+
+
+static int editFont(lua_State *L)
+{
+	int n = lua_gettop(L);
+	if (n != 1)
+	{
+		wxLogMessage("editFont: function need a filled FontInfo table as argument");
+		return 0;
+	}
+	FontInfo* fontInfo;
+	OOLUA::pull2cpp(L, fontInfo);
+
+
+	return 0;
+}
 

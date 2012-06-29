@@ -20,8 +20,8 @@ namespace Lua
 
 
 OOLUA_CLASS_NO_BASES( RGBA )
-    OOLUA_NO_TYPEDEFS
     OOLUA_ONLY_DEFAULT_CONSTRUCTOR
+    OOLUA_NO_TYPEDEFS
 
 	OOLUA_PUBLIC_MEMBER_GET_SET(R)
 	OOLUA_PUBLIC_MEMBER_GET_SET(G)
@@ -45,12 +45,18 @@ OOLUA_CLASS_NO_BASES( SymbolInfo )
 
 OOLUA_CLASS_END
 
+
+
+
+
+
 OOLUA_CLASS_NO_BASES( FontInfo )
 
 	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
 	OOLUA_NO_TYPEDEFS
 
 	OOLUA_MEM_FUNC_9( void, SetValues, int, int, int, int, int, int, int, int, int)
+	OOLUA_MEM_FUNC_3( void, AddSymbol, const char*, int, int )
 
 
 OOLUA_CLASS_END

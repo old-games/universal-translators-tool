@@ -1,4 +1,6 @@
 
+BPP = { bppMono = 0, bpp2 = 1, bpp4 = 2, bpp8 = 3, bpp16 = 4, bpp24 = 5,  bpp32 = 6 }
+
 ReadFunctions = { }
 
 originalPrint = print

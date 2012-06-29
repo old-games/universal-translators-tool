@@ -114,7 +114,7 @@ public:
 		memset(mPalette, 0, sizeof(mPalette));
 	}
 
-	void SetValues( int maxHeight, int minHeight, int maxWidth, int minWidth,
+	void SetValues( int maxWidth, int maxHeight, int minWidth, int minHeight,
 					int bpp = BPP::bppMono,
 					int fontCodePage = wxFONTENCODING_DEFAULT,
 					int baseLine = 0,
@@ -147,6 +147,7 @@ public:
 		return sBadSymbol;
 	}
 
+
 	Symbols& GetSymbols()
 	{
 		return mSymbols;
@@ -156,6 +157,8 @@ public:
 	{
 		mSymbols = src;
 	}
+
+	void AddSymbol( const char* data, int width, int height );
 
 	wxInt32 GetMaxWidth()
 	{

@@ -44,8 +44,7 @@ void SymbolInfo::SetValues(wxInt32 width, wxInt32 height, wxUint32 code, const c
 	mCode = code;
 	if (data != NULL)
 	{
-		CreateData();
-		memcpy(mData, data, sizeof( LetterBox ));
+		SetData( data );
 	}
 	else
 	{
@@ -61,6 +60,8 @@ inline SymbolInfo &SymbolInfo::operator = ( const SymbolInfo &src )
 
 void SymbolInfo::SetData(const char* data /* NULL */)
 {
+	CreateData();
+	memcpy(mData, data, sizeof( LetterBox ));
 }
 
 inline void SymbolInfo::CreateData()
@@ -127,7 +128,7 @@ RGBA SymbolInfo::GetPixel( int x, int y )
 
 
 
-void FontInfo::SetValues( int maxHeight, int minHeight, int maxWidth, int minWidth,
+void FontInfo::SetValues( int maxWidth, int maxHeight, int minWidth, int minHeight,
 				int bpp /* BPP::bppMono */,
 				int fontCodePage /* wxFONTENCODING_DEFAULT */,
 				int baseLine /* 0 */,
@@ -146,12 +147,21 @@ void FontInfo::SetValues( int maxHeight, int minHeight, int maxWidth, int minWid
 }
 
 
-
 void FontInfo::SetSymbolsNum(size_t n)
 {
 	if (n >= MINIMUM_SYMBOLS_NUM)
 	{
 		mSymbols.resize(n);
 	}
+}
+
+
+void FontInfo::AddSymbol( const char* data, int width, int height )
+{
+	SymbolInfo info;
+	info.SetData( data );
+	info.mWidth = width;
+	info.mHeight = height;
+	mSymbols.push_back( info );
 }
 
