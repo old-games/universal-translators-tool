@@ -12,6 +12,7 @@
 #include "editpanel.h"
 
 class ControlLine;
+class FontInfo;
 
 enum ControlLines
 {

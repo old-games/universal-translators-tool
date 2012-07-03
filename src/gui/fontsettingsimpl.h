@@ -9,6 +9,8 @@
 #ifndef FONTSEETINGSIMPL_H_INCLUDED
 #define FONTSEETINGSIMPL_H_INCLUDED
 
+class FontInfo;
+
 class FontSettingsImpl :
 	public FontSettingsGui
 {

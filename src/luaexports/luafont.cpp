@@ -8,6 +8,7 @@
  **************************************************************/
 
 #include "pch.h"
+#include "fontinfo.h"
 #include "luafont.h"
 #include "luacontrol.h"
 
@@ -72,7 +73,7 @@ static int editFont(lua_State *L)
 	}
 	FontInfo* fontInfo;
 	OOLUA::pull2cpp(L, fontInfo);
-
+	
 
 	return 0;
 }

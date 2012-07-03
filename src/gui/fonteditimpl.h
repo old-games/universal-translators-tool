@@ -9,6 +9,7 @@
 #ifndef FONTEDITIMPL_H_INCLUDED
 #define FONTEDITIMPL_H_INCLUDED
 
+class FontInfo;
 class FontEditGui;
 class SymbolEditGui;
 class SymbolPanel;
@@ -34,6 +35,7 @@ protected:
 	void OnPaint(wxPaintEvent& event);
 
 	virtual void OnBtnClick( wxCommandEvent& event );
+	virtual void OnFontChangeEvent( ChangeFontEvent& event );
 private:
 
 	SymbolEditGui*	mSymbolEditor;

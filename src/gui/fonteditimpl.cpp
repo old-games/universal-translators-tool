@@ -9,6 +9,7 @@
 
 #include "pch.h"
 
+#include "fontinfo.h"
 #include "symbolpanel.h"
 #include "symboleditgui.h"
 #include "fonteditimpl.h"
@@ -24,6 +25,7 @@ FontEditImpl::FontEditImpl(  wxWindow* parent ):
 	mCentralSizer->Add( mSymbolEditor, 1, wxEXPAND, 5 );
 	this->Layout();
 
+	this->Bind( uttEVT_CHANGEFONT, &FontEditImpl::OnFontChangeEvent, this );
 	//
 	
 	//size_t n = 10;
@@ -41,6 +43,13 @@ FontEditImpl::~FontEditImpl(void)
 {
 	delete mCurrentFont;
 }
+
+/* virtual */ void FontEditImpl::OnFontChangeEvent( ChangeFontEvent& event )
+{
+
+	event.Skip();
+}
+
 
 SymbolPanel* FontEditImpl::GetSymbolPanel()
 {

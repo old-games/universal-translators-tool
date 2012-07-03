@@ -10,11 +10,12 @@
 #ifndef LUAFONT_H_INCLUDED
 #define LUAFONT_H_INCLUDED
 
+#include "fontinfo.h"
+
 namespace Lua
 {
 	void FontRegister();
 }
-
 
 
 

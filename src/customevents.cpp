@@ -10,6 +10,9 @@
 #include "pch.h"
 #include "customevents.h"
 
-wxDEFINE_EVENT( wxEVT_COLOURPICK, ColourPickEvent );
-
+wxDEFINE_EVENT( uttEVT_COLOURPICK, ColourPickEvent );
 IMPLEMENT_DYNAMIC_CLASS(ColourPickEvent, wxEvent)
+
+
+wxDEFINE_EVENT( uttEVT_CHANGEFONT, ChangeFontEvent );
+IMPLEMENT_DYNAMIC_CLASS(ChangeFontEvent, wxEvent)

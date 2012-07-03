@@ -209,6 +209,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\fontinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\fontinfo.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\helpers.cpp"
 				>
 			</File>
@@ -250,6 +258,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\selectrect.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\symbolinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\symbolinfo.h"
 				>
 			</File>
 			<File
