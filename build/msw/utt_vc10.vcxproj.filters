@@ -6,23 +6,35 @@
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="gui">
-      <UniqueIdentifier>{b7e91865-a116-457c-b66d-78fa85fb7780}</UniqueIdentifier>
+      <UniqueIdentifier>{717f98ae-0e1c-42cb-ad25-fec63758168d}</UniqueIdentifier>
     </Filter>
     <Filter Include="gui\fonteditor">
-      <UniqueIdentifier>{009be2a9-83ed-4b00-80b6-549378a4d895}</UniqueIdentifier>
+      <UniqueIdentifier>{b9755f5d-6c22-4872-99d9-88982d11821f}</UniqueIdentifier>
     </Filter>
     <Filter Include="res">
-      <UniqueIdentifier>{0b304994-fd9a-4a00-b995-51b10294b3d7}</UniqueIdentifier>
+      <UniqueIdentifier>{cabdd34f-ca89-4c72-95cb-cebfffafb03e}</UniqueIdentifier>
     </Filter>
     <Filter Include="scripts">
-      <UniqueIdentifier>{48a87e5c-9bb3-44b0-a902-96f054d7eb0f}</UniqueIdentifier>
+      <UniqueIdentifier>{660ca400-60cf-42a8-bcc9-f986716fe10c}</UniqueIdentifier>
     </Filter>
     <Filter Include="luaexports">
-      <UniqueIdentifier>{97750fab-fdec-41b4-800f-e99c462eb40a}</UniqueIdentifier>
+      <UniqueIdentifier>{4d1d4460-8faa-4519-8d38-cf9800c0dd0e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\customevents.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\drawpanel.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\editpanel.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\fontinfo.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\helpers.cpp">
       <Filter>main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\luaconsole.cpp">
@@ -31,11 +43,29 @@
     <ClCompile Include="..\..\src\luacontrol.cpp">
       <Filter>main</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\palettepanel.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\selectrect.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\symbolinfo.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\symbolpanel.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\utt.cpp">
       <Filter>main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\uttypes.cpp">
       <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\bmpribbonctrl.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\editpanelimpl.cpp">
+      <Filter>gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gui\logwindowimpl.cpp">
       <Filter>gui</Filter>
@@ -43,11 +73,20 @@
     <ClCompile Include="..\..\src\gui\mainframeimpl.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\gui\palwindowimpl.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\gui\selmoduleimpl.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\simplegui.cpp">
       <Filter>gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gui\uttgui.cpp">
       <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\controlline.cpp">
+      <Filter>gui\fonteditor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\gui\fonteditimpl.cpp">
       <Filter>gui\fonteditor</Filter>
@@ -61,45 +100,33 @@
     <ClCompile Include="..\..\src\gui\lettercodesimpl.cpp">
       <Filter>gui\fonteditor</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\gui\symboleditgui.cpp">
+      <Filter>gui\fonteditor</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\luaexports\common.cpp">
       <Filter>luaexports</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\luaexports\luafont.cpp">
       <Filter>luaexports</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\editpanel.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\editpanelimpl.cpp">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\selectrect.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\palwindowimpl.cpp">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\palettepanel.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\customevents.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\helpers.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\symbolpanel.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\symboleditgui.cpp">
-      <Filter>gui\fonteditor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\controlline.cpp">
-      <Filter>gui\fonteditor</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\customevents.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\defaultpals.h">
+      <Filter>main</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\drawpanel.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editpanel.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\fontinfo.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\helpers.h">
       <Filter>main</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\luaconsole.h">
@@ -108,7 +135,19 @@
     <ClInclude Include="..\..\src\luacontrol.h">
       <Filter>main</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\palettepanel.h">
+      <Filter>main</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\pch.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\selectrect.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\symbolinfo.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\symbolpanel.h">
       <Filter>main</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\utt.h">
@@ -117,17 +156,32 @@
     <ClInclude Include="..\..\src\uttypes.h">
       <Filter>main</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\gui\bmpribbonctrl.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\editpanelimpl.h">
+      <Filter>gui</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\gui\logwindowimpl.h">
       <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\gui\mainframeimpl.h">
       <Filter>gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\gui\palwindowimpl.h">
+      <Filter>gui</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\gui\selmoduleimpl.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\simplegui.h">
       <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\gui\uttgui.h">
       <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\controlline.h">
+      <Filter>gui\fonteditor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\gui\fonteditimpl.h">
       <Filter>gui\fonteditor</Filter>
@@ -141,44 +195,14 @@
     <ClInclude Include="..\..\src\gui\lettercodesimpl.h">
       <Filter>gui\fonteditor</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\gui\symboleditgui.h">
+      <Filter>gui\fonteditor</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\luaexports\common.h">
       <Filter>luaexports</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\luaexports\luafont.h">
       <Filter>luaexports</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\editpanel.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\editpanelimpl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\selectrect.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\palwindowimpl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\palettepanel.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\customevents.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\defaultpals.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\helpers.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\symbolpanel.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\symboleditgui.h">
-      <Filter>gui\fonteditor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\controlline.h">
-      <Filter>gui\fonteditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +213,9 @@
       <Filter>res</Filter>
     </None>
     <None Include="..\..\src\gui\uttgui.fbp">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\src\gui\uttsimplegui.fbp">
       <Filter>res</Filter>
     </None>
     <None Include="..\..\bin\scripts\common.lua">
