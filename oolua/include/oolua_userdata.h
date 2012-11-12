@@ -1,8 +1,8 @@
 #ifndef OOLUA_USERDATA_H_
 #	define OOLUA_USERDATA_H_
 
-#include "oolua_config.h"
-
+#	include "oolua_config.h"
+#	include "lvd_types.h"
 struct lua_State;
 namespace OOLUA
 {
@@ -16,11 +16,16 @@ namespace OOLUA
 			void* void_class_ptr;
 			oolua_function_check_base base_checker;
 			oolua_type_check_function type_check;
+			LVD::uint32 flags;
+		};
+	
 #if OOLUA_CHECK_EVERY_USERDATA_IS_CREATED_BY_OOLUA == 1 && OOLUA_USERDATA_OPTIMISATION == 1
-			lua_State* created_by_state;
+	/*lowest nibble is reserved for flags*/
+#	define OOLUA_MAGIC_COOKIE	0xfC105Ef0
+#	define OOLUA_CHECK_COOKIE(flags)(((flags) & 0xfffffff0) == OOLUA_MAGIC_COOKIE)
+#	define OOLUA_SET_COOKIE(flags)	( (flags) = (OOLUA_MAGIC_COOKIE | ((flags) & 0xf)) )
 #endif
-			unsigned int flags;
-      };
+
 		void userdata_const_value(Lua_ud* ud, bool value);
 		bool userdata_is_constant(Lua_ud const* ud);
 		bool userdata_is_to_be_gced(Lua_ud const * ud);

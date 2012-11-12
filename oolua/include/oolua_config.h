@@ -102,8 +102,7 @@
 #endif
 
 //check everything
-
-#define OOLUA_SANDBOX DEBUG
+#define OOLUA_SANDBOX 0
 
 #if OOLUA_SANDBOX == 1
 #	if defined OOLUA_RUNTIME_CHECKS_ENABLED && OOLUA_RUNTIME_CHECKS_ENABLED == 0

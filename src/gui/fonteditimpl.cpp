@@ -58,6 +58,7 @@ SymbolPanel* FontEditImpl::GetSymbolPanel()
 
 void FontEditImpl::SetFont( const FontInfo& newFont )
 {
+	//mCurrentFont = newFont;
 }
 
 bool FontEditImpl::CheckChanges()
@@ -66,7 +67,7 @@ bool FontEditImpl::CheckChanges()
 	{
 		return true;
 	}
-	wxInt32 res = wxMessageDialog(this, "Save changes?", "Font has changes", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
+	int res = wxMessageDialog(this, "Save changes?", "Font has changes", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
 	if (res == wxID_OK)
 	{
 		return SaveFont();
@@ -95,6 +96,7 @@ bool FontEditImpl::CreateFont()
 	return false;
 }
 
+
 bool FontEditImpl::ShowSettings()
 {
 	if (mCurrentFont == NULL)
@@ -106,14 +108,17 @@ bool FontEditImpl::ShowSettings()
 	return settings.ShowModal() != wxID_CANCEL;
 }
 
+
 void FontEditImpl::Render(wxDC& dc)
 {
 }
+
 
 void FontEditImpl::OnPaint(wxPaintEvent& event)
 {
 	event.Skip();
 }
+
 
 void FontEditImpl::OnBtnClick( wxCommandEvent& event )
 {
@@ -122,6 +127,13 @@ void FontEditImpl::OnBtnClick( wxCommandEvent& event )
 		case wxID_CREATE_FONT:
 			CreateFont();
 		break;
+
+		case wxID_FONT_SETTINGS:
+			ShowSettings();
+		break;
+
+		default:
+			wxLogError("FontEditImpl::OnBtnClick error: unknown event id");
 	}
 	event.Skip();
 }

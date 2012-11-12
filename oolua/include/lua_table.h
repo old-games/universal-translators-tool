@@ -72,10 +72,11 @@ namespace OOLUA
 		void swap(Lua_table & rhs);
 		bool pull_from_stack(lua_State* l);
 		void lua_pull_from_stack(lua_State* l);
+		lua_State* state() const { return m_table_ref.m_lua; }
 	private:
 		bool get_table()const;
 		void restore_stack(int const & init_stack_size)const;
-		int initail_stack_size()const;
+		int initial_stack_size()const;
 		Lua_table_ref m_table_ref;
 	};
 
@@ -87,7 +88,6 @@ namespace OOLUA
 	template<typename T,typename T1>
 	inline T1& Lua_table::at(T const& key,T1& value)
 	{
-		//int const init_stack_size = initail_stack_size();
 		get_table();//table
 		push2lua(m_table_ref.m_lua,key);//table key
 		lua_gettable(m_table_ref.m_lua, -2);//table value
@@ -102,7 +102,7 @@ namespace OOLUA
 		//record the stack size as we want to put the stack into the 
 		//same state that it was before entering here
 		//int init_stack_size = lua_gettop(m_lua);
-		int const init_stack_size = initail_stack_size();
+		int const init_stack_size = initial_stack_size();
 		if(!get_table())return;
 		push2lua(m_table_ref.m_lua,key);
 		//table is now at -2 (key is at -1). 
@@ -120,7 +120,7 @@ namespace OOLUA
 		//record the stack size as we want to put the stack into the 
 		//same state that it was before entering here
 		//int init_stack_size = lua_gettop(m_lua);
-		int const init_stack_size = initail_stack_size();
+		int const init_stack_size = initial_stack_size();
 		if(!get_table())return;
 		push2lua(m_table_ref.m_lua,key);
 		//table is now at -2 (key is at -1). 
@@ -137,7 +137,7 @@ namespace OOLUA
 	template<typename T,typename T1>
 	inline void Lua_table::try_at(T const& key,T1& value)
 	{
-		int const init_stack_size = initail_stack_size();
+		int const init_stack_size = initial_stack_size();
 		try 
 		{
 			if(!get_table())throw OOLUA::Runtime_error("Table is invalid");
@@ -180,7 +180,7 @@ namespace OOLUA
 		//record the stack size as we want to put the stack into the 
 		//same state that it was before entering here
 		//int init_stack_size = lua_gettop(m_lua);
-		int const init_stack_size = initail_stack_size();
+		int const init_stack_size = initial_stack_size();
 		if(!get_table())return false;
 		if(! push2lua(m_table_ref.m_lua,key) )
 		{
@@ -225,27 +225,93 @@ namespace OOLUA
 	void new_table(lua_State* l,OOLUA::Lua_table& t);
 	OOLUA::Lua_table new_table(lua_State* l);
 	
+	
+	/*
+	 oolua_ipairs
+	 Helper for iterating over the array part of a table
+	 declares 
+	 _i_index_				: current index into the array
+	 _oolua_array_index_	: stack index at which table is located
+	 lvm					: the table's lua_State
+	 
+	 NOTE: Returning from inside of the loop will not leave the stack clean
+	 unless you reset it.
+	 usage:
+	 oolua_ipairs(table)
+	 {
+		if(_i_index_ == 99) 
+		{
+			lua_settop(lvm,_oolua_array_index-1);
+			return red_balloons;
+		}
+	 }
+	 oolua_ipairs_end()
+	 */
+#	define oolua_ipairs(table) \
+	if( table.valid() ) \
+	{ \
+		lua_State* lvm = table.state(); \
+		lua_checkstack(lvm, 2);\
+		OOLUA::push2lua(lvm,table); \
+		int const _oolua_array_index_ = lua_gettop(lvm); \
+		int _i_index_ = 1; \
+		lua_rawgeti(lvm, _oolua_array_index_,_i_index_); \
+		while (lua_type(lvm, -1)  != LUA_TNIL) \
+		{ \
+
+#	define oolua_ipairs_end()\
+			lua_settop(lvm, _oolua_array_index_); \
+			lua_rawgeti(lvm, _oolua_array_index_,++_i_index_); \
+		} \
+		lua_settop(lvm,_oolua_array_index_-1); \
+	}
+
+	
+	
+	/*
+	 oolua_pairs
+	 Helper for iterating over a table.
+	 declares
+	 _oolua_table_index_	: stack index at which table is located
+	 lvm					: the table's lua_State
+	 
+	 usage
+	 oolua_pairs(table)
+	 {
+		do what ever
+		lua_pop(value);leaving key at the top of stack
+	 }
+	 oolua_pairs_end()
+	 */
+	
+#	define oolua_pairs(table) \
+	if( table.valid() ) \
+	{ \
+		lua_State* lvm = table.state(); \
+		OOLUA::push2lua(lvm,table); \
+		int	const _oolua_table_index_ = lua_gettop(lvm); \
+		lua_pushnil(lvm); \
+		while (lua_next(lvm, _oolua_table_index_) != 0) 
+	
+#	define oolua_pairs_end() \
+		lua_pop(lvm, 1); \
+	}
+	
+	
 	/*
 	 you must remove the value from the stack and leave the key
 	 do not call anything which may call tostring on the actual key
 	 duplicate it instead with lua_pushvalue then call the operation on the copy
 	 */
 	template<typename ClassType>
-	inline void for_each_key_value(lua_State* lua,OOLUA::Lua_table& table
-								   , ClassType* instance, void(ClassType::*func)(lua_State*) )
+	inline void for_each_key_value(OOLUA::Lua_table& table, ClassType* instance, void(ClassType::*func)(lua_State*) )
 	{
-		if( table.valid() )
+		oolua_pairs(table)
 		{
-			OOLUA::push2lua(lua,table);
-			lua_pushnil(lua);
-			while (lua_next(lua, 1) != 0) 
-			{
-				(instance->*(func))(lua);
-			}
-			lua_pop(lua, 1);
+			(instance->*(func))(lvm);
 		}
+		oolua_pairs_end()
 	}
-	
 }
 
 #endif

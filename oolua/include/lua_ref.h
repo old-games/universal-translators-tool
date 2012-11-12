@@ -28,7 +28,7 @@ namespace OOLUA
 	namespace INTERNAL 
 	{
 		void pull_handle_invalid(lua_State* const lua,int id);
-		bool if_enabled_compare_states_and_react(lua_State* const lua,lua_State* const other);
+		bool push_reference_if_possible(int const ref, lua_State* const from,lua_State* const to);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////
@@ -57,6 +57,7 @@ namespace OOLUA
 		bool pull(lua_State* const lua) OOLUA_DEFAULT ;
 		bool lua_push(lua_State* const lua)const;
 		bool lua_pull(lua_State* const lua);
+		lua_State* state() const { return m_lua; }
 	private:
 		friend class  Lua_table;
 		bool pull_if_valid(lua_State* l);
@@ -140,9 +141,8 @@ namespace OOLUA
 			lua_pushnil(lua);
 			return true;
 		}
-		if(!INTERNAL::if_enabled_compare_states_and_react(lua,m_lua)) return false;
-		lua_rawgeti(m_lua, LUA_REGISTRYINDEX, m_ref );
-		return  lua_type(m_lua, -1) == ID;
+		return  INTERNAL::push_reference_if_possible(m_ref,m_lua,lua) 
+					&& lua_type(lua, -1) == ID;
 	}
 	
 	template<int ID>
@@ -165,12 +165,14 @@ namespace OOLUA
 	template<int ID>
 	bool Lua_ref<ID>::pull_if_valid(lua_State* const l)
 	{
-		if( lua_type(l, -1) == ID )
+		if (lua_gettop(l) == 0)  return false;
+		const int type = lua_type(l,-1);
+		if( type == ID )
 		{
 			set_ref( l, luaL_ref(l, LUA_REGISTRYINDEX) );
 			return true;
 		}
-		else if( lua_type(l,-1) ==LUA_TNIL && lua_gettop(l) >=1)
+		else if( type == LUA_TNIL )
 		{
 			release();
 			return true;
@@ -206,10 +208,10 @@ namespace OOLUA
 	
 	///\typedef Lua_table_ref
 	///Wrapper for a lua table
-	typedef Lua_ref<LUA_TTABLE> Lua_table_ref;//0
+	typedef Lua_ref<LUA_TTABLE> Lua_table_ref;
 	///\typedef Lua_func_ref 
 	///Wrapper for a lua function
-	typedef Lua_ref<LUA_TFUNCTION> Lua_func_ref;//1
+	typedef Lua_ref<LUA_TFUNCTION> Lua_func_ref;
 
 
 }

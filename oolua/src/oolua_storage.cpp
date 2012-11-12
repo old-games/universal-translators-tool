@@ -102,22 +102,25 @@ namespace OOLUA
 			return INTERNAL::userdata_is_constant( static_cast<Lua_ud *>( lua_touserdata(l, index) ) ); 
 		}
 		
-		Lua_ud* new_userdata(lua_State* l, void* ptr,bool is_const)
+		Lua_ud* new_userdata(lua_State* l, void* ptr,bool is_const,oolua_function_check_base base_checker,oolua_type_check_function type_check)
 		{
 			Lua_ud* ud = static_cast<Lua_ud*>(lua_newuserdata(l, sizeof(Lua_ud)));
 			ud->flags = 0;
-			ud->void_class_ptr = ptr;
-			userdata_const_value(ud,is_const);
-
+			reset_userdata(ud,ptr,is_const,base_checker,type_check);			
 #if OOLUA_CHECK_EVERY_USERDATA_IS_CREATED_BY_OOLUA == 1 && OOLUA_USERDATA_OPTIMISATION == 1
-			ud->created_by_state = l;
-#else
-			(void)l;
-#endif		
+			OOLUA_SET_COOKIE(ud->flags);
+#endif	
 			return ud;
 		}
 		
-
+		void reset_userdata(Lua_ud* ud, void* ptr,bool is_const,oolua_function_check_base base_checker,oolua_type_check_function type_check)
+		{
+			ud->void_class_ptr = ptr;
+			ud->base_checker = base_checker;
+			ud->type_check = type_check;
+			userdata_const_value(ud,is_const);
+		}
+		
 		//on entrance ud is on top
 		Lua_ud* change_to_none_const_and_return_ud(lua_State* l)
 		{

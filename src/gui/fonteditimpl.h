@@ -22,8 +22,7 @@ public:
 	~FontEditImpl(void);
 
 	void SetFont( const FontInfo& newFont );
-	bool ShowSettings();
-	bool CreateFont();
+
 	bool CheckChanges();
 	bool SaveFont();
 
@@ -37,6 +36,9 @@ protected:
 	virtual void OnBtnClick( wxCommandEvent& event );
 	virtual void OnFontChangeEvent( ChangeFontEvent& event );
 private:
+
+	bool ShowSettings();
+	bool CreateFont();
 
 	SymbolEditGui*	mSymbolEditor;
 	FontInfo*		mCurrentFont;

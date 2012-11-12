@@ -2,11 +2,7 @@
 #	include "lua_function.h"
 #   include "oolua_check_result.h"
 #	include "oolua_config.h"
-
-#if OOLUA_DEBUG_CHECKS == 1
-#   include <cassert>
-#endif
-
+#	include "oolua_error.h"
 
 namespace 
 {
@@ -75,11 +71,7 @@ namespace
 		lua_concat(L, lua_gettop(L) - arg);
 		return 1;
 	}
-
-}
-
-namespace OOLUA
-{
+	
 	int set_error_callback(lua_State* l, lua_CFunction func)
 	{
 #if OOLUA_DEBUG_CHECKS == 1
@@ -91,10 +83,11 @@ namespace OOLUA
 		return 0;
 #endif
 	}
-	void remove_callback(lua_State* l, int index)
-	{
-		if (index != 0)lua_remove(l, index);
-	}
+	
+}
+
+namespace OOLUA
+{
 	void Lua_function::bind_script(lua_State* const lua)
 	{
 #if OOLUA_DEBUG_CHECKS == 1
@@ -104,25 +97,93 @@ namespace OOLUA
 	}
 	
 	Lua_function::Lua_function()
-		:m_lua(0),m_error_func_index(0)
+		:m_lua(0)
 	{}
-	
-	bool Lua_function::call(int const& count)
+	Lua_function::Lua_function(lua_State* l)
 	{
-		int result = lua_pcall(m_lua,count,LUA_MULTRET,m_error_func_index);
-		remove_callback(m_lua,m_error_func_index);
+		bind_script(l);
+	}
+	bool Lua_function::call(int const nparams,int const error_index)
+	{
+		int result = lua_pcall(m_lua,nparams,LUA_MULTRET,error_index);
+		if (error_index != 0)lua_remove(m_lua, error_index);
 		return INTERNAL::protected_call_check_result(m_lua,result);
 	}
+	
+	
+#if OOLUA_RUNTIME_CHECKS_ENABLED == 1 
+#	if OOLUA_USE_EXCEPTIONS == 1
+#		define OOLUA_CHECK_STACK_IF_ENABLED(lvm,count) \
+		if( ! lua_checkstack(lvm, (count)) )throw OOLUA::Runtime_error("unable to grow the stack")
+#	elif OOLUA_STORE_LAST_ERROR == 1
+#		define OOLUA_CHECK_STACK_IF_ENABLED(lvm,count) \
+		if( ! lua_checkstack(lvm, (count)) ) \
+		do \
+		{ \
+			if( lua_checkstack(lvm, 3) ) \
+			{ \
+				lua_pushliteral(lvm,"unable to grow the stack"); \
+				OOLUA::INTERNAL::set_error_from_top_of_stack_and_pop_the_error(lvm); \
+			} \
+			/*else cant even grow the stack to add the error*/ \
+			return false; \
+		}while(0)
+#	endif
+#elif OOLUA_DEBUG_CHECKS == 1
+#	define OOLUA_CHECK_STACK_IF_ENABLED(lvm,count) \
+	if( ! lua_checkstack(lvm, (count)) ) assert(0 && "Unable to grow the stack")
+#else
+#	define OOLUA_CHECK_STACK_IF_ENABLED(lvm,count)(void)lvm
+#endif	
+	
+	
+	/*
+	 prep_function
+	 If the given function is not actually a function (and the following exception does not apply)
+	 then pcall will tell us this and it will be handled as specified by the configration in use.
+	 Exception : If it is a function reference it can fail when the states are not related and this 
+	 error is given not the pcall error, otherwise it would be confusing as to why there was
+	 an error.
+	 */
+	
+	bool Lua_function::prep_function(Lua_func_ref const& func,int const nparams,int& error_index)
+	{
+		OOLUA_CHECK_STACK_IF_ENABLED(m_lua,nparams+2);
+		error_index = set_error_callback(m_lua,stack_trace);
+		return func.push(m_lua);
+	}
 
-	void Lua_function::set_function(std::string const& func)
+	bool Lua_function::prep_function(std::string const& func,int const nparams,int& error_index)
 	{
-		m_error_func_index = set_error_callback(m_lua,stack_trace);
+		OOLUA_CHECK_STACK_IF_ENABLED(m_lua,nparams+2);
+		error_index = set_error_callback(m_lua,stack_trace);
 		lua_getglobal(m_lua,func.c_str() );
+		return true;
 	}
-	void Lua_function::set_function(Lua_func_ref const& func)
+	
+	bool Lua_function::prep_function(int const func_index,int const nparams, int& error_index)
 	{
-		m_error_func_index = set_error_callback(m_lua,stack_trace);
-		lua_rawgeti(m_lua, LUA_REGISTRYINDEX, func.ref() );
+		int const top = lua_gettop(m_lua);
+#if OOLUA_DEBUG_CHECKS == 1
+		assert( !( top == 0 || func_index == 0|| func_index > top || -func_index > top )  && "Out of bounds index");
+#endif
+		OOLUA_CHECK_STACK_IF_ENABLED(m_lua,nparams+2);
+		error_index = set_error_callback(m_lua,stack_trace);
+		lua_pushvalue(m_lua,  func_index > 0 ? func_index : top + 1 + func_index);
+		
+		return true;
 	}
+	
+#undef OOLUA_CHECK_STACK_IF_ENABLED	
+	
+	int Lua_function::get_top()
+	{
+#if OOLUA_DEBUG_CHECKS == 1
+		assert(m_lua && "No valid script is bound for the Lua_function caller");
+#endif
+		return lua_gettop(m_lua);
+	}
+
+
 }
 

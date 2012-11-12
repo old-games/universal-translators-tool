@@ -46,13 +46,15 @@ namespace OOLUA
 		template<typename T>
 		inline T* class_from_stack_top(lua_State * l)
 		{
-			return check_index<T>(l,lua_gettop(l));
+			const int top = lua_gettop(l);
+			return top ? check_index<T>(l,top) : (T*)0;
 		}
 
 		template<typename T>
 		inline T* none_const_class_from_stack_top(lua_State * l)
 		{
-			return check_index_no_const<T>(l,lua_gettop(l));
+			const int top = lua_gettop(l);
+			return top ? check_index_no_const<T>(l,top) : (T*)0;
 		}
 
 		template<typename T>

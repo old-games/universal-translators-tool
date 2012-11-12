@@ -84,8 +84,12 @@ namespace OOLUA
 
 		void add_ptr_if_required(lua_State* const l, void* ptr,int udIndex,int weakIndex);
 
-		Lua_ud* new_userdata(lua_State* l, void* ptr,bool is_const);
-		
+
+		Lua_ud* new_userdata(lua_State* l, void* ptr,bool is_const
+							 ,oolua_function_check_base base_checker,oolua_type_check_function type_check);		
+		void reset_userdata(Lua_ud* ud, void* ptr,bool is_const
+							,oolua_function_check_base base_checker,oolua_type_check_function type_check);
+	
 		template<typename Type,typename Bases, int BaseIndex,typename BaseType>
 		struct Add_ptr;
 
@@ -182,13 +186,8 @@ namespace OOLUA
 		inline Lua_ud* reset_metatable(lua_State* l,T* ptr,bool is_const)
 		{
 			Lua_ud *ud = static_cast<Lua_ud *>( lua_touserdata(l, -1) );//ud
-			ud->void_class_ptr = ptr;
-
-
-			ud->base_checker = &stack_top_type_is_base<T>;
-			userdata_const_value(ud,is_const);
-			ud->type_check = &OOLUA::register_class<T>;
-
+			reset_userdata(ud, ptr, is_const, &stack_top_type_is_base<T>, &OOLUA::register_class<T>);
+	
 			//change the metatable associated with the ud
 			lua_getfield(l, LUA_REGISTRYINDEX
 						 ,  (char*) (is_const ? OOLUA::Proxy_class<T>::class_name_const 
@@ -211,10 +210,8 @@ namespace OOLUA
 		
 		template<typename T>
 		inline Lua_ud* add_ptr(lua_State* const l,T* const ptr,bool is_const)
-		{
-			Lua_ud* ud = new_userdata(l, ptr, is_const);
-			ud->base_checker = &stack_top_type_is_base<T>;
-			ud->type_check = &OOLUA::register_class<T>;
+		{		
+			Lua_ud* ud = new_userdata(l, ptr, is_const,&stack_top_type_is_base<T>,&OOLUA::register_class<T>);
 
 			lua_getfield(l, LUA_REGISTRYINDEX
 						 ,  (char*) (is_const ? OOLUA::Proxy_class<T>::class_name_const 

@@ -350,7 +350,6 @@ struct Proxy_none_member_caller<R, 1 >
 #undef OOLUA_CONVERTER6
 #undef OOLUA_CONVERTER7
 #undef OOLUA_CONVERTER8
-#undef OOLUA_CONVERTER9
 
 
 #endif 

@@ -9,7 +9,7 @@
 ///  @licence
 ///  The MIT License
 /// 
-///  Copyright (c) 2009 - 2011 Liam Devine
+///  Copyright (c) 2009 - 2012 Liam Devine
 /// 
 ///  Permission is hereby granted, free of charge, to any person obtaining a copy
 ///  of this software and associated documentation files (the "Software"), to deal
@@ -144,6 +144,14 @@ namespace OOLUA
 		lua_getglobal(l, name);
 		return OOLUA::pull2cpp(l, instance);
 	}
+	
+	bool can_xmove(lua_State* vm0,lua_State* vm1);
+	
+	
+	bool load_chunk(lua_State* lua, std::string const& chunk);
+	bool run_chunk(lua_State* lua, std::string const& chunk);
+	bool run_file(lua_State* lua, std::string const & filename);
+	bool load_file(lua_State* lua, std::string const & filename);
 	
 }//endof namepsace OOLUA
 

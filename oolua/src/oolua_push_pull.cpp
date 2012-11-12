@@ -29,13 +29,13 @@ namespace OOLUA
 		{
 #	if OOLUA_USE_EXCEPTIONS == 1
 			std::string message( std::string("Stack type is not a ") + lookingFor );
-			std::string stackType = lua_typename(l, lua_type(l,-1) );
+			std::string stackType = lua_gettop(l) ? lua_typename(l, lua_type(l,-1) ) : "empty stack";
 			message += std::string(", yet ") + stackType;
 			throw OOLUA::Type_error(message);
 #	elif OOLUA_STORE_LAST_ERROR == 1
 			lua_pushfstring(l, "Stack type is not a %s, yet &s"
 							,lookingFor
-							,lua_typename(l, lua_type(l,-1) ) );
+							,lua_gettop(l) ? lua_typename(l, lua_type(l,-1) ) : "empty stack" );
 			
 			OOLUA::INTERNAL::set_error_from_top_of_stack_and_pop_the_error(l);
 			return ;
@@ -50,7 +50,7 @@ namespace OOLUA
 		bool cpp_runtime_type_check_of_top(lua_State* l, int looking_for_lua_type, char const * type)
 		{
 #if OOLUA_RUNTIME_CHECKS_ENABLED  == 1
-			if ( lua_type(l,-1) != looking_for_lua_type )
+			if ( lua_gettop(l) == 0 || lua_type(l,-1) != looking_for_lua_type )
 			{
 				handle_cpp_pull_fail(l,type);
 #	if OOLUA_USE_EXCEPTIONS == 0//prevent vs warnings

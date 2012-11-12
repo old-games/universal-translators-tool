@@ -87,11 +87,44 @@ namespace OOLUA
 	
 	//which language owns the parameter Lua, Cpp or no change to ownership
 	enum Owner{No_change,Cpp,Lua};
-
-
+	
+	template<typename T>
+	class Proxy_class;
+	
 	namespace INTERNAL 
 	{
-	
+		
+		
+		template<typename Type>
+		struct has_a_proxy_type
+		{
+			typedef OOLUA::Proxy_class<Type> proxy_type;
+			template <typename U> 
+			static char (& has_none_proxy_typedef(typename U::OoluaNoneProxy*))[1]; 
+			
+			template <typename U> 
+			static char (& has_none_proxy_typedef(...))[2]; 
+			
+			enum {value = sizeof( has_none_proxy_typedef<proxy_type>(0) ) == 1 ? 0 : 1} ;
+		};
+		
+		template <typename From>
+		class can_convert_to_int
+		{
+			typedef char (&yes)[1];
+			typedef char (&no)[2];
+			struct Convertor
+			{
+				template <typename T>
+				Convertor(T&);
+			};
+			static no test(Convertor);
+			static yes test(int);
+			static From& make_from();
+		public:
+			enum { value = sizeof(  test( make_from() ) )  == sizeof(yes) ? 1 : 0 };
+		};
+		
 		template<typename T>
 		struct Raw_type
 		{
@@ -107,7 +140,12 @@ namespace OOLUA
 		{
 			enum { is_by_value = ! LVD::by_reference<typename LVD::remove_all_const<T>::type >::value };
 			enum { is_constant =  LVD::is_const<T>::value };
-			enum { is_integral = LVD::is_integral_type< typename Raw_type<T>::raw >::value };
+			enum 
+			{ 
+				is_integral = LVD::is_integral_type< typename Raw_type<T>::raw >::value 
+					|| /*enum*/( !has_a_proxy_type<typename Raw_type<T>::raw>::value
+								&& can_convert_to_int<typename Raw_type<T>::raw>::value )
+			};
 		};
 
 
@@ -173,7 +211,7 @@ namespace OOLUA
 	{
 		typedef T type;
 		typedef typename INTERNAL::Raw_type<T>::type raw;
-		typedef typename INTERNAL::Pull_type_<raw,T,LVD::is_integral_type<raw>::value>::type pull_type;
+		typedef typename INTERNAL::Pull_type_<raw,T,INTERNAL::Type_enum_defaults<type>::is_integral>::type pull_type;
 		enum {in = 1};
 		enum {out = 0};
 		enum {owner = No_change};
@@ -861,14 +899,7 @@ namespace OOLUA
 		template<typename Cpp_type>
 		struct lua_type_is_cpp_type<Cpp_type,NUMBER>
 		{
-			typedef Type_list<
-			char,unsigned char, signed char,
-			short,unsigned short, signed short,
-			int,unsigned int, signed int,
-			long, unsigned long, signed long, LVD::int64, LVD::uint64,
-			float,
-			double, long double>::type Lua_number;
-			enum {value = TYPELIST::IndexOf<Lua_number,Cpp_type>::value == -1 ? 0 : 1};
+			enum {value = Type_enum_defaults<Cpp_type>::is_integral && !LVD::is_same<bool,Cpp_type>::value };
 		};
 		
 		template<typename Cpp_type>

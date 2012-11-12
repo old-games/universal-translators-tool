@@ -2,6 +2,8 @@
 local ModuleName = 'example'
 local Example = {}
 
+
+
 local ActionsOnExtension = 
 { 
 	bmp = "loadBMP",
@@ -9,13 +11,21 @@ local ActionsOnExtension =
 	dat = "loadDAT"
 }
 
+
+
 local Operations = {}
 
+
+
 UTTModules[ModuleName] = Example
+
+
 
 function Example.getExtensions()
 	return 'BMP files (*.bmp)|*.bmp|TXT files (*.txt)|*.txt|BIGLETS.DAT (biglets.dat)|biglets.dat'
 end
+
+
 
 function Example.openFile( fileName )
 	fileName = string.lower( fileName )
@@ -27,6 +37,8 @@ function Example.openFile( fileName )
 	end
 	Operations[ key ]( fileName )
 end
+
+
 
 function Operations.loadBMP( filename )
 	local fh = assert(io.open(filename, "rb"))
@@ -43,6 +55,8 @@ function Operations.loadBMP( filename )
 	showTable( data2 )
 	fh:close()
 end
+
+
 
 function Operations.loadTXT( filename )
 	local fh = assert(io.open(filename, "r"))

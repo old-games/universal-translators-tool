@@ -79,6 +79,9 @@ namespace OOLUA
 		bool class_name_is_already_registered(lua_State*l, char const* name);
 		
 		template<typename T,int HasRegisterEnumsTag>struct set_class_enums;
+	
+		int get_oolua_module(lua_State* L);
+		void register_oolua_type(lua_State* L, char const* name,size_t const name_sz, int const stack_index);	
 	}
 
     namespace INTERNAL
@@ -94,39 +97,19 @@ namespace OOLUA
 			userdata_const_value(ud,false);
 			return 0;
 		}
-		
+
 		template<typename T>
 		struct garbage_collect 
 		{
 			static int gc(lua_State *  l)
 			{
 				Lua_ud *ud = static_cast<Lua_ud*>(lua_touserdata(l, 1));
-				lua_pop(l,1);
-				if( ud && ud->flags & GC_FLAG  )
-				{
-					delete static_cast<T*>(ud->void_class_ptr);
-				}
-				//ud will be cleaned up by the Lua API
+				/*see http://code.google.com/p/oolua/issues/detail?id=29 for the Lua 5.2.* reason there is a userdata check here*/
+				if( ud && ud->flags & GC_FLAG )delete static_cast<T*>(ud->void_class_ptr);
 				return 0;
 			}
 		};
-		/*	
-		template<typename T>
-		struct garbage_collect<OOLUA_SHARED_PTR_TYPE<T> >
-		{
-			static int gc(lua_State *  l)
-			{
-				//get the userdata
-				Lua_ud *ud = static_cast<Lua_ud*>(lua_touserdata(l, 1));
-				lua_pop(l,1);
-				//cast to correct type
-				//always responsible for cleaning up
-				delete static_cast<OOLUA_SHARED_PTR_TYPE<T> *>(ud->void_shared_ptr);
-				//ud will be cleaned up by the Lua API
-				return 0;
-			}
-		};
-		*/
+
 		template<typename T,int HasRegisterEnumsTag>
 		struct set_class_enums
 		{
@@ -216,6 +199,9 @@ namespace OOLUA
 			lua_setglobal(l,Proxy_class<T>::class_name);
 			//global[name]=methods
 
+			register_oolua_type(l, Proxy_class<T>::class_name, Proxy_class<T>::name_size,methods);
+			//OOLua[name] = methods
+			
 			set_oolua_userdata_creation_key_value_in_table(l,mt);
 
 			set_key_value_in_table(l,"__index",methods,mt);
@@ -257,6 +243,9 @@ namespace OOLUA
 			lua_pushvalue(l, const_methods);
 			lua_setglobal(l,Proxy_class<T>::class_name_const);
 			//global[name#_const]=const_methods
+			
+			register_oolua_type(l, Proxy_class<T>::class_name_const, Proxy_class<T>::name_size + sizeof("_const") -1,const_methods);
+			//OOLua[name#const] = const_methods		
 
 			set_oolua_userdata_creation_key_value_in_table(l,const_mt);
 			

@@ -11,6 +11,8 @@ ModuleFolders = { 'example', 'privateer2' }
 -- table with references to modules
 UTTModules = {}
 
+
+
 function initModules()
 	for i = 1, #ModuleFolders do
 		local fileName = ModuleFolders[i]..'/initmodule'
@@ -18,13 +20,18 @@ function initModules()
 	end
 end
 
-initModules()
 
+
+initModules()
 CurrentModule = UTTModules['example']
+
+
 
 function getCurrentModule()
 	return CurrentModule
 end
+
+
 
 function getExtensions()
 	if CurrentModule ~= nil then
@@ -32,11 +39,15 @@ function getExtensions()
 	end
 end
 
+
+
 function openFile( fileName )
 	if CurrentModule ~= nil then
 		return CurrentModule.openFile( fileName )
 	end
 end
+
+
 
 function selectModule()
 	-- we will allow user to select only succesfully loaded module

@@ -17,6 +17,7 @@ namespace OOLUA
 		static const char cpp_owns_str[] = "Cpp_owns";
 		static const char weak_lookup_name [] = "__weak_lookup";
 		static const char new_str [] = "new";
+		static const char oolua_str [] = "OOLua";
 	}
 }
 

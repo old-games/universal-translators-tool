@@ -2,98 +2,34 @@
 #include "lua_includes.h"
 #include "lvd_types.h"
 
-#include <cassert>
-//old code which only gives a slight improvement over using objlen
-#if OOLUA_CHECK_EVERY_USERDATA_IS_CREATED_BY_OOLUA__NOTUSED == 1
-
-#	if OOLUA_LUA_USES_DEFAULT_CONFIG_FOR_LUA_514 == 1
-
-	union lua_default_alignment{ double u; void *s; long l; } ;
-
-	typedef union LuaUdata 
-	{
-		lua_default_alignment dummy;
-		struct 
-		{
-			void *next; char tt; char marked;//CommonHeader
-			void * metatable;
-			void * env;
-			size_t len;
-		} uv;
-	} LuaUdata;
-
-	typedef LuaUdata Internal_Lua_udata;
-#	define UD_LENGTH_OOLUA uv.len
-
-#	elif OOLUA_USING_DEFAULT_CONFIG_FOR_LUAJIT_20 == 1
-
-	typedef struct LuaJitGCRef
-	{
-		LVD::uint32 gcptr32;
-	} LuaJitGCRef;
-
-	typedef struct LuaJitGCudata 
-	{
-		LuaJitGCRef nextgc; LVD::uint8 marked; LVD::uint8 gct;//GCHeader
-		LVD::uint8 udtype;
-		LVD::uint8 unused2;
-		LuaJitGCRef env;
-		LVD::uint32 len;
-		LuaJitGCRef metatable;
-		LVD::uint32 align1;
-	} LuaJitGCudata;	
-
-	typedef LuaJitGCudata Internal_Lua_udata;
-#	define UD_LENGTH_OOLUA len
-#	endif
-#endif
-
-
-
 
 namespace OOLUA
 {
 	namespace INTERNAL
 	{
-/*		
-#if OOLUA_CHECK_EVERY_USERDATA_IS_CREATED_BY_OOLUA == 1
 
-#	if OOLUA_LUA_USES_DEFAULT_CONFIG_FOR_LUA_514 == 1 || OOLUA_USING_DEFAULT_CONFIG_FOR_LUAJIT_20 == 1
-
-		bool __index_is_userdata(lua_State* l,int index,Lua_ud*& ud)
-		{
-			ud = static_cast<Lua_ud *>(lua_touserdata(l,index));
-			if(!ud)return false;
-			Internal_Lua_udata* luaUd = (Internal_Lua_udata*)ud;
-			--luaUd;
-			if(	luaUd->UD_LENGTH_OOLUA != sizeof(Lua_ud) || ud->created_by_state != l )  
-			{
-				return false;
-			}
-			else return true;
-		}	
-*/
-		
 #if OOLUA_CHECK_EVERY_USERDATA_IS_CREATED_BY_OOLUA == 1 
 #	if OOLUA_USERDATA_OPTIMISATION == 1
 		bool index_is_userdata(lua_State* l,int index,Lua_ud*& ud)
 		{
+#if defined LUA_VERSION_NUM && LUA_VERSION_NUM == 502
+/*lua_objlen may or may not be a macro for lua_rawlen in luaconfig.h;
+ so lets just work regardless of the configuration used*/
+#	define _oolua_len_ lua_rawlen 
+#else 
+#	define _oolua_len_ lua_objlen
+#endif
 			ud = static_cast<Lua_ud *>(lua_touserdata(l,index));
-			if(!ud)return false;
-			if(	lua_rawlen(l,index) != sizeof(Lua_ud) || ud->created_by_state != l )  
-			{
-				return false;
-			}
-			else return true;
+			return ud && _oolua_len_(l,index) == sizeof(Lua_ud) && OOLUA_CHECK_COOKIE(ud->flags) ;
+#undef _oolua_len_
 		}
 #	else
 		
 		bool index_is_userdata(lua_State* l,int index,Lua_ud*& ud)
-		{
+		{	
 			ud = static_cast<Lua_ud *>(lua_touserdata(l,index));
-			if(!ud)return false;
-			if(!lua_getmetatable(l, index)) return false;
-			lua_pushlightuserdata(l, l);
+			if(!ud || !lua_getmetatable(l, index)) return false;
+			lua_pushlightuserdata(l,(void*)lua_topointer(l, LUA_REGISTRYINDEX));
 			lua_rawget(l,-2);
 			bool result = lua_isnil(l,-1) == 0;
 			lua_pop(l,2);
@@ -102,15 +38,6 @@ namespace OOLUA
 		 	
 #	endif
 
-/*		
-#elif OOLUA_CHECK_EVERY_USERDATA_IS_CREATED_BY_OOLUA == 0
-		
-		bool index_is_userdata(lua_State* l,int index,Lua_ud*& ud)
-		{
-			ud = static_cast<Lua_ud *>( lua_touserdata(l, index) );
-			return ud != 0;
-		}
-*/		
 #endif
 
 

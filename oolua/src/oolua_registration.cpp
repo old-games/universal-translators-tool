@@ -4,6 +4,20 @@ namespace OOLUA
 {
 	namespace INTERNAL
 	{
+		int get_oolua_module(lua_State* L)
+		{
+			lua_getfield(L, LUA_REGISTRYINDEX,OOLUA::INTERNAL::oolua_str);
+			return 1;
+		}
+		void register_oolua_type(lua_State* L, char const* name,size_t const name_sz, int const stack_index)
+		{
+			get_oolua_module(L);
+			lua_pushlstring(L,name,name_sz);
+			lua_pushvalue(L, stack_index);
+			lua_rawset(L, -3);
+			lua_pop(L,1);
+		}
+
 		void set_function_in_table_with_upvalue(lua_State* l, char const * func_name, lua_CFunction func
 													, int tableIndex, void* upvalue)
 		{
@@ -18,21 +32,11 @@ namespace OOLUA
 			lua_pushcclosure(l, func, 0);
 			lua_settable(l, tableIndex);
 		}
-		/*
-		void set_oolua_userdata_creation_key_value_in_table(lua_State* l ,void* key,lua_CFunction value,int tableIndex)
-		{
-			lua_pushlightuserdata(l,key);
-			//lua_pushlightuserdata(l,key);
-			lua_pushboolean(l, 1);
-//			lua_pushcfunction(l, value);
-			lua_settable(l, tableIndex);
-		}
-		 */
 		
 		void set_oolua_userdata_creation_key_value_in_table(lua_State* l ,int tableIndex)
 		{
-#if OOLUA_CHECK_EVERY_USERDATA_IS_CREATED_BY_OOLUA == 1
-			lua_pushlightuserdata(l,l);
+#if OOLUA_CHECK_EVERY_USERDATA_IS_CREATED_BY_OOLUA == 1 && OOLUA_USERDATA_OPTIMISATION == 0
+			lua_pushlightuserdata(l,(void*)lua_topointer(l, LUA_REGISTRYINDEX));
 			lua_pushboolean(l, 1);
 			lua_settable(l, tableIndex);
 #else
