@@ -71,3 +71,10 @@ function readData( file, dataTable )
 end
 
 
+function fileSize(filename)
+  local fh = assert(io.open(filename, "rb"))
+  local len = assert(fh:seek("end"))
+  fh:close()
+  return len
+end
+

@@ -36,7 +36,7 @@
 #include <wx/dynarray.h>
 
 // own written but wx compatible
-#include "customevents.h"
+#include "types/customevents.h"
 
 // standard headers
 #include <iostream>
@@ -52,8 +52,8 @@
 
 // project headers
 #include "gui/uttgui.h"
-#include "uttypes.h"
-#include "defaultpals.h"
+#include "types/uttypes.h"
+#include "types/defaultpals.h"
 #include "helpers.h"
 
 // simple dialogs definitions

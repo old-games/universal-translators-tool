@@ -1,4 +1,3 @@
-
 local ModuleName = 'example'
 local Example = {}
 
@@ -6,9 +5,9 @@ local Example = {}
 
 local ActionsOnExtension = 
 { 
+	dat = "loadDAT",
 	bmp = "loadBMP",
-	txt = "loadTXT",
-	dat = "loadDAT"
+	txt = "loadTXT"
 }
 
 
@@ -22,15 +21,15 @@ UTTModules[ModuleName] = Example
 
 
 function Example.getExtensions()
-	return 'BMP files (*.bmp)|*.bmp|TXT files (*.txt)|*.txt|BIGLETS.DAT (biglets.dat)|biglets.dat'
+	return 'BIGLETS.DAT (biglets.dat)|biglets.dat|SMALLSET.DAT (smallset.dat)|smallset.dat|BMP files (*.bmp)|*.bmp|TXT files (*.txt)|*.txt'
 end
 
 
 
 function Example.openFile( fileName )
-	fileName = string.lower( fileName )
-	vol, path, name, ext = parseFileName( fileName )
-	key = ActionsOnExtension[ ext ]
+	local fileName = string.lower( fileName )
+	local vol, path, name, ext = parseFileName( fileName )
+	local key = ActionsOnExtension[ ext ]
 	if key == nil then
 		print( "Can't find function for '"..ext.."' extension" )
 		return
@@ -90,23 +89,76 @@ BMPInfoHeader[10] 	= { CLRUSED			= "DWORD" 	}
 BMPInfoHeader[11] 	= { CLRIMPORTANT	= "DWORD" 	}
 
 
-function Operations.loadDAT( filename )
-	local fh = assert(io.open(filename, "r"))
+
+--[[
+
+
+X-COM / UFO section
+
+
+--]]
+
+
+
+local PalName = 'PALETTES.DAT'
+local PalSize = 768
+
+
+
+local function GetXComPalette( path, n )
+	local fh = assert(io.open(path..PalName, "rb"))
+	
 	if not fh then
 		return
 	end
-	local width = 16
-	local height = 16
+	
+	local maxPal = fh:seek("end") / PalSize
+	
+	if n >= maxPal then
+		print (PalName.." contains only ", maxPal, " palettes")
+		return
+	end
+	
+	fh:seek("set", n * PalSize)
+	local bytes = fh:read( PalSize )
+	fh:close()
+	return bytes
+end
+
+
+
+function Operations.loadDAT( filename )
+	local vol, path, name, ext = parseFileName( filename )
+
+	local fh = assert(io.open(filename, "rb"))
+	if not fh then
+		return
+	end
+	
+	local params = { biglets = {16, 16}, smallset = {8, 8} }
+	local width = params[name][1]
+	local height = params[name][2]
 	local bufsize = width * height
 	local num = 0
 	local font = FontInfo:new()
+	
 	--void FontInfo::SetValues( int maxHeight, int minHeight, int maxWidth, int minWidth,
 	--			int bpp /* BPP::bppMono */,
 	--			int fontCodePage /* wxFONTENCODING_DEFAULT */,
 	--			int baseLine /* 0 */,
 	--			int capLine /* 0 */,
 	--			int lowLine /* 0 */)
+	
 	font:SetValues( width,  height, 0, 0, BPP.bpp8, 0, 0, 0, 0 )
+	
+	local pal = GetXComPalette(vol..path..'/', 0)
+	if pal ~= nil then
+		font:SetPalette( pal, true )
+		setPalette( BPP.bpp8, pal, true )
+	end
+	
+	print "Font loading"
+	
 	repeat
 		local bytes = fh:read( bufsize )
 		num = num + 1
@@ -114,10 +166,15 @@ function Operations.loadDAT( filename )
 			font:AddSymbol( bytes, 16, 16 )
 		end
 	until not bytes
+	
 	print ("Symbols: ", num)
 	fh:close()
 	editFont( font )
 end
+
+
+
+
 
 
 print 'Example module loaded'

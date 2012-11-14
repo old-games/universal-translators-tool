@@ -181,42 +181,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\src\customevents.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\customevents.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\defaultpals.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\drawpanel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\drawpanel.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\editpanel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\editpanel.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\fontinfo.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\fontinfo.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\helpers.cpp"
 				>
 			</File>
@@ -241,39 +205,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\palettepanel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\palettepanel.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\pch.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\selectrect.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\selectrect.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\symbolinfo.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\symbolinfo.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\symbolpanel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\symbolpanel.h"
 				>
 			</File>
 			<File
@@ -298,22 +230,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\utt.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\uttypes.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\uttypes.h"
 				>
 			</File>
 		</Filter>
@@ -387,14 +303,6 @@
 			<Filter
 				Name="fonteditor"
 				>
-				<File
-					RelativePath="..\..\src\controlline.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\controlline.h"
-					>
-				</File>
 				<File
 					RelativePath="..\..\src\gui\fonteditimpl.cpp"
 					>
@@ -486,6 +394,106 @@
 			</File>
 			<File
 				RelativePath="..\..\src\luaexports\luafont.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="panels"
+			>
+			<File
+				RelativePath="..\..\src\panels\controlline.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\controlline.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\drawpanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\drawpanel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\editpanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\editpanel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\palettepanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\palettepanel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\selectrect.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\selectrect.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\symbolpanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\symbolpanel.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="types"
+			>
+			<File
+				RelativePath="..\..\src\types\customevents.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\customevents.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\defaultpals.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\fontinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\fontinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\symbolinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\symbolinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\uttypes.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\types\uttypes.h"
 				>
 			</File>
 		</Filter>

@@ -10,9 +10,9 @@
 #include "pch.h"
 
 //#include "symbolinfo.h"
-#include "fontinfo.h"
-#include "symbolpanel.h"
-#include "controlline.h"
+#include "types/fontinfo.h"
+#include "panels/symbolpanel.h"
+#include "panels/controlline.h"
 
 
 SymbolPanel::SymbolPanel(  wxWindow* parent ):

@@ -9,8 +9,8 @@
 
 #include "pch.h"
 
-#include "fontinfo.h"
-#include "symbolpanel.h"
+#include "types/fontinfo.h"
+#include "panels/symbolpanel.h"
 #include "symboleditgui.h"
 #include "fonteditimpl.h"
 #include "fontsettingsimpl.h"

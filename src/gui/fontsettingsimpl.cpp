@@ -10,7 +10,7 @@
 #include "pch.h"
 #include "fontsettingsimpl.h"
 #include "lettercodesimpl.h"
-#include "fontinfo.h"
+#include "types/fontinfo.h"
 
 FontSettingsImpl::FontSettingsImpl(  wxWindow* parent, FontInfo* finfo ):
 	FontSettingsGui( parent ),

@@ -10,7 +10,7 @@
 #ifndef LUAFONT_H_INCLUDED
 #define LUAFONT_H_INCLUDED
 
-#include "fontinfo.h"
+#include "types/fontinfo.h"
 #include "gui/fonteditimpl.h"
 
 namespace Lua

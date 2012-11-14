@@ -9,7 +9,7 @@
 
 #include "pch.h"
 #include "editpanelimpl.h"
-#include "editpanel.h"
+#include "panels/editpanel.h"
 
 
 EditPanelImpl::EditPanelImpl(  wxWindow* parent ):

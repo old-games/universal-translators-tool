@@ -13,7 +13,7 @@
 #include "utt.h"
 #include "gui/mainframeimpl.h"
 #include "luaconsole.h"
-#include "drawpanel.h"
+#include "panels/drawpanel.h"
 
 IMPLEMENT_APP(UTTApp);
 

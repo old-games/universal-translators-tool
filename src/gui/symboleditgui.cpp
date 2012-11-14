@@ -10,7 +10,7 @@
 #include "pch.h"
 
 #include "symboleditgui.h"
-#include "symbolpanel.h"
+#include "panels/symbolpanel.h"
 
 SymbolEditGui::SymbolEditGui(  wxWindow* parent ):
 	EditPanelImpl( parent ),

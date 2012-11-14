@@ -15,7 +15,7 @@
 #include "logwindowimpl.h"
 #include "editpanelimpl.h"
 #include "palwindowimpl.h"
-#include "symbolpanel.h"
+#include "panels/symbolpanel.h"
 
 MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),

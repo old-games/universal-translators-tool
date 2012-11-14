@@ -9,7 +9,7 @@
 
 #include "pch.h"
 
-#include "palettepanel.h"
+#include "panels/palettepanel.h"
 #include "palwindowimpl.h"
 
 

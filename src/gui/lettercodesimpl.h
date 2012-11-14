@@ -10,7 +10,7 @@
 #ifndef LETTERCODESIMPL_H_INCLUDED
 #define LETTERCODESIMPL_H_INCLUDED
 
-#include "fontinfo.h"
+#include "types/fontinfo.h"
 
 class LetterCodesImpl :
 	public LetterCodesGui

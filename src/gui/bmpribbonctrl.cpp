@@ -8,7 +8,7 @@
  **************************************************************/
 
 #include "pch.h"
-#include "drawpanel.h"
+#include "panels/drawpanel.h"
 #include "bmpribbonctrl.h"
 
 
