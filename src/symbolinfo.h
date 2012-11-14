@@ -13,12 +13,21 @@
 struct SymbolInfo
 {
 
-	explicit SymbolInfo():
+	SymbolInfo():
 		mWidth( 0 ),
 		mHeight( 0 ),
 		mCode( 0 ),
 		mData( NULL )
 	{
+	}
+
+	SymbolInfo( const SymbolInfo& other ):
+	mWidth( other.mWidth ),
+	mHeight( other.mHeight ),
+	mCode( other.mCode ),
+	mData( NULL )
+	{
+		SetData(other.mData);
 	}
 
 	RGBA GetPixel( int x, int y );
@@ -30,9 +39,9 @@ struct SymbolInfo
 	}
 
 	LetterBox* GetData();
-	void SetData(const char* data = NULL);
+	void SetData(const LetterBox* data = NULL);
 
-	void SetValues(wxInt32 width, wxInt32 height, wxUint32 code, const char* data = NULL);
+	void SetValues(wxInt32 width, wxInt32 height, wxUint32 code, LetterBox* data = NULL);
 
 	SymbolInfo &operator = ( const SymbolInfo &src );
 

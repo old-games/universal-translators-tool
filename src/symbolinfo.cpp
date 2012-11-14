@@ -10,7 +10,7 @@
 #include "pch.h"
 #include "symbolinfo.h"
 
-void SymbolInfo::SetValues(wxInt32 width, wxInt32 height, wxUint32 code, const char* data /* NULL */)
+void SymbolInfo::SetValues(wxInt32 width, wxInt32 height, wxUint32 code, LetterBox* data /* NULL */)
 {
 	mWidth = width;
 	mHeight = height;
@@ -27,14 +27,17 @@ void SymbolInfo::SetValues(wxInt32 width, wxInt32 height, wxUint32 code, const c
 
 inline SymbolInfo &SymbolInfo::operator = ( const SymbolInfo &src )
 {
-	this->SetValues(src.mWidth, src.mHeight, src.mCode, (char*) src.mData);
+	this->SetValues(src.mWidth, src.mHeight, src.mCode, src.mData);
 	return *this;
 }
 
-void SymbolInfo::SetData(const char* data /* NULL */)
+void SymbolInfo::SetData(const LetterBox* data /* NULL */)
 {
 	CreateData();
-	memcpy(mData, data, sizeof( LetterBox ));
+	if (data)
+	{
+		memcpy(mData, data, sizeof( LetterBox ));
+	}
 }
 
 inline void SymbolInfo::CreateData()
@@ -42,7 +45,7 @@ inline void SymbolInfo::CreateData()
 	if (mData == NULL)
 	{
 		static const size_t size = sizeof(LetterBox);
-		mData = new LetterBox[size];
+		mData = (LetterBox*) new Pixel[size];
 		memset( mData, 0, size );
 	}
 }

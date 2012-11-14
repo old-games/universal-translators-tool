@@ -16,6 +16,13 @@
 #define MAXIMUM_SYMBOL_WIDTH		64
 #define MAXIMUM_SYMBOL_HEIGHT		64
 
+
+typedef wxByte Pixel[3];
+typedef wxByte PixelA[4];
+typedef	Pixel Palette[256];
+typedef Pixel LetterBox[ MAXIMUM_SYMBOL_WIDTH * MAXIMUM_SYMBOL_HEIGHT ];
+
+
 namespace BPP
 {
 	enum
@@ -33,13 +40,9 @@ namespace BPP
 	extern const int ColourNumber[bppNum];
 	extern const int Bits[bppNum];
 	extern const wxString Names[bppNum];
+
+	size_t PaletteSize( int n );
 };
-
-typedef	wxByte Palette[256][3];
-typedef wxByte Pixel[3];
-typedef wxByte PixelA[4];
-
-typedef Pixel LetterBox[ MAXIMUM_SYMBOL_WIDTH * MAXIMUM_SYMBOL_HEIGHT ];
 
 struct RGBA
 {

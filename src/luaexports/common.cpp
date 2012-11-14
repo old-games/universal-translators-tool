@@ -12,13 +12,15 @@
 #include "gui/selmoduleimpl.h"
 
 
-static int reboot( lua_State* )
+int reboot( lua_State* )
 {
 	Lua::SetRebootFlag();
 	return 0;
 }
 
-static int writeToStdCout(lua_State *L)
+
+
+int writeToStdCout(lua_State *L)
 {
 	int n = lua_gettop(L);
 	for (int i = 1; i <= n; ++i)
@@ -28,7 +30,9 @@ static int writeToStdCout(lua_State *L)
 	return 0;
 }
 
-static int writeToLog(lua_State *L)
+
+
+int writeToLog(lua_State *L)
 {
 	int n = lua_gettop(L);
 	for (int i = 1; i <= n; ++i)
@@ -38,7 +42,9 @@ static int writeToLog(lua_State *L)
 	return 0;
 }
 
-static int parseFileName(lua_State *L)
+
+
+int parseFileName(lua_State *L)
 {
 	int n = lua_gettop(L);
 	if (n != 1)
@@ -49,6 +55,7 @@ static int parseFileName(lua_State *L)
 	wxString src( lua_tostring(L, 1) );
 	wxString volume, path, name, ext;
 	wxFileName::SplitPath( src, &volume, &path, &name, &ext );
+	volume += wxFileName::GetVolumeSeparator( wxPATH_NATIVE );
 	lua_pushstring(L, volume.c_str().AsChar());
 	lua_pushstring(L, path.c_str().AsChar());
 	lua_pushstring(L, name.c_str().AsChar());
@@ -56,17 +63,22 @@ static int parseFileName(lua_State *L)
 	return 4;
 }
 
-static int selectModuleDialog(lua_State *L)
+
+
+int selectModuleDialog(lua_State *L)
 {
 	int n = lua_gettop(L);
+
 	if (n != 1)
 	{
 		wxLogMessage("selectModuleDialog: function need a table with module names as argument");
 		return 0;
 	}
+
 	OOLUA::Lua_table modules;
 	OOLUA::pull2cpp(L, modules);
 	wxArrayString strings;
+
 	{
 		int count = 1;
 		std::string value;
@@ -75,6 +87,7 @@ static int selectModuleDialog(lua_State *L)
 			strings.Add( wxString(value) );
 		}
 	}
+
 	if (strings.size() == 0)
 	{
 		wxLogMessage("selectModuleDialog: empty table received");
@@ -94,25 +107,49 @@ static int selectModuleDialog(lua_State *L)
 	return 1;
 }
 
+
+
+int setPalette(lua_State *L)
+{
+	int stackSize = Lua::Get().stack_count();
+	if (stackSize != 2 && stackSize != 3)
+	{
+		wxLogError("setPalette format: BPP, Palette buffer, [shift values to the left: default is false]");
+		return 0;
+	}
+
+	int bpp = lua_tointeger(L, 1);
+	const char* pal = lua_tostring(L, 2);
+	bool shift = stackSize == 2 ? false : lua_toboolean(L, 3);
+	ChangePaletteEvent palEvent( bpp, (void*) pal, shift );
+	wxTheApp->QueueEvent( palEvent.Clone() );
+	return 0;
+}
+
+
+
 namespace Lua
 {
 
 void CommonRegister()
 {
     // sets flag to create new Lua VM
-	lua_register(Lua::Get(), "reboot", reboot);
+	LUA_REG_C_FUNCTION( reboot );
 
 	// writes string to std::cout
-	lua_register(Lua::Get(), "writeToStdCout", writeToStdCout);
+	LUA_REG_C_FUNCTION( writeToStdCout );
 
 	// writes string to wxLogMessage
-	lua_register(Lua::Get(), "writeToLog", writeToLog);
+	LUA_REG_C_FUNCTION( writeToLog );
 
 	// parses full filename and returns it's volume, path, name and extension to Lua VM
-	lua_register(Lua::Get(), "parseFileName", parseFileName);
+	LUA_REG_C_FUNCTION( parseFileName );
 
 	// calls dialog to select active plugin
-	lua_register(Lua::Get(), "selectModuleDialog", selectModuleDialog);
+	LUA_REG_C_FUNCTION( selectModuleDialog );
+
+	// sets palette in palette window
+	LUA_REG_C_FUNCTION( setPalette );
 }
 
 } // namespace Lua

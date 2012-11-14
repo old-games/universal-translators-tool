@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Feb  9 2012)
+// C++ code generated with wxFormBuilder (version Oct  8 2012)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -42,37 +42,40 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #define wxID_MAIN_FRAME 1000
-#define wxID_FILE_SELECT 1001
-#define wxID_FILE_OPEN 1002
-#define wxID_FONT_SETTINGS_ID 1003
-#define wxID_NUM_SPIN_CTRL 1004
-#define wxID_SET_CODES_BTN 1005
-#define wxID_MAX_WIDTH_SPIN 1006
-#define wxID_MAX_HEIGHT_SPIN 1007
-#define wxID_MIN_WIDTH_SPIN 1008
-#define wxID_MIN_HEIGHT_SPIN 1009
-#define wxID_BASE_LINE_SPIN 1010
-#define wxID_CAP_LINE_SPIN 1011
-#define wxID_LOW_LINE_SPIN 1012
-#define wxID_LETTER_CODES_ID 1013
-#define wxID_GENERATE_CODES_BTN 1014
-#define wxID_GET_ENCODING_BTN 1015
-#define wxID_CODES_GRID 1016
-#define wxID_SELECT_MODULE_ID 1017
-#define wxID_CREATE_FONT 1018
-#define wxID_FONT_SETTINGS 1019
-#define wxID_GRID_CHECK 1020
-#define wxID_GRID_MODE 1021
-#define wxID_GRIDCOL_BTN 1022
-#define wxID_LR_SPIN 1023
-#define wxID_LG_SPIN 1024
-#define wxID_LB_SPIN 1025
-#define wxID_RR_SPIN 1026
-#define wxID_RG_SPIN 1027
-#define wxID_RB_SPIN 1028
-#define wxID_PAL_CHOICE 1029
-#define wxID_CGA_CHOICE 1030
-#define wxID_INTENSITY_CHECK 1031
+#define wxID_FILE_OPEN 1001
+#define wxID_FILE_QUIT 1002
+#define wxID_LUA_SELECT 1003
+#define wxID_LUA_REBOOT 1004
+#define wxID_HELP_ABOUT 1005
+#define wxID_FONT_SETTINGS_ID 1006
+#define wxID_NUM_SPIN_CTRL 1007
+#define wxID_SET_CODES_BTN 1008
+#define wxID_MAX_WIDTH_SPIN 1009
+#define wxID_MAX_HEIGHT_SPIN 1010
+#define wxID_MIN_WIDTH_SPIN 1011
+#define wxID_MIN_HEIGHT_SPIN 1012
+#define wxID_BASE_LINE_SPIN 1013
+#define wxID_CAP_LINE_SPIN 1014
+#define wxID_LOW_LINE_SPIN 1015
+#define wxID_LETTER_CODES_ID 1016
+#define wxID_GENERATE_CODES_BTN 1017
+#define wxID_GET_ENCODING_BTN 1018
+#define wxID_CODES_GRID 1019
+#define wxID_SELECT_MODULE_ID 1020
+#define wxID_CREATE_FONT 1021
+#define wxID_FONT_SETTINGS 1022
+#define wxID_GRID_CHECK 1023
+#define wxID_GRID_MODE 1024
+#define wxID_GRIDCOL_BTN 1025
+#define wxID_LR_SPIN 1026
+#define wxID_LG_SPIN 1027
+#define wxID_LB_SPIN 1028
+#define wxID_RR_SPIN 1029
+#define wxID_RG_SPIN 1030
+#define wxID_RB_SPIN 1031
+#define wxID_PAL_CHOICE 1032
+#define wxID_CGA_CHOICE 1033
+#define wxID_INTENSITY_CHECK 1034
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame
@@ -84,6 +87,8 @@ class UttMainFrame : public wxFrame
 	protected:
 		wxMenuBar* mMainMenu;
 		wxMenu* mFileMenu;
+		wxMenu* mLuaMenu;
+		wxMenu* mHelpMenu;
 		wxAuiNotebook* mAUINotebook;
 		LogWindowImpl* mLogWindow;
 		wxStatusBar* mStatusBar;
@@ -221,7 +226,7 @@ class FontEditGui : public wxPanel
 	
 	public:
 		
-		FontEditGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,400 ), long style = wxTAB_TRAVERSAL ); 
+		FontEditGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,442 ), long style = wxTAB_TRAVERSAL ); 
 		~FontEditGui();
 	
 };

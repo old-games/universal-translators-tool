@@ -19,8 +19,6 @@ IMPLEMENT_APP(UTTApp);
 
 bool UTTApp::OnInit()
 {
-	// _CrtSetBreakAlloc( 8308 ); // fixed
-
 	MainFrameImpl* frame = new MainFrameImpl();
 #ifdef VISUALC
 	//frame->SetIcon(wxICON(aaaa)); // To Set App Icon

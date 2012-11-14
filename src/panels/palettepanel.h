@@ -38,20 +38,24 @@ protected:
 
 private:
 
+	void SetCurrentPalette( const void* src, size_t size, bool shifLeft = false );
 	void GeneratePalBitmap();
 	void GetBitmapColour( bool right );
 	void SetBitmapColour( bool right );
 	void CorrectColourPosition( bool right );
 	void SetGlobalColours();
-
+	
 	int			mPalType;
 	int			mCurrentCGAPal;
 	bool		mCGAIntensity;
+
 	wxPoint		mLeftPos;
 	wxPoint		mRightPos;
 	wxColour	mLeftColour;
 	wxColour	mRightColour;
 	bool		mChangeGlobals;
+
+	Palette		mCurrentPal;	// for palettes less or equal than 8bpp
 };
 
 #endif

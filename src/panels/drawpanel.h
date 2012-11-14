@@ -36,7 +36,8 @@ public:
 	virtual ~DrawPanel(void);
 
 	void SetBitmap( wxBitmap* bitmap );
-	void CreateBitmap(Pixel* buffer, int width, int height);
+	void SetBitmap(Pixel* buffer, int width, int height);
+
 	void SetBuffer( Pixel* buffer );
 	void SetBitmapScale( wxDouble scale );
 	void SetScaleRange( wxDouble min, wxDouble max );
@@ -45,6 +46,7 @@ public:
 	void SetDrawFocus( bool b = true );
 
 	static void RefCheck();
+	static wxBitmap* CreateBitmap(Pixel* buffer, int width, int height);
 
 protected:
 

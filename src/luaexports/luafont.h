@@ -11,6 +11,7 @@
 #define LUAFONT_H_INCLUDED
 
 #include "fontinfo.h"
+#include "gui/fonteditimpl.h"
 
 namespace Lua
 {
@@ -41,8 +42,8 @@ OOLUA_CLASS_NO_BASES( SymbolInfo )
 
 	OOLUA_MEM_FUNC_2( RGBA, GetPixel, int, int )
     OOLUA_MEM_FUNC_3( void, SetPixel, int, int, RGBA )
-	OOLUA_MEM_FUNC_1( void, SetData, const char* )
-	OOLUA_MEM_FUNC_4( void, SetValues, int, int, unsigned int, const char*)
+	//OOLUA_MEM_FUNC_1( void, SetData, const char* )
+	//OOLUA_MEM_FUNC_4( void, SetValues, int, int, unsigned int, const char*)
 
 OOLUA_CLASS_END
 
@@ -58,7 +59,7 @@ OOLUA_CLASS_NO_BASES( FontInfo )
 
 	OOLUA_MEM_FUNC_9( void, SetValues, int, int, int, int, int, int, int, int, int)
 	OOLUA_MEM_FUNC_3( void, AddSymbol, const char*, int, int )
-
+	OOLUA_MEM_FUNC_2( void, SetPalette, const char*, bool )
 
 OOLUA_CLASS_END
 

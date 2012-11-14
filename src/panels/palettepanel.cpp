@@ -48,19 +48,41 @@ PalettePanel::PalettePanel(  wxWindow* parent, bool changeGlobalColours /* true 
 	SetBitmapScale( 12.0f );
 	SetGridEnabled();
 	SetGridLogic( wxCOPY );
+	SetCurrentPalette( &sVGApal, sizeof(Palette) );
 	GeneratePalBitmap();
 }
+
+
 
 PalettePanel::~PalettePanel(void)
 {
 }
+
+
+
+void PalettePanel::SetCurrentPalette( const void* src, size_t size, bool shifLeft /* false */ )
+{
+	wxASSERT( sizeof(mCurrentPal) <= size );
+	memcpy( &mCurrentPal, src, size );
+	if (shifLeft)
+	{
+		for (size_t i = 0; i < sizeof(mCurrentPal) / sizeof(mCurrentPal[0]); ++i)
+		{
+			mCurrentPal[i][0] <<= 2;
+			mCurrentPal[i][1] <<= 2;
+			mCurrentPal[i][2] <<= 2;
+		}
+	}
+}
+
+
 
 void PalettePanel::GeneratePalBitmap()
 {
 	const wxSize& size = sBitmapSize[ mPalType ];
 	const size_t bufSize = size.x * size.y;
 	Pixel* colorMap = new Pixel[ bufSize ];
-	Pixel* srcPal = (Pixel*) sVGApal;
+	Pixel* srcPal = (Pixel*) &mCurrentPal;
 	switch ( mPalType )
 	{
 		case BPP::bppMono:
@@ -71,10 +93,11 @@ void PalettePanel::GeneratePalBitmap()
 			srcPal = mCGAIntensity ? (Pixel*) sICGApal[ mCurrentCGAPal ] : (Pixel*) sCGApal[ mCurrentCGAPal ];
 		break;
 	}
+
 	if ( mPalType <= BPP::bpp8 )
 	{
 		memcpy( colorMap, srcPal, BPP::ColourNumber[ mPalType ] * sizeof(Pixel) );
-		SetGridEnabled( );
+		SetGridEnabled();
 	}
 	else
 	{
@@ -95,7 +118,8 @@ void PalettePanel::GeneratePalBitmap()
 		}
 		SetGridEnabled( false );
 	}
-	CreateBitmap( colorMap, size.x, size.y );
+
+	SetBitmap( colorMap, size.x, size.y );
 	delete[] colorMap;
 	CorrectColourPosition( false );
 	CorrectColourPosition( true );

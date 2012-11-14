@@ -10,11 +10,13 @@
 #ifndef LUACONTROL_H_INCLUDED
 #define LUACONTROL_H_INCLUDED
 
+#define LUA_REG_C_FUNCTION(x) lua_register(Lua::Get(), #x, x);
+
 namespace Lua
 {
     bool Init();
     void Done();
-    OOLUA::Script&	Get();
+    inline OOLUA::Script&	Get();
     bool IsOk();
 
 	void ShowLastError();

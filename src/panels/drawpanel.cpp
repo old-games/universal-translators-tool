@@ -87,10 +87,13 @@ DrawPanel::~DrawPanel(void)
 	--sRefCount;
 }
 
+
+
 void DrawPanel::RefCheck()
 {
 	wxASSERT_MSG( sRefCount == 0, "DrawPanel: ref counter is not zero!" );
 }
+
 
 
 void DrawPanel::SetAlign( int align )
@@ -98,23 +101,38 @@ void DrawPanel::SetAlign( int align )
 	mAlign = align;
 }
 
+
+
 void DrawPanel::SetAllowScaling( bool b /* true */ ) 
 {
 	mAllowScaling = b;
 }
+
+
 
 void DrawPanel::SetDrawFocus( bool b /* true */ )
 {
 	mDrawFocus = b;
 }
 
-void DrawPanel::CreateBitmap( Pixel* buffer, int width, int height )
+
+
+/* static */ wxBitmap* DrawPanel::CreateBitmap( Pixel* buffer, int width, int height )
+{
+	wxImage image( width, height, (wxByte*) buffer, true );
+	return new wxBitmap( image );
+}
+
+
+
+void DrawPanel::SetBitmap( Pixel* buffer, int width, int height )
 {
 	DestroyBitmap();
-	wxImage image( width, height, (wxByte*) buffer, true );
-	mBitmap = new wxBitmap( image );
+	mBitmap = CreateBitmap( buffer, width, height );
 	ApplyBitmap();
 }
+
+
 
 void DrawPanel::SetBitmap( wxBitmap* bitmap )
 {

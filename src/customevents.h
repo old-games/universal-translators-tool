@@ -11,8 +11,11 @@
 
 class ColourPickEvent;
 class ChangeFontEvent;
+class ChangePaletteEvent;
+
 wxDECLARE_EVENT( uttEVT_COLOURPICK, ColourPickEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEFONT, ChangeFontEvent );
+wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
 
 class ColourPickEvent : public wxEvent
 {
@@ -82,10 +85,11 @@ typedef void (wxEvtHandler::*ColourPickEventFunction)(ColourPickEvent&);
 #define EVT_COLOURPICK(func) wx__DECLARE_EVT0(uttEVT_COLOURPICK, ColourPickEventHandler(func))
 
 
-
+//////////////////////////////////////////////////////////////////////////
 
 
 class FontInfo;
+
 class ChangeFontEvent : public wxEvent
 {
 public:
@@ -113,6 +117,8 @@ public:
 		return mFontInfo;
 	}
 
+	~ChangeFontEvent();
+
 protected:
 	
 private:
@@ -130,6 +136,81 @@ typedef void (wxEvtHandler::*ChangeFontEventFunction)(ChangeFontEvent&);
     wxEVENT_HANDLER_CAST(ChangeFontEventFunction, func)
 
 #define EVT_CHANGEFONT(func) wx__DECLARE_EVT0(uttEVT_CHANGEFONT, ChangeFontEventHandler(func))
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+class ChangePaletteEvent : public wxEvent
+{
+public:
+	
+
+    ChangePaletteEvent( )
+        : wxEvent(0, uttEVT_CHANGEPALETTE),
+		mBPP( -1 ),
+		mData( NULL ),
+		mSize( 0 ),
+		mShiftLeft( false )
+	{ 	
+	}
+	
+    ChangePaletteEvent( int bpp, void* data, bool shift = false)
+        : wxEvent(0, uttEVT_CHANGEPALETTE),
+		mBPP( bpp ),
+		mData( NULL ),
+		mSize( 0 ),
+		mShiftLeft( shift )
+	{ 
+		CopyPaletteData( data );
+	}
+	
+    ChangePaletteEvent(const ChangePaletteEvent& event)
+        : wxEvent(event),
+		mBPP( event.mBPP ),
+		mData( NULL ),
+		mSize( event.mSize ),
+		mShiftLeft( event.mShiftLeft )
+    { 
+		CopyPaletteData( event.mData );
+	}
+
+    virtual wxEvent *Clone() const { return new ChangePaletteEvent(*this); }
+  
+	int		GetBpp() { return mBPP; }
+	void*	GetData() { return mData; }
+	size_t	GetSize() { return mSize; }
+	bool	ShiftValuesToLeft() { return mShiftLeft; }
+
+	~ChangePaletteEvent();
+
+protected:
+	
+private:
+
+	void CopyPaletteData( void* src );
+
+	int		mBPP;
+	void*	mData;
+	size_t	mSize;
+	bool	mShiftLeft;
+
+	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangePaletteEvent)
+};
+
+typedef void (wxEvtHandler::*ChangePaletteEventFunction)(ChangePaletteEvent&);
+
+
+
+#define ChangePaletteEventHandler(func) \
+    wxEVENT_HANDLER_CAST(ChangePaletteEventFunction, func)
+
+#define EVT_CHANGEPALETTE(func) wx__DECLARE_EVT0(uttEVT_CHANGEPALETTE, ChangePaletteEventHandler(func))
+
+
+
+//////////////////////////////////////////////////////////////////////////
 
 
 

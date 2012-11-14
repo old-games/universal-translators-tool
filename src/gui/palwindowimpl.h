@@ -24,6 +24,7 @@ public:
 protected:
 	virtual void OnCommandEvent( wxCommandEvent& event );
 	virtual void OnSpinCtrl( wxSpinEvent& event );
+	virtual void OnPaletteChangeEvent( ChangePaletteEvent& event );
 
 private:
 

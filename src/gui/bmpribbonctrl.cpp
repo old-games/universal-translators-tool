@@ -57,6 +57,8 @@ void BitmapRibbonCtrl::RefillHolder()
 	this->Refresh();
 }
 
+
+
 void BitmapRibbonCtrl::SetBitmap( size_t n, wxBitmap* bmp )
 {
 	DrawPanel* dp = new DrawPanel( this );
@@ -66,6 +68,8 @@ void BitmapRibbonCtrl::SetBitmap( size_t n, wxBitmap* bmp )
 
 	mThumbnails->Insert( dp, n );
 }
+
+
 
 void BitmapRibbonCtrl::DoIncrement( int step )
 {

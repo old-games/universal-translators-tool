@@ -58,8 +58,6 @@ private:
 	bool			mDragLine;
 	wxPoint			mDragPoint;
 	ControlLine*	mLines[ clNum ];
-
-
 };
 
 #endif

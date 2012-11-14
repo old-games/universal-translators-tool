@@ -35,3 +35,10 @@ const wxString BPP::Names[BPP::bppNum] =
 	"True color with alpha"
 };
 
+
+size_t BPP::PaletteSize( int n )
+{
+	wxASSERT( n < bppNum );
+	return ColourNumber[n] * sizeof(Pixel);
+}
+

@@ -29,9 +29,25 @@ public:
 		mBPP( BPP::bppMono ),
 		mFontCodePage( 0 )
 	{
-		SetSymbolsNum( MINIMUM_SYMBOLS_NUM );
-		memset(mPalette, 0, sizeof(mPalette));
+		memcpy(mPalette, sVGApal, sizeof(mPalette));
 	}
+
+	FontInfo( const FontInfo& other ):
+		mMaxHeight( other.mMaxHeight ),
+		mMinHeight( other.mMinHeight ),
+		mMaxWidth( other.mMaxWidth ),
+		mMinWidth( other.mMinWidth ),
+		mBaseLine( other.mBaseLine ),
+		mCapLine( other.mCapLine ),
+		mLowLine( other.mLowLine ),
+		mBPP( other.mBPP ),
+		mFontCodePage( other.mFontCodePage ),
+		mSymbols( other.mSymbols )
+	{
+		memcpy(mPalette, other.mPalette, sizeof(mPalette));
+	}
+
+	FontInfo* Clone() const { return new FontInfo(*this); } 
 
 	void SetValues( int maxWidth, int maxHeight, int minWidth, int minHeight,
 					int bpp = BPP::bppMono,
@@ -141,6 +157,8 @@ public:
 		mLowLine = lowLine;
 	}
 
+	void SetPalette(const char* src, bool shift);
+
 	static SymbolInfo	sBadSymbol;
 
 protected:
@@ -154,8 +172,8 @@ protected:
 	wxInt32			mLowLine;							// линия строчных букв
 	wxInt32			mBPP;								// бит на пиксель
 	wxInt32			mFontCodePage;						// кодировка, относительный параметр, для лучшего представления шрифта
-	Palette         mPalette;							// палитра
 	Symbols			mSymbols;							// символы
+	Palette         mPalette;							// палитра
 
 };
 

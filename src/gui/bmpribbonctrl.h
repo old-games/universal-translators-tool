@@ -13,7 +13,6 @@
 
 class DrawPanelArray;
 
-
 class BitmapRibbonCtrl : public BitmapRibbonGui
 {
 public:
@@ -22,6 +21,7 @@ public:
 
 	void Reserve( size_t n );
 	void SetBitmap( size_t n, wxBitmap* bmp );
+
 	void RefillHolder();
 	void DoIncrement( int step );
 

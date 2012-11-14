@@ -33,6 +33,8 @@ void FontInfo::SetValues( int maxWidth, int maxHeight, int minWidth, int minHeig
 	mLowLine = lowLine;
 }
 
+
+
 size_t FontInfo::GetSymbolsNum()
 {
 	return mSymbols.size();
@@ -46,6 +48,7 @@ void FontInfo::SetSymbolsNum(size_t n)
 		mSymbols.resize(n);
 	}
 }
+
 
 
 SymbolInfo& FontInfo::GetSymbol(size_t n)
@@ -64,9 +67,24 @@ void FontInfo::AddSymbol( const char* data, int width, int height )
 	SymbolInfo info;
 	LetterBox box;
 	Helpers::Buffer8bpp_to_Pixels( (Pixel*) &box, MAXIMUM_SYMBOL_WIDTH, MAXIMUM_SYMBOL_HEIGHT, data, width, height, mPalette );
-//	info.SetValues( width, height, 0, box );
-	info.SetData( data );
-	info.mWidth = width;
-	info.mHeight = height;
+	info.SetValues( width, height, mSymbols.size(), &box );
 	mSymbols.push_back( info );
+}
+
+
+
+void FontInfo::SetPalette(const char* src, bool shift)
+{
+	wxASSERT( sizeof(mPalette) <= BPP::PaletteSize( mBPP ) );
+	memcpy( &mPalette, src, BPP::PaletteSize( mBPP ) );
+
+	if (shift)
+	{
+		for (size_t i = 0; i < sizeof(mPalette) / sizeof(mPalette[0]); ++i)
+		{
+			mPalette[i][0] <<= 2;
+			mPalette[i][1] <<= 2;
+			mPalette[i][2] <<= 2;
+		}
+	}
 }

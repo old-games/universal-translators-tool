@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      fonteditimpl.cpp
- * Purpose:   Code for FontEditImpl Class
+ * Purpose:   Code for FontEditor Class
  * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)
  * Created:   2012-01-17
  * Copyright: Pavlovets Ilia
@@ -15,7 +15,7 @@
 #include "fonteditimpl.h"
 #include "fontsettingsimpl.h"
 
-FontEditImpl::FontEditImpl(  wxWindow* parent ):
+FontEditor::FontEditor(  wxWindow* parent ):
 	FontEditGui( parent ),
 	mSymbolEditor( new SymbolEditGui( mFontScrolledBack ) ),
 	mCurrentFont( NULL ),
@@ -24,44 +24,51 @@ FontEditImpl::FontEditImpl(  wxWindow* parent ):
 {
 	mCentralSizer->Add( mSymbolEditor, 1, wxEXPAND, 5 );
 	this->Layout();
-
-	this->Bind( uttEVT_CHANGEFONT, &FontEditImpl::OnFontChangeEvent, this );
-	//
-	
-	//size_t n = 10;
-	//mSymbolsRibbon->Reserve( n );
-	//for ( size_t i = 0; i < n; ++i )
-	//{
-	//	wxBitmap* bmp = new wxBitmap();
-	//	bmp->LoadFile( wxString::Format( "D:/tstb/%d.bmp", i ), wxBITMAP_TYPE_BMP);
-	//	mSymbolsRibbon->SetBitmap( i, bmp );
-	//}
-	//mSymbolsRibbon->RefillHolder();
+	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this );
 }
 
-FontEditImpl::~FontEditImpl(void)
+
+
+FontEditor::~FontEditor(void)
 {
 	delete mCurrentFont;
 }
 
-/* virtual */ void FontEditImpl::OnFontChangeEvent( ChangeFontEvent& event )
-{
 
+
+/* virtual */ void FontEditor::OnFontChangeEvent( ChangeFontEvent& event )
+{
+	this->SetFont( event.GetFontInfo() );
 	event.Skip();
 }
 
 
-SymbolPanel* FontEditImpl::GetSymbolPanel()
+
+SymbolPanel* FontEditor::GetSymbolPanel()
 {
     return mSymbolEditor->GetSymbolPanel();
 }
 
-void FontEditImpl::SetFont( const FontInfo& newFont )
+
+
+void FontEditor::SetFont( FontInfo* newFont )
 {
-	//mCurrentFont = newFont;
+	if (!mCurrentFont )
+	{
+		if (!CheckChanges())
+		{
+			return;
+		}
+		delete mCurrentFont;
+	}
+
+	mCurrentFont = newFont->Clone();
+	UpdateFont();
 }
 
-bool FontEditImpl::CheckChanges()
+
+
+bool FontEditor::CheckChanges()
 {
 	if (!mHasChanges)
 	{
@@ -72,20 +79,26 @@ bool FontEditImpl::CheckChanges()
 	{
 		return SaveFont();
 	}
+	mHasChanges = false;
 	return true;
 }
 
-bool FontEditImpl::SaveFont()
+
+
+bool FontEditor::SaveFont()
 {
 	return true;
 }
 
-bool FontEditImpl::CreateFont()
+
+
+bool FontEditor::CreateFont()
 {
 	if ( mCurrentFont != NULL && !CheckChanges() )
 	{
 		return false;
 	}
+
 	mCurrentFont = new FontInfo();
 	if ( ShowSettings() )
 	{
@@ -97,7 +110,8 @@ bool FontEditImpl::CreateFont()
 }
 
 
-bool FontEditImpl::ShowSettings()
+
+bool FontEditor::ShowSettings()
 {
 	if (mCurrentFont == NULL)
 	{
@@ -109,18 +123,49 @@ bool FontEditImpl::ShowSettings()
 }
 
 
-void FontEditImpl::Render(wxDC& dc)
+
+void FontEditor::Render(wxDC& dc)
 {
 }
 
 
-void FontEditImpl::OnPaint(wxPaintEvent& event)
+
+void FontEditor::UpdateFont()
+{
+	if (!mCurrentFont)
+	{
+		return;
+	}
+
+	UpdateRibbon();
+}
+
+
+
+void FontEditor::UpdateRibbon()
+{
+	Symbols& sym = mCurrentFont->GetSymbols();
+	mSymbolsRibbon->Reserve( sym.size() );
+
+	for ( size_t i = 0; i < sym.size(); ++i )
+	{
+		SymbolInfo& symbol = sym[i];
+		wxBitmap* bmp = DrawPanel::CreateBitmap( (Pixel*) symbol.GetData(), symbol.mWidth, symbol.mHeight );
+		mSymbolsRibbon->SetBitmap( i, bmp );
+	}
+
+	mSymbolsRibbon->RefillHolder();
+}
+
+
+
+/* virtual */ void FontEditor::OnPaint(wxPaintEvent& event)
 {
 	event.Skip();
 }
 
 
-void FontEditImpl::OnBtnClick( wxCommandEvent& event )
+/* virtual */ void FontEditor::OnBtnClick( wxCommandEvent& event )
 {
 	switch (event.GetId())
 	{
@@ -133,7 +178,7 @@ void FontEditImpl::OnBtnClick( wxCommandEvent& event )
 		break;
 
 		default:
-			wxLogError("FontEditImpl::OnBtnClick error: unknown event id");
+			wxLogError("FontEditor::OnBtnClick error: unknown event id");
 	}
 	event.Skip();
 }

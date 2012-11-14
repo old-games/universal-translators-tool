@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Feb  9 2012)
+// C++ code generated with wxFormBuilder (version Oct  8 2012)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -15,20 +15,64 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 {
 	this->SetSizeHints( wxSize( 640,480 ), wxDefaultSize );
 	m_mgr.SetManagedWindow(this);
+	m_mgr.SetFlags(wxAUI_MGR_DEFAULT);
 	
 	mMainMenu = new wxMenuBar( 0 );
 	mFileMenu = new wxMenu();
-	wxMenuItem* mFileSelect;
-	mFileSelect = new wxMenuItem( mFileMenu, wxID_FILE_SELECT, wxString( wxT("Select module") ) + wxT('\t') + wxT("ALT-M"), wxEmptyString, wxITEM_NORMAL );
-	mFileMenu->Append( mFileSelect );
+	wxMenuItem* mFileOpen;
+	mFileOpen = new wxMenuItem( mFileMenu, wxID_FILE_OPEN, wxString( wxT("Open") ) + wxT('\t') + wxT("F3"), wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mFileOpen->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mFileOpen->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#endif
+	mFileMenu->Append( mFileOpen );
 	
 	mFileMenu->AppendSeparator();
 	
-	wxMenuItem* mFileOpen;
-	mFileOpen = new wxMenuItem( mFileMenu, wxID_FILE_OPEN, wxString( wxT("Open") ) + wxT('\t') + wxT("F3"), wxEmptyString, wxITEM_NORMAL );
-	mFileMenu->Append( mFileOpen );
+	wxMenuItem* mFileQuit;
+	mFileQuit = new wxMenuItem( mFileMenu, wxID_FILE_QUIT, wxString( wxT("Quit") ) + wxT('\t') + wxT("ALT-F4"), wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mFileQuit->SetBitmaps( wxArtProvider::GetBitmap( wxART_QUIT, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mFileQuit->SetBitmap( wxArtProvider::GetBitmap( wxART_QUIT, wxART_MENU ) );
+	#endif
+	mFileMenu->Append( mFileQuit );
 	
 	mMainMenu->Append( mFileMenu, wxT("File") ); 
+	
+	mLuaMenu = new wxMenu();
+	wxMenuItem* mLuaSelect;
+	mLuaSelect = new wxMenuItem( mLuaMenu, wxID_LUA_SELECT, wxString( wxT("Select module") ) + wxT('\t') + wxT("ALT-M"), wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mLuaSelect->SetBitmaps( wxArtProvider::GetBitmap( wxART_EXECUTABLE_FILE, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mLuaSelect->SetBitmap( wxArtProvider::GetBitmap( wxART_EXECUTABLE_FILE, wxART_MENU ) );
+	#endif
+	mLuaMenu->Append( mLuaSelect );
+	
+	wxMenuItem* mLuaReboot;
+	mLuaReboot = new wxMenuItem( mLuaMenu, wxID_LUA_REBOOT, wxString( wxT("Reboot scripts") ) + wxT('\t') + wxT("CTRL-R"), wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mLuaReboot->SetBitmaps( wxArtProvider::GetBitmap( wxART_HARDDISK, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mLuaReboot->SetBitmap( wxArtProvider::GetBitmap( wxART_HARDDISK, wxART_MENU ) );
+	#endif
+	mLuaMenu->Append( mLuaReboot );
+	
+	mMainMenu->Append( mLuaMenu, wxT("Lua") ); 
+	
+	mHelpMenu = new wxMenu();
+	wxMenuItem* mHelpAbout;
+	mHelpAbout = new wxMenuItem( mHelpMenu, wxID_HELP_ABOUT, wxString( wxT("About...") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mHelpAbout->SetBitmaps( wxArtProvider::GetBitmap( wxART_HELP, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mHelpAbout->SetBitmap( wxArtProvider::GetBitmap( wxART_HELP, wxART_MENU ) );
+	#endif
+	mHelpMenu->Append( mHelpAbout );
+	
+	mMainMenu->Append( mHelpMenu, wxT("Help") ); 
 	
 	this->SetMenuBar( mMainMenu );
 	
@@ -46,16 +90,22 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( UttMainFrame::OnClose ) );
-	this->Connect( mFileSelect->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mFileOpen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mLuaSelect->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mLuaReboot->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 }
 
 UttMainFrame::~UttMainFrame()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( UttMainFrame::OnClose ) );
-	this->Disconnect( wxID_FILE_SELECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_FILE_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_FILE_QUIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_LUA_SELECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_LUA_REBOOT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_HELP_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	
 	m_mgr.UnInit();
 	
@@ -141,10 +191,10 @@ FontSettingsGui::FontSettingsGui( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer3->Add( mLowLineSpinCtrl, 0, wxALL|wxEXPAND, 5 );
 	
 	mOkBtn = new wxButton( m_scrolledWindow1, wxID_OK, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer3->Add( mOkBtn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer3->Add( mOkBtn, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxLEFT, 5 );
 	
 	mCancelBtn = new wxButton( m_scrolledWindow1, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer3->Add( mCancelBtn, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	fgSizer3->Add( mCancelBtn, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxRIGHT|wxLEFT, 5 );
 	
 	
 	m_scrolledWindow1->SetSizer( fgSizer3 );
@@ -225,6 +275,7 @@ LetterCodesGui::LetterCodesGui( wxWindow* parent, wxWindowID id, const wxString&
 	fgSizer5->Add( m_staticText111, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
 	mCodeTxt = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	mCodeTxt->SetMaxLength( 0 ); 
 	fgSizer5->Add( mCodeTxt, 0, wxALL, 5 );
 	
 	mGetEncodingBtn = new wxButton( m_scrolledWindow2, wxID_GET_ENCODING_BTN, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
@@ -395,7 +446,7 @@ FontEditGui::FontEditGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 	
 	sbSizer11->SetMinSize( wxSize( 256,128 ) ); 
 	mSymbolsRibbon = new BitmapRibbonCtrl( mFontScrolledBack );
-	sbSizer11->Add( mSymbolsRibbon, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL, 5 );
+	sbSizer11->Add( mSymbolsRibbon, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxEXPAND, 5 );
 	
 	
 	fgSizer1->Add( sbSizer11, 1, wxEXPAND, 5 );

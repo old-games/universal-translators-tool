@@ -14,14 +14,14 @@ class FontEditGui;
 class SymbolEditGui;
 class SymbolPanel;
 
-class FontEditImpl :
+class FontEditor :
 	public FontEditGui
 {
 public:
-	FontEditImpl( wxWindow* parent );
-	~FontEditImpl(void);
+	FontEditor( wxWindow* parent );
+	~FontEditor(void);
 
-	void SetFont( const FontInfo& newFont );
+	void SetFont( FontInfo* newFont );
 
 	bool CheckChanges();
 	bool SaveFont();
@@ -39,6 +39,8 @@ private:
 
 	bool ShowSettings();
 	bool CreateFont();
+	void UpdateFont();
+	void UpdateRibbon();
 
 	SymbolEditGui*	mSymbolEditor;
 	FontInfo*		mCurrentFont;

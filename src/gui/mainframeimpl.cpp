@@ -19,7 +19,7 @@
 
 MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
-	mFontEditor( new FontEditImpl( mAUINotebook ) ),
+	mFontEditor( new FontEditor( mAUINotebook ) ),
 	mEditWindow( new EditPanelImpl( mAUINotebook ) ),
 	mPalWindow( new PaletteWindowImpl( mAUINotebook ) )
 {
@@ -38,13 +38,11 @@ MainFrameImpl::MainFrameImpl(void):
 	wxImage::AddHandler(new wxPNGHandler);
 	this->Bind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
 	this->Bind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
+
 	mEditWindow->GetEditPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
 	mFontEditor->GetSymbolPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
-	
-
 
 	m_mgr.Update();
-
 }
 
 MainFrameImpl::~MainFrameImpl(void)
@@ -124,10 +122,12 @@ void MainFrameImpl::DoFileOpen()
 	wxString extensions( result );
 
 	wxFileDialog openFileDialog(this, "Open file", "./", "", extensions, wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+
 	if (openFileDialog.ShowModal() == wxID_CANCEL)
 	{
 		return;
 	}
+
 	if ( !Lua::Get().call( "openFile", openFileDialog.GetPath().ToStdString() ) )
 	{
 		Lua::ShowLastError();
@@ -160,8 +160,19 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 			DoFileOpen();
 		break;
 
-		case wxID_FILE_SELECT:
+		case wxID_FILE_QUIT:
+			this->Close();
+		break;
+
+		case wxID_LUA_SELECT:
 			DoSelectModule();
+		break;
+
+		case wxID_LUA_REBOOT:
+			if ( AREYOUSURE("Reboot Lua virtual machine...") == wxID_YES )
+			{
+				Lua::SetRebootFlag();
+			}
 		break;
 
 		default:

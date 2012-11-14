@@ -10,7 +10,7 @@
 #ifndef MAINFRAMEIMPL_H_INCLUDED
 #define MAINFRAMEIMPL_H_INCLUDED
 
-class FontEditImpl;
+class FontEditor;
 class LogWindowImpl;
 class EditPanelImpl;
 class PaletteWindowImpl;
@@ -38,7 +38,7 @@ private:
 	void DoFileOpen();
 	void DoSelectModule();
 
-	FontEditImpl*		mFontEditor;
+	FontEditor*		mFontEditor;
 	EditPanelImpl*		mEditWindow;
 	PaletteWindowImpl*	mPalWindow;
 };

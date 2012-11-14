@@ -24,7 +24,7 @@
 
 /* 256 colours standard VGA palette, for EGA we are using first 16 colours of this table */
 
-static const Pixel sVGApal[] =
+static const Palette sVGApal =
 {
 		VGA_BLACK,
 		VGA_BLUE,
