@@ -46,36 +46,41 @@
 #define wxID_FILE_QUIT 1002
 #define wxID_LUA_SELECT 1003
 #define wxID_LUA_REBOOT 1004
-#define wxID_HELP_ABOUT 1005
-#define wxID_FONT_SETTINGS_ID 1006
-#define wxID_NUM_SPIN_CTRL 1007
-#define wxID_SET_CODES_BTN 1008
-#define wxID_MAX_WIDTH_SPIN 1009
-#define wxID_MAX_HEIGHT_SPIN 1010
-#define wxID_MIN_WIDTH_SPIN 1011
-#define wxID_MIN_HEIGHT_SPIN 1012
-#define wxID_BASE_LINE_SPIN 1013
-#define wxID_CAP_LINE_SPIN 1014
-#define wxID_LOW_LINE_SPIN 1015
-#define wxID_LETTER_CODES_ID 1016
-#define wxID_GENERATE_CODES_BTN 1017
-#define wxID_GET_ENCODING_BTN 1018
-#define wxID_CODES_GRID 1019
-#define wxID_SELECT_MODULE_ID 1020
-#define wxID_CREATE_FONT 1021
-#define wxID_FONT_SETTINGS 1022
-#define wxID_GRID_CHECK 1023
-#define wxID_GRID_MODE 1024
-#define wxID_GRIDCOL_BTN 1025
-#define wxID_LR_SPIN 1026
-#define wxID_LG_SPIN 1027
-#define wxID_LB_SPIN 1028
-#define wxID_RR_SPIN 1029
-#define wxID_RG_SPIN 1030
-#define wxID_RB_SPIN 1031
-#define wxID_PAL_CHOICE 1032
-#define wxID_CGA_CHOICE 1033
-#define wxID_INTENSITY_CHECK 1034
+#define wxID_HELP_HELP 1005
+#define wxID_HELP_ABOUT 1006
+#define wxID_FONT_SETTINGS_ID 1007
+#define wxID_NUM_SPIN_CTRL 1008
+#define wxID_SET_CODES_BTN 1009
+#define wxID_MAX_WIDTH_SPIN 1010
+#define wxID_MAX_HEIGHT_SPIN 1011
+#define wxID_MIN_WIDTH_SPIN 1012
+#define wxID_MIN_HEIGHT_SPIN 1013
+#define wxID_BASE_LINE_SPIN 1014
+#define wxID_CAP_LINE_SPIN 1015
+#define wxID_LOW_LINE_SPIN 1016
+#define wxID_LETTER_CODES_ID 1017
+#define wxID_GENERATE_CODES_BTN 1018
+#define wxID_GET_ENCODING_BTN 1019
+#define wxID_CODES_GRID 1020
+#define wxID_SELECT_MODULE_ID 1021
+#define wxID_FONTEDITOR 1022
+#define wxID_CREATE_FONT 1023
+#define wxID_FONT_SETTINGS 1024
+#define wxID_IMAGEEDITOR 1025
+#define wxID_GRID_CHECK 1026
+#define wxID_GRID_MODE 1027
+#define wxID_GRIDCOL_BTN 1028
+#define wxID_PALETTEWINDOW 1029
+#define wxID_LR_SPIN 1030
+#define wxID_LG_SPIN 1031
+#define wxID_LB_SPIN 1032
+#define wxID_RB_SPIN 1033
+#define wxID_RR_SPIN 1034
+#define wxID_RG_SPIN 1035
+#define wxID_OWNER_CHOICE 1036
+#define wxID_PAL_CHOICE 1037
+#define wxID_CGA_CHOICE 1038
+#define wxID_INTENSITY_CHECK 1039
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame
@@ -226,7 +231,7 @@ class FontEditGui : public wxPanel
 	
 	public:
 		
-		FontEditGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,442 ), long style = wxTAB_TRAVERSAL ); 
+		FontEditGui( wxWindow* parent, wxWindowID id = wxID_FONTEDITOR, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,442 ), long style = wxTAB_TRAVERSAL ); 
 		~FontEditGui();
 	
 };
@@ -252,7 +257,7 @@ class EditPanelGui : public wxPanel
 	
 	public:
 		
-		EditPanelGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,400 ), long style = wxTAB_TRAVERSAL|wxWANTS_CHARS ); 
+		EditPanelGui( wxWindow* parent, wxWindowID id = wxID_IMAGEEDITOR, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,400 ), long style = wxTAB_TRAVERSAL|wxWANTS_CHARS ); 
 		~EditPanelGui();
 	
 };
@@ -274,11 +279,13 @@ class PaletteWindowGui : public wxPanel
 		wxStaticText* m_staticText17;
 		wxSpinCtrl* mLBSpin;
 		wxStaticText* m_staticText18;
-		wxSpinCtrl* mRRSpin;
-		wxStaticText* m_staticText19;
-		wxSpinCtrl* mRGSpin;
-		wxStaticText* m_staticText20;
 		wxSpinCtrl* mRBSpin;
+		wxStaticText* m_staticText19;
+		wxSpinCtrl* mRRSpin;
+		wxStaticText* m_staticText20;
+		wxSpinCtrl* mRGSpin;
+		wxStaticText* m_staticText21;
+		wxComboBox* mOwnerType;
 		wxStaticText* m_staticText13;
 		wxComboBox* mPalType;
 		wxStaticText* m_staticText14;
@@ -292,7 +299,7 @@ class PaletteWindowGui : public wxPanel
 	
 	public:
 		
-		PaletteWindowGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 735,400 ), long style = wxTAB_TRAVERSAL ); 
+		PaletteWindowGui( wxWindow* parent, wxWindowID id = wxID_PALETTEWINDOW, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1019,439 ), long style = wxTAB_TRAVERSAL ); 
 		~PaletteWindowGui();
 	
 };

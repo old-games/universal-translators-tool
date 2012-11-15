@@ -8,9 +8,6 @@
  **************************************************************/
 
 #include "pch.h"
-//#include "fontinfo.h"
-//#include "gui/fonteditimpl.h"
-
 #include "luafont.h"
 #include "luacontrol.h"
 
@@ -24,8 +21,7 @@ namespace Lua
 
 void FontRegister()
 {
-	Get().register_class<RGBA>();
-	Get().register_class<SymbolInfo>();
+	//Get().register_class<SymbolInfo>();
 	Get().register_class<FontInfo>();
 	// 
 	LUA_REG_C_FUNCTION( editFont );
@@ -36,26 +32,12 @@ void FontRegister()
 
 
 
-//
-//	Экспорт класса RGBA
-//
-EXPORT_OOLUA_FUNCTIONS_4_NON_CONST(RGBA,
-								   set_R,
-								   set_G,
-								   set_B,
-								   set_A)
-
-EXPORT_OOLUA_FUNCTIONS_4_CONST(RGBA,
-							   get_R,
-							   get_G,
-							   get_B,
-							   get_A)
 
 ///
 /// Экспорт класса SymbolInfo
 ///
-EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( SymbolInfo, GetPixel, SetPixel/*, SetData, SetValues*/ )
-EXPORT_OOLUA_FUNCTIONS_0_CONST( SymbolInfo )
+//EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( SymbolInfo, GetPixel, SetPixel/*, SetData, SetValues*/ )
+//EXPORT_OOLUA_FUNCTIONS_0_CONST( SymbolInfo )
 
 
 
@@ -77,7 +59,7 @@ static int editFont(lua_State *L)
 	FontInfo* fontInfo;
 	OOLUA::pull2cpp(L, fontInfo);
 	
-	ChangeFontEvent* fontEvent = new ChangeFontEvent( fontInfo->Clone() );
+	ChangeFontEvent* fontEvent = new ChangeFontEvent( fontInfo );
 	wxTheApp->QueueEvent( fontEvent );
 	return 0;
 }

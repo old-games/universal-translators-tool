@@ -46,7 +46,6 @@ public:
 	void SetDrawFocus( bool b = true );
 
 	static void RefCheck();
-	static wxBitmap* CreateBitmap(Pixel* buffer, int width, int height);
 
 protected:
 
@@ -110,8 +109,5 @@ private:
 
 	static int			sRefCount;
 };
-
-
-WX_DEFINE_ARRAY( DrawPanel* , DrawPanelArray );
 
 #endif

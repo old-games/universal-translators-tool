@@ -8,18 +8,20 @@
  **************************************************************/
 
 #include "pch.h"
-#include "panels/drawpanel.h"
+#include "panels/thumbnail.h"
 #include "bmpribbonctrl.h"
 
 
 
 BitmapRibbonCtrl::BitmapRibbonCtrl(  wxWindow* parent ):
 	BitmapRibbonGui( parent ),
-	mThumbnails( new DrawPanelArray( 0 ) ),
+	mThumbnails( new ThumbnailsArray( 0 ) ),
 	mCurrent( 0 ),
-	mToShow( 3 )
+	mToShow( 6 )
 {
 }
+
+
 
 BitmapRibbonCtrl::~BitmapRibbonCtrl(void)
 {
@@ -54,15 +56,14 @@ void BitmapRibbonCtrl::RefillHolder()
 		mBitmapsHolder->Add( mThumbnails->Item(i), 1, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5  );
 	}
 	mBitmapsHolder->Layout();
-	this->Refresh();
 }
 
 
 
 void BitmapRibbonCtrl::SetBitmap( size_t n, wxBitmap* bmp )
 {
-	DrawPanel* dp = new DrawPanel( this );
-	dp->SetAlign( utdHCenter | utdVCenter | utdExactFit );
+	ThumbnailPanel* dp = new ThumbnailPanel(n, this);
+	dp->SetAlign( utdHCenter | utdVCenter | utdExactFit | utdExpand);
 	dp->SetDrawFocus( true );
 	dp->SetBitmap( bmp );
 

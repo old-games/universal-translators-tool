@@ -8,38 +8,18 @@
  **************************************************************/
 
 #include "pch.h"
+#include "types/palette.h"
 #include "palettepanel.h"
 
-static const wxSize	sBitmapSize[BPP::bppNum] =
-{
-	wxSize(2, 1),		// Mono 2 colours
-	wxSize(4, 1),		// CGA 4 colours
-	wxSize(8, 2),		// EGA 16 colours
-	wxSize(32, 8),		// VGA/SVGA	256 colours
-	wxSize(256, 256),	// Highcolor 65 536 colours
-	wxSize(256, 256),	// Truecolor 16 777 216 colours
-	wxSize(256, 256)	// Truecolor with alpha
-};
 
-static const wxDouble	sSquares[BPP::bppNum] =
-{
-	50.0f,
-	40.0f,
-	25.0f,
-	20.0f,
-	3.0f,
-	3.0f,
-	3.0f
-};
 
-PalettePanel::PalettePanel(  wxWindow* parent, bool changeGlobalColours /* true */ ):
+PalettePanel::PalettePanel(  wxWindow* parent, Palette* pal, bool changeGlobalColours /* true */ ):
 	EditPanel( parent ),
-	mPalType( BPP::bppMono),
-	mCurrentCGAPal( 0 ),
-	mCGAIntensity( false ),
 	mLeftPos(0, 0),
 	mRightPos(1, 0),
-	mChangeGlobals( changeGlobalColours )
+	mChangeGlobals( changeGlobalColours ),
+	mContainerMode( pal != NULL ),
+	mCurrentPal( pal )
 {
 	SetAllowScaling( false );
 	SetAllowEdit( false );
@@ -48,83 +28,80 @@ PalettePanel::PalettePanel(  wxWindow* parent, bool changeGlobalColours /* true 
 	SetBitmapScale( 12.0f );
 	SetGridEnabled();
 	SetGridLogic( wxCOPY );
-	SetCurrentPalette( &sVGApal, sizeof(Palette) );
-	GeneratePalBitmap();
+
+	if (!mContainerMode)
+	{
+		mCurrentPal = new Palette();
+		mCurrentPal->Initiate( Palette::bppMono );
+		SetBitmapFromPalette();
+	}
+	else
+	{
+		mCurrentPal = pal;	
+	}
 }
 
 
 
 PalettePanel::~PalettePanel(void)
 {
-}
-
-
-
-void PalettePanel::SetCurrentPalette( const void* src, size_t size, bool shifLeft /* false */ )
-{
-	wxASSERT( sizeof(mCurrentPal) <= size );
-	memcpy( &mCurrentPal, src, size );
-	if (shifLeft)
+	if (!mContainerMode)
 	{
-		for (size_t i = 0; i < sizeof(mCurrentPal) / sizeof(mCurrentPal[0]); ++i)
-		{
-			mCurrentPal[i][0] <<= 2;
-			mCurrentPal[i][1] <<= 2;
-			mCurrentPal[i][2] <<= 2;
-		}
+		delete mCurrentPal;
 	}
 }
 
 
 
-void PalettePanel::GeneratePalBitmap()
+void PalettePanel::SetNewPalette( Palette* pal )
 {
-	const wxSize& size = sBitmapSize[ mPalType ];
-	const size_t bufSize = size.x * size.y;
-	Pixel* colorMap = new Pixel[ bufSize ];
-	Pixel* srcPal = (Pixel*) &mCurrentPal;
-	switch ( mPalType )
+	if (mContainerMode)
 	{
-		case BPP::bppMono:
-			srcPal = (Pixel*) sMonoPal;
-		break;
-
-		case BPP::bpp2:
-			srcPal = mCGAIntensity ? (Pixel*) sICGApal[ mCurrentCGAPal ] : (Pixel*) sCGApal[ mCurrentCGAPal ];
-		break;
+		wxLogError( "PalettePanel::SetNewPalette: palette panel is not in \"conainer\". Use SetNewPalette instead!");
+		return;
 	}
 
-	if ( mPalType <= BPP::bpp8 )
+	if (mCurrentPal != NULL)
 	{
-		memcpy( colorMap, srcPal, BPP::ColourNumber[ mPalType ] * sizeof(Pixel) );
-		SetGridEnabled();
+		delete mCurrentPal;
+		mCurrentPal = NULL;
 	}
-	else
+	mCurrentPal = pal->Clone();
+}
+
+
+
+void PalettePanel::SetCurrentPalette( Palette* pal )
+{
+	if (!mContainerMode)
 	{
-		Pixel* dstPal = colorMap;
-		for (int y = 0; y < size.y; ++y)
-		{
-			Pixel& pix = * (srcPal++) ;
-			wxColour col( pix[0], pix[1], pix[2] );
-			for (int x = 0; x < size.x; ++x)
-			{
-				int lightness = 64 + x / 2;
-				wxColour newCol = col.ChangeLightness( lightness );
-				Pixel& dst = * (dstPal++) ;
-				dst[0] = newCol.Red();
-				dst[1] = newCol.Green();
-				dst[2] = newCol.Blue();
-			}
-		}
-		SetGridEnabled( false );
+		wxLogError( "PalettePanel::SetCurrentPalette: palette panel is not in \"conainer\". Use SetNewPalette instead!");
+		return;
 	}
 
-	SetBitmap( colorMap, size.x, size.y );
-	delete[] colorMap;
+	if (pal->IsOk())
+	{
+		mCurrentPal = pal;
+	}
+}
+
+
+
+void PalettePanel::SetBitmapFromPalette()
+{
+	if (!mCurrentPal->IsOk())
+	{
+		return;
+	}
+
+	SetBitmap( mCurrentPal->GeneratePalBitmap() );
+	SetGridEnabled( mCurrentPal->IsIndexed() );
 	CorrectColourPosition( false );
 	CorrectColourPosition( true );
-	SetBitmapScale( sSquares[ mPalType ] );
+	SetBitmapScale( Palette::BitmapScale[ mCurrentPal->GetPalType() ] );
 }
+
+
 
 void PalettePanel::CorrectColourPosition( bool right )
 {
@@ -140,6 +117,8 @@ void PalettePanel::CorrectColourPosition( bool right )
 	GetBitmapColour( right );
 }
 
+
+
 void PalettePanel::SetGlobalColours()
 {
 	if (!mChangeGlobals)
@@ -149,6 +128,8 @@ void PalettePanel::SetGlobalColours()
 	EditPanel::gGlobalLeftColour = mLeftColour;
 	EditPanel::gGlobalRightColour = mRightColour;
 }
+
+
 
 void PalettePanel::GetBitmapColour( bool right )
 {
@@ -161,6 +142,8 @@ void PalettePanel::GetBitmapColour( bool right )
 	}
 }
 
+
+
 void PalettePanel::SetBitmapColour( bool right )
 {
 	wxColour& colour = right ? mRightColour : mLeftColour;
@@ -168,10 +151,14 @@ void PalettePanel::SetBitmapColour( bool right )
 	PlacePixel( pos, colour );
 }
 
+
+
 const wxColour& PalettePanel::GetColour( bool right )
 {
 	return right ? mRightColour : mLeftColour;
 }
+
+
 
 void PalettePanel::SetColour( bool right, const wxColour& colour)
 {
@@ -185,6 +172,8 @@ void PalettePanel::SetColour( bool right, const wxColour& colour)
 	}
 	SetBitmapColour( right );
 }
+
+
 
 int	PalettePanel::FindColour( bool right, const wxColour& colour, bool andSet /* false */ )
 {
@@ -222,6 +211,7 @@ int	PalettePanel::FindColour( bool right, const wxColour& colour, bool andSet /*
 }
 
 
+
 /* virtual */ void PalettePanel::Render(wxDC& dc)
 {
 	EditPanel::Render( dc );
@@ -248,6 +238,8 @@ int	PalettePanel::FindColour( bool right, const wxColour& colour, bool andSet /*
 	}
 }
 
+
+
 /* virtual */ bool PalettePanel::MouseButton( int btn, bool up )
 {
 	if ( EditPanel::MouseButton( btn, up ) )
@@ -271,6 +263,8 @@ int	PalettePanel::FindColour( bool right, const wxColour& colour, bool andSet /*
 	GetBitmapColour( btn == wxMOUSE_BTN_RIGHT );
 	return true;
 }
+
+
 
 /* virtual */ bool PalettePanel::KeyDown( int modifier, int keyCode )
 {

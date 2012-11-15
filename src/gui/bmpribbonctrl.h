@@ -11,7 +11,7 @@
 
 #include "simplegui.h"
 
-class DrawPanelArray;
+class ThumbnailsArray;
 
 class BitmapRibbonCtrl : public BitmapRibbonGui
 {
@@ -28,13 +28,13 @@ public:
 protected:
 
 	virtual void OnButtonClick( wxCommandEvent& event );
-
+	
 
 private:
 
 	void Clear();
 
-	DrawPanelArray*		mThumbnails;
+	ThumbnailsArray*	mThumbnails;
 	size_t				mCurrent;
 	size_t				mToShow;
 };

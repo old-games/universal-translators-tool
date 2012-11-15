@@ -9,7 +9,13 @@
 #ifndef PALWDINWOIMPL_H_INCLUDED
 #define PALWDINWOIMPL_H_INCLUDED
 
+
+// forward declarations
 class PalettePanel;
+
+
+
+
 
 class PaletteWindowImpl :
 	public PaletteWindowGui
@@ -29,13 +35,16 @@ protected:
 private:
 
 	void OnPaint( wxPaintEvent& event );
+	void OwnerChanged();
 	void PalTypeChanged();
 	void UpdateColour(bool right);
 	void UpdateSpin(bool right);
 	void UpdateColours();
 	void UpdateSpins();
+	void SpinEnable(bool b = true);
 
 	PalettePanel*	mPalPanel;
+	Palette*		mPalettes[PalOwners::poNum];
 };
 
 #endif

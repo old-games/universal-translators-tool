@@ -11,24 +11,37 @@
 
 #include "panels/palettepanel.h"
 #include "palwindowimpl.h"
+#include "types/palette.h"
 
 
 
 PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
-	PaletteWindowGui( parent )
+	PaletteWindowGui( parent ),
+	mPalPanel( NULL )
 {
-	mPalPanel = new PalettePanel( mPalScrolledBack, true );
-	mPalHolder->Add( mPalPanel, 1, wxEXPAND, 5 );
-	for (int i = 0; i < BPP::bppNum; ++i)
+	for (int i = 0; i < PalOwners::poNum; ++i)
 	{
-		mPalType->Append(BPP::Names[i]);
+		mOwnerType->Append(PalOwners::OwnerName[i]);
+		mPalettes[i] = new Palette();
+		mPalettes[i]->Initiate( Palette::bppMono );
+	}
+	mOwnerType->SetSelection(0);
+
+	mPalPanel = new PalettePanel( mPalScrolledBack, mPalettes[0], true );
+	mPalHolder->Add( mPalPanel, 1, wxEXPAND, 5 );
+
+	for (int i = 0; i < Palette::bppNum; ++i)
+	{
+		mPalType->Append(Palette::Names[i]);
 	}
 	mPalType->SetSelection(0);
+
 	for (int i = 0; i < CGA_PALS_NUMBER; ++i)
 	{
 		mCGAType->Append( wxString::Format("CGA set #%d", i) );
 	}
 	mCGAType->SetSelection(0);
+
 	PalTypeChanged();
 	mPalScrolledBack->Bind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
 	wxTheApp->Bind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this );
@@ -39,6 +52,10 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 PaletteWindowImpl::~PaletteWindowImpl(void)
 {
 	mPalScrolledBack->Unbind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
+	for (int i = 0; i < PalOwners::poNum; ++i)
+	{
+		delete mPalettes[i];
+	}
 }
 
 
@@ -51,17 +68,52 @@ void PaletteWindowImpl::OnPaint( wxPaintEvent& event )
 
 
 
+void PaletteWindowImpl::OwnerChanged()
+{
+	int owner = mOwnerType->GetSelection();
+	mPalType->SetSelection( mPalettes[owner]->GetPalType() );
+	mCGAType->SetSelection( mPalettes[owner]->GetCGAType() );
+	mCGAIntensity->SetValue( mPalettes[owner]->GetIntensity() );
+	PalTypeChanged();
+}
+
+
+
 void PaletteWindowImpl::PalTypeChanged()
 {
-	mPalPanel->mPalType = mPalType->GetSelection();
-	mPalPanel->mCurrentCGAPal = mCGAType->GetSelection();
-	mPalPanel->mCGAIntensity = mCGAIntensity->IsChecked();
-	bool cgaControls = mPalType->GetSelection() == BPP::bpp2;
+	int owner = mOwnerType->GetSelection();
+	bool changeCGA = mPalType->GetSelection() == Palette::bpp2;
+
+	if ( changeCGA )
+	{
+		mPalettes[owner]->SetCGAType( mCGAType->GetSelection(), mCGAIntensity->IsChecked() );
+	}
+	else
+	{
+		mPalettes[owner]->ChangeBPP( (Palette::BPP) mPalType->GetSelection() );
+	}
+
+	mPalPanel->SetCurrentPalette( mPalettes[owner] );
+
+	bool cgaControls = mPalType->GetSelection() == Palette::bpp2;
 	mCGAType->Enable( cgaControls );
 	mCGAIntensity->Enable( cgaControls );
-	mPalPanel->GeneratePalBitmap();
+	SpinEnable( !cgaControls );
+	mPalPanel->SetBitmapFromPalette();
 	mPalPanel->Refresh();
 	UpdateSpins();
+}
+
+
+
+void PaletteWindowImpl::SpinEnable(bool b /* true */)
+{
+	mRRSpin->Enable(b);
+	mLRSpin->Enable(b);
+	mRGSpin->Enable(b); 
+	mLGSpin->Enable(b);
+	mRBSpin->Enable(b);
+	mLBSpin->Enable(b);
 }
 
 
@@ -136,8 +188,12 @@ void PaletteWindowImpl::UpdateSpin(bool right)
 {
 	switch( event.GetId() )
 	{
-		case wxID_PAL_CHOICE:
+		case wxID_OWNER_CHOICE:
+			OwnerChanged();
+		break;
+
 		case wxID_CGA_CHOICE:
+		case wxID_PAL_CHOICE:
 		case wxID_INTENSITY_CHECK:
 			PalTypeChanged();
 		break;
@@ -176,8 +232,25 @@ void PaletteWindowImpl::UpdateSpin(bool right)
 
 /* virtual */ void PaletteWindowImpl::OnPaletteChangeEvent( ChangePaletteEvent& event )
 {
-	mPalType->SetSelection(event.GetBpp());
-	mPalPanel->SetCurrentPalette( (Pixel*) event.GetData(), event.GetSize(), event.ShiftValuesToLeft() );
-	PalTypeChanged();
+	int owner = -1;
+	switch( event.GetId() )
+	{
+		case wxID_FONTEDITOR:
+			owner = PalOwners::poFontEditor;
+		break;
+
+		case wxID_IMAGEEDITOR:
+			owner = PalOwners::poFontEditor;
+		break;
+	}
+
+	if (owner >= 0)
+	{
+		Palette* oldPal = mPalettes[owner];
+		mPalettes[owner] = event.GetPalette()->Clone();
+		mOwnerType->SetSelection( owner );
+		OwnerChanged();
+		delete oldPal;
+	}
 	event.Skip();
 }

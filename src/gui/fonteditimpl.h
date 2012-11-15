@@ -35,10 +35,12 @@ protected:
 
 	virtual void OnBtnClick( wxCommandEvent& event );
 	virtual void OnFontChangeEvent( ChangeFontEvent& event );
+	virtual void OnSymbolSelection( SymbolSelectionEvent& event );
 private:
 
 	bool ShowSettings();
 	bool CreateFont();
+	void ClearFont( bool force = false );	// force - to clear memory from destructor
 	void UpdateFont();
 	void UpdateRibbon();
 

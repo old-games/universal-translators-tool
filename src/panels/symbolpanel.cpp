@@ -64,7 +64,7 @@ void SymbolPanel::UpdateBitmap()
 	int height = mFontInfo->GetMaxHeight();
 	Pixel* buffer = new Pixel[ width * height ];
 	Helpers::CropBuffer( buffer, width, height, ((Pixel*) (sym.GetData())), MAXIMUM_SYMBOL_WIDTH, MAXIMUM_SYMBOL_HEIGHT );
-	wxImage image( width, height, (wxByte*) buffer, true );
+	wxImage image( width, height, (wxByte*) sym.GetData(), true );
 	mBitmap = new wxBitmap( image );
 	delete[] buffer;
 

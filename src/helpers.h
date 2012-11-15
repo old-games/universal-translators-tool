@@ -9,10 +9,15 @@
 #ifndef HELPERS_H_INCLUDED
 #define HELPERS_H_INCLUDED
 
+	//forward declarations
+class Palette;
+
 namespace Helpers
 {
 
 extern wxWindowID wxCustomPanelId;
+
+wxBitmap* CreateBitmap(Pixel* buffer, int width, int height);
 
 // копирует буфер в новый с соотвествующими параметрами
 // dst должен быть меньше src
@@ -34,7 +39,7 @@ void CropBuffer(T* dst, int dstWidth, int dstHeight, T* src, int srcWidth, int s
 	}
 }
 
-void Buffer8bpp_to_Pixels(Pixel*dst, int dstWidth, int dstHeight, const char* src, int srcWidth, int srcHeight, const Palette& pal );
+void Buffer8bpp_to_Pixels(Pixel*dst, int dstWidth, int dstHeight, const char* src, int srcWidth, int srcHeight, const Palette* pal );
 
 } // namespace Helpers
 

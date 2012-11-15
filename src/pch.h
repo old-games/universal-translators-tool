@@ -34,6 +34,7 @@
 #include <wx/rawbmp.h>
 #include <wx/utils.h> 
 #include <wx/dynarray.h>
+#include <wx/help.h>
 
 // own written but wx compatible
 #include "types/customevents.h"
@@ -44,6 +45,7 @@
 
 // Lua headers
 #include <lua.hpp>
+
 #ifndef __VISUALC__
 #include <oolua/oolua.h>
 #else

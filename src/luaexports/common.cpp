@@ -9,6 +9,7 @@
 
 #include "pch.h"
 #include "luacontrol.h"
+#include "common.h"
 #include "gui/selmoduleimpl.h"
 
 
@@ -109,22 +110,22 @@ int selectModuleDialog(lua_State *L)
 
 
 
-int setPalette(lua_State *L)
-{
-	int stackSize = Lua::Get().stack_count();
-	if (stackSize != 2 && stackSize != 3)
-	{
-		wxLogError("setPalette format: BPP, Palette buffer, [shift values to the left: default is false]");
-		return 0;
-	}
-
-	int bpp = lua_tointeger(L, 1);
-	const char* pal = lua_tostring(L, 2);
-	bool shift = stackSize == 2 ? false : lua_toboolean(L, 3);
-	ChangePaletteEvent palEvent( bpp, (void*) pal, shift );
-	wxTheApp->QueueEvent( palEvent.Clone() );
-	return 0;
-}
+//int setPalette(lua_State *L)
+//{
+//	int stackSize = Lua::Get().stack_count();
+//	if (stackSize != 2 && stackSize != 3)
+//	{
+//		wxLogError("setPalette format: BPP, Palette buffer, [shift values to the left: default is false]");
+//		return 0;
+//	}
+//
+//	int bpp = lua_tointeger(L, 1);
+//	const char* pal = lua_tostring(L, 2);
+//	bool shift = stackSize == 2 ? false : lua_toboolean(L, 3) != 0;
+//	ChangePaletteEvent palEvent( bpp, (void*) pal, shift );
+//	wxTheApp->QueueEvent( palEvent.Clone() );
+//	return 0;
+//}
 
 
 
@@ -148,8 +149,12 @@ void CommonRegister()
 	// calls dialog to select active plugin
 	LUA_REG_C_FUNCTION( selectModuleDialog );
 
-	// sets palette in palette window
-	LUA_REG_C_FUNCTION( setPalette );
+	// export for wxBusyCursor class, will be usefull for continious operations
+	Get().register_class<BusyCursor>();
 }
 
 } // namespace Lua
+
+
+
+EXPORT_OOLUA_NO_FUNCTIONS( BusyCursor )

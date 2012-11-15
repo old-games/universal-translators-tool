@@ -9,6 +9,7 @@
 
 #include "pch.h"
 #include "drawpanel.h"
+#include "helpers.h"
 #include <wx/arrimpl.cpp> 
 
 //WX_DEFINE_OBJARRAY( DrawPanelArray );
@@ -117,18 +118,10 @@ void DrawPanel::SetDrawFocus( bool b /* true */ )
 
 
 
-/* static */ wxBitmap* DrawPanel::CreateBitmap( Pixel* buffer, int width, int height )
-{
-	wxImage image( width, height, (wxByte*) buffer, true );
-	return new wxBitmap( image );
-}
-
-
-
 void DrawPanel::SetBitmap( Pixel* buffer, int width, int height )
 {
 	DestroyBitmap();
-	mBitmap = CreateBitmap( buffer, width, height );
+	mBitmap = Helpers::CreateBitmap( buffer, width, height );
 	ApplyBitmap();
 }
 
@@ -146,6 +139,8 @@ void DrawPanel::SetBitmap( wxBitmap* bitmap )
 	ApplyBitmap();
 }
 
+
+
 void DrawPanel::ApplyBitmap()
 {
 	if ( !mBitmap || !mBitmap->IsOk() )
@@ -159,11 +154,15 @@ void DrawPanel::ApplyBitmap()
 	SetBitmapScale( mScale );
 }
 
+
+
 void DrawPanel::DestroyBitmap()
 {
 	delete mBitmap;
 	mBitmap = NULL;
 }
+
+
 
 void DrawPanel::SetBuffer( Pixel* buffer )
 {
@@ -177,6 +176,8 @@ void DrawPanel::SetBuffer( Pixel* buffer )
 	PaintNow();
 }
 
+
+
 void DrawPanel::SetBitmapScale( wxDouble scale )
 {
 	mScale = scale;
@@ -184,6 +185,8 @@ void DrawPanel::SetBitmapScale( wxDouble scale )
 	mScaledHeight = (wxDouble) mHeight * mScale;
 	SetShowParams();
 }
+
+
 
 void DrawPanel::SetScaleRange( wxDouble min, wxDouble max )
 {
@@ -198,6 +201,8 @@ void DrawPanel::SetScaleRange( wxDouble min, wxDouble max )
 		SetBitmapScale( mScaleMax );
 	}
 }
+
+
 
 void DrawPanel::DrawFocus(wxDC& dc)
 {
@@ -222,6 +227,8 @@ void DrawPanel::DrawFocus(wxDC& dc)
 	dc.DrawRectangle(rect);
 }
 
+
+
 /* virtual */ void DrawPanel::OnEnterWindow( wxMouseEvent& event )
 {
 	this->SetFocus();
@@ -229,11 +236,15 @@ void DrawPanel::DrawFocus(wxDC& dc)
 	event.Skip();
 }
 
+
+
 /* virtual */ void DrawPanel::OnLeaveWindow( wxMouseEvent& event )
 {
 	PaintNow();
 	event.Skip();
 }
+
+
 
 /* virtual */ void DrawPanel::Render(wxDC& dc)
 {
@@ -252,6 +263,8 @@ void DrawPanel::DrawFocus(wxDC& dc)
 	DrawFocus( dc );
 }
 
+
+
 /* virtual */ void DrawPanel::OnPaint( wxPaintEvent& event )
 {
 	wxAutoBufferedPaintDC dc(this);
@@ -269,10 +282,14 @@ void DrawPanel::DrawFocus(wxDC& dc)
 
 }
 
+
+
 void DrawPanel::PaintNow()
 {
     this->Refresh();
 }
+
+
 
 inline void DrawPanel::CalculateScrollBars()
 {
@@ -281,6 +298,8 @@ inline void DrawPanel::CalculateScrollBars()
 	SetScrollbars(1, 1, mShowWidth, mShowHeight, x, y, true);
 
 }
+
+
 
 /* virtual */ inline void DrawPanel::SetShowParams()
 {
@@ -368,6 +387,8 @@ inline void DrawPanel::CalculateScrollBars()
 	SetWorkZone( wxRect(mPosX, mPosY, mShowWidth, mShowHeight), mScale );
 }
 
+
+
 /* virtual */ void DrawPanel::OnSize(wxSizeEvent& event)
 {
     if ( event.GetSize() != mPreviousSize )
@@ -378,6 +399,8 @@ inline void DrawPanel::CalculateScrollBars()
 	event.Skip();
 }
 
+
+
 /* virtual */ void DrawPanel::OnMouseWheel( wxMouseEvent &event )
 {
 	if (!MouseWheel( event.GetModifiers(), event.GetWheelRotation() ))
@@ -385,6 +408,8 @@ inline void DrawPanel::CalculateScrollBars()
 		event.Skip();
 	}
 }
+
+
 
 /* virtual */ void DrawPanel::OnKeyDown( wxKeyEvent& event )
 {
@@ -394,6 +419,8 @@ inline void DrawPanel::CalculateScrollBars()
 	}
 }
 
+
+
 /* virtual */ void DrawPanel::OnKeyUp( wxKeyEvent& event )
 {
 	if ( !KeyUp( event.GetModifiers(), event.GetKeyCode() ) )
@@ -401,6 +428,8 @@ inline void DrawPanel::CalculateScrollBars()
 		event.Skip();
 	}
 }
+
+
 
 /* virtual */ bool DrawPanel::KeyDown( int WXUNUSED( modifier ), int keyCode )
 {
@@ -415,10 +444,13 @@ inline void DrawPanel::CalculateScrollBars()
 	return res;
 }
 
+
+
 /* virtual */ bool DrawPanel::KeyUp( int WXUNUSED( modifier ), int WXUNUSED( keyCode ) )
 {
 	return false;
 }
+
 
 
 /* virtual */ bool DrawPanel::PlusMinusPressed( bool plus )
@@ -438,6 +470,7 @@ inline void DrawPanel::CalculateScrollBars()
 }
 
 
+
 /* virtual */ void DrawPanel::OnBtnDown( wxMouseEvent& event )
 {
 	if ( event.GetButton() != wxMOUSE_BTN_NONE )
@@ -454,12 +487,16 @@ inline void DrawPanel::CalculateScrollBars()
 	event.Skip();
 }
 
+
+
 /* virtual */ void DrawPanel::OnMotion( wxMouseEvent& event )
 {
 	mMousePoint = MousePosition2PointCoords( event.GetPosition() );
 	MouseMoving( event.GetModifiers(), 0 );
 	event.Skip();
 }
+
+
 
 /* virtual */ void DrawPanel::OnBtnUp( wxMouseEvent& event )
 {
@@ -477,6 +514,8 @@ inline void DrawPanel::CalculateScrollBars()
 	event.Skip();
 }
 
+
+
 /* virtual */ bool DrawPanel::MouseButton( int btn, bool up  )
 {
 	if ( up && !PointInZone( mMousePoint ) && btn != wxMOUSE_BTN_NONE )
@@ -486,6 +525,8 @@ inline void DrawPanel::CalculateScrollBars()
 	}
 	return false;
 }
+
+
 
 /* virtual */ bool DrawPanel::MouseModifiersButton( int modifier, int btn, bool up  )
 {
@@ -511,6 +552,8 @@ inline void DrawPanel::CalculateScrollBars()
 	return false;
 }
 
+
+
 /* virtual */ bool DrawPanel::MouseMoving( int WXUNUSED( modifier ), int WXUNUSED( btn ) )
 {
 	if ( SelectionDragging() )
@@ -520,6 +563,8 @@ inline void DrawPanel::CalculateScrollBars()
 	}
 	return false;
 }
+
+
 
 /* virtual */ bool DrawPanel::MouseWheel( int modifier, int delta )
 {

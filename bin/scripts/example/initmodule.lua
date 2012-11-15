@@ -128,6 +128,8 @@ end
 
 
 function Operations.loadDAT( filename )
+	--local busy = BusyCursor:new()
+	
 	local vol, path, name, ext = parseFileName( filename )
 
 	local fh = assert(io.open(filename, "rb"))
@@ -135,35 +137,31 @@ function Operations.loadDAT( filename )
 		return
 	end
 	
-	local params = { biglets = {16, 16}, smallset = {8, 8} }
+	local params = { biglets = {16, 16}, smallset = {8, 9} }
 	local width = params[name][1]
 	local height = params[name][2]
 	local bufsize = width * height
 	local num = 0
 	local font = FontInfo:new()
 	
-	--void FontInfo::SetValues( int maxHeight, int minHeight, int maxWidth, int minWidth,
-	--			int bpp /* BPP::bppMono */,
-	--			int fontCodePage /* wxFONTENCODING_DEFAULT */,
-	--			int baseLine /* 0 */,
-	--			int capLine /* 0 */,
-	--			int lowLine /* 0 */)
+
+	font:SetValues( width, height, 3, 3, 0, 0, 0, 0 )
 	
-	font:SetValues( width,  height, 0, 0, BPP.bpp8, 0, 0, 0, 0 )
-	
-	local pal = GetXComPalette(vol..path..'/', 0)
-	if pal ~= nil then
-		font:SetPalette( pal, true )
-		setPalette( BPP.bpp8, pal, true )
+	local palBuffer = GetXComPalette(vol..path..'/', 0)
+	if palBuffer ~= nil then
+		pal = Palette:new()
+		if pal:Initiate( Palette.bpp8, palBuffer, Palette.sfPlain, true ) then
+			font:SetPalette( pal )
+		end
 	end
 	
 	print "Font loading"
 	
 	repeat
 		local bytes = fh:read( bufsize )
-		num = num + 1
 		if bytes ~= nil and bytes:len() == bufsize then
-			font:AddSymbol( bytes, 16, 16 )
+			num = num + 1
+			font:AddSymbol( bytes, width, height )
 		end
 	until not bytes
 	

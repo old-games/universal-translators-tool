@@ -63,6 +63,15 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	mMainMenu->Append( mLuaMenu, wxT("Lua") ); 
 	
 	mHelpMenu = new wxMenu();
+	wxMenuItem* mHelpHelp;
+	mHelpHelp = new wxMenuItem( mHelpMenu, wxID_HELP_HELP, wxString( wxT("Help") ) + wxT('\t') + wxT("F1"), wxT("Documentation "), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mHelpHelp->SetBitmaps( wxArtProvider::GetBitmap( wxART_HELP_BOOK, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mHelpHelp->SetBitmap( wxArtProvider::GetBitmap( wxART_HELP_BOOK, wxART_MENU ) );
+	#endif
+	mHelpMenu->Append( mHelpHelp );
+	
 	wxMenuItem* mHelpAbout;
 	mHelpAbout = new wxMenuItem( mHelpMenu, wxID_HELP_ABOUT, wxString( wxT("About...") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
@@ -94,6 +103,7 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( mFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaSelect->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaReboot->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mHelpHelp->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 }
 
@@ -105,6 +115,7 @@ UttMainFrame::~UttMainFrame()
 	this->Disconnect( wxID_FILE_QUIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_SELECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_REBOOT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_HELP_HELP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_HELP_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	
 	m_mgr.UnInit();
@@ -585,77 +596,113 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	sbSizer12 = new wxStaticBoxSizer( new wxStaticBox( mPalScrolledBack, wxID_ANY, wxT("Palette:") ), wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer8;
-	fgSizer8 = new wxFlexGridSizer( 0, 12, 0, 0 );
+	fgSizer8 = new wxFlexGridSizer( 1, 1, 0, 0 );
+	fgSizer8->AddGrowableCol( 0 );
+	fgSizer8->AddGrowableRow( 0 );
 	fgSizer8->SetFlexibleDirection( wxBOTH );
 	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
+	wxGridSizer* gSizer13;
+	gSizer13 = new wxGridSizer( 1, 2, 0, 0 );
+	
+	wxFlexGridSizer* fgSizer9;
+	fgSizer9 = new wxFlexGridSizer( 1, 6, 0, 0 );
+	fgSizer9->SetFlexibleDirection( wxBOTH );
+	fgSizer9->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
 	m_staticText15 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("Left R:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText15->Wrap( -1 );
-	fgSizer8->Add( m_staticText15, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer9->Add( m_staticText15, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	mLRSpin = new wxSpinCtrl( mPalScrolledBack, wxID_LR_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
-	fgSizer8->Add( mLRSpin, 0, wxALL, 5 );
+	fgSizer9->Add( mLRSpin, 0, wxALL, 5 );
 	
 	m_staticText16 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("G:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText16->Wrap( -1 );
-	fgSizer8->Add( m_staticText16, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer9->Add( m_staticText16, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	mLGSpin = new wxSpinCtrl( mPalScrolledBack, wxID_LG_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
-	fgSizer8->Add( mLGSpin, 0, wxALL, 5 );
+	fgSizer9->Add( mLGSpin, 0, wxALL, 5 );
 	
 	m_staticText17 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("B:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText17->Wrap( -1 );
-	fgSizer8->Add( m_staticText17, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer9->Add( m_staticText17, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	mLBSpin = new wxSpinCtrl( mPalScrolledBack, wxID_LB_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
-	fgSizer8->Add( mLBSpin, 0, wxALL, 5 );
+	fgSizer9->Add( mLBSpin, 0, wxALL, 5 );
+	
+	
+	gSizer13->Add( fgSizer9, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxFlexGridSizer* fgSizer11;
+	fgSizer11 = new wxFlexGridSizer( 1, 6, 0, 0 );
+	fgSizer11->AddGrowableCol( 0 );
+	fgSizer11->SetFlexibleDirection( wxBOTH );
+	fgSizer11->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
 	m_staticText18 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("Right R:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText18->Wrap( -1 );
-	fgSizer8->Add( m_staticText18, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer11->Add( m_staticText18, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
-	mRRSpin = new wxSpinCtrl( mPalScrolledBack, wxID_RR_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
-	fgSizer8->Add( mRRSpin, 0, wxALL, 5 );
+	mRBSpin = new wxSpinCtrl( mPalScrolledBack, wxID_RB_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
+	fgSizer11->Add( mRBSpin, 0, wxALL, 5 );
 	
 	m_staticText19 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("G:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText19->Wrap( -1 );
-	fgSizer8->Add( m_staticText19, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer11->Add( m_staticText19, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	mRGSpin = new wxSpinCtrl( mPalScrolledBack, wxID_RG_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
-	fgSizer8->Add( mRGSpin, 0, wxALL, 5 );
+	mRRSpin = new wxSpinCtrl( mPalScrolledBack, wxID_RR_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
+	fgSizer11->Add( mRRSpin, 0, wxALL, 5 );
 	
 	m_staticText20 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("B:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText20->Wrap( -1 );
-	fgSizer8->Add( m_staticText20, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer11->Add( m_staticText20, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	mRBSpin = new wxSpinCtrl( mPalScrolledBack, wxID_RB_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
-	fgSizer8->Add( mRBSpin, 0, wxALL, 5 );
+	mRGSpin = new wxSpinCtrl( mPalScrolledBack, wxID_RG_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
+	fgSizer11->Add( mRGSpin, 0, wxALL, 5 );
+	
+	
+	gSizer13->Add( fgSizer11, 1, wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	
+	fgSizer8->Add( gSizer13, 1, wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	sbSizer12->Add( fgSizer8, 1, wxEXPAND, 5 );
 	
-	wxGridSizer* gSizer11;
-	gSizer11 = new wxGridSizer( 1, 5, 0, 0 );
+	wxFlexGridSizer* fgSizer111;
+	fgSizer111 = new wxFlexGridSizer( 1, 7, 0, 0 );
+	fgSizer111->AddGrowableCol( 4 );
+	fgSizer111->AddGrowableRow( 0 );
+	fgSizer111->SetFlexibleDirection( wxBOTH );
+	fgSizer111->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText21 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("Owner:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21->Wrap( -1 );
+	fgSizer111->Add( m_staticText21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	mOwnerType = new wxComboBox( mPalScrolledBack, wxID_OWNER_CHOICE, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
+	fgSizer111->Add( mOwnerType, 0, wxALL, 5 );
 	
 	m_staticText13 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("Palette type:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText13->Wrap( -1 );
-	gSizer11->Add( m_staticText13, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer111->Add( m_staticText13, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	mPalType = new wxComboBox( mPalScrolledBack, wxID_PAL_CHOICE, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
-	gSizer11->Add( mPalType, 0, wxALL|wxALIGN_RIGHT, 5 );
+	fgSizer111->Add( mPalType, 0, wxALL|wxALIGN_RIGHT, 5 );
 	
 	m_staticText14 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("Set of CGA colours:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText14->Wrap( -1 );
-	gSizer11->Add( m_staticText14, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	fgSizer111->Add( m_staticText14, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
-	mCGAType = new wxComboBox( mPalScrolledBack, wxID_CGA_CHOICE, wxEmptyString, wxDefaultPosition, wxSize( 80,-1 ), 0, NULL, wxCB_READONLY ); 
-	gSizer11->Add( mCGAType, 0, wxALL, 5 );
+	mCGAType = new wxComboBox( mPalScrolledBack, wxID_CGA_CHOICE, wxEmptyString, wxDefaultPosition, wxSize( 90,-1 ), 0, NULL, wxCB_READONLY ); 
+	fgSizer111->Add( mCGAType, 0, wxALL, 5 );
 	
 	mCGAIntensity = new wxCheckBox( mPalScrolledBack, wxID_INTENSITY_CHECK, wxT("CGA intensity"), wxDefaultPosition, wxDefaultSize, 0 );
-	gSizer11->Add( mCGAIntensity, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer111->Add( mCGAIntensity, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
-	sbSizer12->Add( gSizer11, 1, wxEXPAND, 5 );
+	sbSizer12->Add( fgSizer111, 1, wxEXPAND, 5 );
 	
 	
 	fgSizer7->Add( sbSizer12, 1, wxEXPAND, 5 );
@@ -674,9 +721,10 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	mLRSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mLGSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mLBSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mRBSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRRSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRGSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
-	mRBSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mOwnerType->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mPalType->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAType->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAIntensity->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
@@ -688,9 +736,10 @@ PaletteWindowGui::~PaletteWindowGui()
 	mLRSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mLGSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mLBSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mRBSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRRSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRGSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
-	mRBSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mOwnerType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mPalType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAIntensity->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );

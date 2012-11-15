@@ -13,6 +13,7 @@
 #include "editpanel.h"
 
 class PaletteWindowImpl;
+class Palette;
 
 class PalettePanel :
 	public EditPanel
@@ -21,7 +22,7 @@ class PalettePanel :
 friend class PaletteWindowImpl;
 
 public:
-	PalettePanel( wxWindow* parent, bool changeGlobalColours = true );
+	PalettePanel( wxWindow* parent, Palette* pal, bool changeGlobalColours = true );
 	~PalettePanel();
 
 	const wxColour& GetColour( bool right );
@@ -38,24 +39,26 @@ protected:
 
 private:
 
-	void SetCurrentPalette( const void* src, size_t size, bool shifLeft = false );
-	void GeneratePalBitmap();
+	void SetNewPalette( Palette* pal );
+	void SetCurrentPalette( Palette* pal );
+	Palette* GetCurrentPalette();
+
+	void SetBitmapFromPalette();
 	void GetBitmapColour( bool right );
 	void SetBitmapColour( bool right );
 	void CorrectColourPosition( bool right );
 	void SetGlobalColours();
 	
-	int			mPalType;
-	int			mCurrentCGAPal;
-	bool		mCGAIntensity;
 
 	wxPoint		mLeftPos;
 	wxPoint		mRightPos;
 	wxColour	mLeftColour;
 	wxColour	mRightColour;
 	bool		mChangeGlobals;
+	bool		mContainerMode; 
 
-	Palette		mCurrentPal;	// for palettes less or equal than 8bpp
+	Palette*	mCurrentPal;
+
 };
 
 #endif

@@ -9,7 +9,7 @@
  
 #include "pch.h"
 #include "helpers.h"
-
+#include "types/palette.h"
 
 namespace Helpers
 {
@@ -17,7 +17,16 @@ namespace Helpers
 wxWindowID wxCustomPanelId = wxID_HIGHEST + 1024;
 
 
-void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const char* src, int srcWidth, int srcHeight, const Palette& pal )
+
+wxBitmap* CreateBitmap( Pixel* buffer, int width, int height )
+{
+	wxImage image( width, height, (wxByte*) buffer, true );
+	return new wxBitmap( image );
+}
+
+
+
+void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const char* src, int srcWidth, int srcHeight, const Palette* pal )
 {
 	memset( dst, 0, dstWidth * dstHeight * sizeof( Pixel ) );
 	size_t copyLength = sizeof( Pixel ) * dstWidth;
@@ -26,9 +35,8 @@ void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const char* s
 	{
 		for (int x = 0; x < srcWidth; ++x)
 		{
-			*dst[0] = pal[*src][0];
-			*dst[1] = pal[*src][1];
-			*dst[2] = pal[*src][2];
+			Pixel& p = *dst;
+			pal->GetColourByIndex(*src, p[0], p[1], p[2]);
 			++dst;
 			++src;
 		}

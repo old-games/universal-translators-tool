@@ -9,9 +9,10 @@
 
 #include "pch.h"
 
-#include "luaexports/common.h"
-#include "luaexports/luafont.h"
 #include "luacontrol.h"
+#include "luaexports/common.h"
+#include "luaexports/luapalette.h"
+#include "luaexports/luafont.h"
 
 static OOLUA::Script* gLuaState = NULL;
 static bool gRebootRequest = false;
@@ -35,6 +36,7 @@ bool Lua::Init()
 	}
 	gLuaState = new OOLUA::Script();
 	CommonRegister();
+	PaletteRegister();
 	FontRegister();
 	return gLuaState->run_file("scripts/init.lua");
 }

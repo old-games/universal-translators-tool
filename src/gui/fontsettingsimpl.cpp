@@ -19,15 +19,21 @@ FontSettingsImpl::FontSettingsImpl(  wxWindow* parent, FontInfo* finfo ):
 	SetValuesToControls();
 }
 
+
+
 FontSettingsImpl::~FontSettingsImpl(void)
 {
 }
+
+
 
 bool FontSettingsImpl::ShowLetterCodes()
 {
 	LetterCodesImpl codesDlg( this, mFontInfo );
 	return codesDlg.ShowModal() != wxID_CANCEL;
 }
+
+
 
 void FontSettingsImpl::OnBtnClick( wxCommandEvent& event )
 {
@@ -42,6 +48,8 @@ void FontSettingsImpl::OnBtnClick( wxCommandEvent& event )
 	}
 	event.Skip();
 }
+
+
 
 void FontSettingsImpl::OnSpinCtrl( wxSpinEvent& event ) 
 { 
@@ -81,11 +89,13 @@ void FontSettingsImpl::OnSpinCtrl( wxSpinEvent& event )
 		break;
 		
 		default:
-			wxLogMessage( wxString::Format( "FontSettingsImpl::OnSpinCtrl: unknown id %d", event.GetId() ) );
+			wxLogError( wxString::Format( "FontSettingsImpl::OnSpinCtrl: unknown id %d", event.GetId() ) );
 	}
 	UpdateSpinRanges();
 	event.Skip(); 
 }
+
+
 
 void FontSettingsImpl::SetValuesToControls()
 {
@@ -104,6 +114,8 @@ void FontSettingsImpl::SetValuesToControls()
 	mLowLineSpinCtrl->SetValue( mFontInfo->GetLowLine() );
 	UpdateSpinRanges();
 }
+
+
 
 void FontSettingsImpl::UpdateSpinRanges()
 {

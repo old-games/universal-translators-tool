@@ -11,46 +11,20 @@
 
 #include "symbolinfo.h"
 
-
+class Palette;
 
 class FontInfo
 {
 
 public:
 
-	FontInfo():
-		mMaxHeight( 0 ),
-		mMinHeight( 0 ),
-		mMaxWidth( 0 ),
-		mMinWidth( 0 ),
-		mBaseLine( 0 ),
-		mCapLine( 0 ),
-		mLowLine( 0 ),
-		mBPP( BPP::bppMono ),
-		mFontCodePage( 0 )
-	{
-		memcpy(mPalette, sVGApal, sizeof(mPalette));
-	}
-
-	FontInfo( const FontInfo& other ):
-		mMaxHeight( other.mMaxHeight ),
-		mMinHeight( other.mMinHeight ),
-		mMaxWidth( other.mMaxWidth ),
-		mMinWidth( other.mMinWidth ),
-		mBaseLine( other.mBaseLine ),
-		mCapLine( other.mCapLine ),
-		mLowLine( other.mLowLine ),
-		mBPP( other.mBPP ),
-		mFontCodePage( other.mFontCodePage ),
-		mSymbols( other.mSymbols )
-	{
-		memcpy(mPalette, other.mPalette, sizeof(mPalette));
-	}
+	FontInfo();
+	FontInfo( const FontInfo& other );
+	~FontInfo();
 
 	FontInfo* Clone() const { return new FontInfo(*this); } 
 
 	void SetValues( int maxWidth, int maxHeight, int minWidth, int minHeight,
-					int bpp = BPP::bppMono,
 					int fontCodePage = wxFONTENCODING_DEFAULT,
 					int baseLine = 0,
 					int capLine = 0,
@@ -157,11 +131,12 @@ public:
 		mLowLine = lowLine;
 	}
 
-	void SetPalette(const char* src, bool shift);
+	bool SetPalette(Palette* pal);
 
 	static SymbolInfo	sBadSymbol;
 
-protected:
+private: 
+	void ClearPalette();
 
 	wxInt32			mMaxHeight;							// максимальная высота
 	wxInt32			mMinHeight;							// минимальная высота
@@ -173,7 +148,8 @@ protected:
 	wxInt32			mBPP;								// бит на пиксель
 	wxInt32			mFontCodePage;						// кодировка, относительный параметр, для лучшего представления шрифта
 	Symbols			mSymbols;							// символы
-	Palette         mPalette;							// палитра
+	Palette*        mPalette;							// палитра
+
 
 };
 

@@ -19,30 +19,9 @@
 
 typedef wxByte Pixel[3];
 typedef wxByte PixelA[4];
-typedef	Pixel Palette[256];
 typedef Pixel LetterBox[ MAXIMUM_SYMBOL_WIDTH * MAXIMUM_SYMBOL_HEIGHT ];
 
 
-namespace BPP
-{
-	enum
-	{
-		bppMono,
-		bpp2,
-		bpp4,
-		bpp8,
-		bpp16,
-		bpp24,
-		bpp32,
-		bppNum
-	};
-
-	extern const int ColourNumber[bppNum];
-	extern const int Bits[bppNum];
-	extern const wxString Names[bppNum];
-
-	size_t PaletteSize( int n );
-};
 
 struct RGBA
 {
@@ -53,6 +32,20 @@ struct RGBA
 	wxByte A;
 };
 
+
+namespace PalOwners
+{
+	enum
+	{
+		poFontEditor,
+		poImageEditor,
+		poNum
+	};
+
+	extern const wxString OwnerName[poNum];
+
+	extern const wxWindowID OwnerID[poNum];
+}
 
 
 #endif	// UTTTYPES_H_INCLUDED

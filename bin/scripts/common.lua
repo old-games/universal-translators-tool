@@ -1,9 +1,8 @@
-
-BPP = { bppMono = 0, bpp2 = 1, bpp4 = 2, bpp8 = 3, bpp16 = 4, bpp24 = 5,  bpp32 = 6 }
-
 ReadFunctions = { }
 
 originalPrint = print
+
+
 
 function print( ... )
 	originalPrint(...)
@@ -11,6 +10,7 @@ function print( ... )
 		logWrite(...)
 	end
 end
+
 
 
 -- wxLogMessage
@@ -27,6 +27,8 @@ function logWrite(...)
 	writeToLog('SCRIPT: '..printResult)
 end
 
+
+
 function fileExist( name )
 	local f = io.open(name,"r")
 	if f~=nil then 
@@ -36,17 +38,32 @@ function fileExist( name )
 	return false
 end
 
+
+
+function fileSize(filename)
+	local fh = assert(io.open(filename, "rb"))
+	local len = assert(fh:seek("end"))
+	fh:close()
+	return len
+end
+
+
+
 function showTable( tab )
 	for k, v in pairs( tab ) do
 		print(k, v)
 	end
 end
 
+
+
 function ReadFunctions.WORD( file )
 	local block = 2
 	local bytes = file:read( 2 )
 	return bytes:byte(2) * 256 + bytes:byte(1)
 end
+
+
 
 function ReadFunctions.LONG( file )
 	local block = 4
@@ -55,9 +72,11 @@ function ReadFunctions.LONG( file )
 end
 
 
+
 function ReadFunctions.DWORD( file )
 	return ReadFunctions.LONG(file)
 end
+
 
 
 function readData( file, dataTable )
@@ -71,10 +90,6 @@ function readData( file, dataTable )
 end
 
 
-function fileSize(filename)
-  local fh = assert(io.open(filename, "rb"))
-  local len = assert(fh:seek("end"))
-  fh:close()
-  return len
-end
+
+
 

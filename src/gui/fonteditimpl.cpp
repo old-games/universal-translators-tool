@@ -25,21 +25,16 @@ FontEditor::FontEditor(  wxWindow* parent ):
 	mCentralSizer->Add( mSymbolEditor, 1, wxEXPAND, 5 );
 	this->Layout();
 	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this );
+	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this );
 }
 
 
 
 FontEditor::~FontEditor(void)
 {
-	delete mCurrentFont;
-}
-
-
-
-/* virtual */ void FontEditor::OnFontChangeEvent( ChangeFontEvent& event )
-{
-	this->SetFont( event.GetFontInfo() );
-	event.Skip();
+	wxTheApp->Unbind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this );
+	wxTheApp->Unbind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this );
+	ClearFont( true );
 }
 
 
@@ -51,17 +46,24 @@ SymbolPanel* FontEditor::GetSymbolPanel()
 
 
 
-void FontEditor::SetFont( FontInfo* newFont )
+void FontEditor::ClearFont( bool force /* false */ )
 {
-	if (!mCurrentFont )
+	if (mCurrentFont != NULL)
 	{
-		if (!CheckChanges())
+		if (!CheckChanges() && !force)
 		{
 			return;
 		}
 		delete mCurrentFont;
+		mCurrentFont = NULL;
 	}
+}
 
+
+
+void FontEditor::SetFont( FontInfo* newFont )
+{
+	ClearFont();
 	mCurrentFont = newFont->Clone();
 	UpdateFont();
 }
@@ -74,11 +76,14 @@ bool FontEditor::CheckChanges()
 	{
 		return true;
 	}
+
 	int res = wxMessageDialog(this, "Save changes?", "Font has changes", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
+
 	if (res == wxID_OK)
 	{
 		return SaveFont();
 	}
+
 	mHasChanges = false;
 	return true;
 }
@@ -136,7 +141,6 @@ void FontEditor::UpdateFont()
 	{
 		return;
 	}
-
 	UpdateRibbon();
 }
 
@@ -150,11 +154,12 @@ void FontEditor::UpdateRibbon()
 	for ( size_t i = 0; i < sym.size(); ++i )
 	{
 		SymbolInfo& symbol = sym[i];
-		wxBitmap* bmp = DrawPanel::CreateBitmap( (Pixel*) symbol.GetData(), symbol.mWidth, symbol.mHeight );
+		wxBitmap* bmp = Helpers::CreateBitmap( (Pixel*) symbol.GetData(), symbol.mWidth, symbol.mHeight );
 		mSymbolsRibbon->SetBitmap( i, bmp );
 	}
 
 	mSymbolsRibbon->RefillHolder();
+	this->Layout();
 }
 
 
@@ -183,3 +188,20 @@ void FontEditor::UpdateRibbon()
 	event.Skip();
 }
 
+
+
+/* virtual */ void FontEditor::OnFontChangeEvent( ChangeFontEvent& event )
+{
+	this->SetFont( event.GetFontInfo() );
+	event.Skip();
+}
+
+
+
+/* virtual */ void FontEditor::OnSymbolSelection( SymbolSelectionEvent& event )
+{
+	wxLogMessage( wxString::Format( "%d", event.GetKey() ) );
+	mCurrentSymbol = event.GetKey();
+	mSymbolEditor->GetSymbolPanel()->SetFontInfo( mCurrentFont, mCurrentSymbol );
+	event.Skip();
+}

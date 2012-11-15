@@ -38,9 +38,10 @@ private:
 	void DoFileOpen();
 	void DoSelectModule();
 
-	FontEditor*		mFontEditor;
-	EditPanelImpl*		mEditWindow;
-	PaletteWindowImpl*	mPalWindow;
+	wxHelpController*		mHelpController;
+	FontEditor*				mFontEditor;
+	EditPanelImpl*			mEditWindow;
+	PaletteWindowImpl*		mPalWindow;
 };
 
 #endif

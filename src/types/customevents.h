@@ -12,10 +12,13 @@
 class ColourPickEvent;
 class ChangeFontEvent;
 class ChangePaletteEvent;
+class SymbolSelectionEvent;
+
 
 wxDECLARE_EVENT( uttEVT_COLOURPICK, ColourPickEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEFONT, ChangeFontEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
+wxDECLARE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
 
 class ColourPickEvent : public wxEvent
 {
@@ -117,8 +120,6 @@ public:
 		return mFontInfo;
 	}
 
-	~ChangeFontEvent();
-
 protected:
 	
 private:
@@ -140,7 +141,7 @@ typedef void (wxEvtHandler::*ChangeFontEventFunction)(ChangeFontEvent&);
 
 //////////////////////////////////////////////////////////////////////////
 
-
+class Palette;
 
 class ChangePaletteEvent : public wxEvent
 {
@@ -149,52 +150,33 @@ public:
 
     ChangePaletteEvent( )
         : wxEvent(0, uttEVT_CHANGEPALETTE),
-		mBPP( -1 ),
-		mData( NULL ),
-		mSize( 0 ),
-		mShiftLeft( false )
+		mData( NULL )
 	{ 	
 	}
 	
-    ChangePaletteEvent( int bpp, void* data, bool shift = false)
-        : wxEvent(0, uttEVT_CHANGEPALETTE),
-		mBPP( bpp ),
-		mData( NULL ),
-		mSize( 0 ),
-		mShiftLeft( shift )
+
+
+    ChangePaletteEvent( int winid, Palette* pal )
+        : wxEvent(winid, uttEVT_CHANGEPALETTE),
+		mData( pal )
 	{ 
-		CopyPaletteData( data );
 	}
 	
     ChangePaletteEvent(const ChangePaletteEvent& event)
         : wxEvent(event),
-		mBPP( event.mBPP ),
-		mData( NULL ),
-		mSize( event.mSize ),
-		mShiftLeft( event.mShiftLeft )
+		mData( event.mData )
     { 
-		CopyPaletteData( event.mData );
 	}
 
     virtual wxEvent *Clone() const { return new ChangePaletteEvent(*this); }
   
-	int		GetBpp() { return mBPP; }
-	void*	GetData() { return mData; }
-	size_t	GetSize() { return mSize; }
-	bool	ShiftValuesToLeft() { return mShiftLeft; }
-
-	~ChangePaletteEvent();
+	Palette*	GetPalette() { return mData; }
 
 protected:
 	
 private:
 
-	void CopyPaletteData( void* src );
-
-	int		mBPP;
-	void*	mData;
-	size_t	mSize;
-	bool	mShiftLeft;
+	Palette*	mData;
 
 	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangePaletteEvent)
 };
@@ -214,4 +196,54 @@ typedef void (wxEvtHandler::*ChangePaletteEventFunction)(ChangePaletteEvent&);
 
 
 
+class SymbolSelectionEvent : public wxEvent
+{
+public:
+	
+
+    SymbolSelectionEvent( )
+        : wxEvent(0, uttEVT_SYMBOLSELECT),
+		mKey( -1 )
+	{ 	
+	}
+	
+
+
+    SymbolSelectionEvent(int key )
+        : wxEvent(0, uttEVT_SYMBOLSELECT),
+		mKey( key )
+	{ 
+	}
+	
+    SymbolSelectionEvent(const SymbolSelectionEvent& event)
+        : wxEvent(event),
+		mKey( event.mKey )
+    { 
+	}
+
+    virtual wxEvent *Clone() const { return new SymbolSelectionEvent(*this); }
+  
+	int		GetKey() { return mKey; }
+
+protected:
+	
+private:
+
+	int		mKey;
+
+	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(SymbolSelectionEvent)
+};
+
+typedef void (wxEvtHandler::*SymbolSelectionEventFunction)(SymbolSelectionEvent&);
+
+
+
+#define SymbolSelectionEventHandler(func) \
+    wxEVENT_HANDLER_CAST(SymbolSelectionEventFunction, func)
+
+#define EVT_SYMBOLSELECT(func) wx__DECLARE_EVT0(uttEVT_SYMBOLSELECT, SymbolSelectionEventHandler(func))
+
+
+
+//////////////////////////////////////////////////////////////////////////
 #endif  // CUSTOMEVENTS_H_INCLUDED

@@ -19,6 +19,7 @@
 
 MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
+	mHelpController( NULL ),
 	mFontEditor( new FontEditor( mAUINotebook ) ),
 	mEditWindow( new EditPanelImpl( mAUINotebook ) ),
 	mPalWindow( new PaletteWindowImpl( mAUINotebook ) )
@@ -102,10 +103,24 @@ void MainFrameImpl::Init()
 	{
 		Lua::ShowLastError();
 	}
+
+	mHelpController = new wxHelpController( this );
+	if (!mHelpController->Initialize( "utt.chm" ))
+	{
+		wxLogError("Help was not initialized! UTT.CHM lost?");
+		delete mHelpController;
+		mHelpController = NULL;
+	}
 }
 
 void MainFrameImpl::Deinit()
 {
+	if (mHelpController)
+	{
+		delete mHelpController;
+		mHelpController = NULL;
+	}
+
 	Lua::Done();
 	wxLogMessage( "UTT exits" );
 }
@@ -156,6 +171,17 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 {
 	switch ( event.GetId() )
 	{
+		case wxID_HELP_HELP:
+			if (mHelpController)
+			{
+				if (!mHelpController->DisplayContents())
+				{
+					wxLogError("Help was initialized, but can not display contents!");
+				}
+				event.Skip();
+			}
+		break;
+
 		case wxID_FILE_OPEN:
 			DoFileOpen();
 		break;

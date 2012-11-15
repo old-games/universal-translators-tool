@@ -9,14 +9,51 @@
  
 #include "pch.h"
 #include "fontinfo.h"
-
+#include "palette.h"
 
 SymbolInfo FontInfo::sBadSymbol;
 
 
+FontInfo::FontInfo():
+	mMaxHeight( 0 ),
+	mMinHeight( 0 ),
+	mMaxWidth( 0 ),
+	mMinWidth( 0 ),
+	mBaseLine( 0 ),
+	mCapLine( 0 ),
+	mLowLine( 0 ),
+	mBPP( Palette::bppMono ),
+	mFontCodePage( 0 ),
+	mPalette( NULL )
+{
+}
+
+FontInfo::FontInfo( const FontInfo& other ):
+	mMaxHeight( other.mMaxHeight ),
+	mMinHeight( other.mMinHeight ),
+	mMaxWidth( other.mMaxWidth ),
+	mMinWidth( other.mMinWidth ),
+	mBaseLine( other.mBaseLine ),
+	mCapLine( other.mCapLine ),
+	mLowLine( other.mLowLine ),
+	mBPP( other.mBPP ),
+	mFontCodePage( other.mFontCodePage ),
+	mSymbols( other.mSymbols ),
+	mPalette( NULL )
+{
+	if (other.mPalette)
+	{
+		mPalette = other.mPalette->Clone();
+	}
+}
+
+FontInfo::~FontInfo()
+{
+	ClearPalette();
+}
+
 
 void FontInfo::SetValues( int maxWidth, int maxHeight, int minWidth, int minHeight,
-				int bpp /* BPP::bppMono */,
 				int fontCodePage /* wxFONTENCODING_DEFAULT */,
 				int baseLine /* 0 */,
 				int capLine /* 0 */,
@@ -26,7 +63,6 @@ void FontInfo::SetValues( int maxWidth, int maxHeight, int minWidth, int minHeig
 	mMaxHeight = maxHeight;
 	mMinWidth = minWidth;
 	mMinHeight = minHeight;
-	mBPP = bpp;
 	mFontCodePage = fontCodePage;
 	mBaseLine = baseLine;
 	mCapLine = capLine;
@@ -66,25 +102,30 @@ void FontInfo::AddSymbol( const char* data, int width, int height )
 {
 	SymbolInfo info;
 	LetterBox box;
-	Helpers::Buffer8bpp_to_Pixels( (Pixel*) &box, MAXIMUM_SYMBOL_WIDTH, MAXIMUM_SYMBOL_HEIGHT, data, width, height, mPalette );
+	Helpers::Buffer8bpp_to_Pixels( (Pixel*) &box, MAXIMUM_SYMBOL_WIDTH, MAXIMUM_SYMBOL_HEIGHT, data, mMaxWidth, mMaxHeight, mPalette );
 	info.SetValues( width, height, mSymbols.size(), &box );
 	mSymbols.push_back( info );
 }
 
 
 
-void FontInfo::SetPalette(const char* src, bool shift)
+void FontInfo::ClearPalette()
 {
-	wxASSERT( sizeof(mPalette) <= BPP::PaletteSize( mBPP ) );
-	memcpy( &mPalette, src, BPP::PaletteSize( mBPP ) );
+	if (mPalette != NULL)
+		delete mPalette;
+}
 
-	if (shift)
+
+
+bool FontInfo::SetPalette(Palette* pal)
+{
+	wxASSERT( pal );
+	ClearPalette();
+	mPalette = pal->Clone();
+	if ( mPalette->IsOk() )
 	{
-		for (size_t i = 0; i < sizeof(mPalette) / sizeof(mPalette[0]); ++i)
-		{
-			mPalette[i][0] <<= 2;
-			mPalette[i][1] <<= 2;
-			mPalette[i][2] <<= 2;
-		}
+		ChangePaletteEvent palEvent( wxID_FONTEDITOR, pal );
+		wxTheApp->QueueEvent( palEvent.Clone() );
 	}
+	return mPalette->IsOk();
 }

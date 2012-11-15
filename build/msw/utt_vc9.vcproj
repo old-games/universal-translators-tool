@@ -396,6 +396,14 @@
 				RelativePath="..\..\src\luaexports\luafont.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luapalette.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luapalette.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="panels"
@@ -448,6 +456,14 @@
 				RelativePath="..\..\src\panels\symbolpanel.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\src\panels\thumbnail.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\panels\thumbnail.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="types"
@@ -470,6 +486,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\types\fontinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\palette.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\palette.h"
 				>
 			</File>
 			<File

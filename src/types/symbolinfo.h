@@ -33,15 +33,12 @@ struct SymbolInfo
 	RGBA GetPixel( int x, int y );
 	void SetPixel( int x, int y, RGBA color );
 
-	virtual ~SymbolInfo()
-	{
-		EraseData();
-	}
+	virtual ~SymbolInfo();
 
 	LetterBox* GetData();
 	void SetData(const LetterBox* data = NULL);
 
-	void SetValues(wxInt32 width, wxInt32 height, wxUint32 code, LetterBox* data = NULL);
+	void SetValues(int width, int height, unsigned int code, LetterBox* data = NULL);
 
 	SymbolInfo &operator = ( const SymbolInfo &src );
 

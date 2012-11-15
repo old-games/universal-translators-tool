@@ -10,7 +10,7 @@
 #include "pch.h"
 #include "symbolinfo.h"
 
-void SymbolInfo::SetValues(wxInt32 width, wxInt32 height, wxUint32 code, LetterBox* data /* NULL */)
+void SymbolInfo::SetValues(int width, int height, unsigned int code, LetterBox* data /* NULL */)
 {
 	mWidth = width;
 	mHeight = height;
@@ -24,6 +24,15 @@ void SymbolInfo::SetValues(wxInt32 width, wxInt32 height, wxUint32 code, LetterB
 		EraseData();
 	}
 }
+
+
+
+/* virtual */ SymbolInfo::~SymbolInfo()
+{
+	EraseData();
+}
+
+
 
 inline SymbolInfo &SymbolInfo::operator = ( const SymbolInfo &src )
 {
@@ -42,23 +51,26 @@ void SymbolInfo::SetData(const LetterBox* data /* NULL */)
 
 inline void SymbolInfo::CreateData()
 {
+	EraseData();
 	if (mData == NULL)
 	{
-		static const size_t size = sizeof(LetterBox);
-		mData = (LetterBox*) new Pixel[size];
-		memset( mData, 0, size );
+		mData = (LetterBox*) malloc(sizeof(LetterBox));
+		memset( mData, 0, sizeof(LetterBox) );
 	}
 }
 
 inline void SymbolInfo::EraseData()
 {
-	delete[] mData;
-	mData = NULL;
+	if (mData != NULL)
+	{
+		free(mData);
+		mData = NULL;
+	}
 }
 
 LetterBox* SymbolInfo::GetData()
 {
-	CreateData();
+	wxASSERT( mData != NULL );
 	return mData;
 }
 
