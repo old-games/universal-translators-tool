@@ -193,7 +193,7 @@ bool Palette::Initiate( BPP bpp, char* src /* NULL */, SourceFormat fmt /* sfPla
 			break;
 		}
 	}
-
+	
 	mInitiated = true;
 
 	AllocateDatas();

@@ -98,12 +98,12 @@ SymbolInfo& FontInfo::GetSymbol(size_t n)
 
 
 
-void FontInfo::AddSymbol( const char* data, int width, int height )
+void FontInfo::AddSymbol( const char* data, int width, int height, int swidth, int sheight )
 {
 	SymbolInfo info;
 	LetterBox box;
 	Helpers::Buffer8bpp_to_Pixels( (Pixel*) &box, MAXIMUM_SYMBOL_WIDTH, MAXIMUM_SYMBOL_HEIGHT, data, mMaxWidth, mMaxHeight, mPalette );
-	info.SetValues( width, height, mSymbols.size(), &box );
+	info.SetValues( swidth, sheight, mSymbols.size(), &box );
 	mSymbols.push_back( info );
 }
 

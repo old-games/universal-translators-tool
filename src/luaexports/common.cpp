@@ -66,13 +66,13 @@ int parseFileName(lua_State *L)
 
 
 
-int selectModuleDialog(lua_State *L)
+int selectSomething(lua_State *L, const wxString& title = wxEmptyString)
 {
 	int n = lua_gettop(L);
 
 	if (n != 1)
 	{
-		wxLogMessage("selectModuleDialog: function need a table with module names as argument");
+		wxLogError("selectDialog: function need a table with module names as argument");
 		return 0;
 	}
 
@@ -91,11 +91,17 @@ int selectModuleDialog(lua_State *L)
 
 	if (strings.size() == 0)
 	{
-		wxLogMessage("selectModuleDialog: empty table received");
+		wxLogError("selectDialog: empty table received");
 		return 0;
 	}
 
 	SelectModuleImpl dlg(NULL);
+	
+	if (!title.IsEmpty())
+	{
+		dlg.SetTitle( title );
+	}
+
 	dlg.FillCombo( strings );
 
 	wxString result;
@@ -110,24 +116,26 @@ int selectModuleDialog(lua_State *L)
 
 
 
-//int setPalette(lua_State *L)
-//{
-//	int stackSize = Lua::Get().stack_count();
-//	if (stackSize != 2 && stackSize != 3)
-//	{
-//		wxLogError("setPalette format: BPP, Palette buffer, [shift values to the left: default is false]");
-//		return 0;
-//	}
-//
-//	int bpp = lua_tointeger(L, 1);
-//	const char* pal = lua_tostring(L, 2);
-//	bool shift = stackSize == 2 ? false : lua_toboolean(L, 3) != 0;
-//	ChangePaletteEvent palEvent( bpp, (void*) pal, shift );
-//	wxTheApp->QueueEvent( palEvent.Clone() );
-//	return 0;
-//}
+int selectModuleDialog(lua_State *L)
+{
+	return selectSomething( L );
+}
 
 
+
+int selectVersionDialog(lua_State *L)
+{
+	return selectSomething( L, "Select game version" );
+}
+
+
+
+int setModuleReady(lua_State *L)
+{
+	ModuleChangedEvent event;
+	wxTheApp->QueueEvent( event.Clone() );	
+	return 0;
+}
 
 namespace Lua
 {
@@ -148,6 +156,13 @@ void CommonRegister()
 
 	// calls dialog to select active plugin
 	LUA_REG_C_FUNCTION( selectModuleDialog );
+
+	// calls dialog to select game version
+	LUA_REG_C_FUNCTION( selectVersionDialog );
+
+	// creates event about changed module
+	LUA_REG_C_FUNCTION( setModuleReady );
+
 
 	// export for wxBusyCursor class, will be usefull for continious operations
 	Get().register_class<BusyCursor>();

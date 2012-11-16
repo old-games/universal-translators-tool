@@ -28,6 +28,7 @@ SymbolPanel::SymbolPanel(  wxWindow* parent ):
 	{
 		mLines[i] = new ControlLine( this );
 	}
+
 }
 
 SymbolPanel::~SymbolPanel(void)
@@ -102,9 +103,11 @@ void SymbolPanel::UpdateControlLines()
 /* virtual */ void SymbolPanel::SetShowParams()
 {
 	EditPanel::SetShowParams();
+
+	float realScale = this->IsExpand() ? ( (float)mShowWidth / (float) mWidth ) / mScale : mScale;
 	for (int i = 0; i < clNum; ++i)
 	{
-		mLines[i]->SetOffsetXY( mPosX, mPosY, mShowWidth, mShowHeight, mScale );
+		mLines[i]->SetOffsetXY( mPosX, mPosY, mShowWidth, mShowHeight, realScale );
 	}
 }
 

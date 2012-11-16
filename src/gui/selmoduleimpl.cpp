@@ -30,4 +30,3 @@ wxString SelectModuleImpl::GetValue()
 {
 	return mModulesChoice->GetString( mModulesChoice->GetSelection() );
 }
-

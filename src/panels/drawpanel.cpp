@@ -152,6 +152,7 @@ void DrawPanel::ApplyBitmap()
 	mHeight = mBitmap->GetHeight();
 	mBitmapRect = wxRect( 0, 0, mWidth, mHeight );
 	SetBitmapScale( mScale );
+	this->Refresh();
 }
 
 
@@ -297,6 +298,13 @@ inline void DrawPanel::CalculateScrollBars()
 	this->GetViewStart( &x, &y );
 	SetScrollbars(1, 1, mShowWidth, mShowHeight, x, y, true);
 
+}
+
+
+
+bool DrawPanel::IsExpand()
+{
+	return (mAlign & utdExpand) != 0;
 }
 
 
@@ -455,7 +463,7 @@ inline void DrawPanel::CalculateScrollBars()
 
 /* virtual */ bool DrawPanel::PlusMinusPressed( bool plus )
 {
-	if ( !mAllowScaling )
+	if ( !mAllowScaling || IsExpand() )
 	{
 		return false;
 	}

@@ -29,6 +29,31 @@ end
 
 
 
+--[[
+
+For game versions
+
+]]--
+
+
+
+function findStringInTable( tab, txt )
+	for i = 1, #tab do
+		if tab[i] == txt then
+			return i
+		end
+	end
+end
+
+
+--[[
+
+File operations
+
+]]--
+
+
+
 function fileExist( name )
 	local f = io.open(name,"r")
 	if f~=nil then 

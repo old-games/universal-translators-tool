@@ -77,6 +77,8 @@ protected:
 	void PaintNow();
 	void DestroyBitmap();
 	void ApplyBitmap();
+	bool IsExpand();
+
 
 
 	bool		mDrawFocus;

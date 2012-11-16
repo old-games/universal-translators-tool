@@ -6,8 +6,7 @@ local Example = {}
 local ActionsOnExtension = 
 { 
 	dat = "loadDAT",
-	bmp = "loadBMP",
-	txt = "loadTXT"
+	bmp = "loadBMP"
 }
 
 
@@ -21,7 +20,7 @@ UTTModules[ModuleName] = Example
 
 
 function Example.getExtensions()
-	return 'BIGLETS.DAT (biglets.dat)|biglets.dat|SMALLSET.DAT (smallset.dat)|smallset.dat|BMP files (*.bmp)|*.bmp|TXT files (*.txt)|*.txt'
+	return 'BMP files (*.bmp)|*.bmp|TXT files (*.txt)|*.txt'
 end
 
 
@@ -87,91 +86,6 @@ BMPInfoHeader[8] 	= { XPELSPERMETER	= "LONG" 	}
 BMPInfoHeader[9] 	= { YPELSPERMETER	= "LONG" 	}
 BMPInfoHeader[10] 	= { CLRUSED			= "DWORD" 	}
 BMPInfoHeader[11] 	= { CLRIMPORTANT	= "DWORD" 	}
-
-
-
---[[
-
-
-X-COM / UFO section
-
-
---]]
-
-
-
-local PalName = 'PALETTES.DAT'
-local PalSize = 768
-
-
-
-local function GetXComPalette( path, n )
-	local fh = assert(io.open(path..PalName, "rb"))
-	
-	if not fh then
-		return
-	end
-	
-	local maxPal = fh:seek("end") / PalSize
-	
-	if n >= maxPal then
-		print (PalName.." contains only ", maxPal, " palettes")
-		return
-	end
-	
-	fh:seek("set", n * PalSize)
-	local bytes = fh:read( PalSize )
-	fh:close()
-	return bytes
-end
-
-
-
-function Operations.loadDAT( filename )
-	--local busy = BusyCursor:new()
-	
-	local vol, path, name, ext = parseFileName( filename )
-
-	local fh = assert(io.open(filename, "rb"))
-	if not fh then
-		return
-	end
-	
-	local params = { biglets = {16, 16}, smallset = {8, 9} }
-	local width = params[name][1]
-	local height = params[name][2]
-	local bufsize = width * height
-	local num = 0
-	local font = FontInfo:new()
-	
-
-	font:SetValues( width, height, 3, 3, 0, 0, 0, 0 )
-	
-	local palBuffer = GetXComPalette(vol..path..'/', 0)
-	if palBuffer ~= nil then
-		pal = Palette:new()
-		if pal:Initiate( Palette.bpp8, palBuffer, Palette.sfPlain, true ) then
-			font:SetPalette( pal )
-		end
-	end
-	
-	print "Font loading"
-	
-	repeat
-		local bytes = fh:read( bufsize )
-		if bytes ~= nil and bytes:len() == bufsize then
-			num = num + 1
-			font:AddSymbol( bytes, width, height )
-		end
-	until not bytes
-	
-	print ("Symbols: ", num)
-	fh:close()
-	editFont( font )
-end
-
-
-
 
 
 

@@ -54,6 +54,8 @@ void ControlLine::SetValue( const wxPoint& pos )
 	mValue = mOrientation == wxVERTICAL ? pos.x : pos.y;
 }
 
+
+
 bool ControlLine::CheckMouse()
 {
 	if ( !mInitiated )
@@ -72,6 +74,8 @@ bool ControlLine::CheckMouse()
 	wxPoint mouse = mParent->ScreenToClient( wxGetMousePosition() );
 	return rect.Contains( mouse );
 }
+
+
 
 void ControlLine::CalcPoints( wxPoint& first, wxPoint& second)
 {
@@ -96,6 +100,8 @@ void ControlLine::CalcPoints( wxPoint& first, wxPoint& second)
 	first += view;
 	second += view;
 }
+
+
 
 void ControlLine::DrawControlLine( wxDC& dc )
 {

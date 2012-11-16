@@ -32,11 +32,13 @@ private:
 	void OnIdle( wxIdleEvent& );
 	void OnShow( wxShowEvent& event );
 	void OnColourPickEvent( ColourPickEvent& event );
-
+	void OnModuleChanged( ModuleChangedEvent& event );
 
 	void AddPane( wxWindow* wnd, const wxString& name );
 	void DoFileOpen();
 	void DoSelectModule();
+	void DoSelectVersion();
+	void DoModuleChanged();
 
 	wxHelpController*		mHelpController;
 	FontEditor*				mFontEditor;

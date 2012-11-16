@@ -63,7 +63,7 @@ void BitmapRibbonCtrl::RefillHolder()
 void BitmapRibbonCtrl::SetBitmap( size_t n, wxBitmap* bmp )
 {
 	ThumbnailPanel* dp = new ThumbnailPanel(n, this);
-	dp->SetAlign( utdHCenter | utdVCenter | utdExactFit | utdExpand);
+	dp->SetAlign( utdHCenter | utdVCenter | utdExpand);
 	dp->SetDrawFocus( true );
 	dp->SetBitmap( bmp );
 

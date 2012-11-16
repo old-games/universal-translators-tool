@@ -13,6 +13,16 @@
 #include "palette.h"
 
 
+
+wxDEFINE_EVENT( uttEVT_MODULECHANGED, ModuleChangedEvent );
+IMPLEMENT_DYNAMIC_CLASS(ModuleChangedEvent, wxEvent)
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
 wxDEFINE_EVENT( uttEVT_COLOURPICK, ColourPickEvent );
 IMPLEMENT_DYNAMIC_CLASS(ColourPickEvent, wxEvent)
 

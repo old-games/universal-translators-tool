@@ -17,7 +17,7 @@ SymbolEditGui::SymbolEditGui(  wxWindow* parent ):
 	mSymbolPanel( new SymbolPanel( this ) )
 {
 	EditPanelImpl::SetEditPanel( mSymbolPanel );
-	mSymbolPanel->SetScaleRange( 5.0f, 50.0f );
+	mSymbolPanel->SetScaleRange( 1.0f, 50.0f );
 }
 
 SymbolEditGui::~SymbolEditGui(void)

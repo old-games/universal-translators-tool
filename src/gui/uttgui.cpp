@@ -51,6 +51,17 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	#endif
 	mLuaMenu->Append( mLuaSelect );
 	
+	wxMenuItem* mLuaSelect1;
+	mLuaSelect1 = new wxMenuItem( mLuaMenu, wxID_LUA_VERSION, wxString( wxT("Select version") ) + wxT('\t') + wxT("ALT-V"), wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mLuaSelect1->SetBitmaps( wxArtProvider::GetBitmap( wxART_LIST_VIEW, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mLuaSelect1->SetBitmap( wxArtProvider::GetBitmap( wxART_LIST_VIEW, wxART_MENU ) );
+	#endif
+	mLuaMenu->Append( mLuaSelect1 );
+	
+	mLuaMenu->AppendSeparator();
+	
 	wxMenuItem* mLuaReboot;
 	mLuaReboot = new wxMenuItem( mLuaMenu, wxID_LUA_REBOOT, wxString( wxT("Reboot scripts") ) + wxT('\t') + wxT("CTRL-R"), wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
@@ -102,6 +113,7 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( mFileOpen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaSelect->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mLuaSelect1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaReboot->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mHelpHelp->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -114,6 +126,7 @@ UttMainFrame::~UttMainFrame()
 	this->Disconnect( wxID_FILE_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_FILE_QUIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_SELECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_LUA_VERSION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_REBOOT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_HELP_HELP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_HELP_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -379,11 +392,11 @@ SelectModuleGui::SelectModuleGui( wxWindow* parent, wxWindowID id, const wxStrin
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
-	wxStaticBoxSizer* sbSizer8;
-	sbSizer8 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Available modules:") ), wxVERTICAL );
+	wxStaticBoxSizer* mBoxSizer;
+	mBoxSizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxEmptyString ), wxVERTICAL );
 	
 	mModulesChoice = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_DROPDOWN|wxCB_READONLY ); 
-	sbSizer8->Add( mModulesChoice, 0, wxALL|wxEXPAND, 5 );
+	mBoxSizer->Add( mModulesChoice, 0, wxALL|wxEXPAND, 5 );
 	
 	wxGridSizer* gSizer6;
 	gSizer6 = new wxGridSizer( 1, 2, 0, 0 );
@@ -395,10 +408,10 @@ SelectModuleGui::SelectModuleGui( wxWindow* parent, wxWindowID id, const wxStrin
 	gSizer6->Add( mCancelBtn, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
-	sbSizer8->Add( gSizer6, 0, wxEXPAND, 5 );
+	mBoxSizer->Add( gSizer6, 0, wxEXPAND, 5 );
 	
 	
-	this->SetSizer( sbSizer8 );
+	this->SetSizer( mBoxSizer );
 	this->Layout();
 	
 	this->Centre( wxBOTH );

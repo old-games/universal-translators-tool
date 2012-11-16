@@ -22,6 +22,7 @@ FontEditor::FontEditor(  wxWindow* parent ):
 	mCurrentSymbol( 0 ),
 	mHasChanges( false )
 {
+	mSymbolEditor->GetSymbolPanel()->SetAlign( utdHCenter | utdVCenter | utdExpand);
 	mCentralSizer->Add( mSymbolEditor, 1, wxEXPAND, 5 );
 	this->Layout();
 	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this );
@@ -150,11 +151,12 @@ void FontEditor::UpdateRibbon()
 {
 	Symbols& sym = mCurrentFont->GetSymbols();
 	mSymbolsRibbon->Reserve( sym.size() );
-
+	int w =  mCurrentFont->GetMaxWidth();
+	int h =  mCurrentFont->GetMaxHeight();
 	for ( size_t i = 0; i < sym.size(); ++i )
 	{
 		SymbolInfo& symbol = sym[i];
-		wxBitmap* bmp = Helpers::CreateBitmap( (Pixel*) symbol.GetData(), symbol.mWidth, symbol.mHeight );
+		wxBitmap* bmp = Helpers::CreateBitmap( (Pixel*) symbol.GetData(),w, h );
 		mSymbolsRibbon->SetBitmap( i, bmp );
 	}
 
@@ -200,7 +202,6 @@ void FontEditor::UpdateRibbon()
 
 /* virtual */ void FontEditor::OnSymbolSelection( SymbolSelectionEvent& event )
 {
-	wxLogMessage( wxString::Format( "%d", event.GetKey() ) );
 	mCurrentSymbol = event.GetKey();
 	mSymbolEditor->GetSymbolPanel()->SetFontInfo( mCurrentFont, mCurrentSymbol );
 	event.Skip();

@@ -4,9 +4,12 @@ package.path = package.path..";./scripts/?.lua"
 require 'common'
 
 
+
 -- list of module names, there are no auto searching new module in UTT
 -- new module must be added to this list
-ModuleFolders = { 'example', 'privateer2' }
+ModuleFolders = { 'example', 'privateer2', 'xcom' }
+
+
 
 -- table with references to modules
 UTTModules = {}
@@ -23,12 +26,20 @@ end
 
 
 initModules()
-CurrentModule = UTTModules['example']
+CurrentModule = UTTModules['xcom']	-- set it to nil for module selection on program start
 
 
 
 function getCurrentModule()
 	return CurrentModule
+end
+
+
+
+function getModuleName()
+	if CurrentModule ~= nil then
+		return CurrentModule.getModuleName()
+	end
 end
 
 
@@ -49,6 +60,18 @@ end
 
 
 
+function selectVersion( fileName )
+	if CurrentModule ~= nil then
+		if CurrentModule.selectVersion == nil then
+			print("There no other versions for currently selected module")
+		else 
+			return CurrentModule.selectVersion()
+		end
+	end
+end
+
+
+
 function selectModule()
 	-- we will allow user to select only succesfully loaded module
 	local loadedModules = {}
@@ -61,13 +84,21 @@ function selectModule()
 	if not name or string.len(name) == 0 then
 		return
 	end
+	
 	print (name..' module selected.')
 	CurrentModule = UTTModules[ name ]
+	setModuleReady()
 end
 
-r = RGBA:new()
+
+
+
 if CurrentModule == nil then
 	selectModule()
+else
+	setModuleReady()
 end
+
+
 
 print "Scripts initiated. Press '~' to show Lua console. Call reboot() to restart scripts."

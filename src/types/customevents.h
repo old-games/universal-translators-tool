@@ -9,16 +9,58 @@
 #ifndef CUSTOMEVENTS_H_INCLUDED
 #define CUSTOMEVENTS_H_INCLUDED
 
+class ModuleChangedEvent;
 class ColourPickEvent;
 class ChangeFontEvent;
 class ChangePaletteEvent;
 class SymbolSelectionEvent;
 
 
+wxDECLARE_EVENT( uttEVT_MODULECHANGED, ModuleChangedEvent );
 wxDECLARE_EVENT( uttEVT_COLOURPICK, ColourPickEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEFONT, ChangeFontEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
 wxDECLARE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+class ModuleChangedEvent : public wxEvent
+{
+public:
+	
+    ModuleChangedEvent( )
+        : wxEvent(0, uttEVT_MODULECHANGED)
+	{}
+	
+    ModuleChangedEvent(const ModuleChangedEvent& event)
+        : wxEvent(event)
+    {}
+
+    virtual wxEvent *Clone() const { return new ModuleChangedEvent(*this); }
+
+private:
+
+    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ModuleChangedEvent)
+};
+
+typedef void (wxEvtHandler::*ModuleChangedEventFunction)(ModuleChangedEvent&);
+
+
+
+#define ModuleChangedEventHandler(func) \
+    wxEVENT_HANDLER_CAST(ModuleChangedEventFunction, func)
+
+#define EVT_MODULECHANGED(func) wx__DECLARE_EVT0(uttEVT_MODULECHANGED, ModuleChangedEventHandler(func))
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
 
 class ColourPickEvent : public wxEvent
 {

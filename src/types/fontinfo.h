@@ -30,12 +30,12 @@ public:
 					int capLine = 0,
 					int lowLine = 0 );
 
-	wxInt32 GetEncoding()
+	int GetEncoding()
 	{
 		return mFontCodePage;
 	}
 
-	void SetEncoding(wxInt32 n)
+	void SetEncoding(int n)
 	{
 		mFontCodePage = n;
 	}
@@ -59,74 +59,74 @@ public:
 		mSymbols = src;
 	}
 
-	void AddSymbol( const char* data, int width, int height );
+	void AddSymbol( const char* data, int width, int height, int swidth, int sheight );
 
-	wxInt32 GetMaxWidth()
+	int GetMaxWidth()
 	{
 		return mMaxWidth;
 	}
 
-	void SetMaxWidth( wxInt32 width )
+	void SetMaxWidth( int width )
 	{
 		mMaxWidth = width;
 	}
 
-	wxInt32 GetMaxHeight()
+	int GetMaxHeight()
 	{
 		return mMaxHeight;
 	}
 
-	void SetMaxHeight( wxInt32 height )
+	void SetMaxHeight( int height )
 	{
 		mMaxHeight = height;
 	}
 
-	wxInt32 GetMinWidth()
+	int GetMinWidth()
 	{
 		return mMinWidth;
 	}
 
-	void SetMinWidth( wxInt32 width )
+	void SetMinWidth( int width )
 	{
 		mMinWidth = width;
 	}
 
-	wxInt32 GetMinHeight()
+	int GetMinHeight()
 	{
 		return mMinHeight;
 	}
 
-	void SetMinHeight( wxInt32 height )
+	void SetMinHeight( int height )
 	{
 		mMinHeight = height;
 	}
 
-	wxInt32	GetBaseLine()
+	int	GetBaseLine()
 	{
 		return mBaseLine;
 	}
 
-	void SetBaseLine(wxInt32 baseLine)
+	void SetBaseLine(int baseLine)
 	{
 		mBaseLine = baseLine;
 	}
 
-	wxInt32	GetCapLine()
+	int	GetCapLine()
 	{
 		return mCapLine;
 	}
 
-	void SetCapLine(wxInt32 capLine)
+	void SetCapLine(int capLine)
 	{
 		mCapLine = capLine;
 	}
 
-	wxInt32	GetLowLine()
+	int	GetLowLine()
 	{
 		return mLowLine;
 	}
 
-	void SetLowLine(wxInt32 lowLine)
+	void SetLowLine(int lowLine)
 	{
 		mLowLine = lowLine;
 	}

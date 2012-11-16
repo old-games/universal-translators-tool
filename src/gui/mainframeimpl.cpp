@@ -43,14 +43,21 @@ MainFrameImpl::MainFrameImpl(void):
 	mEditWindow->GetEditPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
 	mFontEditor->GetSymbolPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
 
+	wxTheApp->Bind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
+
 	m_mgr.Update();
 }
 
+
+
 MainFrameImpl::~MainFrameImpl(void)
 {
+	wxTheApp->Unbind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
 	this->Unbind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
 	this->Unbind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
 }
+
+
 
 void MainFrameImpl::OnColourPickEvent( ColourPickEvent& event )
 {
@@ -76,10 +83,22 @@ void MainFrameImpl::OnColourPickEvent( ColourPickEvent& event )
 	event.Skip();
 }
 
+
+
+void MainFrameImpl::OnModuleChanged( ModuleChangedEvent& event )
+{
+	DoModuleChanged();
+	event.Skip();
+}
+
+
+
 void MainFrameImpl::AddPane( wxWindow* wnd, const wxString& name )
 {
 	mAUINotebook->AddPage( wnd, name );
 }
+
+
 
 void MainFrameImpl::OnIdle( wxIdleEvent& )
 {
@@ -90,11 +109,15 @@ void MainFrameImpl::OnIdle( wxIdleEvent& )
 	}
 }
 
+
+
 void MainFrameImpl::OnShow( wxShowEvent& event )
 {
 	event.Skip();
 	m_mgr.Update();
 }
+
+
 
 void MainFrameImpl::Init()
 {
@@ -113,6 +136,8 @@ void MainFrameImpl::Init()
 	}
 }
 
+
+
 void MainFrameImpl::Deinit()
 {
 	if (mHelpController)
@@ -124,6 +149,8 @@ void MainFrameImpl::Deinit()
 	Lua::Done();
 	wxLogMessage( "UTT exits" );
 }
+
+
 
 void MainFrameImpl::DoFileOpen()
 {
@@ -151,6 +178,8 @@ void MainFrameImpl::DoFileOpen()
 
 }
 
+
+
 void MainFrameImpl::DoSelectModule()
 {
 	if ( !Lua::Get().call( "selectModule" ) )
@@ -161,11 +190,25 @@ void MainFrameImpl::DoSelectModule()
 }
 
 
+
+void MainFrameImpl::DoSelectVersion()
+{
+	if ( !Lua::Get().call( "selectVersion" ) )
+	{
+		Lua::ShowLastError();
+		return;
+	}
+}
+
+
+
 void MainFrameImpl::OnClose( wxCloseEvent& event )
 {
 	this->Deinit();
 	event.Skip();
 }
+
+
 
 void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 {
@@ -194,6 +237,10 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 			DoSelectModule();
 		break;
 
+		case wxID_LUA_VERSION:
+			DoSelectVersion();
+		break;
+
 		case wxID_LUA_REBOOT:
 			if ( AREYOUSURE("Reboot Lua virtual machine...") == wxID_YES )
 			{
@@ -205,4 +252,22 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 			wxLogMessage( wxString::Format("Unknown command from main menu: %d", event.GetId()) );
 		break;
 	}
+}
+
+
+
+void MainFrameImpl::DoModuleChanged()
+{
+	if ( !Lua::Get().call( "getModuleName" ) )
+	{
+		Lua::ShowLastError();
+		return;
+	}
+
+	std::string s;
+	if ( OOLUA::pull2cpp(Lua::Get(), s ) )
+	{
+		mStatusBar->SetStatusText(s, 1 );
+	}
+	
 }
