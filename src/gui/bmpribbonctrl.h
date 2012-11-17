@@ -19,20 +19,22 @@ public:
 	BitmapRibbonCtrl( wxWindow* parent );
 	~BitmapRibbonCtrl(void);
 
-	void Reserve( size_t n );
+	void Clear();
 	void SetBitmap( size_t n, wxBitmap* bmp );
 
-	void RefillHolder();
+	void RefillHolder( bool recalcCount = true );
 	void DoIncrement( int step );
+
+	void ActiveChanged( int old, int n );
 
 protected:
 
 	virtual void OnButtonClick( wxCommandEvent& event );
-	
+	virtual void OnSize( wxSizeEvent& event );
 
 private:
 
-	void Clear();
+	void CalculateThumbsCount( bool useSize = false, const wxSize& size = wxDefaultSize );
 
 	ThumbnailsArray*	mThumbnails;
 	size_t				mCurrent;

@@ -76,6 +76,8 @@ private:
 	bool DoEdit();
 	bool BeginDrawing();
 	void EndDrawing();
+	bool PasteSelection();
+
 
 	bool		mDrawGrid;
 	wxColour	mGridColour;

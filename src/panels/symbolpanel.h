@@ -44,6 +44,7 @@ protected:
 
 private:
 
+	void SyncronizeValues();
 	void UpdateBitmap();
 	void UpdateControlLines();
 	bool CheckControlLines();

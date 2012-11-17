@@ -113,3 +113,17 @@ RGBA SymbolInfo::GetPixel( int x, int y )
 	return res;
 }
 
+
+
+void SymbolInfo::SetWidth( int w )
+{
+	mWidth = w;
+}
+
+
+
+void SymbolInfo::SetHeight( int h )
+{
+	mHeight = h;
+}
+

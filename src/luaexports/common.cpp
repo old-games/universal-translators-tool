@@ -130,12 +130,72 @@ int selectVersionDialog(lua_State *L)
 
 
 
-int setModuleReady(lua_State *L)
+int setModuleReady(lua_State* L)
 {
+	L; // to remove warning of unused variable
 	ModuleChangedEvent event;
 	wxTheApp->QueueEvent( event.Clone() );	
 	return 0;
 }
+
+
+
+
+#define GET_BUFNINDEX(x)	\
+	if (lua_gettop(L) != 2)	{ \
+		wxLogError(#x": function need a string and number of a value in array"); \
+		return 0;	} \
+	const char* buf = lua_tostring(L, 1); \
+	int i = lua_tointeger(L, 2); \
+	lua_pop(L, 2); \
+	if (!buf) { return 0; }
+
+
+
+
+int getStrInt(lua_State *L)
+{
+	//if (lua_gettop(L) != 2)
+	//{
+	//	wxLogError("getStrInt: function need a string and number of a value in array");
+	//	return 0;
+	//}
+	//const char* buf = lua_tostring(L, 1);
+	//int i = lua_tointeger(L, 2);
+	//lua_pop(L, 2);
+	//if (!buf)
+	//{
+	//	return 0;
+	//}
+	GET_BUFNINDEX(getStrInt)
+	lua_pushnumber(L, buf[i]);
+	return 1;
+}
+
+
+
+int getStrChar(lua_State *L)
+{
+	GET_BUFNINDEX(getStrChar)
+	/*if (lua_gettop(L) != 2)
+	{
+		wxLogError("getStrChar: function need a string and number of a value in array");
+		return 0;
+	}
+	const char* buf = lua_tostring(L, 1);
+	int i = lua_tointeger(L, 2);
+	lua_pop(L, 2);
+	if (!buf)
+	{
+		return 0;
+	}*/
+	lua_pushlstring(L, &buf[i], 1);
+	return 1;
+}
+
+#undef GET_BUFNINDEX
+
+
 
 namespace Lua
 {
@@ -163,6 +223,10 @@ void CommonRegister()
 	// creates event about changed module
 	LUA_REG_C_FUNCTION( setModuleReady );
 
+	// returns buffer value at position, "getString(bytes, 3)" for example returns fourth value
+	// this function IS NOT SAFE
+	LUA_REG_C_FUNCTION( getStrInt );
+	LUA_REG_C_FUNCTION( getStrChar );
 
 	// export for wxBusyCursor class, will be usefull for continious operations
 	Get().register_class<BusyCursor>();

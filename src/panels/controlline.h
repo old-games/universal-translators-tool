@@ -19,6 +19,7 @@ public:
 	void SetParameters( int orientation, const wxColour& colour,  int width, int style, const wxString& txt );
 	void SetValue( int mValue );
 	void SetValue( const wxPoint& pos );
+	int	 GetValue() { return mValue; }
 	bool CheckMouse();
 
 	void SetOffsetXY( wxCoord sx, wxCoord sy, wxCoord zwidth, wxCoord zheight, wxDouble scale );

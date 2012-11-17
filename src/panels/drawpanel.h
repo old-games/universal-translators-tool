@@ -47,6 +47,11 @@ public:
 
 	static void RefCheck();
 
+	inline int GetRealWidth() { return mShowWidth; }
+	inline int GetRealHeight() { return mShowHeight; }
+
+	inline bool IsOk() { return mBitmap && mBitmap->IsOk(); }
+
 protected:
 
 	virtual void OnMouseWheel( wxMouseEvent &event );
@@ -62,6 +67,8 @@ protected:
 
 	virtual void OnEnterWindow( wxMouseEvent& event );
 	virtual void OnLeaveWindow( wxMouseEvent& event );
+	virtual void OnFocusSet( wxFocusEvent& event );
+	virtual void OnFocusLost( wxFocusEvent& event );
 
 	virtual bool MouseButton( int btn, bool up );
 	virtual bool MouseModifiersButton( int modifier, int btn, bool up );
@@ -74,10 +81,16 @@ protected:
 
 	virtual void SetShowParams();
 
+
 	void PaintNow();
 	void DestroyBitmap();
 	void ApplyBitmap();
 	bool IsExpand();
+	inline bool IsMousePointOk()
+	{
+		return mMousePoint.x != -1 && mMousePoint.y != -1;
+	}
+	void DrawRectAround( wxDC& dc, const wxColour& colour );
 
 
 
@@ -89,12 +102,13 @@ protected:
 	int		    mPosX;					// стартовая позиция для отображения
 	int		    mPosY;
 	wxDouble	mScale;
+	float		mRealScale;
+
 	wxDouble	mScaleMin;
 	wxDouble	mScaleMax;
 	int 		mScaledWidth;
 	int		    mScaledHeight;
 	wxRect		mBitmapRect;
-	wxPoint		mMousePoint;			// pixel coordinats where mouse cursor points
 
 	wxBitmap*	mBitmap;
 	int		    mWidth;
@@ -103,6 +117,9 @@ protected:
 private:
 	void DrawFocus(wxDC& dc);
 	void CalculateScrollBars();
+	void CheckEndDrag();
+	bool CopySelection();
+
 
 	int			mAlign;
 	bool		mAllowScaling;			// allows scaling by mouse wheel

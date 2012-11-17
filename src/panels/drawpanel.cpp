@@ -34,7 +34,6 @@ DrawPanel::DrawPanel(  wxWindow* parent ):
 	mScaledWidth( 0 ),
 	mScaledHeight( 0 ),
 	mBitmapRect(),
-	mMousePoint( -1, -1 ),
 	mBitmap( NULL ),
 	mWidth( 0 ),
 	mHeight( 0 ),
@@ -62,6 +61,8 @@ DrawPanel::DrawPanel(  wxWindow* parent ):
 
 	this->Bind( wxEVT_ENTER_WINDOW, &DrawPanel::OnEnterWindow, this );
 	this->Bind( wxEVT_LEAVE_WINDOW, &DrawPanel::OnLeaveWindow, this );
+	this->Bind( wxEVT_SET_FOCUS, &DrawPanel::OnFocusSet, this );
+	this->Bind( wxEVT_KILL_FOCUS, &DrawPanel::OnFocusLost, this );
 
 }
 
@@ -82,6 +83,8 @@ DrawPanel::~DrawPanel(void)
 
 	this->Unbind( wxEVT_ENTER_WINDOW, &DrawPanel::OnEnterWindow, this );
 	this->Unbind( wxEVT_LEAVE_WINDOW, &DrawPanel::OnLeaveWindow, this );
+	this->Unbind( wxEVT_SET_FOCUS, &DrawPanel::OnFocusSet, this );
+	this->Unbind( wxEVT_SET_FOCUS, &DrawPanel::OnFocusLost, this );
 
 	DestroyBitmap();
 
@@ -211,6 +214,28 @@ void DrawPanel::DrawFocus(wxDC& dc)
 	{
 		return;
 	}
+	DrawRectAround( dc, this->HasFocus() ? *wxRED : *wxWHITE );
+	//dc.SetBrush( *wxTRANSPARENT_BRUSH );
+	//dc.SetLogicalFunction(wxCOPY);
+	//wxRect rect = this->GetClientRect();
+	//if (rect.GetWidth() > mShowWidth)
+	//{
+	//	rect.SetWidth( mShowWidth );
+	//}
+	//if (rect.GetHeight() > mShowHeight)
+	//{
+	//	rect.SetHeight( mShowHeight );
+	//}
+	//wxPen borderPen( this->HasFocus() ? *wxRED : *wxWHITE, 3, wxSOLID );
+	//dc.SetPen( borderPen );
+	//rect.SetLeftTop( this->GetViewStart() );
+	//dc.DrawRectangle(rect);
+}
+
+
+
+void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
+{
 	dc.SetBrush( *wxTRANSPARENT_BRUSH );
 	dc.SetLogicalFunction(wxCOPY);
 	wxRect rect = this->GetClientRect();
@@ -222,7 +247,7 @@ void DrawPanel::DrawFocus(wxDC& dc)
 	{
 		rect.SetHeight( mShowHeight );
 	}
-	wxPen borderPen( this->HasFocus() ? *wxRED : *wxWHITE, 3, wxSOLID );
+	wxPen borderPen( colour, 3, wxSOLID );
 	dc.SetPen( borderPen );
 	rect.SetLeftTop( this->GetViewStart() );
 	dc.DrawRectangle(rect);
@@ -230,16 +255,33 @@ void DrawPanel::DrawFocus(wxDC& dc)
 
 
 
+
 /* virtual */ void DrawPanel::OnEnterWindow( wxMouseEvent& event )
 {
 	this->SetFocus();
-	PaintNow();
 	event.Skip();
 }
 
 
 
 /* virtual */ void DrawPanel::OnLeaveWindow( wxMouseEvent& event )
+{
+	event.Skip();
+}
+
+
+
+/* virtual */ void DrawPanel::OnFocusLost( wxFocusEvent& event )
+{
+	SelectionEnd();
+	ZoneDragEnd();
+	PaintNow();
+	event.Skip();
+}
+
+
+
+/* virtual */ void DrawPanel::OnFocusSet( wxFocusEvent& event )
 {
 	PaintNow();
 	event.Skip();
@@ -268,8 +310,12 @@ void DrawPanel::DrawFocus(wxDC& dc)
 
 /* virtual */ void DrawPanel::OnPaint( wxPaintEvent& event )
 {
+	if (!this->IsEnabled())
+	{
+		return;
+	}
 	wxAutoBufferedPaintDC dc(this);
-	if (!mBitmap || !mBitmap->IsOk())
+	if ( !mBitmap || !mBitmap->IsOk())
 	{
 		dc.Clear();
 		event.Skip();
@@ -287,7 +333,7 @@ void DrawPanel::DrawFocus(wxDC& dc)
 
 void DrawPanel::PaintNow()
 {
-    this->Refresh();
+	this->Refresh();
 }
 
 
@@ -311,6 +357,10 @@ bool DrawPanel::IsExpand()
 
 /* virtual */ inline void DrawPanel::SetShowParams()
 {
+	if (!mBitmap || !mBitmap->IsOk())
+	{
+		return;
+	}
 	mShowWidth = mScaledWidth;
 	mShowHeight = mScaledHeight;
 
@@ -391,8 +441,9 @@ bool DrawPanel::IsExpand()
 			mPosY = clh - mShowHeight;
 		}
 	}
+	mRealScale = ((float)mShowWidth / (float) mWidth);
 	CalculateScrollBars();
-	SetWorkZone( wxRect(mPosX, mPosY, mShowWidth, mShowHeight), mScale );
+	SetWorkZone( wxRect(mPosX, mPosY, mShowWidth, mShowHeight), mRealScale );
 }
 
 
@@ -439,11 +490,26 @@ bool DrawPanel::IsExpand()
 
 
 
-/* virtual */ bool DrawPanel::KeyDown( int WXUNUSED( modifier ), int keyCode )
+/* virtual */ bool DrawPanel::KeyDown( int  modifier, int keyCode )
 {
 	bool res = false;
 	switch ( keyCode )
 	{
+		case WXK_C:
+			if ( modifier == wxMOD_CONTROL )
+			{	
+				res = CopySelection();
+			}
+		break;
+
+		case WXK_ESCAPE:
+			if ( IsZone() )
+			{
+				ResetZone();	// clear selection
+				res = true;
+			}
+		break;
+
 		case WXK_NUMPAD_ADD:
 		case WXK_NUMPAD_SUBTRACT:
 			res = this->PlusMinusPressed( keyCode == WXK_NUMPAD_ADD );
@@ -501,6 +567,7 @@ bool DrawPanel::IsExpand()
 {
 	mMousePoint = MousePosition2PointCoords( event.GetPosition() );
 	MouseMoving( event.GetModifiers(), 0 );
+	mPreviousMousePoint = mMousePoint;
 	event.Skip();
 }
 
@@ -524,13 +591,32 @@ bool DrawPanel::IsExpand()
 
 
 
+void DrawPanel::CheckEndDrag()
+{
+	if ( SelectionDragging() )
+	{
+		SelectionEnd();
+	}
+
+	if (ZoneDragging())
+	{
+		ZoneDragEnd();
+	}
+}
+
+
+
 /* virtual */ bool DrawPanel::MouseButton( int btn, bool up  )
 {
-	if ( up && !PointInZone( mMousePoint ) && btn != wxMOUSE_BTN_NONE )
+	if (btn == wxMOUSE_BTN_LEFT && up)
 	{
-		ResetZone();
-		return true;
+		CheckEndDrag();
 	}
+	//if ( up && !PointInZone( mMousePoint ) && btn != wxMOUSE_BTN_NONE )
+	//{
+	//	ResetZone();
+	//	return true;
+	//}
 	return false;
 }
 
@@ -538,14 +624,11 @@ bool DrawPanel::IsExpand()
 
 /* virtual */ bool DrawPanel::MouseModifiersButton( int modifier, int btn, bool up  )
 {
-	if ( SelectionDragging() )
+	if ( btn == wxMOUSE_BTN_LEFT && up )
 	{
-		if ( btn == wxMOUSE_BTN_LEFT && up )
-		{
-			SelectionEnd();
-			return true;
-		}
+		CheckEndDrag();
 	}
+
 	if ( modifier == wxMOD_CONTROL )
 	{
 		if (btn == wxMOUSE_BTN_LEFT && !up)
@@ -557,6 +640,19 @@ bool DrawPanel::IsExpand()
 			}
 		}
 	}
+
+	if ( modifier == wxMOD_ALT )
+	{	
+		if (btn == wxMOUSE_BTN_LEFT && !up)
+		{
+			ZoneDragBegin();
+			if (ZoneDragging())
+			{
+				return true;
+			}
+		}
+	}
+
 	return false;
 }
 
@@ -567,6 +663,12 @@ bool DrawPanel::IsExpand()
 	if ( SelectionDragging() )
 	{
 		OnSelectionMotion();
+		return true;
+	}
+
+	if (ZoneDragging())
+	{
+		OnZoneDragMotion();
 		return true;
 	}
 	return false;
@@ -582,4 +684,29 @@ bool DrawPanel::IsExpand()
 		return true;
 	}
 	return false;
+}
+
+
+
+
+bool DrawPanel::CopySelection()
+{
+	bool res = false;
+
+	if (!IsOk() || !IsZone())
+	{
+		return res;
+	}
+
+	wxImage img = mBitmap->ConvertToImage().GetSubImage( GetSelectionRect() );
+
+	if ( img.IsOk() && wxTheClipboard->Open() )
+	{
+		wxBitmapDataObject* obj = new wxBitmapDataObject( wxBitmap( img ) );
+		wxTheClipboard->SetData( obj );
+		wxTheClipboard->Close();
+		res = true;
+		wxLogMessage( "Selection copied to clipboard successfully." );
+	}
+	return res;
 }

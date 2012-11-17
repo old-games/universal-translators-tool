@@ -20,15 +20,21 @@ public:
 	ThumbnailPanel( int number, wxWindow* parent );
 	virtual ~ThumbnailPanel(void);
 
+	inline void SetActive(bool b = true) { mIsActive = b; }
+	inline bool IsActive() { return mIsActive; }
+
 protected:
 
 	virtual bool MouseButton( int btn, bool up );
 	virtual bool MouseModifiersButton( int modifier, int btn, bool up );
 	virtual bool MouseMoving( int modifier, int btn );
 
+	virtual void Render(wxDC& dc);
+
 private:
 
-	int mInfontNumber;
+	int		mInfontNumber;
+	bool	mIsActive;
 };
 
 

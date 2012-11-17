@@ -19,15 +19,19 @@ BitmapRibbonCtrl::BitmapRibbonCtrl(  wxWindow* parent ):
 	mCurrent( 0 ),
 	mToShow( 6 )
 {
+	this->Bind( wxEVT_SIZE, &BitmapRibbonCtrl::OnSize, this );
 }
 
 
 
 BitmapRibbonCtrl::~BitmapRibbonCtrl(void)
 {
+	this->Unbind( wxEVT_SIZE, &BitmapRibbonCtrl::OnSize, this );
 	Clear();
 	delete mThumbnails;
 }
+
+
 
 void BitmapRibbonCtrl::Clear()
 {
@@ -35,27 +39,47 @@ void BitmapRibbonCtrl::Clear()
 	mThumbnails->Clear();
 }
 
-void BitmapRibbonCtrl::Reserve( size_t n )
-{
-	Clear();
-	//mThumbnails->SetCount( n, NULL );
-}
 
-void BitmapRibbonCtrl::RefillHolder()
+
+void BitmapRibbonCtrl::RefillHolder( bool recalcCount /* true */)
 {
+	if (recalcCount)
+	{
+		CalculateThumbsCount();
+	}
+
+	mBitmapsHolder->Clear();
+
+	if (mThumbnails->GetCount() == 0)
+	{
+		mBitmapsHolder->Add( 0, 0, 1, wxEXPAND, 5 );
+		this->Layout();
+		return;
+	}
+
 	size_t _max = mThumbnails->GetCount() - mToShow;
 	if ( mCurrent > _max )
 	{
 		mCurrent = _max;
 	}
+
 	size_t from = mCurrent;
 	size_t to = mCurrent + mToShow;
-	mBitmapsHolder->Clear();
-	for ( size_t i = from; i < to; ++i )
+	for ( size_t i = 0; i < mThumbnails->GetCount(); ++i )
 	{
-		mBitmapsHolder->Add( mThumbnails->Item(i), 1, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5  );
+		if (i >= from && i < to)
+		{
+			mThumbnails->Item(i)->Enable();
+			mThumbnails->Item(i)->Show();
+			mBitmapsHolder->Add( mThumbnails->Item(i), 1, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5  );
+		}
+		else
+		{
+			mThumbnails->Item(i)->Hide();
+			mThumbnails->Item(i)->Disable();
+		}
 	}
-	mBitmapsHolder->Layout();
+	this->Layout();
 }
 
 
@@ -81,6 +105,46 @@ void BitmapRibbonCtrl::DoIncrement( int step )
 	}
 }
 
+
+
+void BitmapRibbonCtrl::CalculateThumbsCount( bool useSize /* false */, const wxSize& size /* wxDefaultSize */)
+{
+	mToShow = 0;
+	wxSize boxSize = useSize ? size : mBitmapsHolder->GetSize();
+
+	if (mThumbnails->GetCount() == 0)
+	{
+		return;
+	}
+
+	mToShow = boxSize.x / (boxSize.y + 5);
+
+	if (mToShow == 0)
+	{
+		mToShow = 1;
+	}
+
+	if (mToShow > mThumbnails->GetCount())
+	{
+		mToShow = mThumbnails->GetCount();
+	}
+
+}
+
+
+void BitmapRibbonCtrl::ActiveChanged( int old, int n )
+{
+	wxASSERT( (size_t) old < mThumbnails->GetCount() && (size_t) n < mThumbnails->GetCount() );
+	mThumbnails->Item(old)->SetActive(false);
+	mThumbnails->Item(n)->SetActive();
+
+	mThumbnails->Item(old)->Refresh();
+	mThumbnails->Item(n)->Refresh();
+}
+
+
+
+
 /* virtual */ void BitmapRibbonCtrl::OnButtonClick( wxCommandEvent& event )
 { 
 	int inc = 1;
@@ -97,4 +161,13 @@ void BitmapRibbonCtrl::DoIncrement( int step )
 		break;
 	}
 	event.Skip(); 
+}
+
+
+
+/* virtual */ void BitmapRibbonCtrl::OnSize( wxSizeEvent& event )
+{
+	CalculateThumbsCount( true, event.GetSize() );
+	RefillHolder( false );
+	event.Skip();
 }

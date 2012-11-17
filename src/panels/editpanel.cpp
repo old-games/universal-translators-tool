@@ -21,7 +21,7 @@ EditPanel::EditPanel(  wxWindow* parent ):
 	mDrawCursor( true ),
 	mCursor( 0, 0 ),
 	mDrawGrid( true ),
-	mGridColour( *wxBLACK ),
+	mGridColour( *wxWHITE ),
 	mGridPoints( NULL ),
 	mPointsNumber( 0 ),
 	mGridPen( mGridColour ),
@@ -52,23 +52,31 @@ void EditPanel::SetGridColour(const wxColour& color)
 	mGridPen.SetColour( mGridColour );
 }
 
+
+
 void EditPanel::SetGridLogic(wxInt32 logic)
 {
 	mGridLogic = logic;
 }
 
+
+
 /* virtual */ void EditPanel::Render(wxDC& dc)
 {
-	if (!mBitmap || !mBitmap->IsOk())
+	if (!IsOk())
 	{
 		return;
 	}
+
 	DrawPanel::Render( dc );
+
 	if (mDrawGrid)
 	{
 		DrawGrid( dc );
 	}
+
 	dc.SetBrush( *wxTRANSPARENT_BRUSH );
+
 	if (mDrawFocus)
 	{
 		dc.SetLogicalFunction(wxCOPY);
@@ -86,26 +94,26 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 		rect.SetLeftTop( this->GetViewStart() );
 		dc.DrawRectangle(rect);
 	}
+
 	if (mDrawCursor)
 	{
 		dc.SetLogicalFunction(wxXOR);
 		dc.SetPen( wxPen( *wxWHITE, 3, wxSOLID ) );
 		wxPoint cursPos( mCursor );
-		cursPos.x *= mScale;
-		cursPos.y *= mScale;
-		//wxPoint view( mPosX, mPosY );
-		//view -= this->GetViewStart();
-		//cursPos += view;
-		dc.DrawRectangle( cursPos, wxSize( mScale, mScale ) );
+		cursPos.x *= mRealScale;
+		cursPos.y *= mRealScale;
+		dc.DrawRectangle( cursPos, wxSize( mRealScale, mRealScale ) );
 	}
 }
+
+
 
 /* virtual */ void EditPanel::SetShowParams()
 {
 	DrawPanel::SetShowParams();
 	ClearGridPoints();
 
-	if (mScale < GRID_EDGE)
+	if (mRealScale < GRID_EDGE)
 	{
 		// ничего хорошего не нарисуется, один хрен
 		return;
@@ -120,6 +128,7 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 		bounds.SetWidth( mShowWidth );
 		correctX = true;
 	}
+
 	if (bounds.GetHeight() > mShowHeight)
 	{
 		bounds.SetHeight( mShowHeight );
@@ -128,8 +137,8 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 
 	wxCoord gridWidth = bounds.GetWidth();
 	wxCoord gridHeight = bounds.GetHeight();
-	wxCoord width = 1 + ceil( (wxDouble) gridWidth / mScale );
-	wxCoord height = 1 + ceil( (wxDouble) gridHeight / mScale );
+	wxCoord width = 1 + ceil( (wxDouble) gridWidth / mRealScale );
+	wxCoord height = 1 + ceil( (wxDouble) gridHeight / mRealScale );
 	if (width < 2 || height < 2)
 	{
 		return;
@@ -141,25 +150,25 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 	wxCoord startX = 0, startY = 0;
 	bounds = this->GetClientSize();
 
-	if (correctX)
+	/*if (correctX)
 	{
-		startX = mScale;
+		startX = mRealScale;
 		lx += startX;
 	}
 	else
 	{
-		gridWidth += ceil(mScale);
+		gridWidth += ceil(mRealScale);
 	}
 
 	if (correctY)
 	{
-		startY = mScale;
+		startY = mRealScale;
 		ly += startY;
 	}
 	else
 	{
-		gridHeight += ceil(mScale);
-	}
+		gridHeight += ceil(mRealScale);
+	}*/
 
 	wxCoord endX = startX + gridWidth, endY = startY + gridHeight;
 	int count = 0;
@@ -168,15 +177,18 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 	{
 		mGridPoints[count++] = wxPoint(startX, ly);
 		mGridPoints[count++] = wxPoint(endX, ly);
-		ly += mScale;
+		ly += mRealScale;
 	}
+
 	for (wxCoord x = 0; x < width; ++x)
 	{
 		mGridPoints[count++] = wxPoint(lx, startY);
 		mGridPoints[count++] = wxPoint(lx, endY);
-		lx += mScale;
+		lx += mRealScale;
 	}
 }
+
+
 
 void EditPanel::DrawGrid( wxDC& dc )
 {
@@ -187,10 +199,10 @@ void EditPanel::DrawGrid( wxDC& dc )
 	dc.SetPen( mGridPen );
 	dc.SetLogicalFunction( (wxRasterOperationMode) mGridLogic );
 	wxPoint view = this->GetViewStart();
-	wxDouble horFloat = (wxDouble) view.x / mScale;
-	wxDouble vertFloat = (wxDouble) view.y / mScale;
-	int horizCorr = ( ceil(horFloat) * mScale ) - mScale;
-	int vertCorr = ( ceil(vertFloat) * mScale ) - mScale;
+	float horFloat = (float) view.x / mRealScale;
+	float vertFloat = (float) view.y / mRealScale;
+	int horizCorr = ( ceil(horFloat) * mRealScale );
+	int vertCorr = ( ceil(vertFloat) * mRealScale );
 	wxPoint corrPoint( horizCorr, vertCorr );
 	for (int i = 0; i < mPointsNumber; )
 	{
@@ -234,16 +246,26 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 	{
 		return true;
 	}
+
 	bool left = btn == wxMOUSE_BTN_LEFT;
 	bool right = btn == wxMOUSE_BTN_RIGHT;
+
 	if (mMousePoint.x == -1 || mMousePoint.y == -1 || PointInZone( mMousePoint ) || !this->HasFocus() )
 	{
 		return false;
 	}
+
 	if (left || right)
 	{
 		mCurrentColour = right ? gGlobalRightColour : gGlobalLeftColour;
 	}
+
+	if ( !up && IsZone() )
+	{
+		ResetZone();	// clear selection
+		return true;
+	}
+
 	if ( !up && ( left || right ) )
 	{
 		return BeginDrawing();
@@ -305,6 +327,13 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 	bool res = false;
 	switch ( keyCode )
 	{
+		case WXK_V:
+			if ( modifier == wxMOD_CONTROL )
+			{	
+				res = PasteSelection();
+			}
+		break;
+
 		case WXK_NUM_ONE:
 		case WXK_NUM_TWO:
 			mCurrentColour = keyCode == WXK_NUM_TWO ? gGlobalRightColour : gGlobalLeftColour;
@@ -382,6 +411,8 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 	return true;
 }
 
+
+
 bool EditPanel::DoEdit()
 {
 	if (!mAllowEdit || !mDrawing)
@@ -392,6 +423,8 @@ bool EditPanel::DoEdit()
 	return true;
 }
 
+
+
 bool EditPanel::BeginDrawing()
 {
 	mDrawing = mAllowEdit;
@@ -400,8 +433,38 @@ bool EditPanel::BeginDrawing()
 
 }
 
+
+
 void EditPanel::EndDrawing()
 {
 	mDrawing = false;
 }
 
+
+
+
+bool EditPanel::PasteSelection()
+{
+	bool res = false;
+
+	if ( !IsOk() || !mAllowEdit )
+	{
+		return res;
+	}
+	
+	if ( wxTheClipboard->Open() )
+	{
+		wxImage img = mBitmap->ConvertToImage();
+		if ( wxTheClipboard->IsSupported( wxDF_BITMAP ) && img.IsOk() )
+		{
+			wxBitmapDataObject data;
+			wxTheClipboard->GetData( data );
+			img.Paste( data.GetBitmap().ConvertToImage(), mCursor.x, mCursor.y );
+			DestroyBitmap();
+			SetBitmap( new wxBitmap( img ) );
+			res = true;
+		}
+		wxTheClipboard->Close();
+	}
+	return res;
+}

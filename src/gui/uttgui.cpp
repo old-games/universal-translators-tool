@@ -103,7 +103,7 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	mLogWindow = new LogWindowImpl( this );
 	m_mgr.AddPane( mLogWindow, wxAuiPaneInfo() .Bottom() .MaximizeButton( true ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ) );
 	
-	mStatusBar = this->CreateStatusBar( 6, wxST_SIZEGRIP, wxID_ANY );
+	mStatusBar = this->CreateStatusBar( 3, wxST_SIZEGRIP, wxID_ANY );
 	
 	m_mgr.Update();
 	this->Centre( wxBOTH );
@@ -434,12 +434,12 @@ FontEditGui::FontEditGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 	wxGridSizer* gSizer1;
 	gSizer1 = new wxGridSizer( 1, 1, 0, 0 );
 	
-	mFontScrolledBack = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	mFontScrolledBack = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL );
 	mFontScrolledBack->SetScrollRate( 5, 5 );
 	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 3, 1, 0, 0 );
+	fgSizer1 = new wxFlexGridSizer( 2, 1, 0, 0 );
 	fgSizer1->AddGrowableCol( 0 );
-	fgSizer1->AddGrowableRow( 2 );
+	fgSizer1->AddGrowableRow( 1 );
 	fgSizer1->SetFlexibleDirection( wxBOTH );
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -465,21 +465,40 @@ FontEditGui::FontEditGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 	
 	fgSizer1->Add( sbSizer4, 1, wxEXPAND, 5 );
 	
+	wxGridSizer* gSizer11;
+	gSizer11 = new wxGridSizer( 1, 1, 0, 0 );
+	
+	mFontSplitter = new wxSplitterWindow( mFontScrolledBack, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3DBORDER|wxSP_3DSASH|wxSP_LIVE_UPDATE|wxSP_NO_XP_THEME|wxFULL_REPAINT_ON_RESIZE );
+	mFontSplitter->Connect( wxEVT_IDLE, wxIdleEventHandler( FontEditGui::mFontSplitterOnIdle ), NULL, this );
+	mFontSplitter->SetMinimumPaneSize( 64 );
+	
+	mRibbonOwner = new wxPanel( mFontSplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE|wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer11;
-	sbSizer11 = new wxStaticBoxSizer( new wxStaticBox( mFontScrolledBack, wxID_ANY, wxT("Symbols:") ), wxVERTICAL );
+	sbSizer11 = new wxStaticBoxSizer( new wxStaticBox( mRibbonOwner, wxID_ANY, wxT("Symbols:") ), wxVERTICAL );
 	
 	sbSizer11->SetMinSize( wxSize( 256,128 ) ); 
-	mSymbolsRibbon = new BitmapRibbonCtrl( mFontScrolledBack );
+	mSymbolsRibbon = new BitmapRibbonCtrl( mRibbonOwner );
 	sbSizer11->Add( mSymbolsRibbon, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxEXPAND, 5 );
 	
 	
-	fgSizer1->Add( sbSizer11, 1, wxEXPAND, 5 );
+	mRibbonOwner->SetSizer( sbSizer11 );
+	mRibbonOwner->Layout();
+	sbSizer11->Fit( mRibbonOwner );
+	mSymEditorOwner = new wxPanel( mFontSplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	mSymEditorOwner->SetMinSize( wxSize( -1,200 ) );
 	
-	mCentralSizer = new wxStaticBoxSizer( new wxStaticBox( mFontScrolledBack, wxID_ANY, wxT("Editor:") ), wxVERTICAL );
+	mCentralSizer = new wxStaticBoxSizer( new wxStaticBox( mSymEditorOwner, wxID_ANY, wxT("Editor:") ), wxVERTICAL );
 	
 	mCentralSizer->SetMinSize( wxSize( 256,128 ) ); 
 	
-	fgSizer1->Add( mCentralSizer, 1, wxEXPAND, 5 );
+	mSymEditorOwner->SetSizer( mCentralSizer );
+	mSymEditorOwner->Layout();
+	mCentralSizer->Fit( mSymEditorOwner );
+	mFontSplitter->SplitHorizontally( mRibbonOwner, mSymEditorOwner, 64 );
+	gSizer11->Add( mFontSplitter, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer1->Add( gSizer11, 1, wxEXPAND, 5 );
 	
 	
 	mFontScrolledBack->SetSizer( fgSizer1 );

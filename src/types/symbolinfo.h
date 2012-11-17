@@ -40,6 +40,9 @@ struct SymbolInfo
 
 	void SetValues(int width, int height, unsigned int code, LetterBox* data = NULL);
 
+	void SetWidth( int w );
+	void SetHeight( int h );
+
 	SymbolInfo &operator = ( const SymbolInfo &src );
 
 	wxInt32	mWidth;											// ширина символа

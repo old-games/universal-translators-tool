@@ -27,6 +27,7 @@ public:
 	bool SaveFont();
 
 	SymbolPanel* GetSymbolPanel();
+	void SetCurrentSymbol(int n);
 
 protected:
 

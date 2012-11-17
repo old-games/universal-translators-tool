@@ -17,7 +17,7 @@
 
 FontEditor::FontEditor(  wxWindow* parent ):
 	FontEditGui( parent ),
-	mSymbolEditor( new SymbolEditGui( mFontScrolledBack ) ),
+	mSymbolEditor( new SymbolEditGui( mSymEditorOwner ) ), //mFontScrolledBack ) ),
 	mCurrentFont( NULL ),
 	mCurrentSymbol( 0 ),
 	mHasChanges( false )
@@ -143,6 +143,16 @@ void FontEditor::UpdateFont()
 		return;
 	}
 	UpdateRibbon();
+	SetCurrentSymbol( mCurrentSymbol );
+}
+
+
+
+void FontEditor::SetCurrentSymbol(int n)
+{
+	mSymbolsRibbon->ActiveChanged( mCurrentSymbol, n );
+	mCurrentSymbol = n;
+	mSymbolEditor->GetSymbolPanel()->SetFontInfo( mCurrentFont, mCurrentSymbol );
 }
 
 
@@ -150,7 +160,7 @@ void FontEditor::UpdateFont()
 void FontEditor::UpdateRibbon()
 {
 	Symbols& sym = mCurrentFont->GetSymbols();
-	mSymbolsRibbon->Reserve( sym.size() );
+	mSymbolsRibbon->Clear();
 	int w =  mCurrentFont->GetMaxWidth();
 	int h =  mCurrentFont->GetMaxHeight();
 	for ( size_t i = 0; i < sym.size(); ++i )
@@ -161,7 +171,7 @@ void FontEditor::UpdateRibbon()
 	}
 
 	mSymbolsRibbon->RefillHolder();
-	this->Layout();
+	this->Update();
 }
 
 
@@ -202,7 +212,6 @@ void FontEditor::UpdateRibbon()
 
 /* virtual */ void FontEditor::OnSymbolSelection( SymbolSelectionEvent& event )
 {
-	mCurrentSymbol = event.GetKey();
-	mSymbolEditor->GetSymbolPanel()->SetFontInfo( mCurrentFont, mCurrentSymbol );
+	SetCurrentSymbol( event.GetKey() );
 	event.Skip();
 }

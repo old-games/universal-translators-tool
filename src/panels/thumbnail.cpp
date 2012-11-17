@@ -12,9 +12,12 @@
 
 ThumbnailPanel::ThumbnailPanel(  int number, wxWindow* parent ):
 	DrawPanel( parent ),
-	mInfontNumber( number )
+	mInfontNumber( number ),
+	mIsActive( false )
 {
 }
+
+
 
 ThumbnailPanel::~ThumbnailPanel(void)
 {
@@ -22,12 +25,31 @@ ThumbnailPanel::~ThumbnailPanel(void)
 
 
 
+/* virtual */ void ThumbnailPanel::Render(wxDC& dc)
+{
+	if (!IsOk())
+	{
+		return;
+	}
+	mDrawFocus = !mIsActive;
+	DrawPanel::Render( dc );
+
+	if (mIsActive)
+	{
+		DrawRectAround( dc, *wxGREEN );
+	}
+}
+
+
+
 /* virtual */ bool ThumbnailPanel::MouseButton( int btn, bool up )
 {
+
 	if ( DrawPanel::MouseButton( btn, up ) )
 	{
 		return true;
 	}
+
 	if (!up)
 	{
 		SymbolSelectionEvent event(mInfontNumber);
@@ -35,6 +57,8 @@ ThumbnailPanel::~ThumbnailPanel(void)
 	}
 	return false;
 }
+
+
 
 /* virtual */ bool ThumbnailPanel::MouseModifiersButton( int modifier, int btn, bool up )
 {
@@ -44,6 +68,7 @@ ThumbnailPanel::~ThumbnailPanel(void)
 	}
 	return false;
 }
+
 
 
 /* virtual */ bool ThumbnailPanel::MouseMoving( int modifier, int btn )

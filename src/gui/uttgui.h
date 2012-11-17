@@ -36,6 +36,7 @@
 #include <wx/combobox.h>
 #include "bmpribbonctrl.h"
 #include <wx/panel.h>
+#include <wx/splitter.h>
 #include <wx/checkbox.h>
 #include <wx/choice.h>
 
@@ -223,7 +224,10 @@ class FontEditGui : public wxPanel
 		wxScrolledWindow* mFontScrolledBack;
 		wxButton* mCreateBtn;
 		wxButton* mSettingsBtn;
+		wxSplitterWindow* mFontSplitter;
+		wxPanel* mRibbonOwner;
 		BitmapRibbonCtrl* mSymbolsRibbon;
+		wxPanel* mSymEditorOwner;
 		wxStaticBoxSizer* mCentralSizer;
 		
 		// Virtual event handlers, overide them in your derived class
@@ -234,6 +238,12 @@ class FontEditGui : public wxPanel
 		
 		FontEditGui( wxWindow* parent, wxWindowID id = wxID_FONTEDITOR, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,442 ), long style = wxTAB_TRAVERSAL ); 
 		~FontEditGui();
+		
+		void mFontSplitterOnIdle( wxIdleEvent& )
+		{
+			mFontSplitter->SetSashPosition( 64 );
+			mFontSplitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( FontEditGui::mFontSplitterOnIdle ), NULL, this );
+		}
 	
 };
 

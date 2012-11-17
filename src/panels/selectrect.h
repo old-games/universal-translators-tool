@@ -51,6 +51,16 @@ public:
 		return mSelectionDrag;
 	}
 
+	bool ZoneDragging()
+	{
+		return mZoneDrag;
+	}
+
+	inline const wxRect& GetSelectionRect()
+	{
+		return mCoordRect;
+	}
+
 protected:
 
 	void SelectionBegin();
@@ -61,16 +71,25 @@ protected:
 	void OnSelectionMotion( const wxPoint& mousePos );
 	void SelectionEnd( const wxPoint& mousePos );
 
+	void ZoneDragBegin();
+	void OnZoneDragMotion();
+	void ZoneDragEnd();
+
+	wxPoint				mMousePoint;			// pixel coordinates where mouse cursor points
+	wxPoint				mPreviousMousePoint;
+
 private:
 
 	void UpdateCoords();
 	void Position2Coords( wxPoint& point );
+
 
 	wxScrolledWindow*	mParent;
 	wxRect				mWorkZone;
 	wxDouble			mPointSize;
 	bool				mSelectionDrag;
 	bool				mIsZoneValid;
+	bool				mZoneDrag;
 	wxPoint				mStartPoint;
 	wxPoint				mEndPoint;
 	wxPoint				mStartCoord;

@@ -215,14 +215,14 @@ int	PalettePanel::FindColour( bool right, const wxColour& colour, bool andSet /*
 /* virtual */ void PalettePanel::Render(wxDC& dc)
 {
 	EditPanel::Render( dc );
-	wxSize size( mScale + 2, mScale + 2);
+	wxSize size( mRealScale + 2, mRealScale + 2);
 	dc.SetBrush( *wxTRANSPARENT_BRUSH );
 	dc.SetLogicalFunction( wxCOPY );
 	wxPen pen( *wxGREEN, 3, wxLONG_DASH );
 	for (int i = 0; i < 2; ++i)
 	{
 		wxPoint pos = i == 0 ? mLeftPos : mRightPos;
-		wxPoint from( (pos.x * mScale) - 1, (pos.y * mScale) - 1 );
+		wxPoint from( (pos.x * mRealScale) - 1, (pos.y * mRealScale) - 1 );
 		if ( i > 0 )
 		{
 			pen.SetColour( *wxRED );
@@ -252,13 +252,16 @@ int	PalettePanel::FindColour( bool right, const wxColour& colour, bool andSet /*
 		return false;
 	}
 
-	if ( btn == wxMOUSE_BTN_RIGHT )
+	if (IsMousePointOk())
 	{
-		mRightPos = mMousePoint;
-	}
-	else
-	{
-		mLeftPos = mMousePoint;
+		if ( btn == wxMOUSE_BTN_RIGHT )
+		{
+			mRightPos = mMousePoint;
+		}
+		else
+		{
+			mLeftPos = mMousePoint;
+		}
 	}
 	GetBitmapColour( btn == wxMOUSE_BTN_RIGHT );
 	return true;

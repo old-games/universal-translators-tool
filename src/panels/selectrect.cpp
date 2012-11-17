@@ -11,11 +11,14 @@
 #include "selectrect.h"
 
 SelectionRectangle::SelectionRectangle(  wxScrolledWindow* parent ):
+	mMousePoint( -1, -1 ),
+	mPreviousMousePoint( -1, -1 ),
 	mParent( parent ),
 	mWorkZone( 0, 0, 0, 0 ),
 	mPointSize( 1.0f ),
 	mSelectionDrag( false ),
 	mIsZoneValid( false ),
+	mZoneDrag( false ),
 	mStartPoint( -1, -1 ),
 	mEndPoint( -1, -1 ),
 	mCoordRect( 0, 0, 0, 0 )
@@ -32,11 +35,15 @@ void SelectionRectangle::SetWorkZone( const wxRect& rect, wxDouble pointSize )
 	mPointSize = pointSize;
 }
 
+
+
 wxPoint	SelectionRectangle::GetMousePosition()
 {
 	wxPoint pos = mParent->ScreenToClient( wxGetMousePosition() );
 	return GetMousePosition( pos );
 }
+
+
 
 wxPoint	SelectionRectangle::GetMousePosition( const wxPoint& pos )
 {
@@ -48,6 +55,8 @@ wxPoint	SelectionRectangle::GetMousePosition( const wxPoint& pos )
 	}
 	return result;
 }
+
+
 
 wxPoint SelectionRectangle::MousePosition2PointCoords( const wxPoint& pos, bool zeroBased /* true */ )
 {
@@ -61,12 +70,16 @@ wxPoint SelectionRectangle::MousePosition2PointCoords( const wxPoint& pos, bool 
 	return result;
 }
 
+
+
 wxPoint SelectionRectangle::MousePosition2PointCoords()
 {
 	wxPoint result = GetMousePosition();
 	Position2Coords( result );
 	return result;
 }
+
+
 
 inline void SelectionRectangle::Position2Coords( wxPoint& point )
 {
@@ -78,20 +91,27 @@ inline void SelectionRectangle::Position2Coords( wxPoint& point )
 	}
 }
 
+
+
 void SelectionRectangle::SelectionBegin()
 {
 	SelectionBegin( GetMousePosition() );
 }
+
+
 
 void SelectionRectangle::OnSelectionMotion()
 {
 	OnSelectionMotion( GetMousePosition() );
 }
 
+
+
 void SelectionRectangle::SelectionEnd()
 {
 	SelectionEnd( GetMousePosition() );
 }
+
 
 
 void SelectionRectangle::SelectionBegin( const wxPoint& mousePos )
@@ -118,6 +138,8 @@ void SelectionRectangle::SelectionBegin( const wxPoint& mousePos )
 	}
 }
 
+
+
 void SelectionRectangle::OnSelectionMotion( const wxPoint& mousePos )
 {
 	if (mSelectionDrag)
@@ -132,16 +154,23 @@ void SelectionRectangle::OnSelectionMotion( const wxPoint& mousePos )
 	}
 }
 
+
+
 void SelectionRectangle::SelectionEnd( const wxPoint& mousePos )
 {
 	if (mSelectionDrag)
 	{
-		mEndPoint = mousePos;
+		if (mousePos.x != -1 && mousePos.y != -1)
+		{
+			mEndPoint = mousePos;
+		}
 		UpdateCoords();
 		mSelectionDrag = false;
 		mParent->Refresh();
 	}
 }
+
+
 
 void SelectionRectangle::DrawSelection()
 {
@@ -149,34 +178,81 @@ void SelectionRectangle::DrawSelection()
 	RenderSelection(dc);
 }
 
+
+
 void SelectionRectangle::RenderSelection(wxDC& dc)
 {
 
 	wxPoint view = mParent->GetViewStart() - mWorkZone.GetLeftTop();
-
+	const static wxColour bg(0x80, 0x80, 0x80, 0x30);
 	if (mSelectionDrag)
 	{
 		dc.SetBrush( *wxTRANSPARENT_BRUSH );
 		dc.SetPen( *wxWHITE_PEN );
-		dc.SetLogicalFunction( wxXOR );
+		dc.SetLogicalFunction( wxCOPY );
 		wxRect rect( mStartPoint + view, mEndPoint + view );
 		dc.DrawRectangle( rect );
+
 	}
 
 	if (mIsZoneValid)
 	{
 		mCoordRect = wxRect( mStartCoord, mEndCoord );
-		
 		wxRect rect( mCoordRect.GetTopLeft() * mPointSize, (mCoordRect.GetBottomRight() + wxPoint(1, 1)) * mPointSize );
-		dc.SetBrush( *wxTRANSPARENT_BRUSH );
+		dc.SetBrush( mSelectionDrag ? *wxTRANSPARENT_BRUSH : bg );
 		dc.SetPen( wxPen( *wxRED, 3, wxPENSTYLE_LONG_DASH ) );
 		dc.SetLogicalFunction( wxXOR );
 		dc.DrawRectangle( rect );
 	}
 }
 
+
+
 void SelectionRectangle::UpdateCoords()
 {
 	mStartCoord = MousePosition2PointCoords( mStartPoint );
 	mEndCoord = MousePosition2PointCoords( mEndPoint );
 }
+
+
+
+void SelectionRectangle::ZoneDragBegin()
+{
+	mZoneDrag = !(mSelectionDrag || !mIsZoneValid || !mCoordRect.Contains(mMousePoint));
+}
+
+
+
+void SelectionRectangle::OnZoneDragMotion()
+{
+	if (mMousePoint.x == -1 && mMousePoint.y == -1)
+	{
+		ZoneDragEnd();
+	}
+
+	if (mZoneDrag && mMousePoint != mPreviousMousePoint)
+	{
+		wxPoint diff = mMousePoint - mPreviousMousePoint;
+		wxPoint newStart = mStartCoord + diff;
+		wxPoint newEnd = mEndCoord + diff;
+		if (newStart.x >= 0 && newStart.y >= 0 && newEnd.x >= 0 && newEnd.y >= 0)
+		{
+			mStartCoord = newStart;
+			mEndCoord = newEnd;
+		}
+		mParent->Refresh();
+	}
+}
+
+
+
+void SelectionRectangle::ZoneDragEnd()
+{
+	mZoneDrag = false;
+}
+
+
+
+
+
+

@@ -104,10 +104,9 @@ void SymbolPanel::UpdateControlLines()
 {
 	EditPanel::SetShowParams();
 
-	float realScale = this->IsExpand() ? ( (float)mShowWidth / (float) mWidth ) / mScale : mScale;
 	for (int i = 0; i < clNum; ++i)
 	{
-		mLines[i]->SetOffsetXY( mPosX, mPosY, mShowWidth, mShowHeight, realScale );
+		mLines[i]->SetOffsetXY( mPosX, mPosY, mShowWidth, mShowHeight, mRealScale );
 	}
 }
 
@@ -155,6 +154,8 @@ void SymbolPanel::UpdateControlLines()
 	return CheckControlLines();
 }
 
+
+
 bool SymbolPanel::CheckControlLines()
 {
 	bool res = false;
@@ -186,11 +187,15 @@ bool SymbolPanel::CheckControlLines()
 	return res;
 }
 
+
+
 bool SymbolPanel::BeginDragLine()
 {
 	mDragLine = mActiveLine != -1 && !mDrawing;
 	return mDragLine;
 }
+
+
 
 bool SymbolPanel::DragLine()
 {
@@ -199,6 +204,7 @@ bool SymbolPanel::DragLine()
 		if (mMousePoint.x != -1 && mMousePoint.y != -1 && mMousePoint != mDragPoint )
 		{
 			mLines[mActiveLine]->SetValue( mMousePoint );
+			SyncronizeValues();
 			mDragPoint = mMousePoint;
 			PaintNow();
 			return true;
@@ -207,10 +213,25 @@ bool SymbolPanel::DragLine()
 	return false;
 }
 
+
+
 void SymbolPanel::EndDragLine()
 {
 	mDragLine = false;
 	mDrawCursor = true;
 	mActiveLine = -1;
 }
+
+
+
+void SymbolPanel::SyncronizeValues()
+{
+	SymbolInfo& sym = mFontInfo->GetSymbol( mSymbolNumber );
+	sym.SetWidth( mLines[clSymbolWidth]->GetValue() );
+	sym.SetHeight( mLines[clSymbolHeight]->GetValue() );
+	mFontInfo->SetBaseLine( mLines[clBaseLine]->GetValue() );
+	mFontInfo->SetCapLine( mLines[clCapLine]->GetValue() );
+	mFontInfo->SetLowLine( mLines[clLowLine]->GetValue() );
+}
+
 

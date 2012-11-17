@@ -78,7 +78,7 @@ function Operations.loadDAT( filename )
 	local font = FontInfo:new()
 	
 	local symWidths = GetFontWidth(path.."../"..exec.name, 
-		params.offset, params.num, name == 'bitlets')
+		params.offset, params.num, name == 'biglets')
 	
 	font:SetValues( width, height, 3, 3, 0, params.baseLine, 0, params.smallLine )
 	
@@ -97,8 +97,10 @@ function Operations.loadDAT( filename )
 		if bytes ~= nil and bytes:len() == bufsize then
 			num = num + 1
 			local w = width
+			-- in xcom games the quantity of symbols is more than 
+			-- width array in EXE files 
 			if symWidths ~= nil and num <= #symWidths then
-				w = string.byte( string.sub(symWidths, num, num) )
+				w = getStrInt(symWidths, num)
 			end
 			font:AddSymbol( bytes, width, height, w, height )
 		end
