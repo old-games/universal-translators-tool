@@ -9,56 +9,50 @@
 #ifndef SYMBOLINFO_H_INCLUDED
 #define SYMBOLINFO_H_INCLUDED
 
+// forward declarations
+class IndexMask;
 
-struct SymbolInfo
+class SymbolInfo
 {
+public:
 
-	SymbolInfo():
-		mWidth( 0 ),
-		mHeight( 0 ),
-		mCode( 0 ),
-		mData( NULL )
-	{
-	}
-
+	SymbolInfo(): mWidth( 0 ), mHeight( 0 ), mCode( 0 ), mData( NULL ) {}
 	SymbolInfo( const SymbolInfo& other ):
-	mWidth( other.mWidth ),
-	mHeight( other.mHeight ),
-	mCode( other.mCode ),
-	mData( NULL )
+		mWidth( other.mWidth ),
+		mHeight( other.mHeight ),
+		mCode( other.mCode ),
+		mData( NULL )
 	{
 		SetData(other.mData);
 	}
-
-	RGBA GetPixel( int x, int y );
-	void SetPixel( int x, int y, RGBA color );
-
 	virtual ~SymbolInfo();
 
-	LetterBox* GetData();
-	void SetData(const LetterBox* data = NULL);
 
-	void SetValues(int width, int height, unsigned int code, LetterBox* data = NULL);
+	SymbolInfo* Clone() { return new SymbolInfo(*this); }
 
+	IndexMask* GetData();
+	int GetWidth() { return mWidth; }
+	int GetHeight() { return mHeight; }
+	int GetCode() { return mCode; }
+
+	void SetData(const IndexMask* data = NULL);
+	void SetValues(int width, int height, unsigned int code, IndexMask* data = NULL);
 	void SetWidth( int w );
 	void SetHeight( int h );
+	void SetCode( int code ) { mCode = code; }
 
 	SymbolInfo &operator = ( const SymbolInfo &src );
 
-	wxInt32	mWidth;											// ширина символа
-	wxInt32 mHeight;										// высота символа
-	wxUint32 mCode;											// код символа, для пробела 32 и т.д.
-
 protected:
 
-	LetterBox* mData;										// данные символа, в protected - для
-															// контроля за инициализацией
+	wxInt32		mWidth;				// ширина символа
+	wxInt32		mHeight;			// высота символа
+	wxUint32	mCode;				// код символа, для пробела 32 и т.д.
+	IndexMask*	mData;										
 
 private:
 
-	void CreateData();
-	void EraseData();
-	int BoxOffset(int x, int y);
+	void	EraseData();
 };
 
 typedef wxVector<SymbolInfo> Symbols;

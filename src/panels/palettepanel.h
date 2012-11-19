@@ -25,10 +25,10 @@ public:
 	PalettePanel( wxWindow* parent, Palette* pal, bool changeGlobalColours = true );
 	~PalettePanel();
 
-	const wxColour& GetColour( bool right );
+	const UttColour& GetColour( bool right );
 
-	void SetColour( bool right, const wxColour& colour );
-	int	FindColour( bool right, const wxColour& colour, bool andSet = false );
+	void SetColour( bool right, const UttColour& colour );
+	int	FindColour( bool right, const UttColour& colour, bool andSet = false );
 
 protected:
 
@@ -41,7 +41,8 @@ private:
 
 	void SetNewPalette( Palette* pal );
 	void SetCurrentPalette( Palette* pal );
-	Palette* GetCurrentPalette();
+	Palette* GetCurrentPalette() { return mCurrentPal; }
+	void SetColourPosition( const wxPoint& pos, bool right );
 
 	void SetBitmapFromPalette();
 	void GetBitmapColour( bool right );
@@ -52,8 +53,8 @@ private:
 
 	wxPoint		mLeftPos;
 	wxPoint		mRightPos;
-	wxColour	mLeftColour;
-	wxColour	mRightColour;
+	UttColour	mLeftColour;
+	UttColour	mRightColour;
 	bool		mChangeGlobals;
 	bool		mContainerMode; 
 

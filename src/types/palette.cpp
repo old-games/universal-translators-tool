@@ -152,6 +152,32 @@ void Palette::GetColourByIndex( int n, unsigned char& r, unsigned char& g, unsig
 
 
 
+UttColour Palette::GetColourByIndex( int n )
+{
+	unsigned char r, g, b;
+	GetColourByIndex(n, r, g, b);
+	return UttColour( wxColour(r, g, b), n );
+}
+
+
+
+UttColour Palette::GetColourByCoordinates( const wxPoint& pos)
+{
+	int n = (pos.y * BitmapSize[mBPP].x) + pos.x;
+	return GetColourByIndex(n);
+}
+
+
+
+wxPoint	Palette::GetIndexCoordinates( int n )
+{
+	wxASSERT( n < ColourNumber[mBPP] );
+	int y = n / BitmapSize[mBPP].x;
+	return wxPoint( n - (y * BitmapSize[mBPP].x), y );
+}
+
+
+
 bool Palette::Initiate( BPP bpp, char* src /* NULL */, SourceFormat fmt /* sfPlain */, bool shift /* false */ )
 {
 	if (mInitiated)

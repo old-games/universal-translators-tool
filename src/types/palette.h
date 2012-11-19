@@ -53,9 +53,13 @@ public:
 	int				GetPalType() { return mBPP; }
 	wxBitmap*		GeneratePalBitmap();
 	void			GetColourByIndex( int n, unsigned char& r, unsigned char& g, unsigned char& b ) const;
+	UttColour		GetColourByIndex( int n );
+	UttColour		GetColourByCoordinates( const wxPoint& pos);
+	wxPoint			GetIndexCoordinates( int n );
+
 	int				GetCGAType() { return mCurrentCGAPal; }
 	bool			GetIntensity() { return mCGAIntensity; }
-	
+
 
 	
 	// available static constants

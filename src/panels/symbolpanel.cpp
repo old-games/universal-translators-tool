@@ -54,20 +54,27 @@ void SymbolPanel::UpdateBitmap()
 		DestroyBitmap();
 		return;
 	}
+
 	SymbolInfo& sym = mFontInfo->GetSymbol( mSymbolNumber );
 	if (&sym == &FontInfo::sBadSymbol)
 	{
 		wxLogMessage( wxString::Format("SymbolPanel::UpdateBitmap: can't update bitmap for symbol %d", mSymbolNumber) );
 		return;
 	}
+
 	DestroyBitmap();
-	int width = mFontInfo->GetMaxWidth();
-	int height = mFontInfo->GetMaxHeight();
-	Pixel* buffer = new Pixel[ width * height ];
-	Helpers::CropBuffer( buffer, width, height, ((Pixel*) (sym.GetData())), MAXIMUM_SYMBOL_WIDTH, MAXIMUM_SYMBOL_HEIGHT );
-	wxImage image( width, height, (wxByte*) sym.GetData(), true );
-	mBitmap = new wxBitmap( image );
-	delete[] buffer;
+	this->SetIndexedBitmap( sym.GetData(), mFontInfo->GetPalette() );
+
+	//
+	//int width = mFontInfo->GetMaxWidth();
+	//int height = mFontInfo->GetMaxHeight();
+
+	//Pixel* buffer = new Pixel[ width * height ];
+	//Helpers::CropBuffer( buffer, width, height, ((Pixel*) (sym.GetData())), MAXIMUM_SYMBOL_WIDTH, MAXIMUM_SYMBOL_HEIGHT );
+	//wxImage image( width, height, (wxByte*) sym.GetData(), true );
+
+	//mBitmap = new wxBitmap( image );
+	//delete[] buffer;
 
 	ApplyBitmap();
 }
@@ -76,10 +83,10 @@ void SymbolPanel::UpdateControlLines()
 {
 	SymbolInfo& sym = mFontInfo->GetSymbol( mSymbolNumber );
 	mLines[ clSymbolWidth ]->SetParameters( wxVERTICAL, *wxRED, 3, wxSOLID, "Symbol width" );
-	mLines[ clSymbolWidth ]->SetValue( sym.mWidth );
+	mLines[ clSymbolWidth ]->SetValue( sym.GetWidth());
 
 	mLines[ clSymbolHeight ]->SetParameters( wxHORIZONTAL, *wxBLUE, 3, wxSOLID, "Symbol height" );
-	mLines[ clSymbolHeight ]->SetValue( sym.mHeight );
+	mLines[ clSymbolHeight ]->SetValue( sym.GetHeight() );
 
 	mLines[ clBaseLine ]->SetParameters( wxHORIZONTAL, *wxGREEN, 3, wxSHORT_DASH, "Font base line" );
 	mLines[ clBaseLine ]->SetValue( mFontInfo->GetBaseLine() );

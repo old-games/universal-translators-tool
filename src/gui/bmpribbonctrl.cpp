@@ -132,6 +132,7 @@ void BitmapRibbonCtrl::CalculateThumbsCount( bool useSize /* false */, const wxS
 }
 
 
+
 void BitmapRibbonCtrl::ActiveChanged( int old, int n )
 {
 	wxASSERT( (size_t) old < mThumbnails->GetCount() && (size_t) n < mThumbnails->GetCount() );
@@ -141,7 +142,6 @@ void BitmapRibbonCtrl::ActiveChanged( int old, int n )
 	mThumbnails->Item(old)->Refresh();
 	mThumbnails->Item(n)->Refresh();
 }
-
 
 
 

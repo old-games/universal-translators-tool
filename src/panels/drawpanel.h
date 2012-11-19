@@ -9,8 +9,13 @@
 #ifndef DRAWPANEL_H_INCLUDED
 #define DRAWPANEL_H_INCLUDED
 
-// TODO: remove when will be done
 #include "selectrect.h"
+
+
+// forward declaratinos
+class Palete;
+class IndexMask;
+
 
 enum UTTDrawParams
 {
@@ -35,6 +40,7 @@ public:
 	explicit DrawPanel( wxWindow* parent );
 	virtual ~DrawPanel(void);
 
+	void SetIndexedBitmap( IndexMask* mask, Palette* pal );
 	void SetBitmap( wxBitmap* bitmap );
 	void SetBitmap(Pixel* buffer, int width, int height);
 
@@ -113,6 +119,8 @@ protected:
 	wxBitmap*	mBitmap;
 	int		    mWidth;
 	int		    mHeight;
+	
+	IndexMask*	mIndexMask;
 
 private:
 	void DrawFocus(wxDC& dc);

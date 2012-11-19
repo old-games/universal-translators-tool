@@ -628,17 +628,15 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	sbSizer12 = new wxStaticBoxSizer( new wxStaticBox( mPalScrolledBack, wxID_ANY, wxT("Palette:") ), wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer8;
-	fgSizer8 = new wxFlexGridSizer( 1, 1, 0, 0 );
-	fgSizer8->AddGrowableCol( 0 );
+	fgSizer8 = new wxFlexGridSizer( 1, 3, 0, 0 );
+	fgSizer8->AddGrowableCol( 1 );
+	fgSizer8->AddGrowableCol( 2 );
 	fgSizer8->AddGrowableRow( 0 );
 	fgSizer8->SetFlexibleDirection( wxBOTH );
 	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxGridSizer* gSizer13;
-	gSizer13 = new wxGridSizer( 1, 2, 0, 0 );
-	
 	wxFlexGridSizer* fgSizer9;
-	fgSizer9 = new wxFlexGridSizer( 1, 6, 0, 0 );
+	fgSizer9 = new wxFlexGridSizer( 1, 8, 0, 0 );
 	fgSizer9->SetFlexibleDirection( wxBOTH );
 	fgSizer9->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -663,11 +661,27 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	mLBSpin = new wxSpinCtrl( mPalScrolledBack, wxID_LB_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
 	fgSizer9->Add( mLBSpin, 0, wxALL, 5 );
 	
+	m_staticText22 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("#"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22->Wrap( -1 );
+	fgSizer9->Add( m_staticText22, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
-	gSizer13->Add( fgSizer9, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	mLISpin = new wxSpinCtrl( mPalScrolledBack, wxID_LI_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
+	fgSizer9->Add( mLISpin, 0, wxALL, 5 );
+	
+	
+	fgSizer8->Add( fgSizer9, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxGridSizer* gSizer12;
+	gSizer12 = new wxGridSizer( 1, 1, 0, 0 );
+	
+	mHexCheck = new wxCheckBox( mPalScrolledBack, wxID_HEX_CHECK, wxT("Hex values"), wxDefaultPosition, wxDefaultSize, 0 );
+	gSizer12->Add( mHexCheck, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	
+	fgSizer8->Add( gSizer12, 1, wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	wxFlexGridSizer* fgSizer11;
-	fgSizer11 = new wxFlexGridSizer( 1, 6, 0, 0 );
+	fgSizer11 = new wxFlexGridSizer( 1, 8, 0, 0 );
 	fgSizer11->AddGrowableCol( 0 );
 	fgSizer11->SetFlexibleDirection( wxBOTH );
 	fgSizer11->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
@@ -693,17 +707,21 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	mRGSpin = new wxSpinCtrl( mPalScrolledBack, wxID_RG_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
 	fgSizer11->Add( mRGSpin, 0, wxALL, 5 );
 	
+	m_staticText221 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("#"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText221->Wrap( -1 );
+	fgSizer11->Add( m_staticText221, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	gSizer13->Add( fgSizer11, 1, wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	mRISpin = new wxSpinCtrl( mPalScrolledBack, wxID_RI_SPIN, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 0, 255, 0 );
+	fgSizer11->Add( mRISpin, 0, wxALL, 5 );
 	
 	
-	fgSizer8->Add( gSizer13, 1, wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer8->Add( fgSizer11, 1, wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	sbSizer12->Add( fgSizer8, 1, wxEXPAND, 5 );
 	
 	wxFlexGridSizer* fgSizer111;
-	fgSizer111 = new wxFlexGridSizer( 1, 7, 0, 0 );
+	fgSizer111 = new wxFlexGridSizer( 1, 8, 0, 0 );
 	fgSizer111->AddGrowableCol( 4 );
 	fgSizer111->AddGrowableRow( 0 );
 	fgSizer111->SetFlexibleDirection( wxBOTH );
@@ -722,6 +740,9 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	
 	mPalType = new wxComboBox( mPalScrolledBack, wxID_PAL_CHOICE, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
 	fgSizer111->Add( mPalType, 0, wxALL|wxALIGN_RIGHT, 5 );
+	
+	mLockCheck = new wxCheckBox( mPalScrolledBack, wxID_PALLOCK_CHECK, wxT("Lock!"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer111->Add( mLockCheck, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	m_staticText14 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("Set of CGA colours:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText14->Wrap( -1 );
@@ -753,11 +774,15 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	mLRSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mLGSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mLBSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mLISpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mHexCheck->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mRBSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRRSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRGSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mRISpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mOwnerType->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mPalType->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
+	mLockCheck->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAType->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAIntensity->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 }
@@ -768,11 +793,15 @@ PaletteWindowGui::~PaletteWindowGui()
 	mLRSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mLGSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mLBSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mLISpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mHexCheck->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mRBSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRRSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRGSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
+	mRISpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mOwnerType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mPalType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
+	mLockCheck->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAIntensity->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	

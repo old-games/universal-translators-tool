@@ -11,7 +11,9 @@
 
 #include "symbolinfo.h"
 
+// forward declarations
 class Palette;
+class IndexMask;
 
 class FontInfo
 {
@@ -59,7 +61,8 @@ public:
 		mSymbols = src;
 	}
 
-	void AddSymbol( const char* data, int width, int height, int swidth, int sheight );
+	void AddSymbolFromBuf( const char* data, int width, int height, int swidth, int sheight );
+	void AddSymbolIndexed( IndexMask* mask, int swidth, int sheight );
 
 	int GetMaxWidth()
 	{
@@ -132,6 +135,7 @@ public:
 	}
 
 	bool SetPalette(Palette* pal);
+	Palette* GetPalette() { return mPalette; }
 
 	static SymbolInfo	sBadSymbol;
 

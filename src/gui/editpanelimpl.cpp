@@ -25,8 +25,10 @@ EditPanelImpl::~EditPanelImpl(void)
 
 void EditPanelImpl::SetBitmap( wxBitmap* bitmap )
 {
-	mEditPanel->SetBitmap( bitmap );
+	mEditPanel->SetBitmap( (wxBitmap*) bitmap );
 }
+
+
 
 /* virtual */ void EditPanelImpl::OnCommandEvent( wxCommandEvent& event )
 {
@@ -51,10 +53,14 @@ void EditPanelImpl::SetBitmap( wxBitmap* bitmap )
 	mEditPanel->PaintNow();
 }
 
+
+
 void EditPanelImpl::SetGridEnabled()
 {
 	mEditPanel->SetGridEnabled( mGridCheck->IsChecked() );
 }
+
+
 
 void EditPanelImpl::SetGridMode()
 {
@@ -73,11 +79,14 @@ void EditPanelImpl::SetGridMode()
 	}
 }
 
+
+
 void EditPanelImpl::SetGridColour()
 {
 	wxColourData data;
 	data.SetChooseFull(true);
 	data.SetColour( mEditPanel->GetGridColour() );
+
 	for (int i = 0; i < 16; i++)
 	{
 		wxColour colour(i*16, i*16, i*16);
@@ -91,6 +100,8 @@ void EditPanelImpl::SetGridColour()
 		mEditPanel->SetGridColour( retData.GetColour() );
 	}
 }
+
+
 
 void EditPanelImpl::SetEditPanel( EditPanel* editPanel )
 {

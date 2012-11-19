@@ -9,8 +9,9 @@
  
 #include "pch.h"
 #include "symbolinfo.h"
+#include "indexmask.h"
 
-void SymbolInfo::SetValues(int width, int height, unsigned int code, LetterBox* data /* NULL */)
+void SymbolInfo::SetValues(int width, int height, unsigned int code, IndexMask* data /* NULL */)
 {
 	mWidth = width;
 	mHeight = height;
@@ -40,78 +41,57 @@ inline SymbolInfo &SymbolInfo::operator = ( const SymbolInfo &src )
 	return *this;
 }
 
-void SymbolInfo::SetData(const LetterBox* data /* NULL */)
-{
-	CreateData();
-	if (data)
-	{
-		memcpy(mData, data, sizeof( LetterBox ));
-	}
-}
 
-inline void SymbolInfo::CreateData()
+
+void SymbolInfo::SetData(const IndexMask* data /* NULL */)
 {
 	EraseData();
-	if (mData == NULL)
-	{
-		mData = (LetterBox*) malloc(sizeof(LetterBox));
-		memset( mData, 0, sizeof(LetterBox) );
-	}
+	mData = data->Clone();
 }
+
+
+//
+//inline void SymbolInfo::CreateData()
+//{
+//	EraseData();
+//	if (mData == NULL)
+//	{
+//		mData = new IndexMask();
+//	}
+//}
+
+
 
 inline void SymbolInfo::EraseData()
 {
 	if (mData != NULL)
 	{
-		free(mData);
+		delete mData;
 		mData = NULL;
 	}
 }
 
-LetterBox* SymbolInfo::GetData()
+
+
+IndexMask* SymbolInfo::GetData()
 {
 	wxASSERT( mData != NULL );
 	return mData;
 }
 
-inline int SymbolInfo::BoxOffset(int x, int y)
-{
-	wxInt32 offset = (x * MAXIMUM_SYMBOL_WIDTH) + y;
-	if ( (size_t) offset >= sizeof(LetterBox) )
-	{
-		wxLogMessage( wxString::Format("SymbolInfo::BoxOffset: coordinates are out of range (X: %d, Y: %d)", x, y) );
-		return -1;
-	}
-	return offset;
-}
 
-void SymbolInfo::SetPixel( int x, int y, RGBA color )
-{
-	int offset = BoxOffset(x, y);
-	if ( offset < 0 )
-	{
-		return;
-	}
-	Pixel& val = *mData[offset];
-	val[0] = color.R;
-	val[1] = color.G;
-	val[2] = color.B;
-}
 
-RGBA SymbolInfo::GetPixel( int x, int y )
-{
-	RGBA res;
-	int offset = BoxOffset(x, y);
-	if ( offset < 0 )
-	{
-		return res;
-	}
-	Pixel& val = *mData[offset];
-	res.R = val[0];
-	res.G = val[1];
-	res.B = val[2];
-	return res;
-}
+
+//inline int SymbolInfo::BoxOffset(int x, int y)
+//{
+//	wxInt32 offset = (x * MAXIMUM_SYMBOL_WIDTH) + y;
+//	if ( (size_t) offset >= sizeof(LetterBox) )
+//	{
+//		wxLogMessage( wxString::Format("SymbolInfo::BoxOffset: coordinates are out of range (X: %d, Y: %d)", x, y) );
+//		return -1;
+//	}
+//	return offset;
+//}
 
 
 

@@ -31,9 +31,6 @@ public:
 
 protected:
 
-	void Render(wxDC& dc);
-	void OnPaint(wxPaintEvent& event);
-
 	virtual void OnBtnClick( wxCommandEvent& event );
 	virtual void OnFontChangeEvent( ChangeFontEvent& event );
 	virtual void OnSymbolSelection( SymbolSelectionEvent& event );

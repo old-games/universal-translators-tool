@@ -76,7 +76,7 @@ void LetterCodesImpl::GenerateCodes()
 	wxInt32 val = mInitialSpinCtrl->GetValue();
 	for (size_t i = 0; i < mSymbolsCopy.size(); ++i)
 	{
-		mSymbolsCopy[ i ].mCode = val++;		
+		mSymbolsCopy[ i ].SetCode(val++);		
 	}
 	UpdateTable();
 }
@@ -138,8 +138,8 @@ inline void LetterCodesImpl::UpdateRow(wxUint32 n)
 {
 	SymbolInfo& symbol = mSymbolsCopy[ n ];
 
-	mCodesGrid->SetCellValue( n, ColumnsInfo::ciValue, GridHexEditor::LongToHex( symbol.mCode, mHexAlign ) );
-	wxString toConvert = wxString::Format("%c", symbol.mCode );
+	mCodesGrid->SetCellValue( n, ColumnsInfo::ciValue, GridHexEditor::LongToHex( symbol.GetCode(), mHexAlign ) );
+	wxString toConvert = wxString::Format("%c", symbol.GetCode() );
 	mCodesGrid->SetCellValue( n, ColumnsInfo::ciSymbol, toConvert );
 	wxString convert = "N/A";
 	if ( mCanToSystem )
@@ -162,7 +162,7 @@ void LetterCodesImpl::CellValueChanged(wxInt32 row, wxInt32 col)
 {
 	bool update = true;
 	wxString val = mCodesGrid->GetCellValue( row, col );
-	long intVal = mSymbolsCopy[ row ].mCode;
+	long intVal = mSymbolsCopy[ row ].GetCode();
 	switch ( col )
 	{
 		case ColumnsInfo::ciValue:
@@ -186,7 +186,7 @@ void LetterCodesImpl::CellValueChanged(wxInt32 row, wxInt32 col)
 	wxASSERT( update );
 	if (update)
 	{
-		mSymbolsCopy[ row ].mCode = intVal;
+		mSymbolsCopy[ row ].SetCode(intVal);
 		this->UpdateRow( row );
 	}
 }
@@ -219,11 +219,15 @@ void LetterCodesImpl::OnBtnClick( wxCommandEvent& event )
 	event.Skip(); 
 }
 
+
+
 void LetterCodesImpl::OnCodePageChange( wxCommandEvent& event )
 {
 	UpdateTable();
 	event.Skip();
 }
+
+
 
 void LetterCodesImpl::OnCellChange( wxGridEvent& event )
 {

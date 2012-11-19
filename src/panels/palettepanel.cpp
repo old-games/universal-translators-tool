@@ -133,34 +133,40 @@ void PalettePanel::SetGlobalColours()
 
 void PalettePanel::GetBitmapColour( bool right )
 {
-	wxColour& colour = right ? mRightColour : mLeftColour;
+	UttColour& colour = right ? mRightColour : mLeftColour;
 	wxPoint& pos = right ? mRightPos : mLeftPos;
-	if (this->GetPixel( pos , colour ))
+
+	if (mCurrentPal->IsIndexed())
 	{
-		this->GetParent()->Refresh();
-		SetGlobalColours();
+		colour = mCurrentPal->GetColourByCoordinates(pos);
 	}
+	else	
+	{
+		this->GetPixel( pos , colour );
+	}
+	this->GetParent()->Refresh();
+	SetGlobalColours();
 }
 
 
 
 void PalettePanel::SetBitmapColour( bool right )
 {
-	wxColour& colour = right ? mRightColour : mLeftColour;
+	UttColour& colour = right ? mRightColour : mLeftColour;
 	wxPoint& pos = right ? mRightPos : mLeftPos;
 	PlacePixel( pos, colour );
 }
 
 
 
-const wxColour& PalettePanel::GetColour( bool right )
+const UttColour& PalettePanel::GetColour( bool right )
 {
 	return right ? mRightColour : mLeftColour;
 }
 
 
 
-void PalettePanel::SetColour( bool right, const wxColour& colour)
+void PalettePanel::SetColour( bool right, const UttColour& colour)
 {
 	if (right)
 	{
@@ -175,26 +181,36 @@ void PalettePanel::SetColour( bool right, const wxColour& colour)
 
 
 
-int	PalettePanel::FindColour( bool right, const wxColour& colour, bool andSet /* false */ )
+int	PalettePanel::FindColour( bool right, const UttColour& colour, bool andSet /* false */ )
 {
 	int res = -1;
-	wxMemoryDC temp_dc;
-	temp_dc.SelectObject(*mBitmap);
-	wxColour compare;
 	wxPoint pos( -1, -1 );
-	for ( int y = 0; y < mHeight && res == -1; ++y )
+
+	if (colour.GetIndex() == -1)
 	{
-		for ( int x = 0; x < mWidth; ++x )
+		wxMemoryDC temp_dc;
+		temp_dc.SelectObject(*mBitmap);
+		wxColour compare;
+		for ( int y = 0; y < mHeight && res == -1; ++y )
 		{
-			if ( temp_dc.GetPixel( x, y, &compare ) && compare == colour )
+			for ( int x = 0; x < mWidth; ++x )
 			{
-				res = (y * mWidth) + x;
-				pos.x = x;
-				pos.y = y;
-				break;
+				if ( temp_dc.GetPixel( x, y, &compare ) && compare == colour )
+				{
+					res = (y * mWidth) + x;
+					pos.x = x;
+					pos.y = y;
+					break;
+				}
 			}
 		}
 	}
+	else
+	{
+		res = colour.GetIndex();
+		pos = mCurrentPal->GetIndexCoordinates( res ); 
+	}
+
 	if (res != -1 && andSet)
 	{
 		if ( right )
@@ -240,6 +256,22 @@ int	PalettePanel::FindColour( bool right, const wxColour& colour, bool andSet /*
 
 
 
+void PalettePanel::SetColourPosition( const wxPoint& pos, bool right )
+{
+	if ( right )
+	{
+		mRightPos = pos;
+	}
+	else
+	{
+		mLeftPos = pos;
+	}
+
+	GetBitmapColour( right );
+}
+
+
+
 /* virtual */ bool PalettePanel::MouseButton( int btn, bool up )
 {
 	if ( EditPanel::MouseButton( btn, up ) )
@@ -254,16 +286,8 @@ int	PalettePanel::FindColour( bool right, const wxColour& colour, bool andSet /*
 
 	if (IsMousePointOk())
 	{
-		if ( btn == wxMOUSE_BTN_RIGHT )
-		{
-			mRightPos = mMousePoint;
-		}
-		else
-		{
-			mLeftPos = mMousePoint;
-		}
+		SetColourPosition( mMousePoint, btn == wxMOUSE_BTN_RIGHT );
 	}
-	GetBitmapColour( btn == wxMOUSE_BTN_RIGHT );
 	return true;
 }
 

@@ -44,7 +44,7 @@ void FontRegister()
 ///
 /// Экспорт класса FontInfo
 ///
-EXPORT_OOLUA_FUNCTIONS_3_NON_CONST( FontInfo, SetValues, AddSymbol, SetPalette )
+EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( FontInfo, SetValues, AddSymbolFromBuf, AddSymbolIndexed, SetPalette )
 EXPORT_OOLUA_FUNCTIONS_0_CONST( FontInfo )
 
 

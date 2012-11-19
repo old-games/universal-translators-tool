@@ -45,6 +45,8 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 	PalTypeChanged();
 	mPalScrolledBack->Bind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
 	wxTheApp->Bind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this );
+
+	this->SetSpinsBase();
 }
 
 
@@ -95,6 +97,7 @@ void PaletteWindowImpl::PalTypeChanged()
 
 	mPalPanel->SetCurrentPalette( mPalettes[owner] );
 
+
 	bool cgaControls = mPalType->GetSelection() == Palette::bpp2;
 	mCGAType->Enable( cgaControls );
 	mCGAIntensity->Enable( cgaControls );
@@ -114,40 +117,104 @@ void PaletteWindowImpl::SpinEnable(bool b /* true */)
 	mLGSpin->Enable(b);
 	mRBSpin->Enable(b);
 	mLBSpin->Enable(b);
+
+	mLISpin->Enable( mPalPanel->GetCurrentPalette()->IsIndexed() );
+	mRISpin->Enable( mLISpin->IsEnabled() );
+
+	if ( mLISpin->IsEnabled() )
+	{
+		int i = Palette::ColourNumber[ mPalType->GetSelection() ];
+		mLISpin->SetRange(0, i - 1);
+		mRISpin->SetRange(0, i - 1);
+	}
 }
 
 
 
-wxColour PaletteWindowImpl::GetColour(bool right)
+void PaletteWindowImpl::LockChanged()
 {
-	wxSpinCtrl* r = right ? mRRSpin : mLRSpin;
-	wxSpinCtrl* g = right ? mRGSpin : mLGSpin;
-	wxSpinCtrl* b = right ? mRBSpin : mLBSpin;
-	return wxColour( r->GetValue(), g->GetValue(), b->GetValue() );
+	bool b = IsLocked();
+	SpinEnable( !b );
+	mOwnerType->Enable( !b );
+	mPalType->Enable( !b );
 }
 
 
 
-void PaletteWindowImpl::SetColour(bool right, const wxColour& colour)
+void PaletteWindowImpl::Lock( bool b /* true */ )
+{
+	mLockCheck->SetValue( b );
+	LockChanged();
+}
+
+
+
+UttColour PaletteWindowImpl::GetColour(bool right)
 {
 	wxSpinCtrl* r = right ? mRRSpin : mLRSpin;
 	wxSpinCtrl* g = right ? mRGSpin : mLGSpin;
 	wxSpinCtrl* b = right ? mRBSpin : mLBSpin;
+	int ind = -1;
+	if (mPalPanel->GetCurrentPalette()->IsIndexed())
+	{
+		wxSpinCtrl* i = right ? mRISpin : mLISpin;
+		ind = i->GetValue();
+	}
+	return UttColour( wxColour(r->GetValue(), g->GetValue(), b->GetValue()), ind );
+}
+
+
+
+void PaletteWindowImpl::SetColour(bool right, const UttColour& colour)
+{
+	//if (IsLocked())
+	//{
+	//	wxLogMessage("Palette is locked to modify!");
+	//	return;
+	//}
+
+	wxSpinCtrl* r = right ? mRRSpin : mLRSpin;
+	wxSpinCtrl* g = right ? mRGSpin : mLGSpin;
+	wxSpinCtrl* b = right ? mRBSpin : mLBSpin;
+	wxSpinCtrl* i = right ? mRISpin : mLISpin;
+
 	r->SetValue( colour.Red() );
 	g->SetValue( colour.Green() );
 	b->SetValue( colour.Blue() );
+	if (colour.GetIndex() >= 0)
+	{
+		i->SetValue( colour.GetIndex() );
+	}
+
 	UpdateColour( right );
 }
 
 
+void PaletteWindowImpl::SetSpinsBase()
+{
+	int base = mHexCheck->IsChecked() ? 16 : 10;
+	mRRSpin->SetBase( base );
+	mLRSpin->SetBase( base );
+	mRGSpin->SetBase( base ); 
+	mLGSpin->SetBase( base );
+	mRBSpin->SetBase( base );
+	mLBSpin->SetBase( base );
+	mLISpin->SetBase( base );
+	mRISpin->SetBase( base );
+	this->Update();
+}
 
-int	PaletteWindowImpl::FindColour( bool right, const wxColour& colour, bool andSet /* false */)
+
+
+int	PaletteWindowImpl::FindColour( bool right, const UttColour& colour, bool andSet /* false */)
 {
 	int res = mPalPanel->FindColour( right, colour, andSet );
+
 	if (res == -1)
 	{
 		wxLogMessage( wxString::Format("Colour %s not found in global palette", colour.GetAsString() ) );
 	}
+
 	return res;
 }
 
@@ -171,8 +238,17 @@ void PaletteWindowImpl::UpdateSpins()
 
 void PaletteWindowImpl::UpdateColour(bool right)
 {
-	wxColour colour = GetColour(right);
+	UttColour colour = GetColour(right);
 	mPalPanel->SetColour( right, colour );
+}
+
+
+
+void PaletteWindowImpl::IndexChanged(bool right)
+{
+	wxSpinCtrl* spin = right ? mRISpin : mLISpin;
+	wxPoint pos = mPalPanel->GetCurrentPalette()->GetIndexCoordinates( spin->GetValue() );
+	mPalPanel->SetColourPosition(pos, right);
 }
 
 
@@ -184,12 +260,34 @@ void PaletteWindowImpl::UpdateSpin(bool right)
 
 
 
+bool PaletteWindowImpl::CheckLocked()
+{
+	if (IsLocked())
+	{
+		if (YESNODIALOG("Change palette anyway?", "Palette is locked!")	!= wxID_YES)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+
+
 /* virtual */ void PaletteWindowImpl::OnCommandEvent( wxCommandEvent& event )
 {
 	switch( event.GetId() )
 	{
 		case wxID_OWNER_CHOICE:
 			OwnerChanged();
+		break;
+
+		case wxID_PALLOCK_CHECK:
+			LockChanged();
+		break;
+
+		case wxID_HEX_CHECK:
+			SetSpinsBase();
 		break;
 
 		case wxID_CGA_CHOICE:
@@ -223,6 +321,15 @@ void PaletteWindowImpl::UpdateSpin(bool right)
 			UpdateColour( false );
 		break;
 
+		case wxID_RI_SPIN:
+			IndexChanged( true );
+		break;
+
+		case wxID_LI_SPIN:
+			IndexChanged( false );
+		break;
+
+
 		default:
 			wxLogError( wxString::Format( "PaletteWindow: unknown spin id %d", event.GetId() ) );
 	}
@@ -244,13 +351,15 @@ void PaletteWindowImpl::UpdateSpin(bool right)
 		break;
 	}
 
-	if (owner >= 0)
+	if (owner >= 0 && CheckLocked() )
 	{
+
 		Palette* oldPal = mPalettes[owner];
 		mPalettes[owner] = event.GetPalette()->Clone();
 		mOwnerType->SetSelection( owner );
 		OwnerChanged();
 		delete oldPal;
+		this->Lock( event.GetLock() );
 	}
 	event.Skip();
 }

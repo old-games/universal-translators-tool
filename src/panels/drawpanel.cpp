@@ -9,6 +9,8 @@
 
 #include "pch.h"
 #include "drawpanel.h"
+#include "types/indexmask.h"
+#include "types/palette.h"
 #include "helpers.h"
 #include <wx/arrimpl.cpp> 
 
@@ -37,6 +39,7 @@ DrawPanel::DrawPanel(  wxWindow* parent ):
 	mBitmap( NULL ),
 	mWidth( 0 ),
 	mHeight( 0 ),
+	mIndexMask( NULL ),
 	mAlign( utdNone ),
 	mAllowScaling( true ),
 	mPreviousSize( 0, 0 )
@@ -121,6 +124,23 @@ void DrawPanel::SetDrawFocus( bool b /* true */ )
 
 
 
+void DrawPanel::SetIndexedBitmap( IndexMask* mask, Palette* pal )
+{
+	DestroyBitmap();
+	mBitmap = mask->GetBitmap( pal );
+	if (pal->IsIndexed())
+	{
+		mIndexMask = mask->Clone();
+	}
+	else
+	{
+		wxLogMessage("DrawPanel::SetIndexedBitmap called, but palette is not indexed!");
+	}
+	ApplyBitmap();
+}
+
+
+
 void DrawPanel::SetBitmap( Pixel* buffer, int width, int height )
 {
 	DestroyBitmap();
@@ -162,8 +182,17 @@ void DrawPanel::ApplyBitmap()
 
 void DrawPanel::DestroyBitmap()
 {
-	delete mBitmap;
-	mBitmap = NULL;
+	if (mBitmap)
+	{
+		delete mBitmap;
+		mBitmap = NULL;
+	}
+
+	if (mIndexMask)
+	{
+		delete mIndexMask;
+		mIndexMask = NULL;
+	}
 }
 
 
@@ -215,21 +244,6 @@ void DrawPanel::DrawFocus(wxDC& dc)
 		return;
 	}
 	DrawRectAround( dc, this->HasFocus() ? *wxRED : *wxWHITE );
-	//dc.SetBrush( *wxTRANSPARENT_BRUSH );
-	//dc.SetLogicalFunction(wxCOPY);
-	//wxRect rect = this->GetClientRect();
-	//if (rect.GetWidth() > mShowWidth)
-	//{
-	//	rect.SetWidth( mShowWidth );
-	//}
-	//if (rect.GetHeight() > mShowHeight)
-	//{
-	//	rect.SetHeight( mShowHeight );
-	//}
-	//wxPen borderPen( this->HasFocus() ? *wxRED : *wxWHITE, 3, wxSOLID );
-	//dc.SetPen( borderPen );
-	//rect.SetLeftTop( this->GetViewStart() );
-	//dc.DrawRectangle(rect);
 }
 
 
@@ -291,7 +305,7 @@ void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
 
 /* virtual */ void DrawPanel::Render(wxDC& dc)
 {
-	if (!mBitmap || !mBitmap->IsOk())
+	if (!IsOk())
 	{
 		return;
 	}
@@ -302,6 +316,20 @@ void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
     {
         wxLogError("DrawPanel::Render error: stretchblit failed!");
     }
+
+	const wxRect rect = GetSelectionRect();
+	if (IsZone() && rect.width > 0 && rect.height > 0)
+	{
+		wxImage img = mBitmap->ConvertToImage().GetSubImage( rect );
+		img = img.ConvertToGreyscale( 0.3, 1.0, 1.0 );
+		wxBitmap bmp(img);
+		
+		
+		mdc.SelectObjectAsSource(bmp);
+		dc.StretchBlit(rect.x, rect.y, 
+			rect.GetWidth() * mRealScale, rect.GetHeight() * mRealScale, 
+			&mdc, 0, 0, rect.GetWidth(), rect.GetHeight());
+	}
 	RenderSelection( dc );
 	DrawFocus( dc );
 }
@@ -314,6 +342,7 @@ void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
 	{
 		return;
 	}
+
 	wxAutoBufferedPaintDC dc(this);
 	if ( !mBitmap || !mBitmap->IsOk())
 	{
@@ -549,7 +578,7 @@ bool DrawPanel::IsExpand()
 {
 	if ( event.GetButton() != wxMOUSE_BTN_NONE )
 	{
-		if ( event.HasModifiers() )
+		if ( event.HasAnyModifiers() )
 		{
 			MouseModifiersButton( event.GetModifiers(), event.GetButton(), false );
 		}
@@ -612,11 +641,15 @@ void DrawPanel::CheckEndDrag()
 	{
 		CheckEndDrag();
 	}
-	//if ( up && !PointInZone( mMousePoint ) && btn != wxMOUSE_BTN_NONE )
-	//{
-	//	ResetZone();
-	//	return true;
-	//}
+
+	if ( !up && IsZone() )
+	{
+		if ( !PointInZone( mMousePoint ) || !IsMousePointOk() )
+		{
+			ResetZone();
+			return true;
+		}
+	}
 	return false;
 }
 

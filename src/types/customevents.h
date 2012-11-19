@@ -9,11 +9,14 @@
 #ifndef CUSTOMEVENTS_H_INCLUDED
 #define CUSTOMEVENTS_H_INCLUDED
 
+#include "types/uttypes.h"
+
 class ModuleChangedEvent;
 class ColourPickEvent;
 class ChangeFontEvent;
 class ChangePaletteEvent;
 class SymbolSelectionEvent;
+
 
 
 wxDECLARE_EVENT( uttEVT_MODULECHANGED, ModuleChangedEvent );
@@ -77,21 +80,27 @@ public:
 			mColour( *wxBLACK ),
 			mButton( 0 ),
 			mAction( -1 )
-	{ }
+	{ 
 	
-    ColourPickEvent( const wxColour& colour, int button, ColourOperation what )
+	}
+	
+    ColourPickEvent( const UttColour& colour, int button, ColourOperation what )
         : wxEvent(0, uttEVT_COLOURPICK),
 			mColour( colour ),
 			mButton( button ),
 			mAction( what )
-	{ }
+	{ 
+	
+	}
 	
     ColourPickEvent(const ColourPickEvent& event)
         : wxEvent(event),
    			mColour( event.mColour ),
 			mButton( event.mButton ),
 			mAction( event.mAction )
-    { }
+    { 
+	
+	}
 
     virtual wxEvent *Clone() const { return new ColourPickEvent(*this); }
     
@@ -105,7 +114,7 @@ public:
 		return mAction;
 	}
     
-    const wxColour& GetColour()
+    const UttColour& GetColour()
     {
 		return mColour;
     }
@@ -114,7 +123,7 @@ protected:
 	
 private:
 
-	wxColour	mColour;
+	UttColour	mColour;
 	int			mButton;
 	int			mAction;
     DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ColourPickEvent)
@@ -192,33 +201,38 @@ public:
 
     ChangePaletteEvent( )
         : wxEvent(0, uttEVT_CHANGEPALETTE),
-		mData( NULL )
+		mData( NULL ),
+		mLock( false )
 	{ 	
 	}
 	
 
 
-    ChangePaletteEvent( int winid, Palette* pal )
+    ChangePaletteEvent( int winid, Palette* pal, bool lockPal  )
         : wxEvent(winid, uttEVT_CHANGEPALETTE),
-		mData( pal )
+		mData( pal ),
+		mLock( lockPal )
 	{ 
 	}
 	
     ChangePaletteEvent(const ChangePaletteEvent& event)
         : wxEvent(event),
-		mData( event.mData )
+		mData( event.mData ),
+		mLock( event.mLock )
     { 
 	}
 
     virtual wxEvent *Clone() const { return new ChangePaletteEvent(*this); }
   
 	Palette*	GetPalette() { return mData; }
+	bool		GetLock() { return mLock; }
 
 protected:
 	
 private:
 
 	Palette*	mData;
+	bool		mLock;
 
 	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangePaletteEvent)
 };

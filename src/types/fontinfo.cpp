@@ -10,6 +10,7 @@
 #include "pch.h"
 #include "fontinfo.h"
 #include "palette.h"
+#include "indexmask.h"
 
 SymbolInfo FontInfo::sBadSymbol;
 
@@ -98,12 +99,24 @@ SymbolInfo& FontInfo::GetSymbol(size_t n)
 
 
 
-void FontInfo::AddSymbol( const char* data, int width, int height, int swidth, int sheight )
+void FontInfo::AddSymbolFromBuf( const char* data, int width, int height, int swidth, int sheight )
 {
+	wxASSERT( mPalette != NULL );	
+	IndexMask mask;
+	mask.SetMask( data, width, height );
+	if (mask.IsOk())
+	{
+		AddSymbolIndexed( &mask, swidth, sheight );
+	}
+}
+
+
+
+void FontInfo::AddSymbolIndexed( IndexMask* mask, int swidth, int sheight )
+{
+	wxASSERT( mPalette != NULL );
 	SymbolInfo info;
-	LetterBox box;
-	Helpers::Buffer8bpp_to_Pixels( (Pixel*) &box, MAXIMUM_SYMBOL_WIDTH, MAXIMUM_SYMBOL_HEIGHT, data, mMaxWidth, mMaxHeight, mPalette );
-	info.SetValues( swidth, sheight, mSymbols.size(), &box );
+	info.SetValues( swidth, sheight, mSymbols.size(), mask );
 	mSymbols.push_back( info );
 }
 
@@ -124,7 +137,7 @@ bool FontInfo::SetPalette(Palette* pal)
 	mPalette = pal->Clone();
 	if ( mPalette->IsOk() )
 	{
-		ChangePaletteEvent palEvent( wxID_FONTEDITOR, pal );
+		ChangePaletteEvent palEvent( wxID_FONTEDITOR, pal, true );
 		wxTheApp->QueueEvent( palEvent.Clone() );
 	}
 	return mPalette->IsOk();

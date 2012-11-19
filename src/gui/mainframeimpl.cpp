@@ -65,6 +65,7 @@ void MainFrameImpl::OnColourPickEvent( ColourPickEvent& event )
 	{
 		return;
 	}
+
 	bool right = event.GetButton() == wxMOUSE_BTN_RIGHT;
 	switch ( event.GetAction() )
 	{

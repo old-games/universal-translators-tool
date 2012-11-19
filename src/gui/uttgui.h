@@ -76,13 +76,17 @@
 #define wxID_LR_SPIN 1031
 #define wxID_LG_SPIN 1032
 #define wxID_LB_SPIN 1033
-#define wxID_RB_SPIN 1034
-#define wxID_RR_SPIN 1035
-#define wxID_RG_SPIN 1036
-#define wxID_OWNER_CHOICE 1037
-#define wxID_PAL_CHOICE 1038
-#define wxID_CGA_CHOICE 1039
-#define wxID_INTENSITY_CHECK 1040
+#define wxID_LI_SPIN 1034
+#define wxID_HEX_CHECK 1035
+#define wxID_RB_SPIN 1036
+#define wxID_RR_SPIN 1037
+#define wxID_RG_SPIN 1038
+#define wxID_RI_SPIN 1039
+#define wxID_OWNER_CHOICE 1040
+#define wxID_PAL_CHOICE 1041
+#define wxID_PALLOCK_CHECK 1042
+#define wxID_CGA_CHOICE 1043
+#define wxID_INTENSITY_CHECK 1044
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame
@@ -289,16 +293,22 @@ class PaletteWindowGui : public wxPanel
 		wxSpinCtrl* mLGSpin;
 		wxStaticText* m_staticText17;
 		wxSpinCtrl* mLBSpin;
+		wxStaticText* m_staticText22;
+		wxSpinCtrl* mLISpin;
+		wxCheckBox* mHexCheck;
 		wxStaticText* m_staticText18;
 		wxSpinCtrl* mRBSpin;
 		wxStaticText* m_staticText19;
 		wxSpinCtrl* mRRSpin;
 		wxStaticText* m_staticText20;
 		wxSpinCtrl* mRGSpin;
+		wxStaticText* m_staticText221;
+		wxSpinCtrl* mRISpin;
 		wxStaticText* m_staticText21;
 		wxComboBox* mOwnerType;
 		wxStaticText* m_staticText13;
 		wxComboBox* mPalType;
+		wxCheckBox* mLockCheck;
 		wxStaticText* m_staticText14;
 		wxComboBox* mCGAType;
 		wxCheckBox* mCGAIntensity;

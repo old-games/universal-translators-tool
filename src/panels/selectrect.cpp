@@ -182,28 +182,31 @@ void SelectionRectangle::DrawSelection()
 
 void SelectionRectangle::RenderSelection(wxDC& dc)
 {
+	mCoordRect = wxRect( mStartCoord, mEndCoord );
+	
+	//wxPoint view = mParent->GetViewStart() - mWorkZone.GetLeftTop();
+	//const static wxColour bg(0x80, 0x80, 0x80, 0x30);
+	//if (mSelectionDrag)
+	//{
+	//	dc.SetBrush( *wxTRANSPARENT_BRUSH );
+	//	dc.SetPen( *wxWHITE_PEN );
+	//	dc.SetLogicalFunction( wxXOR );
+	//	wxRect rect( mStartPoint + view, mEndPoint + view );
+	//	dc.DrawRectangle( rect );
 
-	wxPoint view = mParent->GetViewStart() - mWorkZone.GetLeftTop();
-	const static wxColour bg(0x80, 0x80, 0x80, 0x30);
-	if (mSelectionDrag)
-	{
-		dc.SetBrush( *wxTRANSPARENT_BRUSH );
-		dc.SetPen( *wxWHITE_PEN );
-		dc.SetLogicalFunction( wxCOPY );
-		wxRect rect( mStartPoint + view, mEndPoint + view );
-		dc.DrawRectangle( rect );
+	//}
 
-	}
+	//if (mIsZoneValid)
+	//{
+	//	wxRect rect( mCoordRect.GetTopLeft() * mPointSize, (mCoordRect.GetBottomRight() + wxPoint(1, 1)) * mPointSize );
 
-	if (mIsZoneValid)
-	{
-		mCoordRect = wxRect( mStartCoord, mEndCoord );
-		wxRect rect( mCoordRect.GetTopLeft() * mPointSize, (mCoordRect.GetBottomRight() + wxPoint(1, 1)) * mPointSize );
-		dc.SetBrush( mSelectionDrag ? *wxTRANSPARENT_BRUSH : bg );
-		dc.SetPen( wxPen( *wxRED, 3, wxPENSTYLE_LONG_DASH ) );
-		dc.SetLogicalFunction( wxXOR );
-		dc.DrawRectangle( rect );
-	}
+	//	dc.SetBrush( mSelectionDrag ? *wxTRANSPARENT_BRUSH : bg );
+	//	dc.SetPen( wxPen( *wxRED, 3, wxPENSTYLE_LONG_DASH ) );
+
+	//	
+	//	dc.SetLogicalFunction( wxXOR );
+	//	dc.DrawRectangle( rect );
+	//}
 }
 
 

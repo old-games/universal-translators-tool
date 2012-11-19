@@ -1,14 +1,14 @@
 /***************************************************************
- * Name:      luapalette.cpp
+ * Name:      luaimage.cpp
  * Purpose:   lua bindings for Palette
  * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)
- * Created:   2012-11-14
- * Copyright: Pavlovets Ilia
+ * Created:   2012-11-19
+ * Copyright: Pavlovets Ilia 
  * License:
  **************************************************************/
 
 #include "pch.h"
-#include "luapalette.h"
+#include "luaimage.h"
 #include "luacontrol.h"
 
 
@@ -17,9 +17,9 @@
 namespace Lua
 {
 
-void PaletteRegister()
+void ImageInfoRegister()
 {
-	Get().register_class<Palette>();
+//	Get().register_class<ImageInfo>();
 }
 
 }   // namespace Lua
@@ -28,9 +28,9 @@ void PaletteRegister()
 
 
 ///
-/// Экспорт класса Palette
+/// Экспорт класса ImageInfo
 ///
-EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( Palette, Initiate, SetCGAType )
+//EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( ImageInfo, Initiate, SetCGAType )
 
-EXPORT_OOLUA_FUNCTIONS_0_CONST( Palette )
+EXPORT_OOLUA_FUNCTIONS_0_CONST( ImageInfo )
 

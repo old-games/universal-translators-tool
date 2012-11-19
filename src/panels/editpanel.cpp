@@ -9,11 +9,12 @@
 
 #include "pch.h"
 #include "editpanel.h"
+#include "types/indexmask.h"
 
 #define GRID_EDGE	6.0f		// the value after the grid will be shown
 
-wxColour	EditPanel::gGlobalLeftColour = *wxBLACK;
-wxColour	EditPanel::gGlobalRightColour = *wxWHITE;
+UttColour	EditPanel::gGlobalLeftColour = *wxBLACK;
+UttColour	EditPanel::gGlobalRightColour = *wxWHITE;
 
 EditPanel::EditPanel(  wxWindow* parent ):
 	DrawPanel( parent ),
@@ -212,15 +213,19 @@ void EditPanel::DrawGrid( wxDC& dc )
 	}
 }
 
-void EditPanel::PlacePixel( const wxPoint& pos, const wxColour& color )
+void EditPanel::PlacePixel( const wxPoint& pos, const UttColour& color )
 {
-	if (mScale < 1.0f)
+	if (mRealScale < 1.0f)
 	{
 		wxLogMessage( "Unable to edit image with such scale.");
 		EndDrawing();
 		return;
 	}
-
+	
+	if (mIndexMask)
+	{
+		mIndexMask->WriteIndex(pos, color.GetIndex());
+	}
 	wxMemoryDC temp_dc;
 	temp_dc.SelectObject(*mBitmap);
 	temp_dc.SetPen( wxPen(color) );
@@ -228,11 +233,19 @@ void EditPanel::PlacePixel( const wxPoint& pos, const wxColour& color )
 	PaintNow();
 }
 
-bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
+bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 {
+	int n = -1;
+	if (mIndexMask)
+	{
+		 n = mIndexMask->ReadIndex(pos);
+	}
 	wxMemoryDC temp_dc;
 	temp_dc.SelectObject(*mBitmap);
-	return temp_dc.GetPixel( pos , &color );
+
+	bool res = temp_dc.GetPixel( pos , &color );
+	color.SetIndex( n );
+	return res;
 }
 
 /* virtual */ bool EditPanel::MouseButton( int btn, bool up )
@@ -242,6 +255,7 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 		EndDrawing();
 		return true;
 	}
+
 	if ( DrawPanel::MouseButton( btn, up ) )
 	{
 		return true;
@@ -260,18 +274,14 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 		mCurrentColour = right ? gGlobalRightColour : gGlobalLeftColour;
 	}
 
-	if ( !up && IsZone() )
-	{
-		ResetZone();	// clear selection
-		return true;
-	}
-
 	if ( !up && ( left || right ) )
 	{
 		return BeginDrawing();
 	}
 	return false;
 }
+
+
 
 /* virtual */ bool EditPanel::MouseModifiersButton( int modifier, int btn, bool up )
 {
@@ -286,7 +296,7 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 	bool setColour =  !up && !both && modifier == wxMOD_ALT;
 	if ( findColour || setColour )
 	{
-		wxColour colour;
+		UttColour colour;
 		if ( mMousePoint.x != -1 && mMousePoint.y != -1 && GetPixel(mMousePoint, colour) )
 		{
 			ColourPickEvent* colourEvent = new ColourPickEvent( colour, btn,
@@ -297,6 +307,7 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 	}
 	return false;
 }
+
 
 
 /* virtual */ bool EditPanel::MouseMoving( int modifier, int btn )
@@ -317,6 +328,8 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 	}
 	return false;
 }
+
+
 
 /* virtual */ bool EditPanel::KeyDown( int modifier, int keyCode )
 {
@@ -354,6 +367,8 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 	return res;
 }
 
+
+
 /* virtual */ bool EditPanel::KeyUp( int modifier, int keyCode )
 {
 	if ( DrawPanel::KeyDown( modifier, keyCode ) )
@@ -374,6 +389,8 @@ bool EditPanel::GetPixel( const wxPoint& pos, wxColour& color )
 	}
 	return res;
 }
+
+
 
 /* virtual */ bool EditPanel::CursorPressed( int directon )
 {

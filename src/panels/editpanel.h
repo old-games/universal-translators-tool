@@ -46,8 +46,8 @@ public:
 		mAllowEdit = b;
 	}
 
-	static wxColour		gGlobalLeftColour;
-	static wxColour		gGlobalRightColour;
+	static UttColour	gGlobalLeftColour;
+	static UttColour	gGlobalRightColour;
 
 protected:
 
@@ -63,8 +63,8 @@ protected:
 	virtual void SetShowParams();
 
 	void DrawGrid( wxDC& dc );
-	void PlacePixel( const wxPoint& pos, const wxColour& color );
-	bool GetPixel( const wxPoint& pos, wxColour& color );
+	void PlacePixel( const wxPoint& pos, const UttColour& color );
+	bool GetPixel( const wxPoint& pos, UttColour& color );
 
 	bool		mDrawing;
 	bool		mDrawCursor;
@@ -86,7 +86,7 @@ private:
 	wxPen		mGridPen;
 	wxInt32		mGridLogic;
 
-	wxColour	mCurrentColour;
+	UttColour	mCurrentColour;
 	wxPoint		mPreviousPoint;
 	bool		mAllowEdit;
 

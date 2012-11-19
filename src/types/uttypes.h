@@ -19,7 +19,6 @@
 
 typedef wxByte Pixel[3];
 typedef wxByte PixelA[4];
-typedef Pixel LetterBox[ MAXIMUM_SYMBOL_WIDTH * MAXIMUM_SYMBOL_HEIGHT ];
 
 
 
@@ -31,6 +30,7 @@ struct RGBA
 	wxByte B;
 	wxByte A;
 };
+
 
 
 namespace PalOwners
@@ -46,6 +46,40 @@ namespace PalOwners
 
 	extern const wxWindowID OwnerID[poNum];
 }
+
+class UttColour: public wxColour
+{
+public:
+
+	UttColour(): wxColour(), mIndex(-1) {}
+
+	UttColour( const UttColour& col):
+		wxColour(col),
+		mIndex(col.mIndex) {}
+
+	UttColour( const wxColour& col, int n = -1):
+		wxColour(col),
+		mIndex(n) {}
+
+	inline int GetIndex() const { return mIndex; }
+	inline void SetIndex(int n) { mIndex = n; }
+
+	inline UttColour& operator = ( const wxColour &col )
+	{
+		this->SetRGBA(col.GetRGBA());
+		this->mIndex = -1;
+		return *this;
+	}
+
+	inline bool operator == ( const UttColour& col )
+	{
+		return this->mIndex == col.mIndex && this->GetRGBA() == col.GetRGBA();
+	}
+
+private:
+
+	int mIndex;
+};
 
 
 #endif	// UTTTYPES_H_INCLUDED

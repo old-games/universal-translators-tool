@@ -23,9 +23,14 @@ class PaletteWindowImpl :
 public:
 	PaletteWindowImpl( wxWindow* parent );
 	~PaletteWindowImpl(void);
-	wxColour GetColour(bool right);
-	void SetColour(bool right, const wxColour& colour);
-	int	FindColour( bool right, const wxColour& colour, bool andSet = false );
+
+	UttColour GetColour(bool right);
+
+	void SetColour(bool right, const UttColour& colour);
+	int	FindColour( bool right, const UttColour& colour, bool andSet = false );
+	bool IsLocked() { return mLockCheck->IsChecked(); }
+	void Lock( bool b = true );
+	bool CheckLocked();
 
 protected:
 	virtual void OnCommandEvent( wxCommandEvent& event );
@@ -34,14 +39,17 @@ protected:
 
 private:
 
+	void SetSpinsBase();
 	void OnPaint( wxPaintEvent& event );
 	void OwnerChanged();
 	void PalTypeChanged();
 	void UpdateColour(bool right);
 	void UpdateSpin(bool right);
+	void IndexChanged(bool right);
 	void UpdateColours();
 	void UpdateSpins();
 	void SpinEnable(bool b = true);
+	void LockChanged();
 
 	PalettePanel*	mPalPanel;
 	Palette*		mPalettes[PalOwners::poNum];

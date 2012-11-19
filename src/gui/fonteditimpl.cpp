@@ -10,6 +10,7 @@
 #include "pch.h"
 
 #include "types/fontinfo.h"
+#include "types/indexmask.h"
 #include "panels/symbolpanel.h"
 #include "symboleditgui.h"
 #include "fonteditimpl.h"
@@ -130,12 +131,6 @@ bool FontEditor::ShowSettings()
 
 
 
-void FontEditor::Render(wxDC& dc)
-{
-}
-
-
-
 void FontEditor::UpdateFont()
 {
 	if (!mCurrentFont)
@@ -163,10 +158,10 @@ void FontEditor::UpdateRibbon()
 	mSymbolsRibbon->Clear();
 	int w =  mCurrentFont->GetMaxWidth();
 	int h =  mCurrentFont->GetMaxHeight();
+
 	for ( size_t i = 0; i < sym.size(); ++i )
 	{
-		SymbolInfo& symbol = sym[i];
-		wxBitmap* bmp = Helpers::CreateBitmap( (Pixel*) symbol.GetData(),w, h );
+		wxBitmap* bmp =  sym[i].GetData()->GetBitmap( mCurrentFont->GetPalette() ); 
 		mSymbolsRibbon->SetBitmap( i, bmp );
 	}
 
@@ -174,12 +169,6 @@ void FontEditor::UpdateRibbon()
 	this->Update();
 }
 
-
-
-/* virtual */ void FontEditor::OnPaint(wxPaintEvent& event)
-{
-	event.Skip();
-}
 
 
 /* virtual */ void FontEditor::OnBtnClick( wxCommandEvent& event )

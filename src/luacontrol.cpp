@@ -12,15 +12,20 @@
 #include "luacontrol.h"
 #include "luaexports/common.h"
 #include "luaexports/luapalette.h"
+#include "luaexports/luaindexmask.h"
 #include "luaexports/luafont.h"
 
 static OOLUA::Script* gLuaState = NULL;
 static bool gRebootRequest = false;
 
+
+
 OOLUA::Script& Lua::Get()
 {
 	return *gLuaState;
 }
+
+
 
 bool Lua::Init()
 {
@@ -29,17 +34,23 @@ bool Lua::Init()
 		wxLogMessage("Reboot called but Lua::Done() was not called yet.");
 		return false;
 	}
+
 	if ( gLuaState != NULL )
 	{
 		wxLogMessage("Lua::Done() was not called before Lua::Init()");
 		Lua::Done();
 	}
+
 	gLuaState = new OOLUA::Script();
 	CommonRegister();
 	PaletteRegister();
+	IndexMaskRegister();
 	FontRegister();
+
 	return gLuaState->run_file("scripts/init.lua");
 }
+
+
 
 void Lua::Done()
 {
@@ -49,20 +60,28 @@ void Lua::Done()
 	gRebootRequest = false;
 }
 
+
+
 void Lua::SetRebootFlag()
 {
 	gRebootRequest = true;
 }
+
+
 
 bool Lua::GetRebootFlag()
 {
 	return gRebootRequest;
 }
 
+
+
 bool Lua::IsOk()
 {
 	return gLuaState != NULL;
 }
+
+
 
 void Lua::ShowLastError( )
 {
