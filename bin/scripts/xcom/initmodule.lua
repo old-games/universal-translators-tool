@@ -4,11 +4,11 @@ local ModuleName = 'xcom'
 local Xcom = {}
 
 gameVersions = { 'UFO 1 (DOS)', 'UFO 2 (WIN)' }
-local currentVersion = 2
 
 local ActionsOnExtension = 
 { 
-	dat = "loadDAT"
+	dat = "loadDAT",
+	scr = "loadDAT"
 }
 
 
@@ -39,7 +39,7 @@ end
 
 
 function Xcom.getExtensions()
-	return 'BIGLETS.DAT (biglets.dat)|biglets.dat|SMALLSET.DAT (smallset.dat)|smallset.dat'
+	return '*.DAT (*.dat)|*.dat|*.SCR (*.scr)|*.scr'
 end
 
 
@@ -61,54 +61,31 @@ function Operations.loadDAT( filename )
 	--local busy = BusyCursor:new()
 	
 	local vol, path, name, ext = parseFileName( filename )
+	path = vol..path..'/'
 
 	local fh = assert(io.open(filename, "rb"))
 	if not fh then
 		return
 	end
 	
-	path = vol..path..'/'
-	local exec = xcomFontInfo[currentVersion].execInfo
-	
-	local params = xcomFontInfo[currentVersion][name]
-	local width = params.width
-	local height = params.height
-	local bufsize = width * height
-	local num = 0
-	local font = FontInfo:new()
-	
-	local symWidths = GetFontWidth(path.."../"..exec.name, 
-		params.offset, params.num, name == 'biglets')
-	
-	font:SetValues( width, height, 3, 3, 0, params.baseLine, 0, params.smallLine )
-	
-	local palBuffer = GetXComPalette(path, params.palette)
-	if palBuffer ~= nil then
-		pal = Palette:new()
-		if pal:Initiate( Palette.bpp8, palBuffer, Palette.sfPlain, true ) then
-			font:SetPalette( pal )
+	 
+	if name == 'biglets' or name == 'smallset' then
+		LoadXcomFont( path, name, fh )
+	else
+--		local found = false
+--		for i, #KnownImageNames do
+--			if KnownImageNames[i] == name then
+--				found = true
+--			end
+--		end
+--		
+		if  findStringInTable( KnownImageNames, name ) ~= nil then
+			LoadXcomImage( path, name, fh )
+		else
+			print ("I don't know what to do with ", filename)
 		end
 	end
-	
-	print "Font loading..."
-	
-	repeat
-		local bytes = fh:read( bufsize )
-		if bytes ~= nil and bytes:len() == bufsize then
-			num = num + 1
-			local w = width
-			-- in xcom games the quantity of symbols is more than 
-			-- width array in EXE files 
-			if symWidths ~= nil and num <= #symWidths then
-				w = getStrInt(symWidths, num)
-			end
-			font:AddSymbol( bytes, width, height, w, height )
-		end
-	until not bytes
-	
-	print ("Symbols: ", num)
 	fh:close()
-	editFont( font )
 end
 
 

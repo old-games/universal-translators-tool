@@ -1,5 +1,8 @@
 local PalName = 'PALETTES.DAT'
 local PalSize = 768
+currentVersion = 2
+
+KnownImageNames = { "lang1", "lang2", "lang3", "geobord", "up_bord2"}
 
 xcomFontInfo = 
 {
@@ -93,5 +96,57 @@ end
 
 
 
+function LoadXcomFont( path, name, fh )
+	local exec = xcomFontInfo[currentVersion].execInfo
+	local params = xcomFontInfo[currentVersion][name]
+	local width = params.width
+	local height = params.height
+	local bufsize = width * height
+	local num = 0
+	local font = FontInfo:new()
+	
+	local symWidths = GetFontWidth(path.."../"..exec.name, 
+		params.offset, params.num, name == 'biglets')
+	
+	font:SetValues( width, height, 3, 3, 0, params.baseLine, 0, params.smallLine )
+	
+	local palBuffer = GetXComPalette(path, params.palette)
+	if palBuffer ~= nil then
+		pal = Palette:new()
+		if pal:Initiate( Palette.bpp8, palBuffer, Palette.sfPlain, true ) then
+			font:SetPalette( pal )
+		end
+	end
+	
+	print "Font loading..."
+	
+	repeat
+	
+		local bytes = fh:read( bufsize )
+		if bytes ~= nil and bytes:len() == bufsize then
+		
+			num = num + 1
+			
+			local w = width
+			
+			-- in xcom games the quantity of symbols is more than 
+			-- width array in EXE files 
+			if symWidths ~= nil and num <= #symWidths then
+				w = getStrInt(symWidths, num)
+			end
+			
+			local mask = IndexMask:new()
+			mask:SetMask( bytes, width, height, width, height)
+			
+			if mask:IsOk() then
+				font:AddSymbolIndexed( mask, w, height )
+			end
+		end
+		
+	until not bytes
+	
+	print ("Symbols loaded: ", num)
+	editFont( font )
+end
 
 

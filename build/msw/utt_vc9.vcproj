@@ -397,6 +397,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\luaexports\luaimage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luaimage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luaindexmask.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luaindexmask.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\luaexports\luapalette.cpp"
 				>
 			</File>
@@ -486,6 +502,22 @@
 			</File>
 			<File
 				RelativePath="..\..\src\types\fontinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\imageinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\imageinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\indexmask.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\indexmask.h"
 				>
 			</File>
 			<File
