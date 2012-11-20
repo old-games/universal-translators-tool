@@ -172,41 +172,36 @@ void SelectionRectangle::SelectionEnd( const wxPoint& mousePos )
 
 
 
-void SelectionRectangle::DrawSelection()
+void SelectionRectangle::SetSelection(int x, int y, int w, int h)
 {
-	wxClientDC dc(mParent);
-	RenderSelection(dc);
+	mStartCoord = wxPoint(x, y);
+	mEndCoord = wxPoint( x + --w, y + --h );
+	mIsZoneValid = true;
 }
 
 
 
 void SelectionRectangle::RenderSelection(wxDC& dc)
 {
+	if (!mIsZoneValid)
+	{
+		return;
+	}
+	static const wxPen pen( wxColour( 0xFF, 0xFF, 0xFF, wxALPHA_OPAQUE ) );
+	static const wxBrush brush(wxColour( 0x80, 0x80, 0x80, 0x80 ));
+
 	mCoordRect = wxRect( mStartCoord, mEndCoord );
-	
-	//wxPoint view = mParent->GetViewStart() - mWorkZone.GetLeftTop();
-	//const static wxColour bg(0x80, 0x80, 0x80, 0x30);
-	//if (mSelectionDrag)
-	//{
-	//	dc.SetBrush( *wxTRANSPARENT_BRUSH );
-	//	dc.SetPen( *wxWHITE_PEN );
-	//	dc.SetLogicalFunction( wxXOR );
-	//	wxRect rect( mStartPoint + view, mEndPoint + view );
-	//	dc.DrawRectangle( rect );
+	wxPoint view = mParent->GetViewStart() - mWorkZone.GetLeftTop();
 
-	//}
+	dc.SetPen( pen );
+	dc.SetBrush( brush);
 
-	//if (mIsZoneValid)
-	//{
-	//	wxRect rect( mCoordRect.GetTopLeft() * mPointSize, (mCoordRect.GetBottomRight() + wxPoint(1, 1)) * mPointSize );
-
-	//	dc.SetBrush( mSelectionDrag ? *wxTRANSPARENT_BRUSH : bg );
-	//	dc.SetPen( wxPen( *wxRED, 3, wxPENSTYLE_LONG_DASH ) );
-
-	//	
-	//	dc.SetLogicalFunction( wxXOR );
-	//	dc.DrawRectangle( rect );
-	//}
+	if (mIsZoneValid)
+	{
+		wxRect rect( mCoordRect.GetTopLeft() * mPointSize, (mCoordRect.GetBottomRight() + wxPoint(1, 1)) * mPointSize );
+		dc.SetLogicalFunction( wxCOPY );
+		dc.DrawRoundedRectangle( rect, 5.0f );
+	}
 }
 
 
@@ -238,11 +233,8 @@ void SelectionRectangle::OnZoneDragMotion()
 		wxPoint diff = mMousePoint - mPreviousMousePoint;
 		wxPoint newStart = mStartCoord + diff;
 		wxPoint newEnd = mEndCoord + diff;
-		if (newStart.x >= 0 && newStart.y >= 0 && newEnd.x >= 0 && newEnd.y >= 0)
-		{
-			mStartCoord = newStart;
-			mEndCoord = newEnd;
-		}
+		mStartCoord = newStart;
+		mEndCoord = newEnd;
 		mParent->Refresh();
 	}
 }

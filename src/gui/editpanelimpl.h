@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      editpanelimpl.h
- * Purpose:   EditPanelGui implementation
+ * Purpose:   ImageEditor declaration
  * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)
  * Created:   2012-02-29
  * Copyright: Pavlovets Ilia
@@ -10,13 +10,14 @@
 #define EDITPANELIMPL_H_INCLUDED
 
 class EditPanel;
+class ImageInfo;
 
-class EditPanelImpl:
+class ImageEditor:
 	public EditPanelGui
 {
 public:
-	EditPanelImpl( wxWindow* parent );
-	~EditPanelImpl(void);
+	ImageEditor( wxWindow* parent );
+	~ImageEditor(void);
 
 	void SetBitmap( wxBitmap* bitmap );
 
@@ -30,14 +31,21 @@ public:
 protected:
 
 	virtual void OnCommandEvent( wxCommandEvent& event );
+	virtual void OnImageChangeEvent( ChangeImageEvent& event );
 
 private:
 
+	void SetImage( ImageInfo* newImage );
+	void ClearImage( bool force = false );
+	void UpdateImage();
+
+	bool CheckChanges();
 	void SetGridEnabled();
 	void SetGridMode();
 	void SetGridColour();
 
 	EditPanel*	mEditPanel;
+	ImageInfo*	mImageInfo;
 };
 
 #endif

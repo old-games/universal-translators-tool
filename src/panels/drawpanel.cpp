@@ -309,28 +309,15 @@ void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
 	{
 		return;
 	}
+	
 	wxMemoryDC mdc;
 	mdc.SelectObjectAsSource( *mBitmap );
-	dc.Clear();
+
 	if (!dc.StretchBlit(0, 0, mShowWidth, mShowHeight, &mdc, 0, 0, mWidth, mHeight))
     {
         wxLogError("DrawPanel::Render error: stretchblit failed!");
     }
 
-	const wxRect rect = GetSelectionRect();
-	if (IsZone() && rect.width > 0 && rect.height > 0)
-	{
-		wxImage img = mBitmap->ConvertToImage().GetSubImage( rect );
-		img = img.ConvertToGreyscale( 0.3, 1.0, 1.0 );
-		wxBitmap bmp(img);
-		
-		
-		mdc.SelectObjectAsSource(bmp);
-		dc.StretchBlit(rect.x, rect.y, 
-			rect.GetWidth() * mRealScale, rect.GetHeight() * mRealScale, 
-			&mdc, 0, 0, rect.GetWidth(), rect.GetHeight());
-	}
-	RenderSelection( dc );
 	DrawFocus( dc );
 }
 
@@ -344,18 +331,22 @@ void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
 	}
 
 	wxAutoBufferedPaintDC dc(this);
+	dc.Clear();
 	if ( !mBitmap || !mBitmap->IsOk())
 	{
-		dc.Clear();
 		event.Skip();
 		return;
 	}
+
 	int x, y;
 	this->GetViewStart(&x, &y);
 	dc.SetDeviceOrigin( mPosX - x, mPosY - y);
+	dc.SetClippingRegion(0, 0, mShowWidth, mShowHeight);
 	Render( dc );
-	event.Skip();
 
+	RenderSelection( wxGCDC(dc) );
+
+	event.Skip();
 }
 
 
@@ -531,6 +522,14 @@ bool DrawPanel::IsExpand()
 			}
 		break;
 
+		case WXK_A:
+			if ( modifier == wxMOD_CONTROL )
+			{	
+				SetSelection(0, 0, mWidth, mHeight);
+				this->Refresh();
+			}
+		break;
+
 		case WXK_ESCAPE:
 			if ( IsZone() )
 			{
@@ -562,12 +561,15 @@ bool DrawPanel::IsExpand()
 	{
 		return false;
 	}
+
 	wxDouble inc = plus ? SCALE_STEP : -SCALE_STEP;
 	if (mScale + inc < mScaleMin || mScale + inc > mScaleMax)
 	{
 		return false;
 	}
+
 	SetBitmapScale( mScale + inc );
+
 	PaintNow();
 	return true;
 }
@@ -721,6 +723,12 @@ void DrawPanel::CheckEndDrag()
 
 
 
+wxRect DrawPanel::GetRealSelectionRect()
+{
+	return GetSelectionRect().Intersect( wxRect(0, 0, mWidth, mHeight) );
+}
+
+
 
 bool DrawPanel::CopySelection()
 {
@@ -731,7 +739,7 @@ bool DrawPanel::CopySelection()
 		return res;
 	}
 
-	wxImage img = mBitmap->ConvertToImage().GetSubImage( GetSelectionRect() );
+	wxImage img = mBitmap->ConvertToImage().GetSubImage( GetRealSelectionRect() );
 
 	if ( img.IsOk() && wxTheClipboard->Open() )
 	{
@@ -741,5 +749,10 @@ bool DrawPanel::CopySelection()
 		res = true;
 		wxLogMessage( "Selection copied to clipboard successfully." );
 	}
+	else
+	{
+		wxLogError("There was an error while trying to copy to the clipboard!");
+	}
+
 	return res;
 }

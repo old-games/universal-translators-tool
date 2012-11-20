@@ -52,10 +52,10 @@ public:
 	inline bool		IsIndexed();
 	int				GetPalType() { return mBPP; }
 	wxBitmap*		GeneratePalBitmap();
-	void			GetColourByIndex( int n, unsigned char& r, unsigned char& g, unsigned char& b ) const;
-	UttColour		GetColourByIndex( int n );
+	void			GetColourByIndex( unsigned char n, unsigned char& r, unsigned char& g, unsigned char& b ) const;
+	UttColour		GetColourByIndex( unsigned char n );
 	UttColour		GetColourByCoordinates( const wxPoint& pos);
-	wxPoint			GetIndexCoordinates( int n );
+	wxPoint			GetIndexCoordinates( unsigned char n );
 
 	int				GetCGAType() { return mCurrentCGAPal; }
 	bool			GetIntensity() { return mCGAIntensity; }

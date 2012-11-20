@@ -14,6 +14,8 @@
 #include "luaexports/luapalette.h"
 #include "luaexports/luaindexmask.h"
 #include "luaexports/luafont.h"
+#include "luaexports/luaimage.h"
+
 
 static OOLUA::Script* gLuaState = NULL;
 static bool gRebootRequest = false;
@@ -46,7 +48,7 @@ bool Lua::Init()
 	PaletteRegister();
 	IndexMaskRegister();
 	FontRegister();
-
+	ImageInfoRegister();
 	return gLuaState->run_file("scripts/init.lua");
 }
 

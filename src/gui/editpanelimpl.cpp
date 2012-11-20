@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      editpanelimpl.cpp
- * Purpose:   Code for EditPanelImpl Class
+ * Purpose:   Code for ImageEditor Class
  * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)
  * Created:   2012-02-29
  * Copyright: Pavlovets Ilia
@@ -10,27 +10,83 @@
 #include "pch.h"
 #include "editpanelimpl.h"
 #include "panels/editpanel.h"
+#include "types/imageinfo.h"
+#include "types/palette.h"
 
 
-EditPanelImpl::EditPanelImpl(  wxWindow* parent ):
-	EditPanelGui( parent )
+ImageEditor::ImageEditor(  wxWindow* parent ):
+	EditPanelGui( parent ),
+	mEditPanel( NULL ),
+	mImageInfo( NULL )
 {
 	mEditPanel = new EditPanel( mEditScrolledBack );
 	SetEditPanel( mEditPanel );
+	wxTheApp->Bind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this );
 }
 
-EditPanelImpl::~EditPanelImpl(void)
+
+
+ImageEditor::~ImageEditor(void)
 {
+	wxTheApp->Unbind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this );
+	ClearImage( true );
 }
 
-void EditPanelImpl::SetBitmap( wxBitmap* bitmap )
+
+
+void ImageEditor::SetBitmap( wxBitmap* bitmap )
 {
 	mEditPanel->SetBitmap( (wxBitmap*) bitmap );
 }
 
 
 
-/* virtual */ void EditPanelImpl::OnCommandEvent( wxCommandEvent& event )
+void ImageEditor::ClearImage( bool force /* false */ )
+{
+	if (mImageInfo != NULL)
+	{
+		if (!CheckChanges() && !force)
+		{
+			return;
+		}
+		delete mImageInfo;
+		mImageInfo = NULL;
+	}
+}
+
+
+
+void ImageEditor::SetImage( ImageInfo* newImage )
+{
+	ClearImage();
+	mImageInfo = newImage->Clone();
+	UpdateImage();
+}
+
+
+
+void ImageEditor::UpdateImage()
+{
+	mEditPanel->SetIndexedBitmap( mImageInfo->GetImage(), mImageInfo->GetPalette() );
+}
+
+
+
+bool ImageEditor::CheckChanges()
+{
+	return true;
+}
+
+
+
+/* virtual */ void ImageEditor::OnImageChangeEvent( ChangeImageEvent& event )
+{
+	SetImage( event.GetImageInfo() );
+}
+
+
+
+/* virtual */ void ImageEditor::OnCommandEvent( wxCommandEvent& event )
 {
 	switch (event.GetId())
 	{
@@ -55,14 +111,14 @@ void EditPanelImpl::SetBitmap( wxBitmap* bitmap )
 
 
 
-void EditPanelImpl::SetGridEnabled()
+void ImageEditor::SetGridEnabled()
 {
 	mEditPanel->SetGridEnabled( mGridCheck->IsChecked() );
 }
 
 
 
-void EditPanelImpl::SetGridMode()
+void ImageEditor::SetGridMode()
 {
 	switch ( mGridModeChoice->GetSelection() )
 	{
@@ -81,7 +137,7 @@ void EditPanelImpl::SetGridMode()
 
 
 
-void EditPanelImpl::SetGridColour()
+void ImageEditor::SetGridColour()
 {
 	wxColourData data;
 	data.SetChooseFull(true);
@@ -103,11 +159,11 @@ void EditPanelImpl::SetGridColour()
 
 
 
-void EditPanelImpl::SetEditPanel( EditPanel* editPanel )
+void ImageEditor::SetEditPanel( EditPanel* editPanel )
 {
 	if ( !editPanel )
 	{
-		wxLogError( wxString::Format("EditPanelImpl::SetEditPanel: bad pointer to EditPanel in args") );
+		wxLogError( wxString::Format("ImageEditor::SetEditPanel: bad pointer to EditPanel in args") );
 		return;
 	}
 

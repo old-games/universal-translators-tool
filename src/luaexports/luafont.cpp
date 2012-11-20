@@ -12,7 +12,7 @@
 #include "luacontrol.h"
 
 
-static int editFont(lua_State *L);
+int editFont(lua_State *L);
 
 
 
@@ -23,7 +23,7 @@ void FontRegister()
 {
 	//Get().register_class<SymbolInfo>();
 	Get().register_class<FontInfo>();
-	// 
+
 	LUA_REG_C_FUNCTION( editFont );
 }
 
@@ -44,12 +44,15 @@ void FontRegister()
 ///
 /// Экспорт класса FontInfo
 ///
+
+
+
 EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( FontInfo, SetValues, AddSymbolFromBuf, AddSymbolIndexed, SetPalette )
 EXPORT_OOLUA_FUNCTIONS_0_CONST( FontInfo )
 
 
 
-static int editFont(lua_State *L)
+int editFont(lua_State *L)
 {
 	if (Lua::Get().stack_count() != 1)
 	{

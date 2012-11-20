@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      symboleditgui.h
- * Purpose:   SymbolEditGui inherited from EditPanelImpl to use
+ * Purpose:   SymbolEditGui inherited from ImageEditor to use
 				SymboPanel instead of EditPanel
  * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)
  * Created:   2012-03-14
@@ -15,7 +15,7 @@
 class SymbolPanel;
 
 class SymbolEditGui :
-	public EditPanelImpl
+	public ImageEditor
 {
 public:
 	SymbolEditGui( wxWindow* parent );

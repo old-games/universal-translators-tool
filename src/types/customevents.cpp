@@ -9,8 +9,6 @@
  
 #include "pch.h"
 #include "customevents.h"
-#include "fontinfo.h"
-#include "palette.h"
 
 
 
@@ -34,6 +32,14 @@ IMPLEMENT_DYNAMIC_CLASS(ColourPickEvent, wxEvent)
 
 wxDEFINE_EVENT( uttEVT_CHANGEFONT, ChangeFontEvent );
 IMPLEMENT_DYNAMIC_CLASS(ChangeFontEvent, wxEvent)
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+wxDEFINE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
+IMPLEMENT_DYNAMIC_CLASS(ChangeImageEvent, wxEvent)
 
 
 

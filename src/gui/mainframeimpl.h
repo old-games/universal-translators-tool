@@ -12,7 +12,7 @@
 
 class FontEditor;
 class LogWindowImpl;
-class EditPanelImpl;
+class ImageEditor;
 class PaletteWindowImpl;
 
 class MainFrameImpl:
@@ -42,7 +42,7 @@ private:
 
 	wxHelpController*		mHelpController;
 	FontEditor*				mFontEditor;
-	EditPanelImpl*			mEditWindow;
+	ImageEditor*			mEditWindow;
 	PaletteWindowImpl*		mPalWindow;
 };
 

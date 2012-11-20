@@ -70,6 +70,7 @@ protected:
 	virtual void OnPaint(wxPaintEvent& event);
 	virtual void OnSize(wxSizeEvent& event);
 	virtual void Render(wxDC& dc);
+	//	virtual void Render2(wxGCDC& dc);
 
 	virtual void OnEnterWindow( wxMouseEvent& event );
 	virtual void OnLeaveWindow( wxMouseEvent& event );
@@ -97,6 +98,8 @@ protected:
 		return mMousePoint.x != -1 && mMousePoint.y != -1;
 	}
 	void DrawRectAround( wxDC& dc, const wxColour& colour );
+	wxRect GetRealSelectionRect();
+
 
 
 

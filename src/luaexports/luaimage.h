@@ -11,6 +11,8 @@
 #define LUAIMAGE_H_INCLUDED
 
 #include "types/imageinfo.h"
+#include "luapalette.h"
+#include "luaindexmask.h"
 
 namespace Lua
 {
@@ -23,7 +25,10 @@ namespace Lua
 OOLUA_CLASS_NO_BASES( ImageInfo )
 	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
 	OOLUA_NO_TYPEDEFS
-//	OOLUA_MEM_FUNC_4( bool, Initiate, Palette::BPP, char*, Palette::SourceFormat, bool )
+
+	OOLUA_MEM_FUNC_1( void, SetImage, IndexMask* )
+	OOLUA_MEM_FUNC_1( bool, SetPalette, Palette* )
+
 OOLUA_CLASS_END
 
 

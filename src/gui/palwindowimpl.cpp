@@ -347,7 +347,7 @@ bool PaletteWindowImpl::CheckLocked()
 		break;
 
 		case wxID_IMAGEEDITOR:
-			owner = PalOwners::poFontEditor;
+			owner = PalOwners::poImageEditor;
 		break;
 	}
 

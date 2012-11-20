@@ -28,7 +28,6 @@ public:
 	wxPoint MousePosition2PointCoords( const wxPoint& pos, bool zeroBased = true );
 
 	void RenderSelection(wxDC& dc);
-	void DrawSelection();
 
 	bool IsZone()
 	{
@@ -60,6 +59,8 @@ public:
 	{
 		return mCoordRect;
 	}
+
+	void SetSelection(int x, int y, int w, int h);
 
 protected:
 

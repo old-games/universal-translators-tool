@@ -13,10 +13,10 @@
 #include "panels/symbolpanel.h"
 
 SymbolEditGui::SymbolEditGui(  wxWindow* parent ):
-	EditPanelImpl( parent ),
+	ImageEditor( parent ),
 	mSymbolPanel( new SymbolPanel( this ) )
 {
-	EditPanelImpl::SetEditPanel( mSymbolPanel );
+	ImageEditor::SetEditPanel( mSymbolPanel );
 	mSymbolPanel->SetScaleRange( 1.0f, 50.0f );
 }
 

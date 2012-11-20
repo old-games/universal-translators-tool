@@ -78,7 +78,7 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 
 	dc.SetBrush( *wxTRANSPARENT_BRUSH );
 
-	if (mDrawFocus)
+	/*if (mDrawFocus)
 	{
 		dc.SetLogicalFunction(wxCOPY);
 		wxRect rect = this->GetClientRect();
@@ -94,7 +94,7 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 		dc.SetPen( borderPen );
 		rect.SetLeftTop( this->GetViewStart() );
 		dc.DrawRectangle(rect);
-	}
+	}*/
 
 	if (mDrawCursor)
 	{

@@ -11,17 +11,32 @@
 
 // forward declarations
 class IndexMask;
+class Palette;
 
 class ImageInfo
 {
 public:
 	ImageInfo();
+	ImageInfo( const ImageInfo& other );
+
 	~ImageInfo();
+	ImageInfo* Clone() { return new ImageInfo(*this); }
+
+	void SetImage( IndexMask* mask );
+	bool SetPalette(Palette* pal);
+	
+	IndexMask* GetImage() { return mIndexMask; }
+	Palette* GetPalette() { return mPalette; }
 
 protected:
 
 private:
+	
+	void	ClearImage();
+	void	ClearPalette();
 
+	IndexMask*		mIndexMask;
+	Palette*		mPalette;
 };
 
 

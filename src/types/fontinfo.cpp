@@ -125,7 +125,10 @@ void FontInfo::AddSymbolIndexed( IndexMask* mask, int swidth, int sheight )
 void FontInfo::ClearPalette()
 {
 	if (mPalette != NULL)
+	{
 		delete mPalette;
+		mPalette = NULL;
+	}
 }
 
 
@@ -137,7 +140,7 @@ bool FontInfo::SetPalette(Palette* pal)
 	mPalette = pal->Clone();
 	if ( mPalette->IsOk() )
 	{
-		ChangePaletteEvent palEvent( wxID_FONTEDITOR, pal, true );
+		ChangePaletteEvent palEvent( wxID_FONTEDITOR, mPalette, true );
 		wxTheApp->QueueEvent( palEvent.Clone() );
 	}
 	return mPalette->IsOk();

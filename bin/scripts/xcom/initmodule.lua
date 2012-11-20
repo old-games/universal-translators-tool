@@ -78,9 +78,9 @@ function Operations.loadDAT( filename )
 --				found = true
 --			end
 --		end
---		
-		if  findStringInTable( KnownImageNames, name ) ~= nil then
-			LoadXcomImage( path, name, fh )
+		local key = findAnyStringInTable( KnownImageNames, name )
+		if key ~= nil then
+			LoadXcomImage( path, name, key, fh )
 		else
 			print ("I don't know what to do with ", filename)
 		end

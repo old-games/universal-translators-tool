@@ -155,18 +155,6 @@ int setModuleReady(lua_State* L)
 
 int getStrInt(lua_State *L)
 {
-	//if (lua_gettop(L) != 2)
-	//{
-	//	wxLogError("getStrInt: function need a string and number of a value in array");
-	//	return 0;
-	//}
-	//const char* buf = lua_tostring(L, 1);
-	//int i = lua_tointeger(L, 2);
-	//lua_pop(L, 2);
-	//if (!buf)
-	//{
-	//	return 0;
-	//}
 	GET_BUFNINDEX(getStrInt)
 	lua_pushnumber(L, buf[i]);
 	return 1;
@@ -177,18 +165,6 @@ int getStrInt(lua_State *L)
 int getStrChar(lua_State *L)
 {
 	GET_BUFNINDEX(getStrChar)
-	/*if (lua_gettop(L) != 2)
-	{
-		wxLogError("getStrChar: function need a string and number of a value in array");
-		return 0;
-	}
-	const char* buf = lua_tostring(L, 1);
-	int i = lua_tointeger(L, 2);
-	lua_pop(L, 2);
-	if (!buf)
-	{
-		return 0;
-	}*/
 	lua_pushlstring(L, &buf[i], 1);
 	return 1;
 }

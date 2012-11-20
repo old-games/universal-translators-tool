@@ -361,6 +361,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\docs\utthelp.hnd"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\uttsimplegui.fbp"
 				>
 			</File>

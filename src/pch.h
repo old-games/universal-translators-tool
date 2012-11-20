@@ -36,6 +36,7 @@
 #include <wx/dynarray.h>
 #include <wx/help.h>
 #include <wx/clipbrd.h>
+#include <wx/dcgraph.h>
 
 // own written but wx compatible
 #include "types/customevents.h"
@@ -76,6 +77,7 @@
 #define WXK_CONSOLE	0x60
 #define WXK_NUM_ONE 0x31
 #define WXK_NUM_TWO 0x32
+#define WXK_A		0x41
 #define WXK_C		0x43
 #define WXK_V		0x56
 

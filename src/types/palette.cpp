@@ -141,7 +141,7 @@ bool Palette::IsIndexed()
 }
 
 
-void Palette::GetColourByIndex( int n, unsigned char& r, unsigned char& g, unsigned char& b ) const
+void Palette::GetColourByIndex( unsigned char n, unsigned char& r, unsigned char& g, unsigned char& b ) const
 {
 	wxASSERT( IsOk() && n < ColourNumber[mBPP] );
 	Pixel& p = ((Pixel*) mCurrent)[n];
@@ -152,7 +152,7 @@ void Palette::GetColourByIndex( int n, unsigned char& r, unsigned char& g, unsig
 
 
 
-UttColour Palette::GetColourByIndex( int n )
+UttColour Palette::GetColourByIndex( unsigned char n )
 {
 	unsigned char r, g, b;
 	GetColourByIndex(n, r, g, b);
@@ -169,7 +169,7 @@ UttColour Palette::GetColourByCoordinates( const wxPoint& pos)
 
 
 
-wxPoint	Palette::GetIndexCoordinates( int n )
+wxPoint	Palette::GetIndexCoordinates( unsigned char n )
 {
 	wxASSERT( n < ColourNumber[mBPP] );
 	int y = n / BitmapSize[mBPP].x;

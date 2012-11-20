@@ -1,10 +1,41 @@
-local PalName = 'PALETTES.DAT'
+local PalName = 'geodata/PALETTES.DAT'
 local PalSize = 768
 currentVersion = 2
 
-KnownImageNames = { "lang1", "lang2", "lang3", "geobord", "up_bord2"}
+KnownImageNames = { "lang", "back", "geobord", "up_bord2"}
 
-xcomFontInfo = 
+imageParams = 
+{
+	lang = 
+	{
+		width = 64,
+		height = 200,
+		palette = 0
+	},
+	
+	back = 
+	{
+		width = 320,
+		height = 200,
+		palette = 1
+	},
+	
+	geobord = 
+	{
+		width = 320,
+		height = 200,
+		palette = 0
+	},
+	
+	up_bord2 = 
+	{
+		width = 320,
+		height = 200,
+		palette = 0
+	} 
+}
+
+local xcomFontInfo = 
 {
 	-- UFO1DOS
 	{
@@ -51,24 +82,41 @@ xcomFontInfo =
 
 
 
-function GetXComPalette( path, n )
+local function GetXComPalette( path, n )
 	local fh = assert(io.open(path..PalName, "rb"))
 	
 	if not fh then
 		return
 	end
 	
-	local maxPal = fh:seek("end") / PalSize
-	
+	local fileSize = fh:seek("end")
+	local maxPal = fileSize / (PalSize + 6)
 	if n >= maxPal then
 		print (PalName.." contains only ", maxPal, " palettes")
 		return
 	end
 	
-	fh:seek("set", n * PalSize)
+	n = n * (PalSize + 6)
+	fh:seek("set", n)
 	local bytes = fh:read( PalSize )
 	fh:close()
 	return bytes
+end
+
+
+
+function CreateXcomPalette( path, n, owner )
+	local palBuffer = GetXComPalette(path, n)
+	if palBuffer ~= nil then
+		local pal = Palette:new()
+		if pal:Initiate( Palette.bpp8, palBuffer, Palette.sfPlain, true ) then
+			if owner:SetPalette( pal ) then
+				print "Palette successfully loaded."
+				return true
+			end
+		end
+	end
+	print "Palette not loaded!"
 end
 
 
@@ -110,12 +158,8 @@ function LoadXcomFont( path, name, fh )
 	
 	font:SetValues( width, height, 3, 3, 0, params.baseLine, 0, params.smallLine )
 	
-	local palBuffer = GetXComPalette(path, params.palette)
-	if palBuffer ~= nil then
-		pal = Palette:new()
-		if pal:Initiate( Palette.bpp8, palBuffer, Palette.sfPlain, true ) then
-			font:SetPalette( pal )
-		end
+	if not CreateXcomPalette( path.."../", params.palette, font ) then
+		return false
 	end
 	
 	print "Font loading..."
@@ -149,4 +193,29 @@ function LoadXcomFont( path, name, fh )
 	editFont( font )
 end
 
+
+
+function LoadXcomImage( path, name, key, fh )
+	local params = imageParams[key]
+	local width = params.width
+	local height = params.height
+	local bufsize = width * height
+	local image = ImageInfo:new()
+	
+	if not 	CreateXcomPalette( path.."../", params.palette, image ) then
+		return
+	end
+	
+	print "Image loading..."
+	
+	local bytes = fh:read( bufsize )
+	if bytes ~= nil and bytes:len() == bufsize then
+		local mask = IndexMask:new()
+		mask:SetMask( bytes, width, height, width, height)
+		if mask:IsOk() then
+			image:SetImage( mask )
+			editImage( image )
+		end
+	end
+end
 

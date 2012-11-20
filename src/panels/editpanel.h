@@ -16,7 +16,7 @@ class EditPanel :
 	public DrawPanel
 {
 
-friend class EditPanelImpl;
+friend class ImageEditor;
 
 public:
 

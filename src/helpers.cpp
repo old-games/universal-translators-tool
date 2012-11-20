@@ -42,6 +42,8 @@ void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const char* s
 		}
 		//dst += correction;
 	}
+
+
 }
 
 } // namespace Helpers

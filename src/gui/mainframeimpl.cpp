@@ -21,7 +21,7 @@ MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
 	mHelpController( NULL ),
 	mFontEditor( new FontEditor( mAUINotebook ) ),
-	mEditWindow( new EditPanelImpl( mAUINotebook ) ),
+	mEditWindow( new ImageEditor( mAUINotebook ) ),
 	mPalWindow( new PaletteWindowImpl( mAUINotebook ) )
 {
 	m_mgr.SetFlags( wxAUI_MGR_ALLOW_FLOATING		|

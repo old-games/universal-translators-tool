@@ -14,6 +14,7 @@
 class ModuleChangedEvent;
 class ColourPickEvent;
 class ChangeFontEvent;
+class ChangeImageEvent;
 class ChangePaletteEvent;
 class SymbolSelectionEvent;
 
@@ -22,6 +23,7 @@ class SymbolSelectionEvent;
 wxDECLARE_EVENT( uttEVT_MODULECHANGED, ModuleChangedEvent );
 wxDECLARE_EVENT( uttEVT_COLOURPICK, ColourPickEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEFONT, ChangeFontEvent );
+wxDECLARE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
 wxDECLARE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
 
@@ -191,6 +193,58 @@ typedef void (wxEvtHandler::*ChangeFontEventFunction)(ChangeFontEvent&);
 
 
 //////////////////////////////////////////////////////////////////////////
+
+
+class ImageInfo;
+
+class ChangeImageEvent : public wxEvent
+{
+public:
+	
+
+    ChangeImageEvent( )
+        : wxEvent(0, uttEVT_CHANGEIMAGE),
+		mImageInfo( NULL )
+	{ }
+	
+    ChangeImageEvent( ImageInfo* imageInfo )
+        : wxEvent(0, uttEVT_CHANGEIMAGE),
+		mImageInfo( imageInfo )
+	{ }
+	
+    ChangeImageEvent(const ChangeImageEvent& event)
+        : wxEvent(event),
+		mImageInfo( event.mImageInfo )
+    { }
+
+    virtual wxEvent *Clone() const { return new ChangeImageEvent(*this); }
+    
+    ImageInfo*	GetImageInfo()
+	{
+		return mImageInfo;
+	}
+
+protected:
+	
+private:
+
+	ImageInfo*	mImageInfo;
+
+	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangeImageEvent)
+};
+
+typedef void (wxEvtHandler::*ChangeImageEventFunction)(ChangeImageEvent&);
+
+#define ChangeImageEventHandler(func) \
+    wxEVENT_HANDLER_CAST(ChangeImageEventFunction, func)
+
+#define EVT_CHANGEIMAGE(func) wx__DECLARE_EVT0(uttEVT_CHANGEIMAGE, ChangeImageEventHandler(func))
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
 
 class Palette;
 
