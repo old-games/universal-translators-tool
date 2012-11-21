@@ -37,17 +37,26 @@
 #include <wx/help.h>
 #include <wx/clipbrd.h>
 #include <wx/dcgraph.h>
+#include <wx/cmdproc.h>
+
 
 // own written but wx compatible
 #include "types/customevents.h"
+#include "utt.h"
+#undef wxTheApp
+#define wxTheApp static_cast<UTTApp*>(UTTApp::GetInstance())
+#define COMMAND wxTheApp->GetCommandProcessor()
+
+
 
 // standard headers
 #include <iostream>
 #include <fstream>
 
+
+
 // Lua headers
 #include <lua.hpp>
-
 #ifndef __VISUALC__
 #include <oolua/oolua.h>
 #else

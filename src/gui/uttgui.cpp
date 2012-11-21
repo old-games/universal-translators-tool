@@ -41,6 +41,27 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	mMainMenu->Append( mFileMenu, wxT("File") ); 
 	
+	mEditMenu = new wxMenu();
+	wxMenuItem* mEditUndo;
+	mEditUndo = new wxMenuItem( mEditMenu, wxID_UNDO, wxString( wxT("Undo") ) + wxT('\t') + wxT("CTRL-Z"), wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mEditUndo->SetBitmaps( wxArtProvider::GetBitmap( wxART_UNDO, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mEditUndo->SetBitmap( wxArtProvider::GetBitmap( wxART_UNDO, wxART_MENU ) );
+	#endif
+	mEditMenu->Append( mEditUndo );
+	
+	wxMenuItem* mEditRedo;
+	mEditRedo = new wxMenuItem( mEditMenu, wxID_REDO, wxString( wxT("Redo") ) + wxT('\t') + wxT("CTRL-Y"), wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mEditRedo->SetBitmaps( wxArtProvider::GetBitmap( wxART_REDO, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mEditRedo->SetBitmap( wxArtProvider::GetBitmap( wxART_REDO, wxART_MENU ) );
+	#endif
+	mEditMenu->Append( mEditRedo );
+	
+	mMainMenu->Append( mEditMenu, wxT("Edit") ); 
+	
 	mLuaMenu = new wxMenu();
 	wxMenuItem* mLuaSelect;
 	mLuaSelect = new wxMenuItem( mLuaMenu, wxID_LUA_SELECT, wxString( wxT("Select module") ) + wxT('\t') + wxT("ALT-M"), wxEmptyString, wxITEM_NORMAL );
@@ -72,6 +93,9 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	mLuaMenu->Append( mLuaReboot );
 	
 	mMainMenu->Append( mLuaMenu, wxT("Lua") ); 
+	
+	mModuleMenu = new wxMenu();
+	mMainMenu->Append( mModuleMenu, wxT("Module") ); 
 	
 	mHelpMenu = new wxMenu();
 	wxMenuItem* mHelpHelp;
@@ -112,6 +136,8 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( UttMainFrame::OnClose ) );
 	this->Connect( mFileOpen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mEditUndo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mEditRedo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaSelect->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaSelect1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaReboot->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -125,6 +151,8 @@ UttMainFrame::~UttMainFrame()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( UttMainFrame::OnClose ) );
 	this->Disconnect( wxID_FILE_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_FILE_QUIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_REDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_SELECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_VERSION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_REBOOT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );

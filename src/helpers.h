@@ -27,15 +27,16 @@ wxBitmap* CreateBitmap(Pixel* buffer, int width, int height);
 //	xxxooo
 //	oooooo
 template<typename T>
-void CropBuffer(T* dst, int dstWidth, int dstHeight, const T* src, int srcWidth, int srcHeight)
+void CropBuffer(T* dst, int dstWidth, int dstHeight, const T* src, int srcWidth )
 {
 	memset( dst, 0, dstWidth * dstHeight * sizeof( T ) );
 	size_t copyLength = sizeof( T ) * dstWidth;
-	size_t correction = sizeof( T ) * srcWidth - copyLength;
-	for (int  y = 0; y < srcHeight; ++y)
+	//size_t correction = srcWidth - copyLength;
+	for (int  y = 0; y < dstHeight; ++y)
 	{
 		memcpy(dst, src, copyLength);
-		src += correction;
+		dst += dstWidth;
+		src += srcWidth;
 	}
 }
 
@@ -46,11 +47,12 @@ void ExpandBuffer(T* dst, int dstWidth, int dstHeight, const T* src, int srcWidt
 {
 	memset( dst, 0, dstWidth * dstHeight * sizeof( T ) );
 	size_t copyLength = sizeof( T ) * srcWidth;
-	size_t correction = sizeof( T ) * dstWidth - copyLength;
+	size_t correction = dstWidth - copyLength;
 	for (int  y = 0; y < srcHeight; ++y)
 	{
 		memcpy(dst, src, copyLength);
 		dst += correction;
+		src += srcWidth;
 	}
 }
 
@@ -70,7 +72,7 @@ void CopyBuffer(T* dst, int dstWidth, int dstHeight, const T* src, int srcWidth,
 
 	if (dstSize < srcSize)
 	{
-		CropBuffer(dst, dstWidth, dstHeight, src, srcWidth, srcHeight);
+		CropBuffer(dst, dstWidth, dstHeight, src, srcWidth );
 	}
 	else
 	{
@@ -78,6 +80,41 @@ void CopyBuffer(T* dst, int dstWidth, int dstHeight, const T* src, int srcWidth,
 	}
 }
 
+
+
+template<typename T>
+void CropSubBuffer(T* dst, int dstWidth, int dstHeight, const T* src, int srcWidth, int cx, int cy)
+{
+	memset( dst, 0, dstWidth * dstHeight * sizeof( T ) );
+	size_t copyLength = sizeof( T ) * dstWidth;
+	src += (cy * srcWidth) + cx;
+	for (int  y = 0; y < dstHeight; ++y)
+	{
+		memcpy(dst, src, copyLength);
+		dst += dstWidth;
+		src += srcWidth;
+	}
+}
+
+
+
+template<typename T>
+void InsertSubBuffer(T* dst, int dstWidth,  
+					 const T* src, int srcWidth, int srcHeight, int ix, int iy)
+{
+	size_t copyLength = sizeof( T ) * srcWidth;
+	dst += (iy * dstWidth) + ix;
+	for (int  y = 0; y < srcHeight; ++y)
+	{
+		memcpy(dst, src, copyLength);
+		dst += dstWidth;
+		src += srcWidth;
+	}
+}
+
+
+bool CopyToClipboard( const wxImage& img );
+bool CopyToClipboard( const wxRect& rect, const wxBitmap* bmp );
 
 void Buffer8bpp_to_Pixels(Pixel*dst, int dstWidth, int dstHeight, const char* src, int srcWidth, int srcHeight, const Palette* pal );
 

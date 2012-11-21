@@ -81,5 +81,4 @@ private:
 	int mIndex;
 };
 
-
 #endif	// UTTTYPES_H_INCLUDED

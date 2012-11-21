@@ -9,12 +9,14 @@
 
 #include "pch.h"
 #include "drawpanel.h"
+
 #include "types/indexmask.h"
 #include "types/palette.h"
-#include "helpers.h"
-#include <wx/arrimpl.cpp> 
+#include "types/imageinfo.h"
 
-//WX_DEFINE_OBJARRAY( DrawPanelArray );
+#include "helpers.h"
+
+
 #define SCALE_STEP	0.25f
 
 int			DrawPanel::sRefCount = 0;
@@ -39,7 +41,7 @@ DrawPanel::DrawPanel(  wxWindow* parent ):
 	mBitmap( NULL ),
 	mWidth( 0 ),
 	mHeight( 0 ),
-	mIndexMask( NULL ),
+	mImageInfo( NULL ),
 	mAlign( utdNone ),
 	mAllowScaling( true ),
 	mPreviousSize( 0, 0 )
@@ -124,18 +126,11 @@ void DrawPanel::SetDrawFocus( bool b /* true */ )
 
 
 
-void DrawPanel::SetIndexedBitmap( IndexMask* mask, Palette* pal )
+void DrawPanel::SetIndexedBitmap( ImageInfo* info, bool cloneInfo /* true */ )
 {
 	DestroyBitmap();
-	mBitmap = mask->GetBitmap( pal );
-	if (pal->IsIndexed())
-	{
-		mIndexMask = mask->Clone();
-	}
-	else
-	{
-		wxLogMessage("DrawPanel::SetIndexedBitmap called, but palette is not indexed!");
-	}
+	mBitmap = info->GetBitmap();
+	mImageInfo = cloneInfo ? info->Clone() : info;
 	ApplyBitmap();
 }
 
@@ -188,10 +183,10 @@ void DrawPanel::DestroyBitmap()
 		mBitmap = NULL;
 	}
 
-	if (mIndexMask)
+	if (mImageInfo)
 	{
-		delete mIndexMask;
-		mIndexMask = NULL;
+		delete mImageInfo;
+		mImageInfo = NULL;
 	}
 }
 
@@ -344,7 +339,7 @@ void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
 	dc.SetClippingRegion(0, 0, mShowWidth, mShowHeight);
 	Render( dc );
 
-	RenderSelection( wxGCDC(dc) );
+	RenderSelection( (wxGCDC&) wxGCDC(dc) );
 
 	event.Skip();
 }
@@ -739,17 +734,15 @@ bool DrawPanel::CopySelection()
 		return res;
 	}
 
-	wxImage img = mBitmap->ConvertToImage().GetSubImage( GetRealSelectionRect() );
-
-	if ( img.IsOk() && wxTheClipboard->Open() )
+	wxRect zone = GetRealSelectionRect();
+	if ( zone.GetWidth() > 0 && zone.GetHeight()  )
 	{
-		wxBitmapDataObject* obj = new wxBitmapDataObject( wxBitmap( img ) );
-		wxTheClipboard->SetData( obj );
-		wxTheClipboard->Close();
-		res = true;
-		wxLogMessage( "Selection copied to clipboard successfully." );
+
+		res = mImageInfo == NULL ?	Helpers::CopyToClipboard(zone, mBitmap) : 
+									mImageInfo->CopyToClipBoard( zone );
 	}
-	else
+	
+	if (!res)
 	{
 		wxLogError("There was an error while trying to copy to the clipboard!");
 	}

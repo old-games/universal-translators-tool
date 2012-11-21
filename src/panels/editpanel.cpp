@@ -10,6 +10,8 @@
 #include "pch.h"
 #include "editpanel.h"
 #include "types/indexmask.h"
+#include "types/imageinfo.h"
+#include "types/undo.h"
 
 #define GRID_EDGE	6.0f		// the value after the grid will be shown
 
@@ -77,24 +79,6 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 	}
 
 	dc.SetBrush( *wxTRANSPARENT_BRUSH );
-
-	/*if (mDrawFocus)
-	{
-		dc.SetLogicalFunction(wxCOPY);
-		wxRect rect = this->GetClientRect();
-		if (rect.GetWidth() > mShowWidth)
-		{
-			rect.SetWidth( mShowWidth );
-		}
-		if (rect.GetHeight() > mShowHeight)
-		{
-			rect.SetHeight( mShowHeight );
-		}
-		wxPen borderPen( this->HasFocus() ? *wxRED : *wxWHITE, 3, wxDOT_DASH );
-		dc.SetPen( borderPen );
-		rect.SetLeftTop( this->GetViewStart() );
-		dc.DrawRectangle(rect);
-	}*/
 
 	if (mDrawCursor)
 	{
@@ -213,32 +197,34 @@ void EditPanel::DrawGrid( wxDC& dc )
 	}
 }
 
-void EditPanel::PlacePixel( const wxPoint& pos, const UttColour& color )
+bool EditPanel::DoPlacePixel( const wxPoint& pos, const UttColour& color )
 {
 	if (mRealScale < 1.0f)
 	{
 		wxLogMessage( "Unable to edit image with such scale.");
 		EndDrawing();
-		return;
+		return false;
 	}
 	
-	if (mIndexMask)
+	if (mImageInfo)
 	{
-		mIndexMask->WriteIndex(pos, color.GetIndex());
+		mImageInfo->GetImage()->WriteIndex(pos, color.GetIndex());
 	}
+
 	wxMemoryDC temp_dc;
 	temp_dc.SelectObject(*mBitmap);
 	temp_dc.SetPen( wxPen(color) );
 	temp_dc.DrawPoint ( pos );
 	PaintNow();
+	return true;
 }
 
 bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 {
 	int n = -1;
-	if (mIndexMask)
+	if (mImageInfo)
 	{
-		 n = mIndexMask->ReadIndex(pos);
+		 n = mImageInfo->GetImage()->ReadIndex(pos);
 	}
 	wxMemoryDC temp_dc;
 	temp_dc.SelectObject(*mBitmap);
@@ -299,7 +285,7 @@ bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 		UttColour colour;
 		if ( mMousePoint.x != -1 && mMousePoint.y != -1 && GetPixel(mMousePoint, colour) )
 		{
-			ColourPickEvent* colourEvent = new ColourPickEvent( colour, btn,
+			ColourPickEvent* colourEvent = new ColourPickEvent(colour, btn,
 				findColour ? ColourPickEvent::cpeFindThisColour : ColourPickEvent::cpeSetThisColour );
 			wxEvtHandler::QueueEvent( colourEvent );
 			return true;
@@ -320,7 +306,7 @@ bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 	{
 		mPreviousPoint = mCursor;
 		mCursor = mMousePoint;
-		if (!DoEdit())
+		if (!CommandEdit())
 		{
 			PaintNow();
 		}
@@ -421,7 +407,7 @@ bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 	{
 		mCursor += dir;
 	}
-	if (!DoEdit())
+	if (!CommandEdit())
 	{
 		PaintNow();
 	}
@@ -430,14 +416,22 @@ bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 
 
 
-bool EditPanel::DoEdit()
+/* virtual */ PlacePixelCommand* EditPanel::CreatePlacePixelCommand()
+{
+	UttColour oldColour;
+	GetPixel(mCursor, oldColour);
+	return new PlacePixelCommand( this, oldColour, mCurrentColour, mCursor );
+}
+
+
+
+bool EditPanel::CommandEdit()
 {
 	if (!mAllowEdit || !mDrawing)
 	{
 		return false;
 	}
-	PlacePixel( mCursor, mCurrentColour );
-	return true;
+	return COMMAND->Submit( CreatePlacePixelCommand() );
 }
 
 
@@ -445,7 +439,7 @@ bool EditPanel::DoEdit()
 bool EditPanel::BeginDrawing()
 {
 	mDrawing = mAllowEdit;
-	DoEdit();
+	CommandEdit();
 	return mDrawing;
 
 }
@@ -455,6 +449,38 @@ bool EditPanel::BeginDrawing()
 void EditPanel::EndDrawing()
 {
 	mDrawing = false;
+}
+
+
+
+bool EditPanel::DoPaste( const wxPoint& pos, const ImageInfo* src )
+{
+	bool res = false;
+	if (mImageInfo->GetImage()->InsertMask(pos, src->GetImage()))
+	{
+		SetIndexedBitmap( mImageInfo->Clone(), false );
+		res = true;
+	}
+	return res;
+}
+
+
+
+bool EditPanel::CommandPaste( const ImageInfo* newValue )
+{
+	if ( mImageInfo == NULL )
+	{
+		return false;
+	}
+	wxRect zone( mCursor, newValue->GetSize() );
+	ImageInfo* old = mImageInfo->CopyToImageInfo( zone );
+	if (old)
+	{
+		ImagePasteCommand* paste = new ImagePasteCommand( this, old->Clone(), newValue->Clone(), mCursor );
+		delete old;
+		return COMMAND->Submit( paste );
+	}
+	return false;
 }
 
 
@@ -469,19 +495,31 @@ bool EditPanel::PasteSelection()
 		return res;
 	}
 	
-	if ( wxTheClipboard->Open() )
+	const ImageInfo* buf = ImageInfo::GetBuffered();
+	if ( buf != NULL )
 	{
-		wxImage img = mBitmap->ConvertToImage();
-		if ( wxTheClipboard->IsSupported( wxDF_BITMAP ) && img.IsOk() )
-		{
-			wxBitmapDataObject data;
-			wxTheClipboard->GetData( data );
-			img.Paste( data.GetBitmap().ConvertToImage(), mCursor.x, mCursor.y );
-			DestroyBitmap();
-			SetBitmap( new wxBitmap( img ) );
-			res = true;
-		}
-		wxTheClipboard->Close();
+		CommandPaste( buf );
 	}
+	//if ( wxTheClipboard->Open() )
+	//{
+	//	if ( wxTheClipboard->IsSupported( wxDF_BITMAP ) )
+	//	{
+	//		wxBitmapDataObject data;
+	//		if (wxTheClipboard->GetData( data ))
+	//		{
+	//			ImageInfoDataObject* imageInfoData = dynamic_cast<ImageInfoDataObject*>(&data);
+	//			if (imageInfoData)
+	//			{
+	//				wxLogMessage(" our data ");
+	//			}
+	//			else
+	//			{
+	//				wxLogMessage(" foreign alien data ");
+	//			}
+	//			//res = DoPaste( mCursor, data.GetBitmap().ConvertToImage());
+	//		}
+	//	}
+	//	wxTheClipboard->Close();
+	//}
 	return res;
 }

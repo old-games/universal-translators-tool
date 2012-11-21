@@ -17,9 +17,12 @@
 
 IMPLEMENT_APP(UTTApp);
 
+
+
 bool UTTApp::OnInit()
 {
-	//_CrtSetBreakAlloc ( 24623 );
+	//_CrtSetBreakAlloc ( 53238 );
+	mCommandProcessor = new wxCommandProcessor();
 	MainFrameImpl* frame = new MainFrameImpl();
 #ifdef VISUALC
 	//frame->SetIcon(wxICON(aaaa)); // To Set App Icon
@@ -34,6 +37,8 @@ bool UTTApp::OnInit()
 int UTTApp::OnExit()
 {
 	this->Unbind( wxEVT_KEY_DOWN, &UTTApp::OnKeyDown, this );
+	mCommandProcessor->ClearCommands();
+	delete mCommandProcessor;
 	return wxApp::OnExit();
 }
 
@@ -42,6 +47,7 @@ UTTApp::~UTTApp()
 {
 	DrawPanel::RefCheck();
 }
+
 
 
 void UTTApp::OnKeyDown( wxKeyEvent& event )
@@ -56,6 +62,8 @@ void UTTApp::OnKeyDown( wxKeyEvent& event )
 			event.Skip();
 	}
 }
+
+
 
 void UTTApp::ShowLuaConsole()
 {

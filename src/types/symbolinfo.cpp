@@ -50,17 +50,6 @@ void SymbolInfo::SetData(const IndexMask* data /* NULL */)
 }
 
 
-//
-//inline void SymbolInfo::CreateData()
-//{
-//	EraseData();
-//	if (mData == NULL)
-//	{
-//		mData = new IndexMask();
-//	}
-//}
-
-
 
 inline void SymbolInfo::EraseData()
 {
@@ -78,20 +67,6 @@ IndexMask* SymbolInfo::GetData()
 	wxASSERT( mData != NULL );
 	return mData;
 }
-
-
-
-
-//inline int SymbolInfo::BoxOffset(int x, int y)
-//{
-//	wxInt32 offset = (x * MAXIMUM_SYMBOL_WIDTH) + y;
-//	if ( (size_t) offset >= sizeof(LetterBox) )
-//	{
-//		wxLogMessage( wxString::Format("SymbolInfo::BoxOffset: coordinates are out of range (X: %d, Y: %d)", x, y) );
-//		return -1;
-//	}
-//	return offset;
-//}
 
 
 

@@ -12,22 +12,34 @@
 // forward declarations
 class IndexMask;
 class Palette;
+class ImageInfoDataObject;
 
 class ImageInfo
 {
 public:
 	ImageInfo();
+	ImageInfo(IndexMask* mask, Palette* pal);
 	ImageInfo( const ImageInfo& other );
 
 	~ImageInfo();
-	ImageInfo* Clone() { return new ImageInfo(*this); }
+	ImageInfo* Clone() const { return new ImageInfo(*this); }
 
 	void SetImage( IndexMask* mask );
 	bool SetPalette(Palette* pal);
+	void SetPaletteAsMain();
 	
-	IndexMask* GetImage() { return mIndexMask; }
-	Palette* GetPalette() { return mPalette; }
+	bool		IsOk() const;
+	IndexMask*	GetImage() const { return mIndexMask; }
+	Palette*	GetPalette() { return mPalette; }
+	wxBitmap*	GetBitmap() const;
+	wxSize		GetSize() const;
 
+	void Clear();
+	bool CopyToClipBoard( const wxRect& rect );
+	ImageInfo* CopyToImageInfo( const wxRect& rect );
+	
+	static void				Done() { delete sBuffered; sBuffered = NULL; }
+	static const ImageInfo*	GetBuffered() { return sBuffered; }
 protected:
 
 private:
@@ -37,6 +49,27 @@ private:
 
 	IndexMask*		mIndexMask;
 	Palette*		mPalette;
+
+	static		ImageInfo*	sBuffered;
+};
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+class ImageInfoDataObject: public wxBitmapDataObject
+{
+public:
+	ImageInfoDataObject( const ImageInfo* mImageInfo );
+	ImageInfoDataObject( const ImageInfoDataObject& other );
+	~ImageInfoDataObject();
+		
+	ImageInfo* ImageInfoDataObject::GetInfo();
+private:
+
+	ImageInfo*	mImageInfo;
 };
 
 

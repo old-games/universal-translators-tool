@@ -13,6 +13,7 @@
 // forward declarations
 class Palette;
 class IndexMask;
+class ImageInfoDataObject;
 
 class IndexMask
 {
@@ -29,13 +30,18 @@ public:
 	IndexMask( const IndexMask& other );
 	~IndexMask();
 	
-	bool WriteIndex( const wxPoint& pos, int n );
-	int ReadIndex( const wxPoint& pos );
+	bool	WriteIndex( const wxPoint& pos, int n );
+	int		ReadIndex( const wxPoint& pos );
+	bool	InsertMask( const wxPoint& point, const IndexMask* src ) const;
 
 	void SetMask( const char* mask, int width, int height, int srcWidth = -1, int srcHeight = -1 );
 
-	bool IsOk() { return mMask != NULL; }
-	wxBitmap* GetBitmap( Palette* pal );
+	bool		IsOk() { return mMask != NULL; }
+	wxBitmap*	GetBitmap( Palette* pal );
+	const char* GetMask() const { return mMask; }
+	int			GetWidth() const { return mWidth; }
+	int			GetHeight() const { return mHeight; }
+
 	IndexMask* Clone() const { return new IndexMask( *this ); }
 
 private:

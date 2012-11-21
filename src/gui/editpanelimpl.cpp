@@ -61,13 +61,14 @@ void ImageEditor::SetImage( ImageInfo* newImage )
 	ClearImage();
 	mImageInfo = newImage->Clone();
 	UpdateImage();
+	mImageInfo->SetPaletteAsMain();
 }
 
 
 
 void ImageEditor::UpdateImage()
 {
-	mEditPanel->SetIndexedBitmap( mImageInfo->GetImage(), mImageInfo->GetPalette() );
+	mEditPanel->SetIndexedBitmap( mImageInfo );
 }
 
 

@@ -98,7 +98,9 @@ class UttMainFrame : public wxFrame
 	protected:
 		wxMenuBar* mMainMenu;
 		wxMenu* mFileMenu;
+		wxMenu* mEditMenu;
 		wxMenu* mLuaMenu;
+		wxMenu* mModuleMenu;
 		wxMenu* mHelpMenu;
 		wxAuiNotebook* mAUINotebook;
 		LogWindowImpl* mLogWindow;

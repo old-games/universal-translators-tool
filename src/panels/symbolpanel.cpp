@@ -9,8 +9,8 @@
 
 #include "pch.h"
 
-//#include "symbolinfo.h"
 #include "types/fontinfo.h"
+#include "types/imageinfo.h"
 #include "panels/symbolpanel.h"
 #include "panels/controlline.h"
 
@@ -62,21 +62,7 @@ void SymbolPanel::UpdateBitmap()
 		return;
 	}
 
-	DestroyBitmap();
-	this->SetIndexedBitmap( sym.GetData(), mFontInfo->GetPalette() );
-
-	//
-	//int width = mFontInfo->GetMaxWidth();
-	//int height = mFontInfo->GetMaxHeight();
-
-	//Pixel* buffer = new Pixel[ width * height ];
-	//Helpers::CropBuffer( buffer, width, height, ((Pixel*) (sym.GetData())), MAXIMUM_SYMBOL_WIDTH, MAXIMUM_SYMBOL_HEIGHT );
-	//wxImage image( width, height, (wxByte*) sym.GetData(), true );
-
-	//mBitmap = new wxBitmap( image );
-	//delete[] buffer;
-
-	ApplyBitmap();
+	this->SetIndexedBitmap( new ImageInfo(sym.GetData(), mFontInfo->GetPalette()), false );
 }
 
 void SymbolPanel::UpdateControlLines()

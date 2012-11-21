@@ -12,6 +12,7 @@
 #include "imageinfo.h"
 #include "indexmask.h"
 
+ImageInfo*	ImageInfo::sBuffered = NULL;
 
 
 ImageInfo::ImageInfo():
@@ -19,6 +20,17 @@ ImageInfo::ImageInfo():
 	mPalette(NULL)
 {
 }
+
+
+
+ImageInfo::ImageInfo(IndexMask* mask, Palette* pal):
+	mIndexMask(NULL),
+	mPalette(NULL)
+{
+	SetImage( mask );
+	SetPalette( pal );
+}
+
 
 
 ImageInfo::ImageInfo( const ImageInfo& other ):
@@ -40,6 +52,13 @@ ImageInfo::ImageInfo( const ImageInfo& other ):
 
 ImageInfo::~ImageInfo()
 {
+	Clear();
+}
+
+
+
+void ImageInfo::Clear()
+{
 	ClearPalette();
 	ClearImage();
 }
@@ -60,12 +79,18 @@ bool ImageInfo::SetPalette(Palette* pal)
 	wxASSERT( pal );
 	ClearPalette();
 	mPalette = pal->Clone();
-	if ( mPalette->IsOk() )
+	return mPalette->IsOk();
+}
+
+
+
+void ImageInfo::SetPaletteAsMain()
+{
+	if ( mPalette && mPalette->IsOk() )
 	{
 		ChangePaletteEvent palEvent( wxID_IMAGEEDITOR, mPalette, true );
 		wxTheApp->QueueEvent( palEvent.Clone() );
 	}
-	return mPalette->IsOk();
 }
 
 
@@ -89,3 +114,115 @@ void ImageInfo::ClearImage()
 		mIndexMask = NULL;
 	}
 }
+
+
+
+wxBitmap* ImageInfo::GetBitmap() const
+{
+	wxASSERT( IsOk() );
+	return mIndexMask->GetBitmap( mPalette );
+}
+
+
+
+wxSize ImageInfo::GetSize() const 
+{ 
+	return wxSize( mIndexMask->GetWidth(), mIndexMask->GetHeight() ); 
+}
+
+
+
+
+bool ImageInfo::IsOk() const
+{ 
+	return mIndexMask && mPalette && mIndexMask->IsOk() && mPalette->IsOk(); 
+}
+	
+
+
+ImageInfo* ImageInfo::CopyToImageInfo( const wxRect& rect )
+{
+	int w = rect.GetWidth();
+	int h = rect.GetHeight();
+
+	size_t size = w * h;
+	char* buf = (char*) malloc( size );
+	
+	Helpers::CropSubBuffer( buf, w, h, mIndexMask->GetMask(), 
+		mIndexMask->GetWidth(), rect.x, rect.y);
+	
+	IndexMask mask;
+	mask.SetMask( buf, w, h );
+	
+	free(buf);
+ 
+	ImageInfo* info = new ImageInfo( &mask, mPalette);
+	if (!info->IsOk())
+	{
+		delete info;
+		info = NULL;
+	}
+	return info;
+}
+
+
+
+bool ImageInfo::CopyToClipBoard( const wxRect& rect )
+{
+	bool res = false;
+	ImageInfo* newBuffered = CopyToImageInfo( rect );
+	if (newBuffered->IsOk())
+	{
+	
+		delete sBuffered;
+		sBuffered = newBuffered;
+		
+		wxBitmap* bmp = sBuffered->GetBitmap();
+		Helpers::CopyToClipboard(bmp->ConvertToImage());
+		delete bmp;
+
+		res = true;
+	}
+	else
+	{
+		delete newBuffered;
+	}
+	return res;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+ImageInfoDataObject::ImageInfoDataObject( const ImageInfo* info ):
+	wxBitmapDataObject( *info->GetBitmap() ),
+	mImageInfo( info->Clone() )
+{
+
+}
+
+
+
+ImageInfoDataObject::ImageInfoDataObject( const ImageInfoDataObject& other ):
+	wxBitmapDataObject( *other.mImageInfo->GetBitmap() ),
+	mImageInfo( other.mImageInfo->Clone() )
+{
+
+}
+
+
+
+ImageInfoDataObject::~ImageInfoDataObject()
+{
+	delete mImageInfo;
+}
+
+
+
+ImageInfo* ImageInfoDataObject::GetInfo()
+{
+	return mImageInfo;
+}
+

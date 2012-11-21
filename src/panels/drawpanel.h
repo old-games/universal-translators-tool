@@ -15,6 +15,7 @@
 // forward declaratinos
 class Palete;
 class IndexMask;
+class ImageInfo;
 
 
 enum UTTDrawParams
@@ -40,7 +41,7 @@ public:
 	explicit DrawPanel( wxWindow* parent );
 	virtual ~DrawPanel(void);
 
-	void SetIndexedBitmap( IndexMask* mask, Palette* pal );
+	void SetIndexedBitmap( ImageInfo* info, bool cloneInfo = true );
 	void SetBitmap( wxBitmap* bitmap );
 	void SetBitmap(Pixel* buffer, int width, int height);
 
@@ -123,7 +124,7 @@ protected:
 	int		    mWidth;
 	int		    mHeight;
 	
-	IndexMask*	mIndexMask;
+	ImageInfo*	mImageInfo;
 
 private:
 	void DrawFocus(wxDC& dc);

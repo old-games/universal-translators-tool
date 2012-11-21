@@ -10,11 +10,14 @@
 #include "pch.h"
 #include "mainframeimpl.h"
 #include "luacontrol.h"
+#include "types/undo.h"
+#include "types/imageinfo.h"
 
 #include "fonteditimpl.h"
 #include "logwindowimpl.h"
 #include "editpanelimpl.h"
 #include "palwindowimpl.h"
+
 #include "panels/symbolpanel.h"
 
 MainFrameImpl::MainFrameImpl(void):
@@ -24,6 +27,10 @@ MainFrameImpl::MainFrameImpl(void):
 	mEditWindow( new ImageEditor( mAUINotebook ) ),
 	mPalWindow( new PaletteWindowImpl( mAUINotebook ) )
 {
+	
+	COMMAND->SetEditMenu( mEditMenu );
+	COMMAND->Initialize();
+
 	m_mgr.SetFlags( wxAUI_MGR_ALLOW_FLOATING		|
 					wxAUI_MGR_ALLOW_ACTIVE_PANE		|
 					wxAUI_MGR_TRANSPARENT_DRAG		|
@@ -36,7 +43,31 @@ MainFrameImpl::MainFrameImpl(void):
 	this->AddPane(mEditWindow, "Image editor");
 	this->AddPane(mPalWindow, "Palette window");
 
+//		wxBMPHandler: For loading (including alpha support) and saving, always installed.
+//		wxPNGHandler: For loading and saving. Includes alpha support.
+//		wxJPEGHandler: For loading and saving.
+//		wxGIFHandler: For loading and saving (see below).
+//		wxPCXHandler: For loading and saving (see below).
+//		wxPNMHandler: For loading and saving (see below).
+//		wxTIFFHandler: For loading and saving. Includes alpha support.
+//		wxTGAHandler: For loading and saving. Includes alpha support.
+//		wxIFFHandler: For loading only.
+//		wxXPMHandler: For loading and saving.
+//		wxICOHandler: For loading and saving.
+//		wxCURHandler: For loading and saving.
+//		wxANIHandler: For loading only.
+
 	wxImage::AddHandler(new wxPNGHandler);
+	wxImage::AddHandler(new wxJPEGHandler);
+	wxImage::AddHandler(new wxGIFHandler);
+	wxImage::AddHandler(new wxPCXHandler);
+	wxImage::AddHandler(new wxPNMHandler);
+	wxImage::AddHandler(new wxTGAHandler);
+	wxImage::AddHandler(new wxTGAHandler);
+	wxImage::AddHandler(new wxIFFHandler);
+	wxImage::AddHandler(new wxXPMHandler);
+
+
 	this->Bind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
 	this->Bind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
 
@@ -141,6 +172,7 @@ void MainFrameImpl::Init()
 
 void MainFrameImpl::Deinit()
 {
+	ImageInfo::Done();
 	if (mHelpController)
 	{
 		delete mHelpController;
@@ -222,7 +254,6 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 				{
 					wxLogError("Help was initialized, but can not display contents!");
 				}
-				event.Skip();
 			}
 		break;
 
@@ -249,10 +280,19 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 			}
 		break;
 
+		case wxID_UNDO:
+			COMMAND->Undo();
+		break;
+
+		case wxID_REDO:
+			COMMAND->Redo();
+		break;
+
 		default:
 			wxLogMessage( wxString::Format("Unknown command from main menu: %d", event.GetId()) );
 		break;
 	}
+	event.Skip();
 }
 
 

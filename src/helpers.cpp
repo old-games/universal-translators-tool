@@ -25,6 +25,31 @@ wxBitmap* CreateBitmap( Pixel* buffer, int width, int height )
 }
 
 
+bool CopyToClipboard( const wxImage& img )
+{
+	bool res = false;
+	if ( img.IsOk() && wxTheClipboard->Open() )
+	{
+		wxBitmapDataObject* obj = new wxBitmapDataObject( wxBitmap( img ) );
+		res = wxTheClipboard->SetData( obj );
+		wxTheClipboard->Close();
+	}
+	else
+	{
+		wxLogError("Helpers::CreateDataObject: There was an error while trying to copy to the clipboard!");
+	}
+	return res;
+}
+
+
+
+bool CopyToClipboard( const wxRect& rect, const wxBitmap* bmp )
+{
+	wxImage img = bmp->ConvertToImage().GetSubImage( rect );
+	return CopyToClipboard( img );
+}
+
+
 
 void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const char* src, int srcWidth, int srcHeight, const Palette* pal )
 {

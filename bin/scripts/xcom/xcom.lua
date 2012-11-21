@@ -17,7 +17,7 @@ imageParams =
 	{
 		width = 320,
 		height = 200,
-		palette = 1
+		palette = 0
 	},
 	
 	geobord = 
@@ -31,7 +31,7 @@ imageParams =
 	{
 		width = 320,
 		height = 200,
-		palette = 0
+		palette = 2
 	} 
 }
 

@@ -154,7 +154,7 @@ void PalettePanel::SetBitmapColour( bool right )
 {
 	UttColour& colour = right ? mRightColour : mLeftColour;
 	wxPoint& pos = right ? mRightPos : mLeftPos;
-	PlacePixel( pos, colour );
+	DoPlacePixel( pos, colour );
 }
 
 

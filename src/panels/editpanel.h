@@ -9,14 +9,18 @@
 #ifndef EDITPANEL_H_INCLUDED
 #define EDITPANEL_H_INCLUDED
 
-// TODO: remove when will be done
 #include "drawpanel.h"
 
-class EditPanel :
-	public DrawPanel
+
+class PlacePixelCommand;
+class ImageCopyPasteCommand;
+
+class EditPanel: public DrawPanel
 {
 
 friend class ImageEditor;
+friend class PlacePixelCommand;
+friend class ImagePasteCommand;
 
 public:
 
@@ -63,8 +67,11 @@ protected:
 	virtual void SetShowParams();
 
 	void DrawGrid( wxDC& dc );
-	void PlacePixel( const wxPoint& pos, const UttColour& color );
+	bool DoPlacePixel( const wxPoint& pos, const UttColour& color );
+	bool DoPaste( const wxPoint& pos, const ImageInfo* img );
 	bool GetPixel( const wxPoint& pos, UttColour& color );
+
+	virtual	PlacePixelCommand*	CreatePlacePixelCommand();
 
 	bool		mDrawing;
 	bool		mDrawCursor;
@@ -73,7 +80,8 @@ protected:
 private:
 
 	void ClearGridPoints();
-	bool DoEdit();
+	bool CommandEdit();
+	bool CommandPaste( const ImageInfo* newValue );
 	bool BeginDrawing();
 	void EndDrawing();
 	bool PasteSelection();

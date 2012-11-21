@@ -49,7 +49,7 @@ void IndexMask::SetMask( const char* mask, int width, int height, int srcWidth /
 
 	if (mSrcHeight == -1)
 	{
-		mSrcWidth = mHeight;
+		mSrcHeight = mHeight;
 	}
 
 	mSize = mWidth * mHeight;
@@ -112,3 +112,40 @@ int IndexMask::ReadIndex( const wxPoint& pos )
 	wxASSERT( pos.x < mWidth && pos.y < mHeight );
 	return mMask[ (pos.y * mWidth) + pos.x ];
 }
+
+
+
+bool IndexMask::InsertMask( const wxPoint& point, const IndexMask* src ) const
+{
+	wxRect targetRect( point.x, point.y, src->GetWidth(), src->GetHeight() );
+	wxRect checkRect = targetRect;
+		
+	if (checkRect.GetWidth() >= 0 && checkRect.GetHeight() >= 0)
+	{
+		char* newSrc = NULL;
+		if (targetRect != checkRect.Intersect( wxRect(0, 0, mWidth, mHeight) ))
+		{
+			int w = checkRect.GetWidth();
+			int h = checkRect.GetHeight();
+
+			newSrc = (char*) malloc( w * h );
+
+			Helpers::CropBuffer( newSrc, w, h, src->GetMask(), src->GetWidth() );
+			Helpers::InsertSubBuffer( mMask, mWidth,  
+					newSrc, w, h,
+					point.x, point.y);
+
+			free(newSrc);
+		}
+		else
+		{
+			Helpers::InsertSubBuffer( mMask, mWidth, 
+					src->GetMask(), checkRect.GetWidth(), checkRect.GetHeight(),
+					point.x, point.y);
+		}
+		return true;
+	}
+	return false;
+}
+
+

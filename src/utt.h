@@ -19,7 +19,8 @@ class UTTApp : public wxApp
 
 public:
 	UTTApp():
-		mConsoleFrame( NULL )
+		mConsoleFrame( NULL ),
+		mCommandProcessor( NULL )
 	{
 		this->Bind( wxEVT_KEY_DOWN, &UTTApp::OnKeyDown, this );
 	}
@@ -27,6 +28,7 @@ public:
 	~UTTApp();
 
 	void ShowLuaConsole();
+	wxCommandProcessor* GetCommandProcessor() { return mCommandProcessor; }
 
 protected:
 	virtual bool OnInit();
@@ -36,7 +38,8 @@ private:
 
 	void OnKeyDown( wxKeyEvent& event );
 
-	LuaConsole*		mConsoleFrame;
+	LuaConsole*			mConsoleFrame;
+	wxCommandProcessor*	mCommandProcessor;
 };
 
 DECLARE_APP(UTTApp)

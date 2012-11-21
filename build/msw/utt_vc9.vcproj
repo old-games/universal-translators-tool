@@ -541,6 +541,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\types\undo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\undo.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\types\uttypes.cpp"
 				>
 				<FileConfiguration
