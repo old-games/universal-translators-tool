@@ -28,8 +28,8 @@ OOLUA_CLASS_NO_BASES( IndexMask )
 	OOLUA_NO_TYPEDEFS
 	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
 
-	//	void SetMask( unsigned char* mask, int width, int height, int srcWidth, int srcHeight );
-	OOLUA_MEM_FUNC_5( void, SetMask, const char*, int, int, int, int )
+	//	void SetMask( unsigned char* mask, unsigned size, int width, int height, int srcWidth, int srcHeight );
+	OOLUA_MEM_FUNC_6( void, SetMask, const char*, int, int, int, int, int )
 	OOLUA_MEM_FUNC_0( bool, IsOk )
 OOLUA_CLASS_END
 

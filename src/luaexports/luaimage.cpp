@@ -35,7 +35,7 @@ void ImageInfoRegister()
 
 
 EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( ImageInfo, SetImage, SetPalette )
-EXPORT_OOLUA_FUNCTIONS_0_CONST( ImageInfo )
+EXPORT_OOLUA_FUNCTIONS_1_CONST( ImageInfo, IsOk )
 
 
 
@@ -49,7 +49,7 @@ int editImage(lua_State *L)
 	ImageInfo* imageInfo;
 	OOLUA::pull2cpp(L, imageInfo);
 	
-	ChangeImageEvent* imageEvent = new ChangeImageEvent( imageInfo );
-	wxTheApp->QueueEvent( imageEvent );
+	ChangeImageEvent imageEvent( imageInfo );
+	wxTheApp->ProcessEvent( imageEvent );
 	return 0;
 }

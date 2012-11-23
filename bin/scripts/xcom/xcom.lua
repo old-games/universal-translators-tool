@@ -180,7 +180,7 @@ function LoadXcomFont( path, name, fh )
 			end
 			
 			local mask = IndexMask:new()
-			mask:SetMask( bytes, width, height, width, height)
+			mask:SetMask( bytes, bufsize, width, height, width, height)
 			
 			if mask:IsOk() then
 				font:AddSymbolIndexed( mask, w, height )
@@ -211,7 +211,7 @@ function LoadXcomImage( path, name, key, fh )
 	local bytes = fh:read( bufsize )
 	if bytes ~= nil and bytes:len() == bufsize then
 		local mask = IndexMask:new()
-		mask:SetMask( bytes, width, height, width, height)
+		mask:SetMask( bytes, bufsize, width, height, width, height)
 		if mask:IsOk() then
 			image:SetImage( mask )
 			editImage( image )

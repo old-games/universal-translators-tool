@@ -34,9 +34,10 @@ public:
 	wxBitmap*	GetBitmap() const;
 	wxSize		GetSize() const;
 
-	void Clear();
-	bool CopyToClipBoard( const wxRect& rect );
-	ImageInfo* CopyToImageInfo( const wxRect& rect );
+	void		Clear();
+	bool		CopyToClipBoard( const wxRect& rect );
+	ImageInfo*	CopyToImageInfo( const wxRect& rect );
+	bool		PasteImageInfo( const wxPoint& point, const ImageInfo* src ) ;
 	
 	static void				Done() { delete sBuffered; sBuffered = NULL; }
 	static const ImageInfo*	GetBuffered() { return sBuffered; }

@@ -140,6 +140,7 @@ void SymbolPanel::UpdateControlLines()
 	{
 		return true;
 	}
+
 	if ( DragLine() )
 	{
 		return true;

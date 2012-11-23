@@ -103,7 +103,7 @@ void FontInfo::AddSymbolFromBuf( const char* data, int width, int height, int sw
 {
 	wxASSERT( mPalette != NULL );	
 	IndexMask mask;
-	mask.SetMask( data, width, height );
+	mask.SetMask( data, width * height, width, height );
 	if (mask.IsOk())
 	{
 		AddSymbolIndexed( &mask, swidth, sheight );

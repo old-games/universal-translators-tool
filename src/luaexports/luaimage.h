@@ -28,6 +28,7 @@ OOLUA_CLASS_NO_BASES( ImageInfo )
 
 	OOLUA_MEM_FUNC_1( void, SetImage, IndexMask* )
 	OOLUA_MEM_FUNC_1( bool, SetPalette, Palette* )
+	OOLUA_MEM_FUNC_0_CONST( bool, IsOk )
 
 OOLUA_CLASS_END
 

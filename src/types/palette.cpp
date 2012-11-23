@@ -32,7 +32,7 @@ const int Palette::Bits[bppNum] =
 	2,
 	4,
 	8,
-	15,
+	16,
 	16,
 	24,
 	32
@@ -113,6 +113,8 @@ Palette::Palette( const Palette& other ):
 	mCurrent( NULL )
 {
 	AllocateDatas();
+
+	if ( this->IsIndexed() )
 	{	
 		CopyPalette( mData, other.mData );
 		CopyPalette( mCurrent, other.mCurrent );
@@ -141,7 +143,8 @@ bool Palette::IsIndexed()
 }
 
 
-void Palette::GetColourByIndex( unsigned char n, unsigned char& r, unsigned char& g, unsigned char& b ) const
+
+void Palette::GetColourByIndex( unsigned char n, char& r, char& g, char& b ) const
 {
 	wxASSERT( IsOk() && n < ColourNumber[mBPP] );
 	Pixel& p = ((Pixel*) mCurrent)[n];
@@ -154,7 +157,7 @@ void Palette::GetColourByIndex( unsigned char n, unsigned char& r, unsigned char
 
 UttColour Palette::GetColourByIndex( unsigned char n )
 {
-	unsigned char r, g, b;
+	char r, g, b;
 	GetColourByIndex(n, r, g, b);
 	return UttColour( wxColour(r, g, b), n );
 }
@@ -178,6 +181,36 @@ wxPoint	Palette::GetIndexCoordinates( unsigned char n )
 
 
 
+unsigned int Palette::GetCorrectImageSize( int width, int height, bool forIndexMask /* false */)
+{
+	unsigned int size = width * height;
+
+	if (mBPP == bpp8 || (forIndexMask && mBPP < bpp8) )
+	{
+		return size;
+	}
+
+	if (mBPP < bpp8)
+	{
+		size /= 8 >> (mBPP - 1);
+	}
+	else
+	{
+		size *= Bits[mBPP]  >> 3;
+	}
+
+	return size;
+}
+
+
+
+unsigned int  Palette::GetPaletteSize( BPP bits, SourceFormat fmt )
+{
+	return ColourNumber[bits] * (fmt == sfBMP ? 4 : 3);
+}
+
+
+
 bool Palette::Initiate( BPP bpp, char* src /* NULL */, SourceFormat fmt /* sfPlain */, bool shift /* false */ )
 {
 	if (mInitiated)
@@ -194,13 +227,8 @@ bool Palette::Initiate( BPP bpp, char* src /* NULL */, SourceFormat fmt /* sfPla
 	mBPP = bpp;
 	mShifted = shift;
 	
-	switch (fmt)
-	{
-		case sfPlain:
-			mSize = PaletteSize(bpp);
-		break;
-	}
-	
+	mSize = PaletteSize(bpp);
+
 	if (src == NULL)
 	{
 		switch( mBPP )
@@ -225,8 +253,8 @@ bool Palette::Initiate( BPP bpp, char* src /* NULL */, SourceFormat fmt /* sfPla
 	AllocateDatas();
 	if ( this->IsIndexed() )
 	{
-		CopyPalette( mData, src );
-		CopyPalette( mCurrent, src );
+		CopyPalette( mData, src, fmt == sfBMP );
+		CopyPalette( mCurrent, mData );
 	}
 
 	if (mShifted)
@@ -257,13 +285,29 @@ void Palette::ShiftPalette()
 
 
 
-void Palette::CopyPalette( void* dest, void* src )
+void Palette::CopyPalette( void* dest, void* src, bool skipFourth /* false */ )
 {
-	if ( !IsOk() )
+	if ( !IsOk() && !IsIndexed() )
 	{
 		return;
 	}
-	memcpy(dest, src, mSize);
+	if (skipFourth)
+	{
+		char* csrc = (char*) src;
+		char* cdest = (char*) dest;
+		for (int i = 0; i < ColourNumber[mBPP]; ++i)
+		{
+			cdest[0] = csrc[2];
+			cdest[1] = csrc[1];
+			cdest[2] = csrc[0];
+			cdest += 3;
+			csrc += 4;
+		}
+	}
+	else
+	{
+		memcpy(dest, src, mSize);
+	}
 }
 
 

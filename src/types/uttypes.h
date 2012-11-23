@@ -17,8 +17,8 @@
 #define MAXIMUM_SYMBOL_HEIGHT		64
 
 
-typedef wxByte Pixel[3];
-typedef wxByte PixelA[4];
+typedef char Pixel[3];
+typedef char PixelA[4];
 
 
 

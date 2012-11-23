@@ -83,6 +83,7 @@ bool ImageEditor::CheckChanges()
 /* virtual */ void ImageEditor::OnImageChangeEvent( ChangeImageEvent& event )
 {
 	SetImage( event.GetImageInfo() );
+//	event.Skip();
 }
 
 
@@ -108,6 +109,7 @@ bool ImageEditor::CheckChanges()
 			return;
 	}
 	mEditPanel->PaintNow();
+	event.Skip();
 }
 
 

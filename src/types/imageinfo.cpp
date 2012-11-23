@@ -142,17 +142,51 @@ bool ImageInfo::IsOk() const
 
 ImageInfo* ImageInfo::CopyToImageInfo( const wxRect& rect )
 {
-	int w = rect.GetWidth();
-	int h = rect.GetHeight();
-
-	size_t size = w * h;
-	char* buf = (char*) malloc( size );
 	
-	Helpers::CropSubBuffer( buf, w, h, mIndexMask->GetMask(), 
-		mIndexMask->GetWidth(), rect.x, rect.y);
+	wxRect checkRect = rect;
+	checkRect.Intersect( wxRect(0, 0, mIndexMask->GetWidth(), mIndexMask->GetHeight()) );
+	if ( !(checkRect.GetWidth() >= 0 && checkRect.GetHeight() >= 0) )
+	{
+		return NULL;
+	}
+	int w = checkRect.GetWidth();
+	int h = checkRect.GetHeight();
+
+	size_t size = mPalette->GetCorrectImageSize(w, h, true);
+	char* buf = (char*) malloc( size );
+	int bytesOnPixel = size / (w * h);
+
+	switch (bytesOnPixel)
+	{
+		case 1:
+			Helpers::CropSubBuffer( buf, w, h, mIndexMask->GetMask(), 
+								mIndexMask->GetWidth(), rect.x, rect.y);
+		break;
+
+		case 2:
+			Helpers::CropSubBuffer<short>((short*) buf, w, h, (const short*) mIndexMask->GetMask(), 
+								mIndexMask->GetWidth(), rect.x, rect.y);
+		break;
+
+		case 3:
+			Helpers::CropSubBuffer<Pixel>((Pixel*)(buf), w, h, 
+								(const Pixel*) mIndexMask->GetMask(), 
+								mIndexMask->GetWidth(), rect.x, rect.y);
+		break;
+
+		case 4:
+			Helpers::CropSubBuffer<PixelA>((PixelA*) buf, w, h, (const PixelA*) mIndexMask->GetMask(), 
+								mIndexMask->GetWidth(), rect.x, rect.y);
+		break;
+
+		default:
+			wxLogError( wxString::Format("ImageInfo::CopyToImageInfo: Bytes on pixel = %d", bytesOnPixel));
+	}
+
+	
 	
 	IndexMask mask;
-	mask.SetMask( buf, w, h );
+	mask.SetMask( buf, size, w, h );
 	
 	free(buf);
  
@@ -164,6 +198,39 @@ ImageInfo* ImageInfo::CopyToImageInfo( const wxRect& rect )
 	}
 	return info;
 }
+
+
+
+bool ImageInfo::PasteImageInfo( const wxPoint& point, const ImageInfo* src )
+{
+	bool res = false;
+	size_t size = mPalette->GetCorrectImageSize(10, 10, true);
+	int bytesOnPixel = size / (10 * 10);
+
+	switch (bytesOnPixel)
+	{
+		case 1:
+			res = mIndexMask->InsertMask<char>( point, src->GetImage() );
+		break;
+
+		case 2:
+			res = mIndexMask->InsertMask<short>( point, src->GetImage() );
+		break;
+
+		case 3:
+			res = mIndexMask->InsertMask<Pixel>( point, src->GetImage() );
+		break;
+
+		case 4:
+			res = mIndexMask->InsertMask<PixelA>( point, src->GetImage() );
+		break;
+
+		default:
+			wxLogError( wxString::Format("ImageInfo::PasteImageInfo: Bytes on pixel = %d", bytesOnPixel));
+	}
+	return res;
+}
+
 
 
 

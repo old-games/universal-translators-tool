@@ -72,11 +72,11 @@ void CopyBuffer(T* dst, int dstWidth, int dstHeight, const T* src, int srcWidth,
 
 	if (dstSize < srcSize)
 	{
-		CropBuffer(dst, dstWidth, dstHeight, src, srcWidth );
+		CropBuffer<T>(dst, dstWidth, dstHeight, src, srcWidth );
 	}
 	else
 	{
-		ExpandBuffer(dst, dstWidth, dstHeight, src, srcWidth, srcHeight);
+		ExpandBuffer<T>(dst, dstWidth, dstHeight, src, srcWidth, srcHeight);
 	}
 }
 
@@ -97,6 +97,8 @@ void CropSubBuffer(T* dst, int dstWidth, int dstHeight, const T* src, int srcWid
 }
 
 
+//void CropSubBuffer2(Pixel* dst, int dstWidth, int dstHeight, const Pixel* src, int srcWidth, int cx, int cy);
+
 
 template<typename T>
 void InsertSubBuffer(T* dst, int dstWidth,  
@@ -112,7 +114,7 @@ void InsertSubBuffer(T* dst, int dstWidth,
 	}
 }
 
-
+void BufferToBMPStyle(char* mask, int w, int h, int bytespp);
 bool CopyToClipboard( const wxImage& img );
 bool CopyToClipboard( const wxRect& rect, const wxBitmap* bmp );
 

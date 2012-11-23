@@ -63,7 +63,7 @@ MainFrameImpl::MainFrameImpl(void):
 	wxImage::AddHandler(new wxPCXHandler);
 	wxImage::AddHandler(new wxPNMHandler);
 	wxImage::AddHandler(new wxTGAHandler);
-	wxImage::AddHandler(new wxTGAHandler);
+	wxImage::AddHandler(new wxTIFFHandler);
 	wxImage::AddHandler(new wxIFFHandler);
 	wxImage::AddHandler(new wxXPMHandler);
 

@@ -45,8 +45,17 @@ OOLUA_CLASS_NO_BASES( Palette )
 
 	//	bool		Initiate( BPP bpp, void* src = NULL, SourceFormat fmt = sfPlain, bool shift = false );
 	OOLUA_MEM_FUNC_4( bool, Initiate, Palette::BPP, char*, Palette::SourceFormat, bool )
+
 	//	void		SetCGAType( int cga, bool intensity );
 	OOLUA_MEM_FUNC_2( void, SetCGAType, int, bool )
+
+	//	unsigned int	GetCorrectImageSize( int width, int height, bool forIndexMask copy );
+	OOLUA_MEM_FUNC_3( unsigned int, GetCorrectImageSize, int, int, bool )
+	
+	//	unsigned int  Palette::GetPaletteSize( BPP bits, SourceFormat fmt )
+	OOLUA_MEM_FUNC_2( unsigned int, GetPaletteSize, Palette::BPP, Palette::SourceFormat )
+	
+	OOLUA_MEM_FUNC_0_CONST( bool, IsOk )
 OOLUA_CLASS_END
 
 

@@ -30,7 +30,7 @@ void PaletteRegister()
 ///
 /// Экспорт класса Palette
 ///
-EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( Palette, Initiate, SetCGAType )
+EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( Palette, Initiate, SetCGAType, GetCorrectImageSize, GetPaletteSize )
 
-EXPORT_OOLUA_FUNCTIONS_0_CONST( Palette )
+EXPORT_OOLUA_FUNCTIONS_1_CONST( Palette, IsOk )
 

@@ -22,7 +22,7 @@ IndexMask::IndexMask( const IndexMask& other ):
 	mSrcHeight( 0 ),
 	mMask( NULL )
 {
-	SetMask( other.mMask, other.mWidth, other.mHeight, other.mSrcWidth, other.mSrcHeight );
+	SetMask( other.mMask, other.mSize, other.mWidth, other.mHeight, other.mSrcWidth, other.mSrcHeight );
 }
 
 
@@ -34,9 +34,12 @@ IndexMask::~IndexMask()
 
 
 
-void IndexMask::SetMask( const char* mask, int width, int height, int srcWidth /* -1 */, int srcHeight /* -1 */ )
+void IndexMask::SetMask( const char* mask, int srcSize, int width, int height, int srcWidth /* -1 */, int srcHeight /* -1 */ )
 {
 	Clear();
+	
+	bool bmpLike = srcSize < 0;
+
 	mWidth = width;
 	mHeight = height;
 	mSrcWidth = srcWidth;
@@ -52,9 +55,39 @@ void IndexMask::SetMask( const char* mask, int width, int height, int srcWidth /
 		mSrcHeight = mHeight;
 	}
 
-	mSize = mWidth * mHeight;
+	mSize = bmpLike ? -srcSize : srcSize;
+
+	int bytesOnPixel = mSize / (mSrcHeight * mSrcWidth);
+
 	mMask = (char*) malloc( mSize );
-	Helpers::CopyBuffer<char>( mMask, mWidth, mHeight, mask, mSrcWidth, mSrcHeight );
+
+	switch (bytesOnPixel)
+	{
+		case 1:
+			Helpers::CopyBuffer<char>( mMask, mWidth, mHeight, mask, mSrcWidth, mSrcHeight );
+		break;
+
+		case 2:
+			Helpers::CopyBuffer<short>( (short*) mMask, mWidth, mHeight, (const short*)mask, mSrcWidth, mSrcHeight );
+		break;
+
+		case 3:
+			Helpers::CopyBuffer<Pixel>( (Pixel*) mMask, mWidth, mHeight,  (const Pixel*) mask, mSrcWidth, mSrcHeight );
+		break;
+
+		case 4:
+			Helpers::CopyBuffer<PixelA>( (PixelA*) mMask, mWidth, mHeight,  (const PixelA*) mask, mSrcWidth, mSrcHeight );
+		break;
+
+		default:
+			wxLogError( wxString::Format("IndexMask::SetMask: unsupported source format! Bytes on pixel = %d", bytesOnPixel));
+			Clear();
+	}
+
+	if (bmpLike)
+	{
+		Helpers::BufferToBMPStyle(mMask, mWidth, mHeight, bytesOnPixel);
+	}
 }
 
 
@@ -67,8 +100,15 @@ wxBitmap* IndexMask::GetBitmap( Palette* pal )
 
 	switch (pal->GetPalType())
 	{
+		case Palette::bppMono:
+		case Palette::bpp2:
+		case Palette::bpp4:
 		case Palette::bpp8:
 			Helpers::Buffer8bpp_to_Pixels(buf, mWidth, mHeight, mMask, mWidth, mHeight, pal);
+		break;
+
+		case Palette::bpp24:
+			memcpy( buf, mMask, mSize );
 		break;
 
 		default:
@@ -114,38 +154,5 @@ int IndexMask::ReadIndex( const wxPoint& pos )
 }
 
 
-
-bool IndexMask::InsertMask( const wxPoint& point, const IndexMask* src ) const
-{
-	wxRect targetRect( point.x, point.y, src->GetWidth(), src->GetHeight() );
-	wxRect checkRect = targetRect;
-		
-	if (checkRect.GetWidth() >= 0 && checkRect.GetHeight() >= 0)
-	{
-		char* newSrc = NULL;
-		if (targetRect != checkRect.Intersect( wxRect(0, 0, mWidth, mHeight) ))
-		{
-			int w = checkRect.GetWidth();
-			int h = checkRect.GetHeight();
-
-			newSrc = (char*) malloc( w * h );
-
-			Helpers::CropBuffer( newSrc, w, h, src->GetMask(), src->GetWidth() );
-			Helpers::InsertSubBuffer( mMask, mWidth,  
-					newSrc, w, h,
-					point.x, point.y);
-
-			free(newSrc);
-		}
-		else
-		{
-			Helpers::InsertSubBuffer( mMask, mWidth, 
-					src->GetMask(), checkRect.GetWidth(), checkRect.GetHeight(),
-					point.x, point.y);
-		}
-		return true;
-	}
-	return false;
-}
 
 

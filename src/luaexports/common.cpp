@@ -68,9 +68,7 @@ int parseFileName(lua_State *L)
 
 int selectSomething(lua_State *L, const wxString& title = wxEmptyString)
 {
-	int n = lua_gettop(L);
-
-	if (n != 1)
+	if (lua_gettop(L) != 1)
 	{
 		wxLogError("selectDialog: function need a table with module names as argument");
 		return 0;
@@ -140,6 +138,53 @@ int setModuleReady(lua_State* L)
 
 
 
+int convertBufferToChar(lua_State* L)
+{
+	unsigned int size = 0;
+	int bitCount = 0;
+	std::string s;
+	if ( lua_gettop(L) != 3 || 
+		!OOLUA::pull2cpp(L, bitCount) || 
+		!OOLUA::pull2cpp(L, size) || 
+		!OOLUA::pull2cpp(L, s))
+	{
+		wxLogError("convertBuffer: function need a size and source buffer and source bit count");
+		return 0;
+	}
+
+	const char* src = s.c_str();
+	unsigned int dev = 8 / bitCount;
+	unsigned int destSize = size * dev;
+	char* res = (char*) malloc( destSize );
+
+	char bitMask = 1;
+	for (int i = 1; i < bitCount; ++i)
+	{
+		bitMask <<= 1;
+		bitMask |= 1;
+	}
+
+	unsigned char* dest = (unsigned char*) res;
+	for (size_t i = 0; i < size; ++i)
+	{
+		dest += dev;
+		for (size_t part = 0; part < dev; ++part)
+		{
+			--dest;
+			const unsigned char shift = part * bitCount;
+			*dest = (src[i] & (bitMask << shift) ) >> shift;
+		}
+		dest += dev;
+	}
+
+	lua_pushlstring (L, res, destSize);
+	OOLUA::push2lua(L, destSize);
+	free(res);
+	return 2;
+}
+
+
+
 
 #define GET_BUFNINDEX(x)	\
 	if (lua_gettop(L) != 2)	{ \
@@ -198,6 +243,9 @@ void CommonRegister()
 
 	// creates event about changed module
 	LUA_REG_C_FUNCTION( setModuleReady );
+
+	// returns buffer converted to bitcount
+	LUA_REG_C_FUNCTION( convertBufferToChar );
 
 	// returns buffer value at position, "getString(bytes, 3)" for example returns fourth value
 	// this function IS NOT SAFE

@@ -219,6 +219,8 @@ bool EditPanel::DoPlacePixel( const wxPoint& pos, const UttColour& color )
 	return true;
 }
 
+
+
 bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 {
 	int n = -1;
@@ -233,6 +235,8 @@ bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 	color.SetIndex( n );
 	return res;
 }
+
+
 
 /* virtual */ bool EditPanel::MouseButton( int btn, bool up )
 {
@@ -456,7 +460,7 @@ void EditPanel::EndDrawing()
 bool EditPanel::DoPaste( const wxPoint& pos, const ImageInfo* src )
 {
 	bool res = false;
-	if (mImageInfo->GetImage()->InsertMask(pos, src->GetImage()))
+	if (mImageInfo->PasteImageInfo( pos, src ))
 	{
 		SetIndexedBitmap( mImageInfo->Clone(), false );
 		res = true;
@@ -500,6 +504,8 @@ bool EditPanel::PasteSelection()
 	{
 		CommandPaste( buf );
 	}
+	// TODO: paste from the Clipboard if palette is 24bpp
+
 	//if ( wxTheClipboard->Open() )
 	//{
 	//	if ( wxTheClipboard->IsSupported( wxDF_BITMAP ) )

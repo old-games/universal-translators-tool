@@ -18,6 +18,10 @@ local Operations = {}
 UTTModules[ModuleName] = Example
 
 
+function Example.getModuleName()
+	return 'Example'
+end
+
 
 function Example.getExtensions()
 	return 'BMP files (*.bmp)|*.bmp|TXT files (*.txt)|*.txt'
@@ -51,6 +55,39 @@ function Operations.loadBMP( filename )
 	end
 	data2 = readData(fh, BMPInfoHeader )
 	showTable( data2 )
+	
+	s = "bpp"..string.format(data2.BITCOUNT, "%d")
+	local pal = Palette:new()
+	
+	local palBuffer = 0
+	
+	if (data2.BITCOUNT < 15) then
+		local palsize = pal:GetPaletteSize(Palette[s], Palette.sfBMP)
+		palBuffer = fh:read( palsize )
+	end
+	
+	pal:Initiate( Palette[s], palBuffer, Palette.sfBMP, false )
+	if pal:IsOk() then 
+		local img = ImageInfo:new()
+		
+		if img:SetPalette( pal ) then
+			local mask = IndexMask:new()
+			local size =  data.FILESIZE - data.DATAOFFSET   --pal:GetCorrectImageSize(data2.WIDTH, data2.HEIGHT)
+			local bytes = fh:read(size)
+			
+			if (data2.BITCOUNT < 8) then
+				bytes, size = convertBufferToChar(bytes, size, data2.BITCOUNT)
+			end
+			
+			-- -size inverts buffer to BMP style
+			mask:SetMask( bytes, -(size), data2.WIDTH, data2.HEIGHT, -1, -1)
+			
+			if mask:IsOk() then
+				img:SetImage( mask )
+				editImage( img )
+			end
+		end
+	end
 	fh:close()
 end
 
@@ -71,7 +108,7 @@ BMPFileHeader[1] = { ID 			= "WORD" 	}
 BMPFileHeader[2] = { FILESIZE 		= "LONG" 	}
 BMPFileHeader[3] = { RESERVED1 		= "WORD" 	}
 BMPFileHeader[4] = { RESERVED2 		= "WORD" 	}
-BMPFileHeader[5] = { DATA_OFFSET 	= "DWORD" 	}
+BMPFileHeader[5] = { DATAOFFSET 	= "DWORD" 	}
 
 
 BMPInfoHeader = {}

@@ -26,7 +26,7 @@ end
 
 
 initModules()
-CurrentModule = UTTModules['xcom']	-- set it to nil for module selection on program start
+CurrentModule = UTTModules['example']	-- set it to nil for module selection on program start
 
 
 

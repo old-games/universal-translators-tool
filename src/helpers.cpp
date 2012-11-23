@@ -25,6 +25,22 @@ wxBitmap* CreateBitmap( Pixel* buffer, int width, int height )
 }
 
 
+
+void CropSubBuffer2(Pixel* dst, int dstWidth, int dstHeight, const Pixel* src, int srcWidth, int cx, int cy)
+{
+	memset( dst, 0, dstWidth * dstHeight * sizeof( Pixel ) );
+	size_t copyLength = sizeof( Pixel ) * dstWidth;
+	src += (cy * srcWidth) + cx;
+	for (int  y = 0; y < dstHeight; ++y)
+	{
+		memcpy(dst, src, copyLength);
+		dst += dstWidth;
+		src += srcWidth;
+	}
+}
+
+
+
 bool CopyToClipboard( const wxImage& img )
 {
 	bool res = false;
@@ -65,10 +81,31 @@ void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const char* s
 			++dst;
 			++src;
 		}
-		//dst += correction;
 	}
-
-
 }
+
+
+// at the current moment works only with width multiple of four
+// correction number is ((3 * w) % 4)*bytespp, but IndexMask don't understand it 
+void BufferToBMPStyle(char* mask, int w, int h, int bytespp)
+{
+	int realWidth = w * bytespp;
+	int step = -realWidth;
+
+	size_t size = w * h * bytespp;
+	char* dest = (char*) malloc(size);
+	char* src = mask + ( realWidth * (h - 1) );
+
+	for (int y = 0; y < h; y++)
+	{ 
+		memcpy( dest, src, realWidth );
+		dest += realWidth;
+		src += step;
+	}
+	dest -= size;
+	memcpy( mask, dest, size);
+	free(dest);
+}
+
 
 } // namespace Helpers

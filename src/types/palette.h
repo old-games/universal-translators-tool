@@ -52,14 +52,14 @@ public:
 	inline bool		IsIndexed();
 	int				GetPalType() { return mBPP; }
 	wxBitmap*		GeneratePalBitmap();
-	void			GetColourByIndex( unsigned char n, unsigned char& r, unsigned char& g, unsigned char& b ) const;
+	void			GetColourByIndex( unsigned char n, char& r, char& g, char& b ) const;
 	UttColour		GetColourByIndex( unsigned char n );
 	UttColour		GetColourByCoordinates( const wxPoint& pos);
 	wxPoint			GetIndexCoordinates( unsigned char n );
-
 	int				GetCGAType() { return mCurrentCGAPal; }
 	bool			GetIntensity() { return mCGAIntensity; }
-
+	unsigned int	GetCorrectImageSize( int width, int height, bool forIndexMask = false );
+	unsigned int	GetPaletteSize( BPP bits, SourceFormat fmt );
 
 	
 	// available static constants
@@ -74,7 +74,7 @@ public:
 private:
 
 	void ShiftPalette();
-	void CopyPalette( void* dest, void* src );
+	void CopyPalette( void* dest, void* src, bool skipFourth = false );
 	void AllocateDatas();
 	void ClearDatas();
 	void ConvertHighColour2RGB( unsigned short i, unsigned char& r, unsigned char& g, unsigned char& b );
