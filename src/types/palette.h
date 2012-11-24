@@ -29,6 +29,7 @@ public:
 	
 	enum SourceFormat
 	{
+		sfNone,
 		sfPlain,
 		sfBMP,
 		sfNum

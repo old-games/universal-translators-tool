@@ -229,7 +229,7 @@ bool Palette::Initiate( BPP bpp, char* src /* NULL */, SourceFormat fmt /* sfPla
 	
 	mSize = PaletteSize(bpp);
 
-	if (src == NULL)
+	if (fmt == sfNone || src == NULL)
 	{
 		switch( mBPP )
 		{

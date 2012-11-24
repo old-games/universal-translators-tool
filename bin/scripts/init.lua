@@ -7,7 +7,7 @@ require 'common'
 
 -- list of module names, there are no auto searching new module in UTT
 -- new module must be added to this list
-ModuleFolders = { 'example', 'privateer2', 'xcom' }
+ModuleFolders = { 'example', 'privateer2', 'xcom', 'frontier' }
 
 
 
@@ -26,7 +26,7 @@ end
 
 
 initModules()
-CurrentModule = UTTModules['example']	-- set it to nil for module selection on program start
+CurrentModule = nil --UTTModules['frontier']	-- set it to nil for module selection on program start
 
 
 

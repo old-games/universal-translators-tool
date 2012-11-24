@@ -72,7 +72,12 @@ function Operations.loadBMP( filename )
 		
 		if img:SetPalette( pal ) then
 			local mask = IndexMask:new()
-			local size =  data.FILESIZE - data.DATAOFFSET   --pal:GetCorrectImageSize(data2.WIDTH, data2.HEIGHT)
+			local size =  data2.SIZEIMAGE    --pal:GetCorrectImageSize(data2.WIDTH, data2.HEIGHT)
+			
+			if size == 0 then
+				size = data.FILESIZE - data.DATAOFFSET
+			end
+			
 			local bytes = fh:read(size)
 			
 			if (data2.BITCOUNT < 8) then

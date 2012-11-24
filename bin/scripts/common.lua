@@ -94,8 +94,14 @@ end
 
 
 
+function ReadFunctions.BYTE( file )
+	local bytes = file:read( 1 )
+	return bytes:byte(1)
+end
+
+
+
 function ReadFunctions.WORD( file )
-	local block = 2
 	local bytes = file:read( 2 )
 	return bytes:byte(2) * 256 + bytes:byte(1)
 end
@@ -103,7 +109,6 @@ end
 
 
 function ReadFunctions.LONG( file )
-	local block = 4
 	local bytes = file:read( 4 )
 	return bytes:byte(4) * 16777216 + bytes:byte(3) * 65536 + bytes:byte(2) * 256 + bytes:byte(1)
 end
@@ -112,6 +117,18 @@ end
 
 function ReadFunctions.DWORD( file )
 	return ReadFunctions.LONG(file)
+end
+
+
+
+function ReadFunctions.DATA8( file )
+	return file:read( 8 )
+end
+
+
+
+function ReadFunctions.DATA9( file )
+	return file:read( 9 )
 end
 
 
