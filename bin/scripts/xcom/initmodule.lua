@@ -3,7 +3,7 @@ require 'xcom/xcom'
 local ModuleName = 'xcom'
 local Xcom = {}
 
-gameVersions = { 'UFO 1 (DOS)', 'UFO 2 (WIN)' }
+local gameVersions = { 'UFO 1 (DOS)', 'UFO 2 (WIN)' }
 
 local ActionsOnExtension = 
 { 
@@ -78,7 +78,7 @@ function Operations.loadDAT( filename )
 --				found = true
 --			end
 --		end
-		local key = findAnyStringInTable( KnownImageNames, name )
+		local key = findAnyStringInTable( getKnownImageNames(), name )
 		if key ~= nil then
 			LoadXcomImage( path, name, key, fh )
 		else

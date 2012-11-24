@@ -176,13 +176,13 @@
                                 <event name="OnKillFocus"></event>
                                 <event name="OnLeaveWindow"></event>
                                 <event name="OnLeftDClick"></event>
-                                <event name="OnLeftDown"></event>
+                                <event name="OnLeftDown">OnMouseDown</event>
                                 <event name="OnLeftUp"></event>
                                 <event name="OnMiddleDClick"></event>
                                 <event name="OnMiddleDown"></event>
                                 <event name="OnMiddleUp"></event>
                                 <event name="OnMotion"></event>
-                                <event name="OnMouseEvents"></event>
+                                <event name="OnMouseEvents">OnMouseEvents</event>
                                 <event name="OnMouseWheel"></event>
                                 <event name="OnPaint"></event>
                                 <event name="OnRightDClick"></event>
@@ -290,8 +290,8 @@
                                 <event name="OnKillFocus"></event>
                                 <event name="OnLeaveWindow"></event>
                                 <event name="OnLeftDClick"></event>
-                                <event name="OnLeftDown"></event>
-                                <event name="OnLeftUp"></event>
+                                <event name="OnLeftDown">OnMouseDown</event>
+                                <event name="OnLeftUp">OnMouseUp</event>
                                 <event name="OnMiddleDClick"></event>
                                 <event name="OnMiddleDown"></event>
                                 <event name="OnMiddleUp"></event>

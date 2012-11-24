@@ -11,22 +11,27 @@
 #include "panels/thumbnail.h"
 #include "bmpribbonctrl.h"
 
-
+#define RIBBON_BUTTON_PAUSE 50
 
 BitmapRibbonCtrl::BitmapRibbonCtrl(  wxWindow* parent ):
 	BitmapRibbonGui( parent ),
 	mThumbnails( new ThumbnailsArray( 0 ) ),
 	mCurrent( 0 ),
-	mToShow( 6 )
+	mToShow( 6 ),
+	mBtnPressed( wxID_ANY ),
+	mButtonTimer( this )
 {
 	this->Bind( wxEVT_SIZE, &BitmapRibbonCtrl::OnSize, this );
+	this->Bind( wxEVT_TIMER, &BitmapRibbonCtrl::OnTimer, this );
 }
 
 
 
 BitmapRibbonCtrl::~BitmapRibbonCtrl(void)
 {
+	mButtonTimer.Stop();
 	this->Unbind( wxEVT_SIZE, &BitmapRibbonCtrl::OnSize, this );
+	this->Unbind( wxEVT_TIMER, &BitmapRibbonCtrl::OnTimer, this );
 	Clear();
 	delete mThumbnails;
 }
@@ -145,21 +150,44 @@ void BitmapRibbonCtrl::ActiveChanged( int old, int n )
 
 
 
-/* virtual */ void BitmapRibbonCtrl::OnButtonClick( wxCommandEvent& event )
-{ 
-	int inc = 1;
-	switch ( event.GetId() )
+bool BitmapRibbonCtrl::CheckMouseInButton(wxWindowID id )
+{
+	wxButton* btn = NULL;
+	switch ( mBtnPressed )
 	{
 		case wxID_SCROLLLEFT_BTN:
-			inc = -1;
-		case wxID_SCROLLRIGHT_BTN:
-			DoIncrement( inc );
+			btn = mScrollLeftBtn;
 		break;
 
-		default:
-			wxLogMessage( wxString::Format("BitmapRibbonCtrl::OnButtonClick: Unknown button id: %d", event.GetId()) );
+		case wxID_SCROLLRIGHT_BTN:
+			btn = mScrollRightBtn;
 		break;
 	}
+
+	return btn != NULL && btn->IsMouseInWindow();
+}
+
+
+/* virtual */ void BitmapRibbonCtrl::OnButtonClick( wxCommandEvent& event )
+{
+	event.Skip();
+}
+
+
+
+/* virtual */ void BitmapRibbonCtrl::OnMouseDown( wxMouseEvent& event )
+{ 
+	mBtnPressed = event.GetId();
+	mButtonTimer.Start( RIBBON_BUTTON_PAUSE );
+	event.Skip(); 
+}
+
+
+
+/* virtual */ void BitmapRibbonCtrl::OnMouseUp( wxMouseEvent& event )
+{ 
+	mBtnPressed = wxID_ANY;
+	mButtonTimer.Stop();
 	event.Skip(); 
 }
 
@@ -171,3 +199,35 @@ void BitmapRibbonCtrl::ActiveChanged( int old, int n )
 	RefillHolder( false );
 	event.Skip();
 }
+
+
+
+/* virtual */ void BitmapRibbonCtrl::OnTimer( wxTimerEvent& event )
+{
+	wxMouseState state = wxGetMouseState();
+	
+	if ( !state.LeftIsDown() || !CheckMouseInButton(mBtnPressed) )
+	{
+		mBtnPressed = wxID_ANY;
+	}
+
+	int inc = 1;
+	switch ( mBtnPressed )
+	{
+		case wxID_SCROLLLEFT_BTN:
+			inc = -1;
+		case wxID_SCROLLRIGHT_BTN:
+			DoIncrement( inc );
+		break;
+
+		default:
+			//wxLogMessage( wxString::Format("BitmapRibbonCtrl::OnButtonClick: Unknown button id: %d", event.GetId()) );
+			mBtnPressed = wxID_ANY;
+			mButtonTimer.Stop();
+		break;
+	}
+	event.Skip();
+}
+
+
+#undef RIBBON_BUTTON_PAUSE

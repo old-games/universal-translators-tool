@@ -3,14 +3,14 @@ local Frontier = {}
 UTTModules[ModuleName] = Frontier
 
 
-gameVersions = { 'Elite 2 Frontier (DOS)' }
+local gameVersions = { 'Elite 2 Frontier (DOS)' }
 
 local ActionsOnExtension = 
 { 
 	ovl = "loadOVL"
 }
 
-local currentVersion = 0
+local currentVersion = 1
 
 local Operations = {}
 
@@ -113,4 +113,4 @@ end
 
 
 
-print "Template module loaded? No need to do it"
+print "Frontier module loaded"

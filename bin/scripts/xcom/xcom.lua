@@ -1,40 +1,80 @@
 local PalName = 'geodata/PALETTES.DAT'
 local PalSize = 768
-currentVersion = 2
+currentVersion = 1
 
-KnownImageNames = { "lang", "back", "geobord", "up_bord2"}
-
-imageParams = 
+local KnownImageNames = 
 {
-	lang = 
-	{
-		width = 64,
-		height = 200,
-		palette = 0
-	},
-	
-	back = 
-	{
-		width = 320,
-		height = 200,
-		palette = 0
-	},
-	
-	geobord = 
-	{
-		width = 320,
-		height = 200,
-		palette = 0
-	},
-	
-	up_bord2 = 
-	{
-		width = 320,
-		height = 200,
-		palette = 2
-	} 
+	-- UFO1DOS 
+	{ "lang", "back", "geobord", "up_bord2"},
+	--	XCOM2WIN 
+	{ "lang", "back", "geobord", "up_bord2"} 
 }
+function getKnownImageNames() return KnownImageNames[currentVersion] end
 
+local imageParams = 
+{
+	-- UFO1DOS
+	{
+		lang = 
+		{
+			width = 64,
+			height = 154,
+			palette = 0
+		},
+		
+		back = 
+		{
+			width = 320,
+			height = 200,
+			palette = 0
+		},
+		
+		geobord = 
+		{
+			width = 320,
+			height = 200,
+			palette = 0
+		},
+		
+		up_bord2 = 
+		{
+			width = 320,
+			height = 200,
+			palette = 2
+		} 
+	},
+	
+	-- XCOM2WIN
+	{
+		lang = 
+		{
+			width = 64,
+			height = 200,
+			palette = 0
+		},
+		
+		back = 
+		{
+			width = 320,
+			height = 200,
+			palette = 0
+		},
+		
+		geobord = 
+		{
+			width = 320,
+			height = 200,
+			palette = 0
+		},
+		
+		up_bord2 = 
+		{
+			width = 320,
+			height = 200,
+			palette = 2
+		} 
+	}
+}
 local xcomFontInfo = 
 {
 	-- UFO1DOS
@@ -46,12 +86,18 @@ local xcomFontInfo =
 		
 		biglets =	
 		{ 
-			width = 16, height = 16, palette = 1
+			width = 16, height = 16, 
+			baseLine = 13, smallLine = 4,
+			palette = 4, 
+			offset = 388903, num = 129
 		}, 
 		
 		smallset = 
 		{ 
-			width = 8, height = 9, palette = 1
+			width = 8, height = 9, 
+			baseLine = 8, smallLine = 2,
+			palette = 4, 
+			offset = 388774, num = 129
 		} 
 	},
 	
@@ -136,7 +182,7 @@ function GetFontWidth(fileName, offset, num, isBiglets)
 		local tmp
 		for i = 1, num do
 			tmp = fh:read(8)
-			bytes = bytes..getStrChar(tmp, 4)
+			bytes = bytes..getStrChar(tmp, 5)
 		end
 	end
 	return bytes
@@ -196,7 +242,7 @@ end
 
 
 function LoadXcomImage( path, name, key, fh )
-	local params = imageParams[key]
+	local params = imageParams[currentVersion][key]
 	local width = params.width
 	local height = params.height
 	local bufsize = width * height
@@ -206,15 +252,17 @@ function LoadXcomImage( path, name, key, fh )
 		return
 	end
 	
-	print "Image loading..."
 	
 	local bytes = fh:read( bufsize )
+	print ("Image loading...", bytes:len(), "bytes loaded")
 	if bytes ~= nil and bytes:len() == bufsize then
 		local mask = IndexMask:new()
-		mask:SetMask( bytes, bufsize, width, height, width, height)
+		mask:SetMask( bytes, bufsize, width, height, -1, -1)
 		if mask:IsOk() then
 			image:SetImage( mask )
 			editImage( image )
+		else
+			print("There was an error while loading "..name)
 		end
 	end
 end

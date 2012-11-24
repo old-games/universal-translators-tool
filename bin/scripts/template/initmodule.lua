@@ -2,14 +2,14 @@ local ModuleName = 'template'
 
 local Template = {}
 
-gameVersions = { 'template1', 'template2' }
+local gameVersions = { 'template1', 'template2' }
 
 local ActionsOnExtension = 
 { 
 	ext = "loadEXT"
 }
 
-local currentVersion = 0
+local currentVersion = 1
 
 local Operations = {}
 

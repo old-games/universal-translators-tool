@@ -30,15 +30,22 @@ public:
 protected:
 
 	virtual void OnButtonClick( wxCommandEvent& event );
+	virtual void OnMouseDown( wxMouseEvent& event );
+	virtual void OnMouseUp( wxMouseEvent& event );
 	virtual void OnSize( wxSizeEvent& event );
+
+	virtual void OnTimer( wxTimerEvent& event );
 
 private:
 
+	bool CheckMouseInButton( wxWindowID id );
 	void CalculateThumbsCount( bool useSize = false, const wxSize& size = wxDefaultSize );
 
 	ThumbnailsArray*	mThumbnails;
 	size_t				mCurrent;
 	size_t				mToShow;
+	wxWindowID			mBtnPressed;
+	wxTimer				mButtonTimer;
 };
 
 #endif
