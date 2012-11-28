@@ -120,6 +120,8 @@ bool CopyToClipboard( const wxRect& rect, const wxBitmap* bmp );
 
 void Buffer8bpp_to_Pixels(Pixel*dst, int dstWidth, int dstHeight, const char* src, int srcWidth, int srcHeight, const Palette* pal );
 
+bool PullTableOfStrings( wxArrayString& res, lua_State* L = NULL);
+
 } // namespace Helpers
 
 

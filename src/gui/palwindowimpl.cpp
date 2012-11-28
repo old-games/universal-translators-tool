@@ -274,6 +274,21 @@ bool PaletteWindowImpl::CheckLocked()
 
 
 
+void PaletteWindowImpl::ChangeOwnerToCurrentPage( wxWindowID id )
+{
+	for (size_t i = 0; i < PalOwners::poNum; ++i)
+	{
+		if (PalOwners::OwnerID[i] == id)
+		{
+			mOwnerType->SetSelection(i);
+			OwnerChanged();
+			break;
+		}
+	}
+}
+
+
+
 /* virtual */ void PaletteWindowImpl::OnCommandEvent( wxCommandEvent& event )
 {
 	switch( event.GetId() )
@@ -340,8 +355,15 @@ bool PaletteWindowImpl::CheckLocked()
 /* virtual */ void PaletteWindowImpl::OnPaletteChangeEvent( ChangePaletteEvent& event )
 {
 	int owner = -1;
+	bool ownerToRecalc = false;
+
 	switch( event.GetId() )
 	{
+		case wxID_ANY:
+			ownerToRecalc = true;
+			owner = mOwnerType->GetSelection();
+		break;
+
 		case wxID_FONTEDITOR:
 			owner = PalOwners::poFontEditor;
 		break;
@@ -360,6 +382,15 @@ bool PaletteWindowImpl::CheckLocked()
 		OwnerChanged();
 		delete oldPal;
 		this->Lock( event.GetLock() );
+
+		if ( ownerToRecalc )
+		{
+			EditorRebuildDataEvent* rebuildEvent = new EditorRebuildDataEvent( 
+											PalOwners::OwnerID[owner], 
+											EditorRebuildDataEvent::whPaletteChanged,
+											mPalettes[owner] );
+			wxTheApp->QueueEvent( rebuildEvent );
+		}
 	}
 	event.Skip();
 }

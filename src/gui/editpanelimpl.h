@@ -16,7 +16,7 @@ class ImageEditor:
 	public EditPanelGui
 {
 public:
-	ImageEditor( wxWindow* parent );
+	ImageEditor( wxWindow* parent, wxWindowID id );
 	~ImageEditor(void);
 
 	void SetBitmap( wxBitmap* bitmap );
@@ -32,20 +32,22 @@ protected:
 
 	virtual void OnCommandEvent( wxCommandEvent& event );
 	virtual void OnImageChangeEvent( ChangeImageEvent& event );
+	virtual void OnRebuildDataEvent( EditorRebuildDataEvent& event );
 
 private:
 
 	void SetImage( ImageInfo* newImage );
 	void ClearImage( bool force = false );
 	void UpdateImage();
+	void ChangeImagePalette( Palette* pal );
 
 	bool CheckChanges();
 	void SetGridEnabled();
 	void SetGridMode();
 	void SetGridColour();
+	void SetPaletteAsMain();
 
 	EditPanel*	mEditPanel;
-	ImageInfo*	mImageInfo;
 };
 
 #endif

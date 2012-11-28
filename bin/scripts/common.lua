@@ -49,13 +49,12 @@ end
 
 function findAnyStringInTable( tab, txt )
 	for i = 1, #tab do
-		print (tab[i], txt)
 		if string.find(txt, tab[i]) ~= nil then
-			print ("Found ", tab[i])
 			return tab[i]
 		end
 	end
 end
+
 
 
 --[[

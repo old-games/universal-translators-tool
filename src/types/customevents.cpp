@@ -58,3 +58,17 @@ IMPLEMENT_DYNAMIC_CLASS(ChangePaletteEvent, wxEvent)
 
 wxDEFINE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
 IMPLEMENT_DYNAMIC_CLASS(SymbolSelectionEvent, wxEvent)
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+wxDEFINE_EVENT( uttEVT_REBUILDDATA, EditorRebuildDataEvent );
+IMPLEMENT_DYNAMIC_CLASS(EditorRebuildDataEvent, wxEvent)
+
+Palette* EditorRebuildDataEvent::GetPalette()
+{
+	return static_cast<Palette*>(mData);
+}

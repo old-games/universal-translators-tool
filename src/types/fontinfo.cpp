@@ -138,10 +138,5 @@ bool FontInfo::SetPalette(Palette* pal)
 	wxASSERT( pal );
 	ClearPalette();
 	mPalette = pal->Clone();
-	if ( mPalette->IsOk() )
-	{
-		ChangePaletteEvent palEvent( wxID_FONTEDITOR, mPalette, true );
-		wxTheApp->QueueEvent( palEvent.Clone() );
-	}
 	return mPalette->IsOk();
 }

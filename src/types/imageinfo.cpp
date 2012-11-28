@@ -84,17 +84,6 @@ bool ImageInfo::SetPalette(Palette* pal)
 
 
 
-void ImageInfo::SetPaletteAsMain()
-{
-	if ( mPalette && mPalette->IsOk() )
-	{
-		ChangePaletteEvent palEvent( wxID_IMAGEEDITOR, mPalette, true );
-		wxTheApp->QueueEvent( palEvent.Clone() );
-	}
-}
-
-
-
 void ImageInfo::ClearPalette()
 {
 	if (mPalette != NULL)

@@ -17,6 +17,7 @@ class ChangeFontEvent;
 class ChangeImageEvent;
 class ChangePaletteEvent;
 class SymbolSelectionEvent;
+class EditorRebuildDataEvent;
 
 
 
@@ -26,7 +27,7 @@ wxDECLARE_EVENT( uttEVT_CHANGEFONT, ChangeFontEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
 wxDECLARE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
-
+wxDECLARE_EVENT( uttEVT_REBUILDDATA, EditorRebuildDataEvent );
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -356,4 +357,65 @@ typedef void (wxEvtHandler::*SymbolSelectionEventFunction)(SymbolSelectionEvent&
 
 
 //////////////////////////////////////////////////////////////////////////
+
+
+
+class EditorRebuildDataEvent : public wxEvent
+{
+public:
+	enum WhatHappend
+	{
+		whPaletteChanged,
+		whNum
+	};
+
+    EditorRebuildDataEvent( )
+        : wxEvent(0, uttEVT_REBUILDDATA),
+		mWhat( whNum )
+	{ 	
+	}
+	
+
+
+    EditorRebuildDataEvent( int winid, WhatHappend what, void* data = NULL )
+        : wxEvent(winid, uttEVT_REBUILDDATA),
+		mWhat( what ),
+		mData( data )
+	{ 
+	}
+	
+    EditorRebuildDataEvent(const EditorRebuildDataEvent& event)
+        : wxEvent(event),
+		mWhat( event.mWhat ),
+		mData( event.mData )
+    { 
+	}
+
+    virtual wxEvent *Clone() const { return new EditorRebuildDataEvent(*this); }
+  
+	int			GetWhat() { return mWhat; }
+	Palette*	GetPalette();
+
+protected:
+	
+private:
+
+	WhatHappend		mWhat;
+	void*			mData;
+
+	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(EditorRebuildDataEvent)
+};
+
+typedef void (wxEvtHandler::*EditorRebuildDataEventFunction)(EditorRebuildDataEvent&);
+
+
+
+#define EditorRebuildDataEventHandler(func) \
+    wxEVENT_HANDLER_CAST(EditorRebuildDataEventFunction, func)
+
+#define EVT_REBUILDDATA(func) wx__DECLARE_EVT0(uttEVT_REBUILDDATA, EditorRebuildDataEventHandler(func))
+
+
+
+
 #endif  // CUSTOMEVENTS_H_INCLUDED

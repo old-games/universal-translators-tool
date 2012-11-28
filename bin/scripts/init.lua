@@ -15,7 +15,7 @@ ModuleFolders = { 'example', 'privateer2', 'xcom', 'frontier' }
 UTTModules = {}
 
 
-
+-- initiates all modules that are defined in ModuleFolders
 function initModules()
 	for i = 1, #ModuleFolders do
 		local fileName = ModuleFolders[i]..'/initmodule'
@@ -26,16 +26,24 @@ end
 
 
 initModules()
-CurrentModule = nil --UTTModules['frontier']	-- set it to nil for module selection on program start
+CurrentModule =UTTModules['xcom']	-- set it to nil for module selection on program start
 
 
-
+-- returns current active module
 function getCurrentModule()
 	return CurrentModule
 end
 
 
+-- runs command from special section of Main Menu - Module 
+function executeModuleMenuCommand( command )
+	if CurrentModule ~= nil then
+		return CurrentModule.executeModuleMenuCommand( command )
+	end
+end
 
+
+-- returns names of current module
 function getModuleName()
 	if CurrentModule ~= nil then
 		return CurrentModule.getModuleName()
@@ -43,7 +51,15 @@ function getModuleName()
 end
 
 
+-- returns commands to fill Module menu
+function getModuleMenu()
+	if CurrentModule ~= nil then
+		return CurrentModule.getModuleMenu()
+	end
+end
 
+
+-- returns list of files extensions that are allowed to open
 function getExtensions()
 	if CurrentModule ~= nil then
 		return CurrentModule.getExtensions()
@@ -51,7 +67,7 @@ function getExtensions()
 end
 
 
-
+-- command Open from main menu 
 function openFile( fileName )
 	if CurrentModule ~= nil then
 		return CurrentModule.openFile( fileName )
@@ -59,7 +75,7 @@ function openFile( fileName )
 end
 
 
-
+-- command Select Version from main menu
 function selectVersion( fileName )
 	if CurrentModule ~= nil then
 		if CurrentModule.selectVersion == nil then
@@ -71,7 +87,7 @@ function selectVersion( fileName )
 end
 
 
-
+-- command Select Module from main menu
 function selectModule()
 	-- we will allow user to select only succesfully loaded module
 	local loadedModules = {}
@@ -92,7 +108,7 @@ end
 
 
 
-
+-- set current module to any correct value to avoid module selection dialog on start/restart
 if CurrentModule == nil then
 	selectModule()
 else

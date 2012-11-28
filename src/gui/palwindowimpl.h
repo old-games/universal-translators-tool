@@ -31,6 +31,7 @@ public:
 	bool IsLocked() { return mLockCheck->IsChecked(); }
 	void Lock( bool b = true );
 	bool CheckLocked();
+	void ChangeOwnerToCurrentPage( wxWindowID id );
 
 protected:
 	virtual void OnCommandEvent( wxCommandEvent& event );

@@ -109,6 +109,7 @@ class UttMainFrame : public wxFrame
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnMenuSelect( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnPageChanged( wxAuiNotebookEvent& event ) { event.Skip(); }
 		
 	
 	public:

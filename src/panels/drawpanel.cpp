@@ -136,6 +136,15 @@ void DrawPanel::SetIndexedBitmap( ImageInfo* info, bool cloneInfo /* true */ )
 
 
 
+void DrawPanel::ResetIndexedBitmap()
+{
+	DestroyBitmap( true );
+	mBitmap = mImageInfo->GetBitmap();
+	ApplyBitmap();
+}
+
+
+
 void DrawPanel::SetBitmap( Pixel* buffer, int width, int height )
 {
 	DestroyBitmap();
@@ -175,7 +184,7 @@ void DrawPanel::ApplyBitmap()
 
 
 
-void DrawPanel::DestroyBitmap()
+void DrawPanel::DestroyBitmap( bool leaveInfo /* false */ )
 {
 	if (mBitmap)
 	{
@@ -183,7 +192,7 @@ void DrawPanel::DestroyBitmap()
 		mBitmap = NULL;
 	}
 
-	if (mImageInfo)
+	if (mImageInfo && !leaveInfo)
 	{
 		delete mImageInfo;
 		mImageInfo = NULL;
@@ -338,8 +347,9 @@ void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
 	dc.SetDeviceOrigin( mPosX - x, mPosY - y);
 	dc.SetClippingRegion(0, 0, mShowWidth, mShowHeight);
 	Render( dc );
-
-	RenderSelection( (wxGCDC&) wxGCDC(dc) );
+	
+	wxGCDC gdc(dc);
+	RenderSelection( gdc );
 
 	event.Skip();
 }

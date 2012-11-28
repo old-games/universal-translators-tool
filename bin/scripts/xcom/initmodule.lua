@@ -15,6 +15,7 @@ local ActionsOnExtension =
 
 local Operations = {}
 
+local MenuCommands = { ["Change palette"] = ChangePalette }
 
 
 UTTModules[ModuleName] = Xcom
@@ -34,6 +35,16 @@ end
 
 function Xcom.getModuleName()
 	return gameVersions[currentVersion]
+end
+
+
+
+function Xcom.getModuleMenu()
+	local menuItems = {}
+	for command, func in pairs( MenuCommands ) do
+		table.insert(menuItems, command)
+	end
+	return menuItems
 end
 
 
@@ -72,12 +83,6 @@ function Operations.loadDAT( filename )
 	if name == 'biglets' or name == 'smallset' then
 		LoadXcomFont( path, name, fh )
 	else
---		local found = false
---		for i, #KnownImageNames do
---			if KnownImageNames[i] == name then
---				found = true
---			end
---		end
 		local key = findAnyStringInTable( getKnownImageNames(), name )
 		if key ~= nil then
 			LoadXcomImage( path, name, key, fh )
@@ -89,6 +94,10 @@ function Operations.loadDAT( filename )
 end
 
 
+
+function Xcom.executeModuleMenuCommand( command )
+	MenuCommands[command]()
+end
 
 
 

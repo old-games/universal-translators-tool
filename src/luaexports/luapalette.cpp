@@ -12,6 +12,7 @@
 #include "luacontrol.h"
 
 
+int	setCurrentPalette(lua_State *L);
 
 
 namespace Lua
@@ -20,6 +21,8 @@ namespace Lua
 void PaletteRegister()
 {
 	Get().register_class<Palette>();
+
+	LUA_REG_C_FUNCTION( setCurrentPalette );
 }
 
 }   // namespace Lua
@@ -34,3 +37,19 @@ EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( Palette, Initiate, SetCGAType, GetCorrectIma
 
 EXPORT_OOLUA_FUNCTIONS_1_CONST( Palette, IsOk )
 
+
+
+int	setCurrentPalette(lua_State *L)
+{
+	if (Lua::Get().stack_count() != 1)
+	{
+		wxLogMessage("setCurrentPalette: function need a filled FontInfo table as argument");
+		return 0;
+	}
+	Palette* pal;
+	OOLUA::pull2cpp(L, pal);
+	
+	ChangePaletteEvent palEvent( wxID_ANY, pal, true );
+	wxTheApp->ProcessEvent( palEvent );
+	return 0;
+}

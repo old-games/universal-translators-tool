@@ -42,6 +42,7 @@ public:
 	virtual ~DrawPanel(void);
 
 	void SetIndexedBitmap( ImageInfo* info, bool cloneInfo = true );
+	void ResetIndexedBitmap();
 	void SetBitmap( wxBitmap* bitmap );
 	void SetBitmap(Pixel* buffer, int width, int height);
 
@@ -91,7 +92,7 @@ protected:
 
 
 	void PaintNow();
-	void DestroyBitmap();
+	void DestroyBitmap( bool leaveInfo = false );
 	void ApplyBitmap();
 	bool IsExpand();
 	inline bool IsMousePointOk()

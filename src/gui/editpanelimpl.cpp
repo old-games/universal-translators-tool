@@ -14,14 +14,14 @@
 #include "types/palette.h"
 
 
-ImageEditor::ImageEditor(  wxWindow* parent ):
+ImageEditor::ImageEditor(  wxWindow* parent, wxWindowID id ):
 	EditPanelGui( parent ),
-	mEditPanel( NULL ),
-	mImageInfo( NULL )
+	mEditPanel( NULL )
 {
 	mEditPanel = new EditPanel( mEditScrolledBack );
 	SetEditPanel( mEditPanel );
 	wxTheApp->Bind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this );
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, id );
 }
 
 
@@ -29,7 +29,8 @@ ImageEditor::ImageEditor(  wxWindow* parent ):
 ImageEditor::~ImageEditor(void)
 {
 	wxTheApp->Unbind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this );
-	ClearImage( true );
+	wxTheApp->Unbind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, this->GetId() );
+//	ClearImage( true );
 }
 
 
@@ -43,15 +44,11 @@ void ImageEditor::SetBitmap( wxBitmap* bitmap )
 
 void ImageEditor::ClearImage( bool force /* false */ )
 {
-	if (mImageInfo != NULL)
+	if (!CheckChanges() && !force)
 	{
-		if (!CheckChanges() && !force)
-		{
-			return;
-		}
-		delete mImageInfo;
-		mImageInfo = NULL;
+		return;
 	}
+	mEditPanel->DestroyBitmap();
 }
 
 
@@ -59,16 +56,15 @@ void ImageEditor::ClearImage( bool force /* false */ )
 void ImageEditor::SetImage( ImageInfo* newImage )
 {
 	ClearImage();
-	mImageInfo = newImage->Clone();
-	UpdateImage();
-	mImageInfo->SetPaletteAsMain();
+	mEditPanel->SetIndexedBitmap(  newImage	);
+	SetPaletteAsMain();
 }
 
 
 
 void ImageEditor::UpdateImage()
 {
-	mEditPanel->SetIndexedBitmap( mImageInfo );
+	mEditPanel->ResetIndexedBitmap();
 }
 
 
@@ -108,7 +104,25 @@ bool ImageEditor::CheckChanges()
 			wxLogError( wxString::Format("EditPanel::OnCommandEvent: unknown command %d", event.GetId()) );
 			return;
 	}
+
 	mEditPanel->PaintNow();
+	event.Skip();
+}
+
+
+/* virtual */ void ImageEditor::OnRebuildDataEvent( EditorRebuildDataEvent& event )
+{
+	switch (event.GetWhat())
+	{
+		case EditorRebuildDataEvent::whPaletteChanged:
+			ChangeImagePalette( event.GetPalette() );
+		break;
+
+		default:
+			wxLogError("ImageEditor::OnRebuildDataEvent error: unknown \"what to do\" id (%d)", event.GetWhat());
+		break;
+	}
+
 	event.Skip();
 }
 
@@ -180,4 +194,26 @@ void ImageEditor::SetEditPanel( EditPanel* editPanel )
 	mEditPanel->Reparent( mEditScrolledBack );
 	SetGridEnabled();
 	SetGridMode();
+}
+
+
+
+void ImageEditor::SetPaletteAsMain()
+{
+	Palette* pal = mEditPanel->mImageInfo->GetPalette();
+	if ( pal && pal->IsOk() )
+	{
+		ChangePaletteEvent palEvent( wxID_IMAGEEDITOR, pal, true );
+		wxTheApp->QueueEvent( palEvent.Clone() );
+	}
+}
+
+
+
+void ImageEditor::ChangeImagePalette( Palette* pal )
+{
+	if (mEditPanel->mImageInfo->SetPalette(pal))
+	{
+		UpdateImage();
+	}
 }

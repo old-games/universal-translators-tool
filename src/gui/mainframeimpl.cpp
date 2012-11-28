@@ -20,11 +20,14 @@
 
 #include "panels/symbolpanel.h"
 
+#define MODULE_MENU_START	(wxID_HIGHEST + 1)
+#define MODULE_MENU_END		(MODULE_MENU_START + 32)
+
 MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
 	mHelpController( NULL ),
 	mFontEditor( new FontEditor( mAUINotebook ) ),
-	mEditWindow( new ImageEditor( mAUINotebook ) ),
+	mEditWindow( new ImageEditor( mAUINotebook, wxID_IMAGEEDITOR ) ),
 	mPalWindow( new PaletteWindowImpl( mAUINotebook ) )
 {
 	
@@ -73,7 +76,6 @@ MainFrameImpl::MainFrameImpl(void):
 
 	mEditWindow->GetEditPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
 	mFontEditor->GetSymbolPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
-
 	wxTheApp->Bind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
 
 	m_mgr.Update();
@@ -243,9 +245,21 @@ void MainFrameImpl::OnClose( wxCloseEvent& event )
 
 
 
+void MainFrameImpl::OnModuleMenuSelect( wxCommandEvent& event )
+{
+	int id = event.GetId();
+	if (id >= MODULE_MENU_START && id < MODULE_MENU_END )
+	{
+		DoModuleCommand( id );
+	}
+}
+
+
+
 void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 {
-	switch ( event.GetId() )
+	int id = event.GetId();
+	switch ( id )
 	{
 		case wxID_HELP_HELP:
 			if (mHelpController)
@@ -289,8 +303,20 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 		break;
 
 		default:
-			wxLogMessage( wxString::Format("Unknown command from main menu: %d", event.GetId()) );
+			wxLogMessage( wxString::Format("Unknown command from main menu: %d", id) );
 		break;
+	}
+	event.Skip();
+}
+
+
+
+/* virtual */ void MainFrameImpl::OnPageChanged( wxAuiNotebookEvent& event )
+{
+	wxWindow* wnd = mAUINotebook->GetPage( event.GetSelection() );
+	if (wnd)
+	{
+		mPalWindow->ChangeOwnerToCurrentPage( wnd->GetId() );
 	}
 	event.Skip();
 }
@@ -310,5 +336,56 @@ void MainFrameImpl::DoModuleChanged()
 	{
 		mStatusBar->SetStatusText(s, 1 );
 	}
+
+	wxArrayString res;
+	if ( Lua::Get().call( "getModuleMenu" ) )
+	{
+		Helpers::PullTableOfStrings( res );
+	}
+	else
+	{
+		Lua::ShowLastError();
+	}
 	
+	UpdateModuleMenu( res );
 }
+
+
+
+void MainFrameImpl::DoModuleCommand( int n )
+{
+	wxString command = mModuleMenu->GetLabelText(n);
+	if ( !Lua::Get().call( "executeModuleMenuCommand", command.ToStdString() ) )
+	{
+		Lua::ShowLastError();
+		return;
+	}
+}
+
+
+
+void MainFrameImpl::ClearModuleMenu()
+{
+	wxMenuItemList& list = mModuleMenu->GetMenuItems();
+	for ( size_t i = 0; i < list.GetCount(); ++i )
+	{
+		wxMenuItem* item = list[i];
+		this->Unbind( wxEVT_COMMAND_MENU_SELECTED, &MainFrameImpl::OnModuleMenuSelect, this, item->GetId() );
+		mModuleMenu->Delete(item);
+	}
+}
+
+
+
+void MainFrameImpl::UpdateModuleMenu( const wxArrayString& strings )
+{
+	wxASSERT( strings.size() + MODULE_MENU_START < MODULE_MENU_END ); 
+	ClearModuleMenu();
+	for (size_t i = 0; i < strings.size(); ++i)
+	{
+		wxMenuItem* item = new wxMenuItem( mModuleMenu, MODULE_MENU_START + i, strings[i], wxEmptyString, wxITEM_NORMAL );
+		mModuleMenu->Append( item );
+		this->Bind( wxEVT_COMMAND_MENU_SELECTED, &MainFrameImpl::OnModuleMenuSelect, this, item->GetId() );
+	}
+}
+

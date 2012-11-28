@@ -200,7 +200,7 @@ void SelectionRectangle::RenderSelection(wxDC& dc)
 	{
 		wxRect rect( mCoordRect.GetTopLeft() * mPointSize, (mCoordRect.GetBottomRight() + wxPoint(1, 1)) * mPointSize );
 		dc.SetLogicalFunction( wxCOPY );
-		dc.DrawRoundedRectangle( rect, 5.0f );
+		dc.DrawRoundedRectangle( rect, 1.0f );
 	}
 }
 

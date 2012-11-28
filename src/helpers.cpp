@@ -10,6 +10,7 @@
 #include "pch.h"
 #include "helpers.h"
 #include "types/palette.h"
+#include "luacontrol.h"
 
 namespace Helpers
 {
@@ -107,5 +108,26 @@ void BufferToBMPStyle(char* mask, int w, int h, int bytespp)
 	free(dest);
 }
 
+
+bool PullTableOfStrings( wxArrayString& res, lua_State* L /* NULL */)
+{
+	if ( L == NULL )
+	{
+		L = Lua::Get().get_ptr();
+	}
+
+	OOLUA::Lua_table modules;
+	OOLUA::pull2cpp(L, modules);
+	res.Clear();
+	{
+		int count = 1;
+		std::string value;
+		while (modules.safe_at( count++, value ))
+		{
+			res.Add( wxString(value) );
+		}
+	}
+	return true;
+}
 
 } // namespace Helpers

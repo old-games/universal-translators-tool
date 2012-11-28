@@ -29,6 +29,9 @@ private:
 
 	virtual void OnClose( wxCloseEvent& event );
 	virtual void OnMenuSelect( wxCommandEvent& event );
+	virtual void OnPageChanged( wxAuiNotebookEvent& event );
+	void OnModuleMenuSelect( wxCommandEvent& event );
+
 	void OnIdle( wxIdleEvent& );
 	void OnShow( wxShowEvent& event );
 	void OnColourPickEvent( ColourPickEvent& event );
@@ -39,6 +42,9 @@ private:
 	void DoSelectModule();
 	void DoSelectVersion();
 	void DoModuleChanged();
+	void DoModuleCommand( int n );
+	void UpdateModuleMenu( const wxArrayString& strings );
+	void ClearModuleMenu();
 
 	wxHelpController*		mHelpController;
 	FontEditor*				mFontEditor;

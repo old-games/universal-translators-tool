@@ -11,14 +11,19 @@
 
 #include "symboleditgui.h"
 #include "panels/symbolpanel.h"
+#define wxID_SYMBOLEDITOR	999
+
+
 
 SymbolEditGui::SymbolEditGui(  wxWindow* parent ):
-	ImageEditor( parent ),
+	ImageEditor( parent, wxID_SYMBOLEDITOR ),
 	mSymbolPanel( new SymbolPanel( this ) )
 {
 	ImageEditor::SetEditPanel( mSymbolPanel );
 	mSymbolPanel->SetScaleRange( 1.0f, 50.0f );
 }
+
+
 
 SymbolEditGui::~SymbolEditGui(void)
 {

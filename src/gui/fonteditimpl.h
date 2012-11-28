@@ -34,11 +34,14 @@ protected:
 	virtual void OnBtnClick( wxCommandEvent& event );
 	virtual void OnFontChangeEvent( ChangeFontEvent& event );
 	virtual void OnSymbolSelection( SymbolSelectionEvent& event );
+	virtual void OnRebuildDataEvent( EditorRebuildDataEvent& event );
 private:
 
 	bool ShowSettings();
 	bool CreateFont();
 	void ClearFont( bool force = false );	// force - to clear memory from destructor
+	void ChangeFontPalette( Palette* pal );
+	void SetPaletteAsMain();
 	void UpdateFont();
 	void UpdateRibbon();
 

@@ -11,6 +11,7 @@
 
 #include "types/fontinfo.h"
 #include "types/indexmask.h"
+#include "types/palette.h"
 #include "panels/symbolpanel.h"
 #include "symboleditgui.h"
 #include "fonteditimpl.h"
@@ -28,6 +29,7 @@ FontEditor::FontEditor(  wxWindow* parent ):
 	this->Layout();
 	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this );
 	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this );
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, wxID_FONTEDITOR );
 }
 
 
@@ -36,6 +38,7 @@ FontEditor::~FontEditor(void)
 {
 	wxTheApp->Unbind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this );
 	wxTheApp->Unbind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this );
+	wxTheApp->Unbind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, wxID_FONTEDITOR );
 	ClearFont( true );
 }
 
@@ -67,6 +70,7 @@ void FontEditor::SetFont( FontInfo* newFont )
 {
 	ClearFont();
 	mCurrentFont = newFont->Clone();
+	SetPaletteAsMain();
 	UpdateFont();
 }
 
@@ -156,8 +160,6 @@ void FontEditor::UpdateRibbon()
 {
 	Symbols& sym = mCurrentFont->GetSymbols();
 	mSymbolsRibbon->Clear();
-	int w =  mCurrentFont->GetMaxWidth();
-	int h =  mCurrentFont->GetMaxHeight();
 
 	for ( size_t i = 0; i < sym.size(); ++i )
 	{
@@ -167,6 +169,26 @@ void FontEditor::UpdateRibbon()
 
 	mSymbolsRibbon->RefillHolder();
 	this->Update();
+}
+
+
+
+void FontEditor::ChangeFontPalette( Palette* pal )
+{
+	mCurrentFont->SetPalette( pal );
+	UpdateFont();
+}
+
+
+
+void FontEditor::SetPaletteAsMain()
+{
+	Palette* pal = mCurrentFont->GetPalette();
+	if ( pal && pal->IsOk() )
+	{
+		ChangePaletteEvent palEvent( wxID_FONTEDITOR, pal, true );
+		wxTheApp->QueueEvent( palEvent.Clone() );
+	}
 }
 
 
@@ -202,5 +224,22 @@ void FontEditor::UpdateRibbon()
 /* virtual */ void FontEditor::OnSymbolSelection( SymbolSelectionEvent& event )
 {
 	SetCurrentSymbol( event.GetKey() );
+	event.Skip();
+}
+
+
+
+/* virtual */ void FontEditor::OnRebuildDataEvent( EditorRebuildDataEvent& event )
+{
+	switch (event.GetWhat())
+	{
+		case EditorRebuildDataEvent::whPaletteChanged:
+			ChangeFontPalette( event.GetPalette() );
+		break;
+
+		default:
+			wxLogError("FontEditor::OnRebuildDataEvent error: unknown \"what to do\" id (%d)", event.GetWhat());
+		break;
+	}
 	event.Skip();
 }

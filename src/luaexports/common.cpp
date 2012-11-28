@@ -74,19 +74,8 @@ int selectSomething(lua_State *L, const wxString& title = wxEmptyString)
 		return 0;
 	}
 
-	OOLUA::Lua_table modules;
-	OOLUA::pull2cpp(L, modules);
 	wxArrayString strings;
-
-	{
-		int count = 1;
-		std::string value;
-		while (modules.safe_at( count++, value ))
-		{
-			strings.Add( wxString(value) );
-		}
-	}
-
+	Helpers::PullTableOfStrings( strings, L );
 	if (strings.size() == 0)
 	{
 		wxLogError("selectDialog: empty table received");
@@ -124,6 +113,13 @@ int selectModuleDialog(lua_State *L)
 int selectVersionDialog(lua_State *L)
 {
 	return selectSomething( L, "Select game version" );
+}
+
+
+
+int selectFromList(lua_State *L)
+{
+	return selectSomething( L, "Select" );
 }
 
 
@@ -217,6 +213,17 @@ int getStrChar(lua_State *L)
 #undef GET_BUFNINDEX
 
 
+int messageBox(lua_State *L)
+{
+	std::string s;
+	if (OOLUA::pull2cpp( L, s ))
+	{
+		wxMessageBox( s, "Module information" );
+	}
+	return 0;
+}
+
+
 
 namespace Lua
 {
@@ -241,6 +248,9 @@ void CommonRegister()
 	// calls dialog to select game version
 	LUA_REG_C_FUNCTION( selectVersionDialog );
 
+	// selects anything from any list
+	LUA_REG_C_FUNCTION( selectFromList );
+
 	// creates event about changed module
 	LUA_REG_C_FUNCTION( setModuleReady );
 
@@ -251,6 +261,9 @@ void CommonRegister()
 	// this function IS NOT SAFE
 	LUA_REG_C_FUNCTION( getStrInt );
 	LUA_REG_C_FUNCTION( getStrChar );
+
+	// calls MessageBox to show important messages to user
+	LUA_REG_C_FUNCTION( messageBox );
 
 	// export for wxBusyCursor class, will be usefull for continious operations
 	Get().register_class<BusyCursor>();
