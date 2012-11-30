@@ -114,11 +114,11 @@ void InsertSubBuffer(T* dst, int dstWidth,
 	}
 }
 
-void BufferToBMPStyle(char* mask, int w, int h, int bytespp);
+void BufferToBMPStyle(wxByte* mask, int w, int h, int bytespp);
 bool CopyToClipboard( const wxImage& img );
 bool CopyToClipboard( const wxRect& rect, const wxBitmap* bmp );
 
-void Buffer8bpp_to_Pixels(Pixel*dst, int dstWidth, int dstHeight, const char* src, int srcWidth, int srcHeight, const Palette* pal );
+void Buffer8bpp_to_Pixels(Pixel*dst, int dstWidth, int dstHeight, const wxByte* src, int srcWidth, int srcHeight, const Palette* pal );
 
 bool PullTableOfStrings( wxArrayString& res, lua_State* L = NULL);
 

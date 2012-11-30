@@ -13,8 +13,21 @@
 #include "helpers.h"
 
 
+const wxString	IMASKNAME = "IndexMask";
+const int		IMASKVERSION = 0x100;
+
+
+IndexMask::IndexMask(): 
+	IStateStore( IMASKNAME, IMASKVERSION ),
+	mWidth(0), 
+	mHeight(0), 
+	mSize(0), 	
+	mSrcWidth( 0 ),
+	mSrcHeight( 0 ), 
+	mMask(NULL) {}
 
 IndexMask::IndexMask( const IndexMask& other ):
+	IStateStore( IMASKNAME, IMASKVERSION ),
 	mWidth( 0 ),
 	mHeight( 0 ),
 	mSize( 0 ),
@@ -22,7 +35,7 @@ IndexMask::IndexMask( const IndexMask& other ):
 	mSrcHeight( 0 ),
 	mMask( NULL )
 {
-	SetMask( other.mMask, other.mSize, other.mWidth, other.mHeight, other.mSrcWidth, other.mSrcHeight );
+	SetMask( (char*) other.mMask, other.mSize, other.mWidth, other.mHeight, other.mSrcWidth, other.mSrcHeight );
 }
 
 
@@ -34,7 +47,14 @@ IndexMask::~IndexMask()
 
 
 
-void IndexMask::SetMask( const char* mask, int srcSize, int width, int height, int srcWidth /* -1 */, int srcHeight /* -1 */ )
+void IndexMask::SetMask( const char* charMask, int srcSize, int width, int height, int srcWidth /* -1 */, int srcHeight /* -1 */ )
+{
+	SetMask( (wxByte*) charMask, srcSize, width, height, srcWidth, srcHeight );
+}
+
+
+
+void IndexMask::SetMask( const wxByte* mask, int srcSize, int width, int height, int srcWidth /* -1 */, int srcHeight /* -1 */ )
 {
 	Clear();
 	
@@ -59,12 +79,12 @@ void IndexMask::SetMask( const char* mask, int srcSize, int width, int height, i
 
 	int bytesOnPixel = mSize / (mSrcHeight * mSrcWidth);
 
-	mMask = (char*) malloc( mSize );
+	mMask = (wxByte*) malloc( mSize );
 
 	switch (bytesOnPixel)
 	{
 		case 1:
-			Helpers::CopyBuffer<char>( mMask, mWidth, mHeight, mask, mSrcWidth, mSrcHeight );
+			Helpers::CopyBuffer<wxByte>( mMask, mWidth, mHeight, mask, mSrcWidth, mSrcHeight );
 		break;
 
 		case 2:
@@ -156,3 +176,43 @@ int IndexMask::ReadIndex( const wxPoint& pos )
 
 
 
+/* virtual */ bool IndexMask::SaveState( wxOutputStream& output )
+{
+	if (!IsOk())
+	{
+		wxLogError("IndexMask::SaveState: can't save bad indexed mask!");
+		return false;
+	}
+
+	bool res = SaveSimpleType<wxInt32>( output, mWidth ) &&
+		SaveSimpleType<wxInt32>( output, mHeight ) &&
+		SaveSimpleType<wxUint32>( output, mSize ) &&
+		SaveSimpleType<wxInt32>( output, mSrcWidth ) &&
+		SaveSimpleType<wxInt32>( output, mSrcHeight ) &&
+		SaveData( output, mMask, mSize );
+
+	return res;
+}
+
+
+
+/* virtual */ bool IndexMask::LoadState( wxInputStream& input, int version )
+{
+	version;	// unused yet, must exist
+	
+	Clear();
+
+	bool res = LoadSimpleType<wxInt32>( input, mWidth ) &&
+		LoadSimpleType<wxInt32>( input, mHeight ) &&
+		LoadSimpleType<wxUint32>( input, mSize ) &&
+		LoadSimpleType<wxInt32>( input, mSrcWidth ) &&
+		LoadSimpleType<wxInt32>( input, mSrcHeight );
+
+	if (res)
+	{
+		mMask = (wxByte*) malloc( mSize );
+		LoadData( input, mMask, mSize );
+	}
+
+	return res;
+}

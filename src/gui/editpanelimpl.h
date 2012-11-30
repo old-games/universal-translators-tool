@@ -34,6 +34,9 @@ protected:
 	virtual void OnImageChangeEvent( ChangeImageEvent& event );
 	virtual void OnRebuildDataEvent( EditorRebuildDataEvent& event );
 
+	void SaveImage();
+	void LoadImage();
+
 private:
 
 	void SetImage( ImageInfo* newImage );

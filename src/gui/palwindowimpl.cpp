@@ -23,7 +23,7 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 	{
 		mOwnerType->Append(PalOwners::OwnerName[i]);
 		mPalettes[i] = new Palette();
-		mPalettes[i]->Initiate( Palette::bppMono );
+		mPalettes[i]->Initiate( Palette::bppMono, (wxByte*) NULL );
 	}
 	mOwnerType->SetSelection(0);
 

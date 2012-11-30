@@ -525,6 +525,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\types\istatestore.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\istatestore.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\types\palette.cpp"
 				>
 			</File>

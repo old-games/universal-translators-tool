@@ -46,7 +46,7 @@ OOLUA_CLASS_NO_BASES( FontInfo )
 	OOLUA_NO_TYPEDEFS
 
 	OOLUA_MEM_FUNC_8( void, SetValues, int, int, int, int, int, int, int, int)
-	OOLUA_MEM_FUNC_5( void, AddSymbolFromBuf, const char*, int, int, int, int )
+	OOLUA_MEM_FUNC_5( void, AddSymbolFromBuf, const wxByte*, int, int, int, int )
 	OOLUA_MEM_FUNC_3( void, AddSymbolIndexed, IndexMask*, int, int )
 	OOLUA_MEM_FUNC_1( bool, SetPalette, Palette* )
 

@@ -68,7 +68,7 @@ bool CopyToClipboard( const wxRect& rect, const wxBitmap* bmp )
 
 
 
-void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const char* src, int srcWidth, int srcHeight, const Palette* pal )
+void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const wxByte* src, int srcWidth, int srcHeight, const Palette* pal )
 {
 	memset( dst, 0, dstWidth * dstHeight * sizeof( Pixel ) );
 	size_t copyLength = sizeof( Pixel ) * dstWidth;
@@ -88,14 +88,14 @@ void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const char* s
 
 // at the current moment works only with width multiple of four
 // correction number is ((3 * w) % 4)*bytespp, but IndexMask don't understand it 
-void BufferToBMPStyle(char* mask, int w, int h, int bytespp)
+void BufferToBMPStyle(wxByte* mask, int w, int h, int bytespp)
 {
 	int realWidth = w * bytespp;
 	int step = -realWidth;
 
 	size_t size = w * h * bytespp;
-	char* dest = (char*) malloc(size);
-	char* src = mask + ( realWidth * (h - 1) );
+	wxByte* dest = (wxByte*) malloc(size);
+	wxByte* src = mask + ( realWidth * (h - 1) );
 
 	for (int y = 0; y < h; y++)
 	{ 

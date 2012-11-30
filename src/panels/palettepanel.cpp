@@ -32,7 +32,7 @@ PalettePanel::PalettePanel(  wxWindow* parent, Palette* pal, bool changeGlobalCo
 	if (!mContainerMode)
 	{
 		mCurrentPal = new Palette();
-		mCurrentPal->Initiate( Palette::bppMono );
+		mCurrentPal->Initiate( Palette::bppMono, (wxByte*) NULL  );
 		SetBitmapFromPalette();
 	}
 	else

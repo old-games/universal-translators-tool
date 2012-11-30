@@ -14,8 +14,12 @@
 
 ImageInfo*	ImageInfo::sBuffered = NULL;
 
+const wxString	IMINFONAME = "ImageInfo";
+const int		IMINFOVERSION = 0x100;
 
-ImageInfo::ImageInfo():
+
+ImageInfo::ImageInfo(): 
+	IStateStore( IMINFONAME, IMINFOVERSION ),
 	mIndexMask(NULL),
 	mPalette(NULL)
 {
@@ -24,6 +28,7 @@ ImageInfo::ImageInfo():
 
 
 ImageInfo::ImageInfo(IndexMask* mask, Palette* pal):
+	IStateStore( IMINFONAME, IMINFOVERSION ),
 	mIndexMask(NULL),
 	mPalette(NULL)
 {
@@ -34,6 +39,7 @@ ImageInfo::ImageInfo(IndexMask* mask, Palette* pal):
 
 
 ImageInfo::ImageInfo( const ImageInfo& other ):
+	IStateStore( IMINFONAME, IMINFOVERSION ),
 	mIndexMask( NULL ),
 	mPalette( NULL )
 {
@@ -142,7 +148,7 @@ ImageInfo* ImageInfo::CopyToImageInfo( const wxRect& rect )
 	int h = checkRect.GetHeight();
 
 	size_t size = mPalette->GetCorrectImageSize(w, h, true);
-	char* buf = (char*) malloc( size );
+	wxByte* buf = (wxByte*) malloc( size );
 	int bytesOnPixel = size / (w * h);
 
 	switch (bytesOnPixel)
@@ -282,3 +288,31 @@ ImageInfo* ImageInfoDataObject::GetInfo()
 	return mImageInfo;
 }
 
+
+
+
+/* virtual */ bool ImageInfo::SaveState( wxOutputStream& output )
+{
+	if (!IsOk())
+	{
+		wxLogError("ImageInfo::SaveState: can't save bad image info!");
+		return false;
+	}
+
+	bool res = mIndexMask->SaveToStream(output) && mPalette->SaveToStream(output);
+
+	return res;
+}
+
+
+
+/* virtual */ bool ImageInfo::LoadState( wxInputStream& input, int version )
+{
+	version;	// unused yet, must exist
+	
+	Clear();
+
+	bool res = mIndexMask->LoadFromStream(input) && mPalette->LoadFromStream(input);
+
+	return res;
+}

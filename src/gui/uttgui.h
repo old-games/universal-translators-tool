@@ -72,21 +72,23 @@
 #define wxID_GRID_CHECK 1027
 #define wxID_GRID_MODE 1028
 #define wxID_GRIDCOL_BTN 1029
-#define wxID_PALETTEWINDOW 1030
-#define wxID_LR_SPIN 1031
-#define wxID_LG_SPIN 1032
-#define wxID_LB_SPIN 1033
-#define wxID_LI_SPIN 1034
-#define wxID_HEX_CHECK 1035
-#define wxID_RB_SPIN 1036
-#define wxID_RR_SPIN 1037
-#define wxID_RG_SPIN 1038
-#define wxID_RI_SPIN 1039
-#define wxID_OWNER_CHOICE 1040
-#define wxID_PAL_CHOICE 1041
-#define wxID_PALLOCK_CHECK 1042
-#define wxID_CGA_CHOICE 1043
-#define wxID_INTENSITY_CHECK 1044
+#define wxID_SAVE_BTN 1030
+#define wxID_LOAD_BTN 1031
+#define wxID_PALETTEWINDOW 1032
+#define wxID_LR_SPIN 1033
+#define wxID_LG_SPIN 1034
+#define wxID_LB_SPIN 1035
+#define wxID_LI_SPIN 1036
+#define wxID_HEX_CHECK 1037
+#define wxID_RB_SPIN 1038
+#define wxID_RR_SPIN 1039
+#define wxID_RG_SPIN 1040
+#define wxID_RI_SPIN 1041
+#define wxID_OWNER_CHOICE 1042
+#define wxID_PAL_CHOICE 1043
+#define wxID_PALLOCK_CHECK 1044
+#define wxID_CGA_CHOICE 1045
+#define wxID_INTENSITY_CHECK 1046
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame
@@ -268,6 +270,8 @@ class EditPanelGui : public wxPanel
 		wxStaticText* m_staticText12;
 		wxChoice* mGridModeChoice;
 		wxButton* mGetGridColour;
+		wxButton* mSaveBtn;
+		wxButton* mLoadBtn;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnCommandEvent( wxCommandEvent& event ) { event.Skip(); }

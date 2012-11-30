@@ -61,7 +61,7 @@ public:
 		mSymbols = src;
 	}
 
-	void AddSymbolFromBuf( const char* data, int width, int height, int swidth, int sheight );
+	void AddSymbolFromBuf( const wxByte* data, int width, int height, int swidth, int sheight );
 	void AddSymbolIndexed( IndexMask* mask, int swidth, int sheight );
 
 	int GetMaxWidth()

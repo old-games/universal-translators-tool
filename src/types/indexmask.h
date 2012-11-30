@@ -10,23 +10,18 @@
 #ifndef INDEXMASK_H_INCLUDED
 #define INDEXMASK_H_INCLUDED
 
+#include "istatestore.h"
+
 // forward declarations
 class Palette;
 class IndexMask;
 class ImageInfoDataObject;
 
-class IndexMask
+class IndexMask: public IStateStore
 {
 public:
 
-	IndexMask() : 
-		mWidth(0), 
-		mHeight(0), 
-		mSize(0), 	
-		mSrcWidth( 0 ),
-		mSrcHeight( 0 ), 
-		mMask(NULL) {}
-
+	IndexMask();
 	IndexMask( const IndexMask& other );
 	~IndexMask();
 	
@@ -36,13 +31,14 @@ public:
 	/*template<typename T>
 	bool	InsertMask( const wxPoint& point, const IndexMask* src ) const;*/
 
-	void SetMask( const char* mask, int srcSize, int width, int height, int srcWidth = -1, int srcHeight = -1 );
+	void SetMask( const char* charMask, int srcSize, int width, int height, int srcWidth = -1, int srcHeight = -1 );
+	void SetMask( const wxByte* mask, int srcSize, int width, int height, int srcWidth = -1, int srcHeight = -1 );
 
-	bool		IsOk() { return mMask != NULL; }
-	wxBitmap*	GetBitmap( Palette* pal );
-	const char* GetMask() const { return mMask; }
-	int			GetWidth() const { return mWidth; }
-	int			GetHeight() const { return mHeight; }
+	bool			IsOk() { return mMask != NULL; }
+	wxBitmap*		GetBitmap( Palette* pal );
+	const wxByte*	GetMask() const { return mMask; }
+	int				GetWidth() const { return mWidth; }
+	int				GetHeight() const { return mHeight; }
 
 	IndexMask* Clone() const { return new IndexMask( *this ); }
 	
@@ -80,16 +76,21 @@ public:
 		return false;
 	}
 
+protected:
+
+	virtual bool SaveState( wxOutputStream& output );
+	virtual bool LoadState( wxInputStream& input, int version );
+
 private:
 	void Clear();
 
-	int				mWidth;
-	int				mHeight;
-	size_t			mSize;
-	int				mSrcWidth;
-	int				mSrcHeight;
+	wxInt32			mWidth;
+	wxInt32			mHeight;
+	wxUint32		mSize;
+	wxInt32			mSrcWidth;
+	wxInt32			mSrcHeight;
 
-	char*	mMask;
+	wxByte*			mMask;
 	
 };
 

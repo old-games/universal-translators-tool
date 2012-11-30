@@ -9,12 +9,14 @@
 #ifndef IMAGEINFO_H_INCLUDED
 #define IMAGEINFO_H_INCLUDED
 
+#include "istatestore.h"
+
 // forward declarations
 class IndexMask;
 class Palette;
 class ImageInfoDataObject;
 
-class ImageInfo
+class ImageInfo: public IStateStore
 {
 public:
 	ImageInfo();
@@ -41,7 +43,11 @@ public:
 	
 	static void				Done() { delete sBuffered; sBuffered = NULL; }
 	static const ImageInfo*	GetBuffered() { return sBuffered; }
+
 protected:
+
+	virtual bool SaveState( wxOutputStream& output );
+	virtual bool LoadState( wxInputStream& input, int version );
 
 private:
 	

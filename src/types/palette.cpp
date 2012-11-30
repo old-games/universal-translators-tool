@@ -87,8 +87,12 @@ const wxDouble Palette::BitmapScale[bppNum] =
 };
 
 
+const wxString	PALETTENAME = "Palette";
+const int		PALVERSION = 0x100;
+
 
 Palette::Palette():
+	IStateStore( PALETTENAME, PALVERSION ),
 	mBPP( bppMono ),
 	mSize( 0 ),
 	mShifted( false ),
@@ -103,6 +107,7 @@ Palette::Palette():
 
 
 Palette::Palette( const Palette& other ):
+	IStateStore( PALETTENAME, PALVERSION ),
 	mBPP( other.mBPP ),
 	mSize( other.mSize ),
 	mShifted( other.mShifted ),
@@ -144,7 +149,7 @@ bool Palette::IsIndexed()
 
 
 
-void Palette::GetColourByIndex( unsigned char n, char& r, char& g, char& b ) const
+void Palette::GetColourByIndex( unsigned char n, wxByte& r, wxByte& g, wxByte& b ) const
 {
 	wxASSERT( IsOk() && n < ColourNumber[mBPP] );
 	Pixel& p = ((Pixel*) mCurrent)[n];
@@ -157,7 +162,7 @@ void Palette::GetColourByIndex( unsigned char n, char& r, char& g, char& b ) con
 
 UttColour Palette::GetColourByIndex( unsigned char n )
 {
-	char r, g, b;
+	wxByte r, g, b;
 	GetColourByIndex(n, r, g, b);
 	return UttColour( wxColour(r, g, b), n );
 }
@@ -213,6 +218,13 @@ unsigned int  Palette::GetPaletteSize( BPP bits, SourceFormat fmt )
 
 bool Palette::Initiate( BPP bpp, char* src /* NULL */, SourceFormat fmt /* sfPlain */, bool shift /* false */ )
 {
+	return Initiate( bpp, (wxByte*) src, fmt, shift );
+}
+
+
+
+bool Palette::Initiate( BPP bpp, wxByte* src /* NULL */, SourceFormat fmt /* sfPlain */, bool shift /* false */ )
+{
 	if (mInitiated)
 	{
 		return false;
@@ -223,7 +235,7 @@ bool Palette::Initiate( BPP bpp, char* src /* NULL */, SourceFormat fmt /* sfPla
 	{
 		return false;
 	}
-	
+
 	mBPP = bpp;
 	mShifted = shift;
 	
@@ -234,16 +246,16 @@ bool Palette::Initiate( BPP bpp, char* src /* NULL */, SourceFormat fmt /* sfPla
 		switch( mBPP )
 		{
 			case bppMono:
-				src = (char*) sMonoPal;
+				src = (wxByte*) sMonoPal;
 			break;
 
 			case bpp2:
-				src = mCGAIntensity ? (char*) sICGApal[ mCurrentCGAPal ] : (char*) sCGApal[ mCurrentCGAPal ];
+				src = mCGAIntensity ? (wxByte*) sICGApal[ mCurrentCGAPal ] : (wxByte*) sCGApal[ mCurrentCGAPal ];
 			break;
 
 			case bpp4:
 			case bpp8:
-				src = (char*) sVGApal;
+				src = (wxByte*) sVGApal;
 			break;
 		}
 	}
@@ -353,7 +365,7 @@ bool Palette::ChangeBPP(BPP bpp)
 
 	ClearDatas();
 	mInitiated = false;
-	return Initiate(bpp);
+	return Initiate(bpp, (wxByte*) NULL );
 }
 
 
@@ -454,5 +466,50 @@ inline void Palette::ConvertHighColour2RGB( unsigned short i, unsigned char& r, 
 		b = i & 0x1F;
 	}
 }
+
+
+
+/* virtual */ bool Palette::SaveState( wxOutputStream& output )
+{
+	if (!IsOk())
+	{
+		wxLogError("Palette::SaveState: can't save bad palette!");
+		return false;
+	}
+
+	bool res = SaveSimpleType<wxInt32>( output, mBPP ) &&
+		SaveSimpleType<wxUint32>( output, mSize ) &&
+		SaveSimpleType<bool>( output, mShifted ) &&
+		SaveSimpleType<bool>( output, mCGAIntensity ) &&
+		SaveSimpleType<wxByte>( output, mCurrentCGAPal ) &&
+		SaveData( output, mData, mSize ) &&
+		SaveData( output, mCurrent, mSize );
+
+	return res;
+}
+
+
+
+/* virtual */ bool Palette::LoadState( wxInputStream& input, int version )
+{
+	version;	// unused yet, must exist
+
+	bool res = LoadSimpleType<wxInt32>( input, mBPP ) &&
+		LoadSimpleType<wxUint32>( input, mSize ) &&
+		LoadSimpleType<bool>( input, mShifted ) &&
+		LoadSimpleType<bool>( input, mCGAIntensity ) &&
+		LoadSimpleType<wxByte>( input, mCurrentCGAPal );
+
+	if (res)
+	{
+		AllocateDatas();
+		res = LoadData( input, mData, mSize ) && LoadData( input, mCurrent, mSize );
+	}
+
+	mInitiated = res;
+
+	return res;
+}
+
 
 

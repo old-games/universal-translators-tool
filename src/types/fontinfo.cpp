@@ -99,7 +99,7 @@ SymbolInfo& FontInfo::GetSymbol(size_t n)
 
 
 
-void FontInfo::AddSymbolFromBuf( const char* data, int width, int height, int swidth, int sheight )
+void FontInfo::AddSymbolFromBuf( const wxByte* data, int width, int height, int swidth, int sheight )
 {
 	wxASSERT( mPalette != NULL );	
 	IndexMask mask;

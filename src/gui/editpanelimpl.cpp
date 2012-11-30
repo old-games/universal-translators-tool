@@ -76,6 +76,28 @@ bool ImageEditor::CheckChanges()
 
 
 
+void ImageEditor::SaveImage()
+{
+	if (!mEditPanel->mImageInfo->IsOk())
+	{
+		wxLogWarning("Image is not ready to save!");
+		return;
+	}
+
+	wxFileDialog dlg( this, "Save image as...", wxEmptyString, "fileimage", "*.*", wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+	if (dlg.ShowModal() == wxID_OK)
+	{
+		mEditPanel->mImageInfo->SaveToFile( dlg.GetPath() );
+	}
+}
+
+
+
+void ImageEditor::LoadImage()
+{
+}
+
+
 /* virtual */ void ImageEditor::OnImageChangeEvent( ChangeImageEvent& event )
 {
 	SetImage( event.GetImageInfo() );
@@ -98,6 +120,14 @@ bool ImageEditor::CheckChanges()
 
 		case wxID_GRIDCOL_BTN:
 			SetGridColour();
+		break;
+
+		case wxID_SAVE_BTN:
+			SaveImage();
+		break;
+
+		case wxID_LOAD_BTN:
+			LoadImage();
 		break;
 
 		default:

@@ -10,7 +10,9 @@
 #ifndef PALETTE_H_INCLUDED
 #define PALETTE_H_INCLUDED
 
-class Palette
+#include "istatestore.h"
+
+class Palette: public IStateStore
 {
 public:
 
@@ -45,6 +47,7 @@ public:
 	// fmt - format of data stored in src
 	// shift - some palettes need to shit each RGB value to left by 2
 	bool		Initiate( BPP bpp, char* src = NULL, SourceFormat fmt = sfPlain, bool shift = false );
+	bool		Initiate( BPP bpp, wxByte* src = NULL, SourceFormat fmt = sfPlain, bool shift = false );
 	bool		ChangeBPP(BPP bpp);
 	void		SetCGAType( int cga, bool intensity );
 
@@ -53,7 +56,7 @@ public:
 	inline bool		IsIndexed();
 	int				GetPalType() { return mBPP; }
 	wxBitmap*		GeneratePalBitmap();
-	void			GetColourByIndex( unsigned char n, char& r, char& g, char& b ) const;
+	void			GetColourByIndex( unsigned char n, wxByte& r, wxByte& g, wxByte& b ) const;
 	UttColour		GetColourByIndex( unsigned char n );
 	UttColour		GetColourByCoordinates( const wxPoint& pos);
 	wxPoint			GetIndexCoordinates( unsigned char n );
@@ -71,6 +74,11 @@ public:
 	static const wxDouble	BitmapScale[bppNum];
 
 	static size_t PaletteSize( int n );
+
+protected:
+
+	virtual bool SaveState( wxOutputStream& output );
+	virtual bool LoadState( wxInputStream& input, int version );
 	
 private:
 
@@ -81,12 +89,12 @@ private:
 	void ConvertHighColour2RGB( unsigned short i, unsigned char& r, unsigned char& g, unsigned char& b );
 
 
-	int		mBPP;
-	size_t	mSize;
-	bool	mShifted;
-	bool	mInitiated;
-	bool	mCGAIntensity;
-	int		mCurrentCGAPal;
+	wxInt32		mBPP;
+	wxUint32	mSize;
+	bool		mShifted;
+	bool		mInitiated;
+	bool		mCGAIntensity;
+	wxByte		mCurrentCGAPal;
 
 
 	void*	mData;
