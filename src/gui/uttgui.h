@@ -67,13 +67,13 @@
 #define wxID_SELECT_MODULE_ID 1022
 #define wxID_FONTEDITOR 1023
 #define wxID_CREATE_FONT 1024
-#define wxID_FONT_SETTINGS 1025
-#define wxID_IMAGEEDITOR 1026
-#define wxID_GRID_CHECK 1027
-#define wxID_GRID_MODE 1028
-#define wxID_GRIDCOL_BTN 1029
-#define wxID_SAVE_BTN 1030
-#define wxID_LOAD_BTN 1031
+#define wxID_SAVE_BTN 1025
+#define wxID_LOAD_BTN 1026
+#define wxID_FONT_SETTINGS 1027
+#define wxID_IMAGEEDITOR 1028
+#define wxID_GRID_CHECK 1029
+#define wxID_GRID_MODE 1030
+#define wxID_GRIDCOL_BTN 1031
 #define wxID_PALETTEWINDOW 1032
 #define wxID_LR_SPIN 1033
 #define wxID_LG_SPIN 1034
@@ -232,6 +232,8 @@ class FontEditGui : public wxPanel
 	protected:
 		wxScrolledWindow* mFontScrolledBack;
 		wxButton* mCreateBtn;
+		wxButton* mSaveBtn;
+		wxButton* mLoadBtn;
 		wxButton* mSettingsBtn;
 		wxSplitterWindow* mFontSplitter;
 		wxPanel* mRibbonOwner;

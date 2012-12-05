@@ -197,6 +197,8 @@ void EditPanel::DrawGrid( wxDC& dc )
 	}
 }
 
+
+
 bool EditPanel::DoPlacePixel( const wxPoint& pos, const UttColour& color )
 {
 	if (mRealScale < 1.0f)
@@ -209,6 +211,7 @@ bool EditPanel::DoPlacePixel( const wxPoint& pos, const UttColour& color )
 	if (mImageInfo)
 	{
 		mImageInfo->GetImage()->WriteIndex(pos, color.GetIndex());
+		SendRebuildDataEvent();
 	}
 
 	wxMemoryDC temp_dc;
@@ -217,6 +220,15 @@ bool EditPanel::DoPlacePixel( const wxPoint& pos, const UttColour& color )
 	temp_dc.DrawPoint ( pos );
 	PaintNow();
 	return true;
+}
+
+
+
+void EditPanel::SendRebuildDataEvent()
+{
+	EditorRebuildDataEvent* rebuildEvent = new EditorRebuildDataEvent( this->GetId(),  
+											EditorRebuildDataEvent::whIndexMaskChanged);
+	wxTheApp->QueueEvent( rebuildEvent );
 }
 
 
@@ -463,6 +475,7 @@ bool EditPanel::DoPaste( const wxPoint& pos, const ImageInfo* src )
 	if (mImageInfo->PasteImageInfo( pos, src ))
 	{
 		SetIndexedBitmap( mImageInfo->Clone(), false );
+		SendRebuildDataEvent();
 		res = true;
 	}
 	return res;

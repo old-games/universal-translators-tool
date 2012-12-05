@@ -57,6 +57,7 @@ public:
 
 	inline int GetRealWidth() { return mShowWidth; }
 	inline int GetRealHeight() { return mShowHeight; }
+	inline ImageInfo* GetImageInfo() { return mImageInfo; }
 
 	inline bool IsOk() { return mBitmap && mBitmap->IsOk(); }
 

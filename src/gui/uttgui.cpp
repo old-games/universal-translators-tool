@@ -477,14 +477,21 @@ FontEditGui::FontEditGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 	sbSizer4 = new wxStaticBoxSizer( new wxStaticBox( mFontScrolledBack, wxID_ANY, wxT("Controls:") ), wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer2;
-	fgSizer2 = new wxFlexGridSizer( 1, 2, 0, 0 );
-	fgSizer2->AddGrowableCol( 0 );
+	fgSizer2 = new wxFlexGridSizer( 1, 4, 0, 0 );
+	fgSizer2->AddGrowableCol( 1 );
+	fgSizer2->AddGrowableCol( 2 );
 	fgSizer2->AddGrowableRow( 0 );
 	fgSizer2->SetFlexibleDirection( wxBOTH );
 	fgSizer2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
 	mCreateBtn = new wxButton( mFontScrolledBack, wxID_CREATE_FONT, wxT("Create new..."), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer2->Add( mCreateBtn, 0, wxALL, 5 );
+	
+	mSaveBtn = new wxButton( mFontScrolledBack, wxID_SAVE_BTN, wxT("Save..."), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer2->Add( mSaveBtn, 0, wxALL|wxALIGN_RIGHT, 5 );
+	
+	mLoadBtn = new wxButton( mFontScrolledBack, wxID_LOAD_BTN, wxT("Load..."), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer2->Add( mLoadBtn, 0, wxALL, 5 );
 	
 	mSettingsBtn = new wxButton( mFontScrolledBack, wxID_FONT_SETTINGS, wxT("Font settings..."), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer2->Add( mSettingsBtn, 0, wxALL, 5 );
@@ -542,6 +549,8 @@ FontEditGui::FontEditGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 	
 	// Connect Events
 	mCreateBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FontEditGui::OnBtnClick ), NULL, this );
+	mSaveBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FontEditGui::OnBtnClick ), NULL, this );
+	mLoadBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FontEditGui::OnBtnClick ), NULL, this );
 	mSettingsBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FontEditGui::OnBtnClick ), NULL, this );
 }
 
@@ -549,6 +558,8 @@ FontEditGui::~FontEditGui()
 {
 	// Disconnect Events
 	mCreateBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FontEditGui::OnBtnClick ), NULL, this );
+	mSaveBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FontEditGui::OnBtnClick ), NULL, this );
+	mLoadBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FontEditGui::OnBtnClick ), NULL, this );
 	mSettingsBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FontEditGui::OnBtnClick ), NULL, this );
 	
 }

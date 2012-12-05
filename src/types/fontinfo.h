@@ -10,12 +10,13 @@
 #define FONTINFO_H_INCLUDED
 
 #include "symbolinfo.h"
+#include "istatestore.h"
 
 // forward declarations
 class Palette;
 class IndexMask;
 
-class FontInfo
+class FontInfo: public IStateStore
 {
 
 public:
@@ -138,6 +139,11 @@ public:
 	Palette* GetPalette() { return mPalette; }
 
 	static SymbolInfo	sBadSymbol;
+
+protected:
+
+	virtual bool SaveState( wxOutputStream& output );
+	virtual bool LoadState( wxInputStream& input, int version );
 
 private: 
 	void ClearPalette();

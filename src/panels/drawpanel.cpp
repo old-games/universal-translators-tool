@@ -329,10 +329,6 @@ void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
 
 /* virtual */ void DrawPanel::OnPaint( wxPaintEvent& event )
 {
-	if (!this->IsEnabled())
-	{
-		return;
-	}
 
 	wxAutoBufferedPaintDC dc(this);
 	dc.Clear();

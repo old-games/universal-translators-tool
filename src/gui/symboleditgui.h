@@ -13,6 +13,7 @@
 #include "editpanelimpl.h"
 
 class SymbolPanel;
+class IndexMask;
 
 class SymbolEditGui :
 	public ImageEditor
@@ -25,6 +26,8 @@ public:
 	{
 		return mSymbolPanel;
 	}
+
+	IndexMask* GetIndexMask();
 
 private:
 

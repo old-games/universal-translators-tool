@@ -311,8 +311,15 @@ ImageInfo* ImageInfoDataObject::GetInfo()
 	version;	// unused yet, must exist
 	
 	Clear();
+	mIndexMask = new IndexMask();
+	mPalette = new Palette();
 
 	bool res = mIndexMask->LoadFromStream(input) && mPalette->LoadFromStream(input);
+
+	if (!res)
+	{
+		Clear();
+	}
 
 	return res;
 }

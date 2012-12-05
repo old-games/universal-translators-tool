@@ -17,19 +17,28 @@
 #include "fonteditimpl.h"
 #include "fontsettingsimpl.h"
 
+
+
+const wxString	UUT_FONT_EXTENSIONS = "UTT Font files (*.uft)|*.uft";
+
+
+
 FontEditor::FontEditor(  wxWindow* parent ):
 	FontEditGui( parent ),
-	mSymbolEditor( new SymbolEditGui( mSymEditorOwner ) ), //mFontScrolledBack ) ),
+	mSymbolEditor( new SymbolEditGui( mSymEditorOwner ) ), 
 	mCurrentFont( NULL ),
 	mCurrentSymbol( 0 ),
 	mHasChanges( false )
 {
 	mSymbolEditor->GetSymbolPanel()->SetAlign( utdHCenter | utdVCenter | utdExpand);
+	mSymbolEditor->Disable();
 	mCentralSizer->Add( mSymbolEditor, 1, wxEXPAND, 5 );
 	this->Layout();
 	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this );
 	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this );
 	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, wxID_FONTEDITOR );
+	wxWindowID id = GetSymbolPanel()->GetId();
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, id );
 }
 
 
@@ -62,6 +71,7 @@ void FontEditor::ClearFont( bool force /* false */ )
 		delete mCurrentFont;
 		mCurrentFont = NULL;
 	}
+	mSymbolEditor->Disable();
 }
 
 
@@ -72,33 +82,28 @@ void FontEditor::SetFont( FontInfo* newFont )
 	mCurrentFont = newFont->Clone();
 	SetPaletteAsMain();
 	UpdateFont();
+	mSymbolEditor->Enable();
 }
 
 
 
 bool FontEditor::CheckChanges()
 {
-	if (!mHasChanges)
+	if (mHasChanges)
 	{
-		return true;
+		int res = wxMessageDialog(this, "Save changes?", "Font has changes", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
+
+		if (res == wxID_OK)
+		{
+			mHasChanges = !SaveFont();
+		}
+		else
+		{
+			mHasChanges = false;
+		}
+
 	}
-
-	int res = wxMessageDialog(this, "Save changes?", "Font has changes", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
-
-	if (res == wxID_OK)
-	{
-		return SaveFont();
-	}
-
-	mHasChanges = false;
-	return true;
-}
-
-
-
-bool FontEditor::SaveFont()
-{
-	return true;
+	return !mHasChanges;
 }
 
 
@@ -173,6 +178,24 @@ void FontEditor::UpdateRibbon()
 
 
 
+void FontEditor::CurrentSymbolChanged()
+{
+	mHasChanges = true;
+
+	if (mCurrentFont && mCurrentSymbol < mCurrentFont->GetSymbols().size() )
+	{
+		SymbolInfo& info = mCurrentFont->GetSymbols()[mCurrentSymbol];
+		if (info.IsOk())
+		{
+			info.SetData( mSymbolEditor->GetIndexMask() );
+			wxBitmap* bmp = info.GetData()->GetBitmap( mCurrentFont->GetPalette() ); 
+			mSymbolsRibbon->UpdateBitmap( mCurrentSymbol, bmp );
+		}
+	}
+}
+
+
+
 void FontEditor::ChangeFontPalette( Palette* pal )
 {
 	mCurrentFont->SetPalette( pal );
@@ -193,10 +216,55 @@ void FontEditor::SetPaletteAsMain()
 
 
 
+bool FontEditor::SaveFont()
+{
+
+	if (!mCurrentFont )
+	{
+		wxLogWarning("Font is not ready to save!");
+	}
+	else
+	{
+		wxFileDialog dlg( this, "Save font as...", wxEmptyString, "fontfile", UUT_FONT_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+		if (dlg.ShowModal() == wxID_OK)
+		{
+			mHasChanges = mCurrentFont->SaveToFile( dlg.GetPath() );
+		}
+	}
+	return !mHasChanges;
+}
+
+
+
+void FontEditor::LoadFont()
+{
+	wxFileDialog dlg( this, "Open UTT font...", wxEmptyString, "fontfile", UUT_FONT_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
+	if (dlg.ShowModal() == wxID_OK)
+	{
+		FontInfo* fontInfo = new FontInfo();
+		if ( fontInfo->LoadFromFile( dlg.GetPath() ) )
+		{
+			SetFont( fontInfo );
+		}
+		delete fontInfo;
+	}
+}
+
+
+
 /* virtual */ void FontEditor::OnBtnClick( wxCommandEvent& event )
 {
 	switch (event.GetId())
 	{
+
+		case wxID_SAVE_BTN:
+			SaveFont();
+		break;
+
+		case wxID_LOAD_BTN:
+			LoadFont();
+		break;
+
 		case wxID_CREATE_FONT:
 			CreateFont();
 		break;
@@ -235,6 +303,10 @@ void FontEditor::SetPaletteAsMain()
 	{
 		case EditorRebuildDataEvent::whPaletteChanged:
 			ChangeFontPalette( event.GetPalette() );
+		break;
+
+		case EditorRebuildDataEvent::whIndexMaskChanged:
+			CurrentSymbolChanged();
 		break;
 
 		default:

@@ -38,7 +38,8 @@
 #include <wx/clipbrd.h>
 #include <wx/dcgraph.h>
 #include <wx/cmdproc.h>
-
+#include <wx/progdlg.h>
+#include <wx/busyinfo.h>
 
 // own written but wx compatible
 #include "types/customevents.h"

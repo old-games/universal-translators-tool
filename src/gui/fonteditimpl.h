@@ -24,7 +24,6 @@ public:
 	void SetFont( FontInfo* newFont );
 
 	bool CheckChanges();
-	bool SaveFont();
 
 	SymbolPanel* GetSymbolPanel();
 	void SetCurrentSymbol(int n);
@@ -37,17 +36,23 @@ protected:
 	virtual void OnRebuildDataEvent( EditorRebuildDataEvent& event );
 private:
 
+	
+	void LoadFont();
+	bool SaveFont();
+
 	bool ShowSettings();
 	bool CreateFont();
 	void ClearFont( bool force = false );	// force - to clear memory from destructor
 	void ChangeFontPalette( Palette* pal );
 	void SetPaletteAsMain();
+
 	void UpdateFont();
 	void UpdateRibbon();
+	void CurrentSymbolChanged();
 
 	SymbolEditGui*	mSymbolEditor;
 	FontInfo*		mCurrentFont;
-	int				mCurrentSymbol;
+	unsigned int	mCurrentSymbol;
 	bool			mHasChanges;
 
 

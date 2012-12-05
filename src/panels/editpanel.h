@@ -85,6 +85,7 @@ private:
 	bool BeginDrawing();
 	void EndDrawing();
 	bool PasteSelection();
+	void SendRebuildDataEvent();
 
 
 	bool		mDrawGrid;

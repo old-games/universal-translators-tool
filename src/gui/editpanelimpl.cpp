@@ -13,6 +13,7 @@
 #include "types/imageinfo.h"
 #include "types/palette.h"
 
+const wxString	UUT_IMAGE_EXTENSIONS = "UTT Image files (*.uim)|*.uim";
 
 ImageEditor::ImageEditor(  wxWindow* parent, wxWindowID id ):
 	EditPanelGui( parent ),
@@ -78,13 +79,14 @@ bool ImageEditor::CheckChanges()
 
 void ImageEditor::SaveImage()
 {
-	if (!mEditPanel->mImageInfo->IsOk())
+
+	if (!mEditPanel->mImageInfo || !mEditPanel->mImageInfo->IsOk())
 	{
 		wxLogWarning("Image is not ready to save!");
 		return;
 	}
 
-	wxFileDialog dlg( this, "Save image as...", wxEmptyString, "fileimage", "*.*", wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+	wxFileDialog dlg( this, "Save image as...", wxEmptyString, "fileimage", UUT_IMAGE_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
 	if (dlg.ShowModal() == wxID_OK)
 	{
 		mEditPanel->mImageInfo->SaveToFile( dlg.GetPath() );
@@ -95,7 +97,21 @@ void ImageEditor::SaveImage()
 
 void ImageEditor::LoadImage()
 {
+	wxFileDialog dlg( this, "Open UTT image...", wxEmptyString, "fileimage", UUT_IMAGE_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
+	if (dlg.ShowModal() == wxID_OK)
+	{
+		ImageInfo* imageInfo = new ImageInfo();
+		imageInfo->LoadFromFile( dlg.GetPath() );
+
+		if ( imageInfo->IsOk() )
+		{
+			SetImage(imageInfo);
+		}
+
+		delete imageInfo;
+	}
 }
+
 
 
 /* virtual */ void ImageEditor::OnImageChangeEvent( ChangeImageEvent& event )
@@ -218,6 +234,7 @@ void ImageEditor::SetEditPanel( EditPanel* editPanel )
 	{
 		delete mEditPanel;
 	}
+
 	mEditPanel = editPanel;
 	mDrawHolder->Add( mEditPanel, 1, wxEXPAND, 5 );
 	mEditPanel->SetAlign( utdHCenter | utdVCenter );

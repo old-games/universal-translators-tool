@@ -18,6 +18,7 @@ class IStateStore
 public:
 
 	IStateStore( const wxString& myName, int version );
+	virtual ~IStateStore();
 
 	bool SaveToFile( const wxString& fileName );
 	bool LoadFromFile( const wxString& fileName );
@@ -69,6 +70,7 @@ private:
 	bool RenameTemporary( const wxString& fileName );
 
 	wxString	mMyTemporary;
+
 };
 
 

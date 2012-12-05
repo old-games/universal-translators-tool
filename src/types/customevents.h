@@ -366,6 +366,7 @@ public:
 	enum WhatHappend
 	{
 		whPaletteChanged,
+		whIndexMaskChanged,
 		whNum
 	};
 

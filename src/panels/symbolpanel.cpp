@@ -107,6 +107,7 @@ void SymbolPanel::UpdateControlLines()
 {
 	CheckControlLines();
 	bool res = false;
+
 	if ( btn == wxMOUSE_BTN_LEFT )
 	{
 		if (up)
@@ -118,10 +119,12 @@ void SymbolPanel::UpdateControlLines()
 	    	res = BeginDragLine();
 		}
 	}
+
 	if ( !res )
 	{
 		res = EditPanel::MouseButton(btn, up);
 	}
+
 	return res;
 }
 

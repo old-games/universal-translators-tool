@@ -11,6 +11,8 @@
 
 #include "symboleditgui.h"
 #include "panels/symbolpanel.h"
+#include "types/imageinfo.h"
+
 #define wxID_SYMBOLEDITOR	999
 
 
@@ -27,4 +29,18 @@ SymbolEditGui::SymbolEditGui(  wxWindow* parent ):
 
 SymbolEditGui::~SymbolEditGui(void)
 {
+}
+
+
+
+IndexMask* SymbolEditGui::GetIndexMask()
+{
+	IndexMask* res = NULL;
+
+	if ( mSymbolPanel->GetImageInfo()->IsOk() )
+	{
+		res = mSymbolPanel->GetImageInfo()->GetImage();
+	}
+
+	return res;
 }

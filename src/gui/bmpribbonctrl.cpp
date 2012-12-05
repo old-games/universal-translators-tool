@@ -89,6 +89,16 @@ void BitmapRibbonCtrl::RefillHolder( bool recalcCount /* true */)
 
 
 
+void BitmapRibbonCtrl::UpdateBitmap( size_t n, wxBitmap* bmp )
+{
+	if (n < mThumbnails->GetCount())
+	{
+		mThumbnails->Item(n)->SetBitmap(bmp);
+	}
+}
+
+
+
 void BitmapRibbonCtrl::SetBitmap( size_t n, wxBitmap* bmp )
 {
 	ThumbnailPanel* dp = new ThumbnailPanel(n, this);
@@ -150,7 +160,7 @@ void BitmapRibbonCtrl::ActiveChanged( int old, int n )
 
 
 
-bool BitmapRibbonCtrl::CheckMouseInButton(wxWindowID id )
+bool BitmapRibbonCtrl::CheckMouseInButton()
 {
 	wxButton* btn = NULL;
 	switch ( mBtnPressed )
@@ -206,7 +216,7 @@ bool BitmapRibbonCtrl::CheckMouseInButton(wxWindowID id )
 {
 	wxMouseState state = wxGetMouseState();
 	
-	if ( !state.LeftIsDown() || !CheckMouseInButton(mBtnPressed) )
+	if ( !state.LeftIsDown() || !CheckMouseInButton() )
 	{
 		mBtnPressed = wxID_ANY;
 	}

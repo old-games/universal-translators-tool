@@ -24,6 +24,13 @@ IStateStore::IStateStore(const wxString& myName, int version):
 
 
 
+/* virtual */ IStateStore::~IStateStore()
+{
+
+}
+
+
+
 bool IStateStore::SaveToFile( const wxString& fileName )
 {
 	wxFileOutputStream stream( mMyTemporary );
@@ -31,6 +38,8 @@ bool IStateStore::SaveToFile( const wxString& fileName )
 
 	if (stream.IsOk())
 	{
+	    wxBusyInfo info("Saving, please wait...");
+
 		res = SaveToStream( stream );
 		stream.Close();
 
@@ -56,6 +65,8 @@ bool IStateStore::LoadFromFile( const wxString& fileName )
 
 	if (stream.IsOk())
 	{
+		wxBusyInfo info("Loading, please wait...");
+
 		res = LoadFromStream( stream );
 	}
 	else
@@ -123,13 +134,14 @@ bool IStateStore::RenameTemporary( const wxString& fileName )
 	{
 		wxLogError(wxString::Format("%s::RenameTemporary: can't rename temporary file (%s) to %s!", mMyName, mMyTemporary, fileName));
 	}
-	else
-	{
-		if (!::wxRemoveFile( mMyTemporary ))
-		{
-			wxLogWarning(wxString::Format("%s::RenameTemporary: temporary file (%s) renamed to %s, but deleting of tempfile was unsuccessful!", mMyName, mMyTemporary, fileName));
-		}
-	}
+
+	//else
+	//{
+	//	if (!::wxRemoveFile( mMyTemporary ))
+	//	{
+	//		wxLogWarning(wxString::Format("%s::RenameTemporary: temporary file (%s) renamed to %s, but deleting of tempfile was unsuccessful!", mMyName, mMyTemporary, fileName));
+	//	}
+	//}
 
 	return res;
 }
@@ -184,3 +196,5 @@ bool IStateStore::RenameTemporary( const wxString& fileName )
 	input.Read(dest, size);
 	return CheckLastRead(input, size);
 }
+
+

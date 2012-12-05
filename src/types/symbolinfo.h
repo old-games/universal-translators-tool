@@ -9,26 +9,23 @@
 #ifndef SYMBOLINFO_H_INCLUDED
 #define SYMBOLINFO_H_INCLUDED
 
+#include "istatestore.h"
 // forward declarations
 class IndexMask;
 
-class SymbolInfo
+class SymbolInfo: public IStateStore
 {
 public:
 
-	SymbolInfo(): mWidth( 0 ), mHeight( 0 ), mCode( 0 ), mData( NULL ) {}
-	SymbolInfo( const SymbolInfo& other ):
-		mWidth( other.mWidth ),
-		mHeight( other.mHeight ),
-		mCode( other.mCode ),
-		mData( NULL )
-	{
-		SetData(other.mData);
-	}
+	SymbolInfo();
+	SymbolInfo( const SymbolInfo& other );
+
 	virtual ~SymbolInfo();
 
 
 	SymbolInfo* Clone() { return new SymbolInfo(*this); }
+
+	bool IsOk();
 
 	IndexMask* GetData();
 	int GetWidth() { return mWidth; }
@@ -44,6 +41,9 @@ public:
 	SymbolInfo &operator = ( const SymbolInfo &src );
 
 protected:
+
+	virtual bool SaveState( wxOutputStream& output );
+	virtual bool LoadState( wxInputStream& input, int version );
 
 	wxInt32		mWidth;				// ширина символа
 	wxInt32		mHeight;			// высота символа

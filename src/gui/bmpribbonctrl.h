@@ -21,6 +21,7 @@ public:
 
 	void Clear();
 	void SetBitmap( size_t n, wxBitmap* bmp );
+	void UpdateBitmap( size_t n, wxBitmap* bmp );
 
 	void RefillHolder( bool recalcCount = true );
 	void DoIncrement( int step );
@@ -38,7 +39,7 @@ protected:
 
 private:
 
-	bool CheckMouseInButton( wxWindowID id );
+	bool CheckMouseInButton();
 	void CalculateThumbsCount( bool useSize = false, const wxSize& size = wxDefaultSize );
 
 	ThumbnailsArray*	mThumbnails;

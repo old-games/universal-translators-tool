@@ -345,7 +345,7 @@ inline void Palette::AllocateDatas()
 {
 	ClearDatas();
 
-	if ( this->IsOk() && this->IsIndexed() )
+	if ( this->IsIndexed() )
 	{
 		mData = malloc( mSize );
 		mCurrent = malloc( mSize );
