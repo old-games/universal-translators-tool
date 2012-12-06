@@ -39,6 +39,7 @@
 #include <wx/splitter.h>
 #include <wx/checkbox.h>
 #include <wx/choice.h>
+#include <wx/treectrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -89,6 +90,8 @@
 #define wxID_PALLOCK_CHECK 1044
 #define wxID_CGA_CHOICE 1045
 #define wxID_INTENSITY_CHECK 1046
+#define wxID_LIBRARYWINDOW 1047
+#define wxID_LIBTREE 1048
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame
@@ -239,7 +242,7 @@ class FontEditGui : public wxPanel
 		wxPanel* mRibbonOwner;
 		BitmapRibbonCtrl* mSymbolsRibbon;
 		wxPanel* mSymEditorOwner;
-		wxStaticBoxSizer* mCentralSizer;
+		wxGridSizer* mCentralSizer;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnBtnClick( wxCommandEvent& event ) { event.Skip(); }
@@ -331,6 +334,24 @@ class PaletteWindowGui : public wxPanel
 		
 		PaletteWindowGui( wxWindow* parent, wxWindowID id = wxID_PALETTEWINDOW, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1019,439 ), long style = wxTAB_TRAVERSAL ); 
 		~PaletteWindowGui();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LibraryGui
+///////////////////////////////////////////////////////////////////////////////
+class LibraryGui : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxScrolledWindow* mLibScrolledBack;
+		wxTreeCtrl* mLibTree;
+	
+	public:
+		
+		LibraryGui( wxWindow* parent, wxWindowID id = wxID_LIBRARYWINDOW, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 509,482 ), long style = wxTAB_TRAVERSAL ); 
+		~LibraryGui();
 	
 };
 

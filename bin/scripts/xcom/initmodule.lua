@@ -8,7 +8,8 @@ local gameVersions = { 'UFO 1 (DOS)', 'UFO 2 (WIN)' }
 local ActionsOnExtension = 
 { 
 	dat = "loadDAT",
-	scr = "loadDAT"
+	scr = "loadDAT",
+	cat = "loadCAT"
 }
 
 
@@ -50,7 +51,7 @@ end
 
 
 function Xcom.getExtensions()
-	return '*.DAT (*.dat)|*.dat|*.SCR (*.scr)|*.scr'
+	return '*.DAT (*.dat)|*.dat|*.SCR (*.scr)|*.scr|*.CAT (*.cat)|*.cat'
 end
 
 
@@ -90,6 +91,35 @@ function Operations.loadDAT( filename )
 			print ("I don't know what to do with ", filename)
 		end
 	end
+	fh:close()
+end
+
+
+
+local CATStruct = {}
+CATStruct[1] =	{ OFFSET	= "DWORD" 	}
+CATStruct[2] =	{ SIZE 		= "DWORD" 	}
+
+
+
+function Operations.loadCAT( filename )
+	local vol, path, name, ext = parseFileName( filename )
+	path = vol..path..'/'
+
+	local fh = assert(io.open(filename, "rb"))
+	if not fh then
+		return
+	end
+	
+	local done = false
+	local size = fileSize( filename )
+	
+	while not done do
+		local data = readData( fh, CATStruct )
+		done = (data ~= nil) and (data.OFFSET + data.SIZE) == size
+		showTable(data)
+	end
+	
 	fh:close()
 end
 

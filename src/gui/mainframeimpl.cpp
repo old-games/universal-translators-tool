@@ -17,6 +17,7 @@
 #include "logwindowimpl.h"
 #include "editpanelimpl.h"
 #include "palwindowimpl.h"
+#include "libwindowimpl.h"
 
 #include "panels/symbolpanel.h"
 
@@ -28,7 +29,8 @@ MainFrameImpl::MainFrameImpl(void):
 	mHelpController( NULL ),
 	mFontEditor( new FontEditor( mAUINotebook ) ),
 	mEditWindow( new ImageEditor( mAUINotebook, wxID_IMAGEEDITOR ) ),
-	mPalWindow( new PaletteWindowImpl( mAUINotebook ) )
+	mPalWindow( new PaletteWindowImpl( mAUINotebook ) ),
+	mLibWindow( new LibraryPanel( mAUINotebook ) )
 {
 	
 	COMMAND->SetEditMenu( mEditMenu );
@@ -45,6 +47,7 @@ MainFrameImpl::MainFrameImpl(void):
 	this->AddPane(mFontEditor, "Font editor");
 	this->AddPane(mEditWindow, "Image editor");
 	this->AddPane(mPalWindow, "Palette window");
+	this->AddPane(mLibWindow, "Library");
 
 //		wxBMPHandler: For loading (including alpha support) and saving, always installed.
 //		wxPNGHandler: For loading and saving. Includes alpha support.

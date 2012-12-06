@@ -524,9 +524,8 @@ FontEditGui::FontEditGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, c
 	mSymEditorOwner = new wxPanel( mFontSplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	mSymEditorOwner->SetMinSize( wxSize( -1,200 ) );
 	
-	mCentralSizer = new wxStaticBoxSizer( new wxStaticBox( mSymEditorOwner, wxID_ANY, wxT("Editor:") ), wxVERTICAL );
+	mCentralSizer = new wxGridSizer( 1, 1, 0, 0 );
 	
-	mCentralSizer->SetMinSize( wxSize( 256,128 ) ); 
 	
 	mSymEditorOwner->SetSizer( mCentralSizer );
 	mSymEditorOwner->Layout();
@@ -586,7 +585,7 @@ EditPanelGui::EditPanelGui( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	fgSizer6->Add( mDrawHolder, 1, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizer10;
-	sbSizer10 = new wxStaticBoxSizer( new wxStaticBox( mEditScrolledBack, wxID_ANY, wxEmptyString ), wxVERTICAL );
+	sbSizer10 = new wxStaticBoxSizer( new wxStaticBox( mEditScrolledBack, wxID_ANY, wxT("Operations:") ), wxVERTICAL );
 	
 	wxGridSizer* gSizer8;
 	gSizer8 = new wxGridSizer( 1, 1, 0, 0 );
@@ -856,4 +855,36 @@ PaletteWindowGui::~PaletteWindowGui()
 	mCGAType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAIntensity->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	
+}
+
+LibraryGui::LibraryGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxGridSizer* gSizer10;
+	gSizer10 = new wxGridSizer( 1, 1, 0, 0 );
+	
+	mLibScrolledBack = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	mLibScrolledBack->SetScrollRate( 5, 5 );
+	wxFlexGridSizer* fgSizer7;
+	fgSizer7 = new wxFlexGridSizer( 2, 1, 0, 0 );
+	fgSizer7->AddGrowableCol( 0 );
+	fgSizer7->AddGrowableRow( 0 );
+	fgSizer7->SetFlexibleDirection( wxBOTH );
+	fgSizer7->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	mLibTree = new wxTreeCtrl( mLibScrolledBack, wxID_LIBTREE, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE );
+	fgSizer7->Add( mLibTree, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	mLibScrolledBack->SetSizer( fgSizer7 );
+	mLibScrolledBack->Layout();
+	fgSizer7->Fit( mLibScrolledBack );
+	gSizer10->Add( mLibScrolledBack, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( gSizer10 );
+	this->Layout();
+}
+
+LibraryGui::~LibraryGui()
+{
 }

@@ -253,6 +253,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\gui\libwindowimpl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\libwindowimpl.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\logwindowimpl.cpp"
 				>
 			</File>
@@ -530,6 +538,22 @@
 			</File>
 			<File
 				RelativePath="..\..\src\types\istatestore.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\libitem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\libitem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\libtree.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\libtree.h"
 				>
 			</File>
 			<File

@@ -14,6 +14,7 @@ class FontEditor;
 class LogWindowImpl;
 class ImageEditor;
 class PaletteWindowImpl;
+class LibraryPanel;
 
 class MainFrameImpl:
 	public UttMainFrame
@@ -50,6 +51,7 @@ private:
 	FontEditor*				mFontEditor;
 	ImageEditor*			mEditWindow;
 	PaletteWindowImpl*		mPalWindow;
+	LibraryPanel*			mLibWindow;
 };
 
 #endif
