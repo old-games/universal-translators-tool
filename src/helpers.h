@@ -122,6 +122,31 @@ void Buffer8bpp_to_Pixels(Pixel*dst, int dstWidth, int dstHeight, const wxByte* 
 
 bool PullTableOfStrings( wxArrayString& res, lua_State* L = NULL);
 
+
+inline void SwapEndian16(wxUint16& x)
+{
+    x = (x << 8) | (x >> 8);
+}
+
+inline void SwapEndian32(wxUint32& x)
+{
+    x = (x>>24) |
+        ((x>>8) & 0x0000FF00) |
+        ((x<<8) & 0x00FF0000) |
+        (x << 24);
+}
+
+inline void SwapEndian64(wxUint64 &x)
+{
+    wxUint32 x1 = (x << 32) >> 32;
+    wxUint32 x2 = x >> 32;
+    SwapEndian32(x1);
+    SwapEndian32(x2);
+    x = x1;
+    x <<= 32;
+    x |= x2;
+}
+
 } // namespace Helpers
 
 

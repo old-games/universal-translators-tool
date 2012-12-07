@@ -70,19 +70,22 @@ void BitmapRibbonCtrl::RefillHolder( bool recalcCount /* true */)
 
 	size_t from = mCurrent;
 	size_t to = mCurrent + mToShow;
-	for ( size_t i = 0; i < mThumbnails->GetCount(); ++i )
+	size_t i = 0;
+
+	for ( ThumbnailsArray::iterator it = mThumbnails->begin(); it != mThumbnails->end(); ++it )
 	{
 		if (i >= from && i < to)
 		{
-			mThumbnails->Item(i)->Enable();
-			mThumbnails->Item(i)->Show();
-			mBitmapsHolder->Add( mThumbnails->Item(i), 1, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5  );
+			(*it)->Enable();
+			(*it)->Show();
+			mBitmapsHolder->Add( *it, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5  );
 		}
 		else
 		{
-			mThumbnails->Item(i)->Hide();
-			mThumbnails->Item(i)->Disable();
+			(*it)->Hide();
+			(*it)->Disable();
 		}
+		++i;
 	}
 	this->Layout();
 }
@@ -97,6 +100,12 @@ void BitmapRibbonCtrl::UpdateBitmap( size_t n, wxBitmap* bmp )
 	}
 }
 
+
+
+void BitmapRibbonCtrl::Reserve( size_t n )
+{
+	mThumbnails->reserve( n );
+}
 
 
 void BitmapRibbonCtrl::SetBitmap( size_t n, wxBitmap* bmp )

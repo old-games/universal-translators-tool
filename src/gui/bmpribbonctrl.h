@@ -20,6 +20,7 @@ public:
 	~BitmapRibbonCtrl(void);
 
 	void Clear();
+	void Reserve( size_t n );
 	void SetBitmap( size_t n, wxBitmap* bmp );
 	void UpdateBitmap( size_t n, wxBitmap* bmp );
 

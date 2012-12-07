@@ -165,7 +165,7 @@ void FontEditor::UpdateRibbon()
 {
 	Symbols& sym = mCurrentFont->GetSymbols();
 	mSymbolsRibbon->Clear();
-
+	mSymbolsRibbon->Reserve( sym.size() );
 	for ( size_t i = 0; i < sym.size(); ++i )
 	{
 		wxBitmap* bmp =  sym[i].GetData()->GetBitmap( mCurrentFont->GetPalette() ); 

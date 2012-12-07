@@ -10,9 +10,7 @@
 #define LIBTREE_H_INCLUDED
 
 
-
-// forward declarations
-class LibItem;
+#include "libitem.h"
 
 
 
@@ -22,10 +20,23 @@ public:
 	LibTree();
 	virtual ~LibTree();
 
+	void DeleteItems();
+
+	LibItemId		AddItem( LibItemId parentId = LIBITEM_ROOTID );
+	LibItem*		FindItem( LibItemId itemId );
+
+	void			AssignTreeCtrl( wxTreeCtrl* tree );
+
+protected:
+
+	inline ItemsMapIterator GetItemsBegin() { return mAllItems.begin(); }
+	inline ItemsMapIterator GetItemsEnd() { return mAllItems.end(); }
+
 private:
 
-	unsigned int	mID;
-	LibItem*		mRoot;
+	LibItem*			mRoot;
+	LibItemsMap			mAllItems;
+	wxTreeCtrl*			mAssignedTree;
 };
 
 #endif // LIBTREE_H_INCLUDED

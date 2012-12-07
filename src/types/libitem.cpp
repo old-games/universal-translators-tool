@@ -10,9 +10,13 @@
 #include "pch.h"
 #include "libitem.h"
 
+const LibItemId LIBITEM_BADID = 0xFFFFFFFF;
+const LibItemId LIBITEM_ROOTID = 0;
+
 
 LibItem::LibItem():
-	mID(-1),
+	mID(LIBITEM_BADID),
+	mText(wxEmptyString),
 	mIsOk(false),
 	mParent(NULL),
 	mChildren()
@@ -21,9 +25,10 @@ LibItem::LibItem():
 
 
 
-LibItem::LibItem(LibItem* parent, unsigned int id):
+LibItem::LibItem(LibItem* parent, LibItemId id):
 	mID(id),
-	mIsOk(parent),
+	mText(wxEmptyString),
+	mIsOk(parent != NULL),
 	mParent(parent),
 	mChildren()
 {
@@ -33,6 +38,7 @@ LibItem::LibItem(LibItem* parent, unsigned int id):
 
 LibItem::LibItem( const LibItem& item ):
 	mID(item.mID),
+	mText(item.mText),
 	mIsOk(item.mIsOk),
 	mParent(item.mParent),
 	mChildren(item.mChildren)
@@ -41,9 +47,49 @@ LibItem::LibItem( const LibItem& item ):
 
 
 
-LibItem::~LibItem()
+/*virtual */ LibItem::~LibItem()
 {
+	for (LibItemArray::iterator it = mChildren.begin(); it != mChildren.end(); ++it)
+	{
+		delete *it;
+	}
+
+	mChildren.clear();
 }
 
 
 
+inline void LibItem::ParseId( LibItemId id, int &level, int& n )
+{
+	level = id >> 20;
+	n = id & 0x000FFFFF;
+}
+
+
+
+inline LibItemId LibItem::PackId( int level, int n )
+{
+	wxASSERT( level <= 0xFFF && n <= 0xFFFFF );
+
+	LibItemId result = level;
+	result <<= 20;
+	result |= n;
+	return result;
+}
+
+
+
+inline LibItemId LibItem::CreateNewId()	// for children
+{
+	int level, n;
+	ParseId( mID, level, n );
+	return PackId( level + 1, mChildren.size() );
+}
+
+
+
+LibItem* LibItem::AddChild()
+{
+	LibItem* newItem = new LibItem( this, CreateNewId() );
+	return newItem;
+}
