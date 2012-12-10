@@ -18,7 +18,7 @@ namespace Lua
 
 	void IndexMaskRegister()
 	{
-		Get().register_class<IndexMask>();
+		LUA_REG_CLASS(IndexMask);
 	}
 
 }   // namespace Lua

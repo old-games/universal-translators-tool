@@ -17,11 +17,11 @@ int editImage(lua_State *L);
 namespace Lua
 {
 
-void ImageInfoRegister()
-{
-	Get().register_class<ImageInfo>();
-	LUA_REG_C_FUNCTION( editImage );
-}
+	void ImageInfoRegister()
+	{
+		LUA_REG_CLASS(ImageInfo);
+		LUA_REG_C_FUNCTION( editImage );
+	}
 
 }   // namespace Lua
 

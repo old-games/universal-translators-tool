@@ -10,7 +10,15 @@
 #ifndef LUACONTROL_H_INCLUDED
 #define LUACONTROL_H_INCLUDED
 
-#define LUA_REG_C_FUNCTION(x) lua_register(Lua::Get(), #x, x);
+#ifdef _WXDEBUG_
+	#define REG_MESSAGE(x)	wxLogMessage("Registering "#x); 
+#else 
+	#define REG_MESSAGE(x)	wxLogDebug("Registering "#x);
+#endif
+
+#define LUA_REG_C_FUNCTION(x)	lua_register(Lua::Get(), #x, x); REG_MESSAGE(function #x)
+#define LUA_REG_CLASS(x)		Get().register_class<x>(); REG_MESSAGE(class #x)
+
 
 namespace Lua
 {

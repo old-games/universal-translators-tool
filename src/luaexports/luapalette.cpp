@@ -18,12 +18,11 @@ int	setCurrentPalette(lua_State *L);
 namespace Lua
 {
 
-void PaletteRegister()
-{
-	Get().register_class<Palette>();
-
-	LUA_REG_C_FUNCTION( setCurrentPalette );
-}
+	void PaletteRegister()
+	{
+		LUA_REG_CLASS(Palette);
+		LUA_REG_C_FUNCTION( setCurrentPalette );
+	}
 
 }   // namespace Lua
 

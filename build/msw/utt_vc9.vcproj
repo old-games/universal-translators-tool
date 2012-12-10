@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../src/.;&quot;$(WXWIN)/include&quot;;&quot;$(WXWIN)/lib/vc_lib/mswud&quot;;../../lua/include;../../oolua/include"
-				PreprocessorDefinitions="_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS"
+				PreprocessorDefinitions="_DEBUG;__WXMSW__;WXDEBUG;__WXDEBUG__;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -409,6 +409,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\luaexports\luaifflib.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luaifflib.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\luaexports\luaimage.cpp"
 				>
 			</File>
@@ -422,6 +430,22 @@
 			</File>
 			<File
 				RelativePath="..\..\src\luaexports\luaindexmask.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\lualibitem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\lualibitem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\lualibtree.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\lualibtree.h"
 				>
 			</File>
 			<File

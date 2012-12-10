@@ -11,20 +11,34 @@
 #include "ifflib.h"
 
 
+
+IFFChunkInfo::IFFChunkInfo( const IFFChunkInfo& other ):
+	LibItemData( other ),
+	mChunkName( other.mChunkName ),
+	mFormDescription( other.mFormDescription ),
+	mOffset( other.mOffset ),
+	mChunkSize( other.mChunkSize )
+{
+}
+
+
+
 bool IFFChunkInfo::InitFromStream(wxInputStream* input)
 {
 	bool success = false;
 
-	if (input != 0)
+	if (input != NULL)
 	{
 		mOffset = input->SeekI(0, wxFromCurrent) - sizeof(IFFChunk);
+		success = mOffset != wxInvalidOffset;
 
 		if (mChunkName == "FORM")
 		{
 			wxByte desc[4];
 			input->Read(&desc, sizeof(desc));
-			
-			if (input->LastRead() == sizeof(desc))
+			success = input->LastRead() == sizeof(desc);
+
+			if ( success )
 			{
 				mFormDescription = wxString(desc, sizeof(desc));
 			}
@@ -53,6 +67,13 @@ IFFLib::IFFLib(bool bigEndian /* true */): LibTree(),
 
 
 
+bool IFFLib::LoadIFFFile( const char* fileName )
+{
+	return LoadIFFFile( wxString(fileName) );
+}
+
+
+
 bool IFFLib::LoadIFFFile( const wxString& fileName )
 {
 	wxFileInputStream stream(fileName);
@@ -61,7 +82,7 @@ bool IFFLib::LoadIFFFile( const wxString& fileName )
 	if ( stream.IsOk() )
 	{
 		wxBusyInfo info("Loading, please wait...");
-		res = LoadIFFStream( stream );
+		res = LoadIFFStream( stream, GetRoot() );
 	}
 	else
 	{
@@ -73,8 +94,10 @@ bool IFFLib::LoadIFFFile( const wxString& fileName )
 
 
 
-bool IFFLib::LoadIFFStream( wxInputStream& input )
+bool IFFLib::LoadIFFStream( wxInputStream& input, LibItem* parent )
 {
+	wxASSERT( parent );
+
 	IFFChunk chunk;
 	bool success = ReadChunk( input, chunk );
 	
@@ -85,12 +108,25 @@ bool IFFLib::LoadIFFStream( wxInputStream& input )
 		
 		if (success)
 		{
-			if (!info.IsFORM())
+			LibItem* child = parent->AddChild();
+
+			LibItem* nextParent = NULL;
+			if ( info.IsFORM() )
 			{
+				child->SetText( info.mChunkName + " " + info.mFormDescription );
+				nextParent = child;
+			}
+			else
+			{
+				child->SetText( info.mChunkName );
+				nextParent = parent;
 				input.SeekI( info.mChunkSize, wxFromCurrent );
 			}
 
-			LoadIFFStream( input );
+			
+			child->SetData( info.Clone() );
+
+			LoadIFFStream( input, nextParent );
 		}
 	}
 

@@ -14,10 +14,19 @@ const LibItemId LIBITEM_BADID = 0xFFFFFFFF;
 const LibItemId LIBITEM_ROOTID = 0;
 
 
+
+LibItemData::LibItemData( const LibItemData& other ):
+	mDataOwner( other.mDataOwner )
+{
+}
+
+
+
 LibItem::LibItem():
 	mID(LIBITEM_BADID),
 	mText(wxEmptyString),
 	mIsOk(false),
+	mData(NULL),
 	mParent(NULL),
 	mChildren()
 {
@@ -29,6 +38,7 @@ LibItem::LibItem(LibItem* parent, LibItemId id):
 	mID(id),
 	mText(wxEmptyString),
 	mIsOk(parent != NULL),
+	mData(NULL),
 	mParent(parent),
 	mChildren()
 {
@@ -40,15 +50,21 @@ LibItem::LibItem( const LibItem& item ):
 	mID(item.mID),
 	mText(item.mText),
 	mIsOk(item.mIsOk),
+	mData(NULL),
 	mParent(item.mParent),
 	mChildren(item.mChildren)
 {
+	if (item.mData)
+	{
+		mData = item.mData->Clone();
+	}
 }
 
 
 
 /*virtual */ LibItem::~LibItem()
 {
+	ClearData();
 	for (LibItemArray::iterator it = mChildren.begin(); it != mChildren.end(); ++it)
 	{
 		delete *it;
@@ -92,4 +108,23 @@ LibItem* LibItem::AddChild()
 {
 	LibItem* newItem = new LibItem( this, CreateNewId() );
 	return newItem;
+}
+
+
+
+void LibItem::ClearData()
+{
+	if (mData)
+	{
+		delete mData;
+		mData = NULL;
+	}
+}
+
+
+
+void LibItem::SetData( LibItemData* data )
+{
+	ClearData();
+	mData = data;
 }

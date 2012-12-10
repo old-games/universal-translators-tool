@@ -15,6 +15,9 @@
 #include "luaexports/luaindexmask.h"
 #include "luaexports/luafont.h"
 #include "luaexports/luaimage.h"
+#include "luaexports/lualibitem.h"
+#include "luaexports/lualibtree.h"
+#include "luaexports/luaifflib.h"
 
 
 static OOLUA::Script* gLuaState = NULL;
@@ -49,6 +52,9 @@ bool Lua::Init()
 	IndexMaskRegister();
 	FontRegister();
 	ImageInfoRegister();
+	LibItemRegister();
+	LibTreeRegister();
+	IFFLibRegister();
 	return gLuaState->run_file("scripts/init.lua");
 }
 

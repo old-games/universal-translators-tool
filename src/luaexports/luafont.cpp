@@ -19,13 +19,11 @@ int editFont(lua_State *L);
 namespace Lua
 {
 
-void FontRegister()
-{
-	//Get().register_class<SymbolInfo>();
-	Get().register_class<FontInfo>();
-
-	LUA_REG_C_FUNCTION( editFont );
-}
+	void FontRegister()
+	{
+		LUA_REG_CLASS(FontInfo);
+		LUA_REG_C_FUNCTION( editFont );
+	}
 
 }   // namespace Lua
 

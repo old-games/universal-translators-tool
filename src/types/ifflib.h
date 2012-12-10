@@ -20,13 +20,17 @@ struct IFFChunk
 };
 
 
-struct IFFChunkInfo
+struct IFFChunkInfo: public LibItemData
 {
 	IFFChunkInfo( IFFChunk& chunk )
 	{
 		mChunkName = wxString( chunk.CHUNKID, sizeof(chunk.CHUNKID) );
 		mChunkSize = chunk.SIZE;
 	}
+
+	IFFChunkInfo( const IFFChunkInfo& other );
+
+	IFFChunkInfo* Clone() { return new IFFChunkInfo(*this); }
 
 	bool InitFromStream(wxInputStream* input);
 	inline bool IsFORM() { return !mFormDescription.IsEmpty(); }
@@ -45,8 +49,9 @@ public:
 	IFFLib(bool bigEndian = true);
 	virtual ~IFFLib();
 
+	bool LoadIFFFile( const char* fileName );			// overload for Lua
 	bool LoadIFFFile( const wxString& fileName );
-	bool LoadIFFStream( wxInputStream& input );
+	bool LoadIFFStream( wxInputStream& input, LibItem* parent );
 
 protected:
 

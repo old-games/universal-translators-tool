@@ -9,7 +9,8 @@ local ActionsOnExtension =
 { 
 	dat = "loadDAT",
 	scr = "loadDAT",
-	cat = "loadCAT"
+	cat = "loadCAT",
+	lbm = "loadLBM"
 }
 
 
@@ -51,7 +52,7 @@ end
 
 
 function Xcom.getExtensions()
-	return '*.DAT (*.dat)|*.dat|*.SCR (*.scr)|*.scr|*.CAT (*.cat)|*.cat'
+	return '*.DAT (*.dat)|*.dat|*.SCR (*.scr)|*.scr|*.CAT (*.cat)|*.cat|*.LBM (*.lbm)|*.lbm'
 end
 
 
@@ -123,6 +124,12 @@ function Operations.loadCAT( filename )
 	fh:close()
 end
 
+
+
+function Operations.loadLBM( filename )
+	iff = IFFLib:new()
+	iff:LoadIFFFile( filename )
+end
 
 
 function Xcom.executeModuleMenuCommand( command )

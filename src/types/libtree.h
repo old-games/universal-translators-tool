@@ -32,6 +32,8 @@ protected:
 	inline ItemsMapIterator GetItemsBegin() { return mAllItems.begin(); }
 	inline ItemsMapIterator GetItemsEnd() { return mAllItems.end(); }
 
+	LibItem* GetRoot() const { return mRoot; }
+
 private:
 
 	LibItem*			mRoot;
