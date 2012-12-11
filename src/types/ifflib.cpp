@@ -17,6 +17,7 @@ IFFChunkInfo::IFFChunkInfo( const IFFChunkInfo& other ):
 	mChunkName( other.mChunkName ),
 	mFormDescription( other.mFormDescription ),
 	mOffset( other.mOffset ),
+	mDataOffset(other.mDataOffset ),
 	mChunkSize( other.mChunkSize )
 {
 }
@@ -43,6 +44,8 @@ bool IFFChunkInfo::InitFromStream(wxInputStream* input)
 				mFormDescription = wxString(desc, sizeof(desc));
 			}
 		}
+
+		mDataOffset = input->SeekI(0, wxFromCurrent);
 	}
 
 	return success;
@@ -55,7 +58,8 @@ bool IFFChunkInfo::InitFromStream(wxInputStream* input)
 
 
 IFFLib::IFFLib(bool bigEndian /* true */): LibTree(),
-	mBigEndian( bigEndian )
+	mBigEndian( bigEndian ),
+	mIFFFile( wxEmptyString )
 {
 }
 
@@ -83,6 +87,11 @@ bool IFFLib::LoadIFFFile( const wxString& fileName )
 	{
 		wxBusyInfo info("Loading, please wait...");
 		res = LoadIFFStream( stream, GetRoot() );
+
+		if (res)
+		{
+			mIFFFile = fileName;
+		}
 	}
 	else
 	{
@@ -146,4 +155,74 @@ bool IFFLib::ReadChunk( wxInputStream& input, IFFChunk& chunk )
 	}
 
 	return success;
+}
+
+
+
+LibItem* IFFLib::FindForm( const char* formDesc )
+{
+	return FindSubForm( formDesc, GetRoot() );
+}
+
+
+
+LibItem* IFFLib::FindSubForm( const char* formDesc, LibItem* startItem )
+{
+
+	IFFChunkInfo* data = static_cast<IFFChunkInfo*>(startItem->GetData());
+	if (data && data->IsFORM() && data->mFormDescription == formDesc)
+	{
+		return startItem;
+	}
+
+	for (ItemsArrayIterator it = startItem->GetChildrenBegin();
+			it != startItem->GetChildrenEnd(); ++it)
+	{
+		LibItem* result = FindSubForm(formDesc, *it);
+
+		if (result)
+		{
+			return result;
+		}
+	}
+
+	return &LibItem::BAD_ITEM;
+}
+
+
+
+LibItem* IFFLib::FindChunk( const char* chunkName, LibItem* formItem )
+{
+	for (ItemsArrayIterator it = formItem->GetChildrenBegin();
+			it != formItem->GetChildrenEnd(); ++it)
+	{
+		IFFChunkInfo* data = static_cast<IFFChunkInfo*>( (*it)->GetData() );
+		if (data && data->mChunkName == chunkName)
+		{
+
+			return *it;
+		}
+	}
+
+	return &LibItem::BAD_ITEM;
+}
+
+
+
+char* IFFLib::ReadChunkData( LibItem* item )
+{
+	wxASSERT( item );
+
+	IFFChunkInfo* data = static_cast<IFFChunkInfo*>( item->GetData() );
+	wxFileInputStream stream(mIFFFile);
+	char* res = NULL;
+
+	if ( stream.IsOk() && data )
+	{
+		res = (char*) malloc(data->mChunkSize);
+		stream.SeekI( data->mDataOffset );
+		stream.Read( res, data->mChunkSize );
+	}
+
+	return res;
 }

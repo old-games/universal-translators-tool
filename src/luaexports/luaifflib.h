@@ -12,6 +12,7 @@
 
 #include "types/ifflib.h"
 #include "lualibtree.h"
+//#include "lualibitem.h"
 
 namespace Lua
 {
@@ -31,8 +32,20 @@ OOLUA_CLASS( IFFLib ) : public Proxy_class< LibTree >
 	OOLUA_NO_TYPEDEFS
 	OOLUA_BASES_START LibTree OOLUA_BASES_END
 
-	// bool LoadIFFFile( const char* fileName );	
+	//	bool LoadIFFFile( const char* fileName );	
 	OOLUA_MEM_FUNC_1( bool, LoadIFFFile, const char* )
+
+	//	LibItem* FindForm( const char* formDesc );
+	OOLUA_MEM_FUNC_1( LibItem*, FindForm, const char* )
+
+	//	LibItem* FindSubForm( const char* formDesc, LibItem* startItem = NULL );
+	OOLUA_MEM_FUNC_2( LibItem*, FindSubForm, const char*, LibItem* )
+
+	//	LibItem* FindChunk( const char* chunkName, LibItem* formItem );
+	OOLUA_MEM_FUNC_2( LibItem*, FindChunk, const char*, LibItem* )
+
+	//	char* ReadChunkData( LibItem* item );
+	OOLUA_MEM_FUNC_1( char*, ReadChunkData, LibItem* )
 
 OOLUA_CLASS_END
 

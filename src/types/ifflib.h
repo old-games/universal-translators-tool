@@ -22,7 +22,12 @@ struct IFFChunk
 
 struct IFFChunkInfo: public LibItemData
 {
-	IFFChunkInfo( IFFChunk& chunk )
+	IFFChunkInfo( IFFChunk& chunk ):
+		mChunkName(wxEmptyString),
+		mFormDescription(wxEmptyString),
+		mOffset(wxInvalidOffset),
+		mDataOffset(wxInvalidOffset),
+		mChunkSize(wxInvalidOffset)
 	{
 		mChunkName = wxString( chunk.CHUNKID, sizeof(chunk.CHUNKID) );
 		mChunkSize = chunk.SIZE;
@@ -38,6 +43,7 @@ struct IFFChunkInfo: public LibItemData
 	wxString		mChunkName;
 	wxString		mFormDescription;
 	wxFileOffset	mOffset;
+	wxFileOffset	mDataOffset;
 	wxFileOffset	mChunkSize;
 	
 };
@@ -53,13 +59,20 @@ public:
 	bool LoadIFFFile( const wxString& fileName );
 	bool LoadIFFStream( wxInputStream& input, LibItem* parent );
 
+	LibItem* FindForm( const char* formDesc );
+	LibItem* FindSubForm( const char* formDesc, LibItem* startItem );
+	LibItem* FindChunk( const char* chunkName, LibItem* formItem );
+
+	char* ReadChunkData( LibItem* item );
+	
 protected:
 
 	bool ReadChunk( wxInputStream& input, IFFChunk& chunk );
 
 private:
 
-	bool	mBigEndian;
+	bool		mBigEndian;
+	wxString	mIFFFile;
 };
 
 #endif // IFFLIB_H_INCLUDED

@@ -29,6 +29,6 @@ namespace Lua
 ///
 /// Экспорт класса IFFLib
 ///
-EXPORT_OOLUA_FUNCTIONS_1_NON_CONST( IFFLib, LoadIFFFile )
+EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( IFFLib, LoadIFFFile, FindForm, FindChunk, ReadChunkData )
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST( IFFLib )

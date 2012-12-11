@@ -53,7 +53,7 @@ end
 
 -- returns commands to fill Module menu
 function getModuleMenu()
-	if CurrentModule ~= nil then
+	if CurrentModule ~= nil and CurrentModule.getModuleMenu ~= nil then
 		return CurrentModule.getModuleMenu()
 	end
 end

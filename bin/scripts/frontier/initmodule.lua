@@ -96,7 +96,7 @@ function Operations.loadOVL( filename )
 	
 	for i = 0, fontNum do 
 		local data = readData( fh, SymbolStruct )
-		local bytes, size = convertBufferToChar(data.BUFFER, 9, 1)
+		local bytes, size = unpackBitBuffer(data.BUFFER, 1)
 		local mask = IndexMask:new()
 		mask:SetMask( bytes, size, maxWidth, maxHeight, -1, -1)
 		

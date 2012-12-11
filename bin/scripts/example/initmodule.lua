@@ -44,19 +44,23 @@ end
 
 function Operations.loadBMP( filename )
 	local fh = assert(io.open(filename, "rb"))
+	
 	if not fh then
 		return
 	end
-	data = readData( fh, BMPFileHeader )
+	
+	local data = readData( fh, BMPFileHeader )
 	showTable( data )
+	
 	if(data.ID ~= 0x4D42) then
 		print("Not a bitmap file (Invalid BMP id) ", data.ID);
 		return;
 	end
-	data2 = readData(fh, BMPInfoHeader )
+	
+	local data2 = readData(fh, BMPInfoHeader )
 	showTable( data2 )
 	
-	s = "bpp"..string.format(data2.BITCOUNT, "%d")
+	local s = "bpp"..string.format(data2.BITCOUNT, "%d")
 	local pal = Palette:new()
 	
 	local palBuffer = 0
@@ -67,6 +71,7 @@ function Operations.loadBMP( filename )
 	end
 	
 	pal:Initiate( Palette[s], palBuffer, Palette.sfBMP, false )
+	
 	if pal:IsOk() then 
 		local img = ImageInfo:new()
 		
@@ -103,7 +108,7 @@ function Operations.loadTXT( filename )
 	if not fh then
 		return
 	end
-	for line in fh:lines() do logWrite(line) end
+	for line in fh:lines() do print(line) end
 	fh:close()
 end
 
@@ -111,8 +116,8 @@ end
 BMPFileHeader = {}
 BMPFileHeader[1] = { ID 			= "WORD" 	}
 BMPFileHeader[2] = { FILESIZE 		= "LONG" 	}
-BMPFileHeader[3] = { RESERVED1 		= "WORD" 	}
-BMPFileHeader[4] = { RESERVED2 		= "WORD" 	}
+BMPFileHeader[3] = { RESERVED1 	= "WORD" 	}
+BMPFileHeader[4] = { RESERVED2 	= "WORD" 	}
 BMPFileHeader[5] = { DATAOFFSET 	= "DWORD" 	}
 
 

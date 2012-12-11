@@ -120,7 +120,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../../src/.;&quot;$(WXWIN)/include&quot;;&quot;$(WXWIN)/lib/vc_lib/mswu&quot;;../../lua/include;../../oolua/include"
-				PreprocessorDefinitions="NDEBUG;__WXMSW__;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;__WXMSW__;_WINDOWS;RELEASE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
@@ -626,6 +626,26 @@
 			</File>
 			<File
 				RelativePath="..\..\src\types\uttypes.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="algorithms"
+			>
+			<File
+				RelativePath="..\..\src\algs\bitwise.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\algs\bitwise.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\algs\rle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\algs\rle.h"
 				>
 			</File>
 		</Filter>

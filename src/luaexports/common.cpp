@@ -10,6 +10,9 @@
 #include "pch.h"
 #include "luacontrol.h"
 #include "common.h"
+#include "algs/bitwise.h"
+#include "algs/rle.h"
+
 #include "gui/selmoduleimpl.h"
 
 
@@ -134,51 +137,7 @@ int setModuleReady(lua_State* L)
 
 
 
-int convertBufferToChar(lua_State* L)
-{
-	unsigned int size = 0;
-	int bitCount = 0;
-	std::string s;
-	if ( lua_gettop(L) != 3 || 
-		!OOLUA::pull2cpp(L, bitCount) || 
-		!OOLUA::pull2cpp(L, size) || 
-		!OOLUA::pull2cpp(L, s))
-	{
-		wxLogError("convertBuffer: function need a size and source buffer and source bit count");
-		return 0;
-	}
-
-	const char* src = s.c_str();
-	unsigned int dev = 8 / bitCount;
-	unsigned int destSize = size * dev;
-	char* res = (char*) malloc( destSize );
-
-	char bitMask = 1;
-	for (int i = 1; i < bitCount; ++i)
-	{
-		bitMask <<= 1;
-		bitMask |= 1;
-	}
-
-	unsigned char* dest = (unsigned char*) res;
-	for (size_t i = 0; i < size; ++i)
-	{
-		dest += dev;
-		for (size_t part = 0; part < dev; ++part)
-		{
-			--dest;
-			const unsigned char shift = part * bitCount;
-			*dest = (src[i] & (bitMask << shift) ) >> shift;
-		}
-		dest += dev;
-	}
-
-	lua_pushlstring (L, res, destSize);
-	OOLUA::push2lua(L, destSize);
-	free(res);
-	return 2;
-}
-
+//////////////////////////////////////////////////////////////////////////
 
 
 
@@ -211,6 +170,94 @@ int getStrChar(lua_State *L)
 }
 
 #undef GET_BUFNINDEX
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef RELEASE
+	#define CHECK_STR_TO_(x) \
+		if (lua_gettop(L) != 1)	\
+		{ \
+			wxLogError(#x": function need a buffer as argument"); \
+			return 0;	\
+		} 
+#else
+	#define CHECK_STR_TO_(x)
+#endif
+
+
+#define GET_BYTES_BUFFER(x) CHECK_STR_TO_(x)\
+	const char* buf = lua_tostring(L, 1); \
+	lua_pop(L, 1); \
+	if (!buf) { return 0; }
+
+template<typename T>
+int strToSigned(lua_State *L)
+{
+	GET_BYTES_BUFFER(strToSigned);
+	lua_pushinteger(L, (T&) *buf);
+	return 1;
+}
+
+
+template<typename T>
+int strToUnsigned(lua_State *L)
+{
+	GET_BYTES_BUFFER(strToUnsigned);
+	lua_pushunsigned(L, (T&) *buf);
+	return 1;
+}
+
+#undef GET_BYTES_BUFFER
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+int swap16(lua_State *L)
+{
+	wxUint16 value;
+	if (OOLUA::pull2cpp( L, value ))
+	{
+		Helpers::SwapEndian16( value );
+		OOLUA::push2lua( L, value );
+		return 1;
+	}
+	return 0;
+}
+
+
+
+int swap32(lua_State *L)
+{
+	wxUint32 value;
+	if (OOLUA::pull2cpp( L, value ))
+	{
+		Helpers::SwapEndian32( value );
+		OOLUA::push2lua( L, value );
+		return 1;
+	}
+	return 0;
+}
+
+
+int swap64(lua_State *L)
+{
+	wxUint64 value;
+	if (OOLUA::pull2cpp( L, value ))
+	{
+		Helpers::SwapEndian64( value );
+		OOLUA::push2lua( L, value );
+		return 1;
+	}
+	return 0;
+}
+
 
 
 int messageBox(lua_State *L)
@@ -254,19 +301,33 @@ void CommonRegister()
 	// creates event about changed module
 	LUA_REG_C_FUNCTION( setModuleReady );
 
-	// returns buffer converted to bitcount
-	LUA_REG_C_FUNCTION( convertBufferToChar );
-
 	// returns buffer value at position, "getString(bytes, 3)" for example returns fourth value
 	// this function IS NOT SAFE
 	LUA_REG_C_FUNCTION( getStrInt );
 	LUA_REG_C_FUNCTION( getStrChar );
 
+	// these functions are to convert bytes buffer to integer values
+	lua_register(Lua::Get(), "strToChar", strToSigned<wxInt8>);
+	lua_register(Lua::Get(), "strToShort", strToSigned<wxInt16>);
+	lua_register(Lua::Get(), "strToInt", strToSigned<wxInt32>);
+
+	lua_register(Lua::Get(), "strToByte", strToUnsigned<wxUint8>);
+	lua_register(Lua::Get(), "strToWord", strToUnsigned<wxUint16>);
+	lua_register(Lua::Get(), "strToUint", strToUnsigned<wxUint32>);
+
+	// swap integer endian
+	LUA_REG_C_FUNCTION( swap16 );
+	LUA_REG_C_FUNCTION( swap32 );
+	LUA_REG_C_FUNCTION( swap64 );
+	
 	// calls MessageBox to show important messages to user
 	LUA_REG_C_FUNCTION( messageBox );
 
 	// export for wxBusyCursor class, will be usefull for continious operations
 	Get().register_class<BusyCursor>();
+
+	RegisterBitwiseFunctions();
+	RegisterRLEFunctions();
 }
 
 } // namespace Lua

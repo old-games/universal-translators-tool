@@ -26,6 +26,8 @@ OOLUA_CLASS_NO_BASES( LibItem )
 	
 	// LibItem* AddChild();
 	OOLUA_MEM_FUNC_0( LibItem*, AddChild )
+
+	OOLUA_MEM_FUNC_0_CONST( bool, IsOk )
 OOLUA_CLASS_END
 
 

@@ -22,6 +22,10 @@ LibItemData::LibItemData( const LibItemData& other ):
 
 
 
+LibItem	LibItem::BAD_ITEM;
+
+
+
 LibItem::LibItem():
 	mID(LIBITEM_BADID),
 	mText(wxEmptyString),
@@ -107,6 +111,7 @@ inline LibItemId LibItem::CreateNewId()	// for children
 LibItem* LibItem::AddChild()
 {
 	LibItem* newItem = new LibItem( this, CreateNewId() );
+	mChildren.Add( newItem );
 	return newItem;
 }
 

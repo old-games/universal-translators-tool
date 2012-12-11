@@ -10,7 +10,7 @@
 #ifndef LUACONTROL_H_INCLUDED
 #define LUACONTROL_H_INCLUDED
 
-#ifdef _WXDEBUG_
+#ifndef RELEASE
 	#define REG_MESSAGE(x)	wxLogMessage("Registering "#x); 
 #else 
 	#define REG_MESSAGE(x)	wxLogDebug("Registering "#x);

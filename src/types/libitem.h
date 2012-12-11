@@ -12,6 +12,7 @@
 
 class LibItem;
 WX_DEFINE_ARRAY( LibItem* , LibItemArray );
+typedef LibItemArray::iterator ItemsArrayIterator;
 
 typedef unsigned int LibItemId;
 extern const LibItemId LIBITEM_BADID;
@@ -53,11 +54,15 @@ public:
 	LibItemId		GetId() const { return mID; }
 	wxString		GetText() const { return mText; }
 	LibItemData*	GetData() const { return mData; }
+	ItemsArrayIterator	GetChildrenBegin() { return mChildren.begin(); }
+	ItemsArrayIterator	GetChildrenEnd() { return mChildren.end(); }
 	
 	void SetText(const wxString& txt) { mText = txt; }
 	void SetData( LibItemData* data );
 
 	LibItem* AddChild();
+
+	static LibItem	BAD_ITEM;
 
 private:
 	void		ParseId( LibItemId id, int& level, int& n );
