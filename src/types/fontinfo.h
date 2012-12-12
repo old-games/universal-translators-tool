@@ -11,6 +11,7 @@
 
 #include "symbolinfo.h"
 #include "istatestore.h"
+#include "origin.h"
 
 // forward declarations
 class Palette;
@@ -159,6 +160,7 @@ private:
 	wxInt32			mFontCodePage;						// кодировка, относительный параметр, для лучшего представления шрифта
 	Symbols			mSymbols;							// символы
 	Palette*        mPalette;							// палитра
+	Origin			mOrigin;
 
 
 };

@@ -401,6 +401,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\luaexports\luabuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luabuffer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\luaexports\luafont.cpp"
 				>
 			</File>
@@ -521,6 +529,14 @@
 			Name="types"
 			>
 			<File
+				RelativePath="..\..\src\types\buffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\buffer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\types\customevents.cpp"
 				>
 			</File>
@@ -586,6 +602,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\types\libtree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\origin.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\origin.h"
 				>
 			</File>
 			<File

@@ -168,13 +168,10 @@ end
 
 function readDataFromBuffer( buf, dataTable )
 	local result = {}
-	local bufCounter = 0
 	for i, what in ipairs( dataTable ) do
 		for key, value in pairs( what ) do
-			print (string.sub(buf, bufCounter, TypeSize[value] + 1 ) )
-			result[key] = BufferReadFunctions[value]( buf, string.sub(buf, bufCounter, TypeSize[value] + 1 ) )
-			--print (buf, TypeSize[value], value)
-			bufCounter = bufCounter + TypeSize[value] + 1 
+			result[key] = BufferReadFunctions[value]( buf )
+			buf = string.sub(buf, TypeSize[value] + 1)
 		end
 	end
 	return result

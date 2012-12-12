@@ -18,6 +18,7 @@
 #include "luaexports/lualibitem.h"
 #include "luaexports/lualibtree.h"
 #include "luaexports/luaifflib.h"
+#include "luaexports/luabuffer.h"
 
 
 static OOLUA::Script* gLuaState = NULL;
@@ -52,9 +53,11 @@ bool Lua::Init()
 	IndexMaskRegister();
 	FontRegister();
 	ImageInfoRegister();
+	BufferRegister();
 	LibItemRegister();
 	LibTreeRegister();
 	IFFLibRegister();
+	
 	return gLuaState->run_file("scripts/init.lua");
 }
 

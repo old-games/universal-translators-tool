@@ -53,25 +53,29 @@ char* UnpackLBMBody( const char* src, unsigned int destSize )
 	while (currentSize < destSize)
 	{
 		wxByte code = (wxByte) *src++;
+
 		if (code == 0x80)
 		{
 			break;
 		}
 
+		size_t len = 0;
+
 		if (code > 128)
 		{
 			char value = *src++;
-			size_t len = (0xFF - code) + 2;
-			memset( dest, value, len );
-			dest += len;
+			len = (0xFF - code) + 2;
+			memset( dest, value, len );			
 		}
 		else
 		{
-			size_t len = code + 1;
+			len = code + 1;
 			memcpy(dest, src, len);
 			src += len;
-			dest += len;
 		}
+		
+		dest += len;
+		currentSize += len;
 	}
 
 	return destResult;

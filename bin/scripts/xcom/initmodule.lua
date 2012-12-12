@@ -185,13 +185,16 @@ function Operations.loadLBM( filename )
 		print "BODY not loaded!"
 		return
 	end
-	
-
+		
 	local info = readDataFromBuffer( iff:ReadChunkData(header), LBMHeader )
+	
+	showTable(info)
+	
+	
 	local palBuf = iff:ReadChunkData(colorMap)
 	local imgBuf = iff:ReadChunkData(body)
 	
-	showTable(info)
+	
 	
 	local size = info.WIDTH * info.HEIGHT
 	local image = ImageInfo:new()

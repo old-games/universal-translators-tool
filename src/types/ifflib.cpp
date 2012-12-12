@@ -9,8 +9,8 @@
  
 #include "pch.h"
 #include "ifflib.h"
-
-
+#include "luacontrol.h"
+#include "buffer.h"
 
 IFFChunkInfo::IFFChunkInfo( const IFFChunkInfo& other ):
 	LibItemData( other ),
@@ -197,9 +197,9 @@ LibItem* IFFLib::FindChunk( const char* chunkName, LibItem* formItem )
 			it != formItem->GetChildrenEnd(); ++it)
 	{
 		IFFChunkInfo* data = static_cast<IFFChunkInfo*>( (*it)->GetData() );
+
 		if (data && data->mChunkName == chunkName)
 		{
-
 			return *it;
 		}
 	}
@@ -209,20 +209,39 @@ LibItem* IFFLib::FindChunk( const char* chunkName, LibItem* formItem )
 
 
 
-char* IFFLib::ReadChunkData( LibItem* item )
+void* IFFLib::ReadChunkData( LibItem* item, size_t& size )
 {
 	wxASSERT( item );
 
 	IFFChunkInfo* data = static_cast<IFFChunkInfo*>( item->GetData() );
 	wxFileInputStream stream(mIFFFile);
-	char* res = NULL;
-
+	void* res = NULL;
+	size = 0;
 	if ( stream.IsOk() && data )
 	{
-		res = (char*) malloc(data->mChunkSize);
+		size = data->mChunkSize;
+		res = malloc(size);
 		stream.SeekI( data->mDataOffset );
-		stream.Read( res, data->mChunkSize );
+		stream.Read( res, size );
 	}
+
+	return res;
+}
+
+
+
+std::string IFFLib::ReadChunkData( LibItem* item )
+{
+	size_t size = 0;
+	void* buf = ReadChunkData(item, size);
+
+	if (!buf)
+	{
+		return std::string();
+	}
+
+	std::string res( (char*) buf, size);
+	free(buf);
 
 	return res;
 }

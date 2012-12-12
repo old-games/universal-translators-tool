@@ -12,7 +12,7 @@
 
 #include "types/ifflib.h"
 #include "lualibtree.h"
-//#include "lualibitem.h"
+#include "luabuffer.h"
 
 namespace Lua
 {
@@ -45,7 +45,7 @@ OOLUA_CLASS( IFFLib ) : public Proxy_class< LibTree >
 	OOLUA_MEM_FUNC_2( LibItem*, FindChunk, const char*, LibItem* )
 
 	//	char* ReadChunkData( LibItem* item );
-	OOLUA_MEM_FUNC_1( char*, ReadChunkData, LibItem* )
+	OOLUA_MEM_FUNC_1( std::string, ReadChunkData, LibItem* )
 
 OOLUA_CLASS_END
 

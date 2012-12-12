@@ -12,6 +12,8 @@
 
 #include "libtree.h"
 
+// forward declarations
+class Buffer;
 
 struct IFFChunk
 {
@@ -31,6 +33,11 @@ struct IFFChunkInfo: public LibItemData
 	{
 		mChunkName = wxString( chunk.CHUNKID, sizeof(chunk.CHUNKID) );
 		mChunkSize = chunk.SIZE;
+
+		if ( (mChunkSize & 0x1) == 1)	// alignment to even 
+		{
+			++mChunkSize;
+		}
 	}
 
 	IFFChunkInfo( const IFFChunkInfo& other );
@@ -63,7 +70,8 @@ public:
 	LibItem* FindSubForm( const char* formDesc, LibItem* startItem );
 	LibItem* FindChunk( const char* chunkName, LibItem* formItem );
 
-	char* ReadChunkData( LibItem* item );
+	void*			ReadChunkData( LibItem* item, size_t& size );
+	std::string		ReadChunkData( LibItem* item );	// overload for Lua
 	
 protected:
 

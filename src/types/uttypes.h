@@ -47,6 +47,8 @@ namespace PalOwners
 	extern const wxWindowID OwnerID[poNum];
 }
 
+
+
 class UttColour: public wxColour
 {
 public:
@@ -80,5 +82,7 @@ private:
 
 	int mIndex;
 };
+
+
 
 #endif	// UTTTYPES_H_INCLUDED

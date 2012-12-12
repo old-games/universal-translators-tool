@@ -115,12 +115,20 @@ void InsertSubBuffer(T* dst, int dstWidth,
 }
 
 void BufferToBMPStyle(wxByte* mask, int w, int h, int bytespp);
+
+
+
 bool CopyToClipboard( const wxImage& img );
 bool CopyToClipboard( const wxRect& rect, const wxBitmap* bmp );
 
+
+
 void Buffer8bpp_to_Pixels(Pixel*dst, int dstWidth, int dstHeight, const wxByte* src, int srcWidth, int srcHeight, const Palette* pal );
 
+
+
 bool PullTableOfStrings( wxArrayString& res, lua_State* L = NULL);
+
 
 
 inline void SwapEndian16(wxUint16& x)

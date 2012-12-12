@@ -32,7 +32,8 @@ FontInfo::FontInfo():
 	mLowLine( 0 ),
 	mBPP( Palette::bppMono ),
 	mFontCodePage( 0 ),
-	mPalette( NULL )
+	mPalette( NULL ),
+	mOrigin( Origin::Unknown )
 {
 }
 
@@ -50,7 +51,8 @@ FontInfo::FontInfo( const FontInfo& other ):
 	mBPP( other.mBPP ),
 	mFontCodePage( other.mFontCodePage ),
 	mSymbols( other.mSymbols ),
-	mPalette( NULL )
+	mPalette( NULL ),
+	mOrigin( other.mOrigin )
 {
 	if (other.mPalette)
 	{
@@ -188,6 +190,11 @@ bool FontInfo::SetPalette(Palette* pal)
 		}
 	}
 
+	if (res)
+	{
+		res = mOrigin.SaveToStream( output );
+	}
+
 	return res;
 }
 
@@ -234,6 +241,11 @@ bool FontInfo::SetPalette(Palette* pal)
 			}
 			delete pal;
 		}
+	}
+
+	if (res)
+	{
+		res = mOrigin.LoadFromStream( input );
 	}
 
 	return res;
