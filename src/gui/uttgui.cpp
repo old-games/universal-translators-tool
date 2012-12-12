@@ -19,14 +19,41 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	mMainMenu = new wxMenuBar( 0 );
 	mFileMenu = new wxMenu();
+	wxMenuItem* mFileNew;
+	mFileNew = new wxMenuItem( mFileMenu, wxID_NEW_PROJECT, wxString( wxT("New project") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mFileNew->SetBitmaps( wxArtProvider::GetBitmap( wxART_NEW_DIR, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mFileNew->SetBitmap( wxArtProvider::GetBitmap( wxART_NEW_DIR, wxART_MENU ) );
+	#endif
+	mFileMenu->Append( mFileNew );
+	
 	wxMenuItem* mFileOpen;
-	mFileOpen = new wxMenuItem( mFileMenu, wxID_FILE_OPEN, wxString( wxT("Open") ) + wxT('\t') + wxT("F3"), wxEmptyString, wxITEM_NORMAL );
+	mFileOpen = new wxMenuItem( mFileMenu, wxID_OPEN_PROJECT, wxString( wxT("Open project") ) + wxT('\t') + wxT("CTRL-O"), wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
 	mFileOpen->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
 	#elif defined( __WXGTK__ )
 	mFileOpen->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
 	#endif
 	mFileMenu->Append( mFileOpen );
+	
+	wxMenuItem* mFileSave;
+	mFileSave = new wxMenuItem( mFileMenu, wxID_SAVE_PROJECT, wxString( wxT("Save project") ) + wxT('\t') + wxT("CTRL-S"), wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mFileSave->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mFileSave->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#endif
+	mFileMenu->Append( mFileSave );
+	
+	wxMenuItem* mFileSaveAs;
+	mFileSaveAs = new wxMenuItem( mFileMenu, wxID_SAVE_PROJECT_AS, wxString( wxT("Save project as...") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mFileSaveAs->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE_AS, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mFileSaveAs->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE_AS, wxART_MENU ) );
+	#endif
+	mFileMenu->Append( mFileSaveAs );
 	
 	mFileMenu->AppendSeparator();
 	
@@ -40,6 +67,83 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	mFileMenu->Append( mFileQuit );
 	
 	mMainMenu->Append( mFileMenu, wxT("File") ); 
+	
+	mImportExportMenu = new wxMenu();
+	wxMenuItem* mIE_ImpFont;
+	mIE_ImpFont = new wxMenuItem( mImportExportMenu, wxID_IMPORT_FONT, wxString( wxT("Import font") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ImpFont->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mIE_ImpFont->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#endif
+	mImportExportMenu->Append( mIE_ImpFont );
+	
+	wxMenuItem* mIE_ImpImage;
+	mIE_ImpImage = new wxMenuItem( mImportExportMenu, wxID_IMPORT_IMAGE, wxString( wxT("Import image") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ImpImage->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mIE_ImpImage->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#endif
+	mImportExportMenu->Append( mIE_ImpImage );
+	
+	wxMenuItem* mIE_ImpLibrary;
+	mIE_ImpLibrary = new wxMenuItem( mImportExportMenu, wxID_IMPORT_LIBRARY, wxString( wxT("Import library") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ImpLibrary->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mIE_ImpLibrary->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#endif
+	mImportExportMenu->Append( mIE_ImpLibrary );
+	
+	wxMenuItem* mIE_ImpAnimation;
+	mIE_ImpAnimation = new wxMenuItem( mImportExportMenu, wxID_IMPORT_ANIMATION, wxString( wxT("Import animation") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ImpAnimation->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mIE_ImpAnimation->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	#endif
+	mImportExportMenu->Append( mIE_ImpAnimation );
+	
+	mImportExportMenu->AppendSeparator();
+	
+	wxMenuItem* mIE_ExpFont;
+	mIE_ExpFont = new wxMenuItem( mImportExportMenu, wxID_EXPORT_FONT, wxString( wxT("Export font") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ExpFont->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mIE_ExpFont->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#endif
+	mImportExportMenu->Append( mIE_ExpFont );
+	
+	wxMenuItem* mIE_ExpImage;
+	mIE_ExpImage = new wxMenuItem( mImportExportMenu, wxID_EXPORT_IMAGE, wxString( wxT("Export image") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ExpImage->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mIE_ExpImage->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#endif
+	mImportExportMenu->Append( mIE_ExpImage );
+	
+	wxMenuItem* mIE_ExpLibrary;
+	mIE_ExpLibrary = new wxMenuItem( mImportExportMenu, wxID_EXPORT_LIBRARY, wxString( wxT("Export library") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ExpLibrary->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mIE_ExpLibrary->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#endif
+	mImportExportMenu->Append( mIE_ExpLibrary );
+	
+	wxMenuItem* mIE_ExpAnimation;
+	mIE_ExpAnimation = new wxMenuItem( mImportExportMenu, wxID_EXPORT_ANIMATION, wxString( wxT("Export animation") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ExpAnimation->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mIE_ExpAnimation->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	#endif
+	mImportExportMenu->Append( mIE_ExpAnimation );
+	
+	mMainMenu->Append( mImportExportMenu, wxT("Import/Export") ); 
 	
 	mEditMenu = new wxMenu();
 	wxMenuItem* mEditUndo;
@@ -125,7 +229,7 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	
 	mMainToolBar = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
-	mMainToolBar->AddTool( wxID_OPEN_PROJECT, wxT("New project"), wxArtProvider::GetBitmap( wxART_NEW_DIR, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("New project"), wxEmptyString, NULL ); 
+	mMainToolBar->AddTool( wxID_NEW_PROJECT, wxT("New project"), wxArtProvider::GetBitmap( wxART_NEW_DIR, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("New project"), wxEmptyString, NULL ); 
 	
 	mMainToolBar->AddTool( wxID_OPEN_PROJECT, wxT("Open project"), wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Open project"), wxEmptyString, NULL ); 
 	
@@ -164,8 +268,19 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( UttMainFrame::OnClose ) );
+	this->Connect( mFileNew->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mFileOpen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mFileSave->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mFileSaveAs->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ImpFont->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ImpImage->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ImpLibrary->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ImpAnimation->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ExpFont->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ExpImage->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ExpLibrary->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ExpAnimation->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mEditUndo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mEditRedo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaSelect->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -174,7 +289,7 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( mHelpHelp->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	mAUINotebook->Connect( wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED, wxAuiNotebookEventHandler( UttMainFrame::OnPageChanged ), NULL, this );
-	this->Connect( wxID_OPEN_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( wxID_NEW_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_OPEN_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_SAVE_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_IMPORT_FONT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -191,8 +306,19 @@ UttMainFrame::~UttMainFrame()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( UttMainFrame::OnClose ) );
-	this->Disconnect( wxID_FILE_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_NEW_PROJECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_OPEN_PROJECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_SAVE_PROJECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_SAVE_PROJECT_AS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_FILE_QUIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_IMPORT_FONT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_IMPORT_IMAGE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_IMPORT_LIBRARY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_IMPORT_ANIMATION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_EXPORT_FONT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_EXPORT_IMAGE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_EXPORT_LIBRARY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_EXPORT_ANIMATION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_REDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_SELECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -201,7 +327,7 @@ UttMainFrame::~UttMainFrame()
 	this->Disconnect( wxID_HELP_HELP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_HELP_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	mAUINotebook->Disconnect( wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED, wxAuiNotebookEventHandler( UttMainFrame::OnPageChanged ), NULL, this );
-	this->Disconnect( wxID_OPEN_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_NEW_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_OPEN_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_SAVE_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_IMPORT_FONT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -215,6 +341,49 @@ UttMainFrame::~UttMainFrame()
 	
 	m_mgr.UnInit();
 	
+}
+
+AboutBoxGui::AboutBoxGui( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxGridSizer* gSizer14;
+	gSizer14 = new wxGridSizer( 1, 1, 0, 0 );
+	
+	m_panel3 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxFlexGridSizer* fgSizer13;
+	fgSizer13 = new wxFlexGridSizer( 2, 1, 0, 0 );
+	fgSizer13->AddGrowableCol( 0 );
+	fgSizer13->AddGrowableRow( 0 );
+	fgSizer13->SetFlexibleDirection( wxBOTH );
+	fgSizer13->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	wxFlexGridSizer* fgSizer15;
+	fgSizer15 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer15->SetFlexibleDirection( wxBOTH );
+	fgSizer15->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	
+	fgSizer13->Add( fgSizer15, 1, wxEXPAND, 5 );
+	
+	mCloseButton = new wxButton( m_panel3, wxID_OK, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer13->Add( mCloseButton, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	
+	m_panel3->SetSizer( fgSizer13 );
+	m_panel3->Layout();
+	fgSizer13->Fit( m_panel3 );
+	gSizer14->Add( m_panel3, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( gSizer14 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+}
+
+AboutBoxGui::~AboutBoxGui()
+{
 }
 
 FontSettingsGui::FontSettingsGui( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )

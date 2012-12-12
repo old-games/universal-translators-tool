@@ -12,6 +12,7 @@
 #include "types/fontinfo.h"
 #include "types/indexmask.h"
 #include "types/palette.h"
+#include "types/ieditor.h"
 #include "panels/symbolpanel.h"
 #include "symboleditgui.h"
 #include "fonteditimpl.h"
@@ -25,6 +26,7 @@ const wxString	UUT_FONT_EXTENSIONS = "UTT Font files (*.uft)|*.uft";
 
 FontEditor::FontEditor(  wxWindow* parent ):
 	FontEditGui( parent ),
+	IEditor( this, etFont, "Font editor" ),
 	mSymbolEditor( new SymbolEditGui( mSymEditorOwner ) ), 
 	mCurrentFont( NULL ),
 	mCurrentSymbol( 0 ),
@@ -212,6 +214,13 @@ void FontEditor::SetPaletteAsMain()
 		ChangePaletteEvent palEvent( wxID_FONTEDITOR, pal, true );
 		wxTheApp->QueueEvent( palEvent.Clone() );
 	}
+}
+
+
+
+bool FontEditor::SaveEditor()
+{
+	return SaveFont();
 }
 
 

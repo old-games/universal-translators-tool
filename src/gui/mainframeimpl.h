@@ -15,6 +15,7 @@ class LogWindowImpl;
 class ImageEditor;
 class PaletteWindowImpl;
 class LibraryPanel;
+class Project;
 
 class MainFrameImpl:
 	public UttMainFrame
@@ -39,6 +40,12 @@ private:
 	void OnModuleChanged( ModuleChangedEvent& event );
 
 	void AddPane( wxWindow* wnd, const wxString& name );
+
+	void UpdateMenuStates();
+	void CloseProject(bool force = false);
+	bool CheckProject();
+	void CreateNewProject();
+
 	void DoFileOpen();
 	void DoSelectModule();
 	void DoSelectVersion();
@@ -48,6 +55,7 @@ private:
 	void ClearModuleMenu();
 
 	wxHelpController*		mHelpController;
+	Project*				mCurrentProject;
 	FontEditor*				mFontEditor;
 	ImageEditor*			mEditWindow;
 	PaletteWindowImpl*		mPalWindow;

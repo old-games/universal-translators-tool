@@ -9,13 +9,14 @@
 #ifndef FONTEDITIMPL_H_INCLUDED
 #define FONTEDITIMPL_H_INCLUDED
 
+#include "types/ieditor.h"
+
 class FontInfo;
 class FontEditGui;
 class SymbolEditGui;
 class SymbolPanel;
 
-class FontEditor :
-	public FontEditGui
+class FontEditor :	public FontEditGui, public IEditor
 {
 public:
 	FontEditor( wxWindow* parent );
@@ -27,6 +28,8 @@ public:
 
 	SymbolPanel* GetSymbolPanel();
 	void SetCurrentSymbol(int n);
+
+	bool SaveEditor();
 
 protected:
 

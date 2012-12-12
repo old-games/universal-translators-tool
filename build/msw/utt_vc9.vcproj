@@ -18,6 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
+			WorkingDirectory="..\..\bin"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
@@ -94,6 +95,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
+			WorkingDirectory="..\..\bin"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
@@ -557,6 +559,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\types\ieditor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\ieditor.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\types\ifflib.cpp"
 				>
 			</File>
@@ -618,6 +628,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\types\palette.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\project.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\project.h"
 				>
 			</File>
 			<File

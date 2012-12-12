@@ -12,6 +12,7 @@
 #include "luacontrol.h"
 #include "types/undo.h"
 #include "types/imageinfo.h"
+#include "types/project.h"
 
 #include "fonteditimpl.h"
 #include "logwindowimpl.h"
@@ -27,10 +28,11 @@
 MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
 	mHelpController( NULL ),
-	mFontEditor( new FontEditor( mAUINotebook ) ),
-	mEditWindow( new ImageEditor( mAUINotebook, wxID_IMAGEEDITOR ) ),
-	mPalWindow( new PaletteWindowImpl( mAUINotebook ) ),
-	mLibWindow( new LibraryPanel( mAUINotebook ) )
+	mCurrentProject( NULL )
+	//mFontEditor( new FontEditor( mAUINotebook ) ),
+	//mEditWindow( new ImageEditor( mAUINotebook, wxID_IMAGEEDITOR ) ),
+	//mPalWindow( new PaletteWindowImpl( mAUINotebook ) ),
+	//mLibWindow( new LibraryPanel( mAUINotebook ) )
 {
 	
 	COMMAND->SetEditMenu( mEditMenu );
@@ -44,10 +46,10 @@ MainFrameImpl::MainFrameImpl(void):
 					wxAUI_MGR_LIVE_RESIZE              );
 
 
-	this->AddPane(mFontEditor, "Font editor");
-	this->AddPane(mEditWindow, "Image editor");
-	this->AddPane(mPalWindow, "Palette window");
-	this->AddPane(mLibWindow, "Library");
+	//this->AddPane(mFontEditor, "Font editor");
+	//this->AddPane(mEditWindow, "Image editor");
+	//this->AddPane(mPalWindow, "Palette window");
+	//this->AddPane(mLibWindow, "Library");
 
 //		wxBMPHandler: For loading (including alpha support) and saving, always installed.
 //		wxPNGHandler: For loading and saving. Includes alpha support.
@@ -77,11 +79,12 @@ MainFrameImpl::MainFrameImpl(void):
 	this->Bind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
 	this->Bind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
 
-	mEditWindow->GetEditPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
-	mFontEditor->GetSymbolPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
+	//mEditWindow->GetEditPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
+	//mFontEditor->GetSymbolPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
 	wxTheApp->Bind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
 
 	m_mgr.Update();
+	UpdateMenuStates();
 }
 
 
@@ -137,25 +140,6 @@ void MainFrameImpl::AddPane( wxWindow* wnd, const wxString& name )
 
 
 
-void MainFrameImpl::OnIdle( wxIdleEvent& )
-{
-	if (Lua::GetRebootFlag())
-	{
-		Lua::Done();
-		Lua::Init();
-	}
-}
-
-
-
-void MainFrameImpl::OnShow( wxShowEvent& event )
-{
-	event.Skip();
-	m_mgr.Update();
-}
-
-
-
 void MainFrameImpl::Init()
 {
 	wxLogMessage( "Initiating UTT" );
@@ -177,7 +161,9 @@ void MainFrameImpl::Init()
 
 void MainFrameImpl::Deinit()
 {
+	CloseProject( true );
 	ImageInfo::Done();
+
 	if (mHelpController)
 	{
 		delete mHelpController;
@@ -197,6 +183,7 @@ void MainFrameImpl::DoFileOpen()
 		Lua::ShowLastError();
 		return;
 	}
+
 	std::string result;
 	OOLUA::pull2cpp(Lua::Get(), result);
 	wxString extensions( result );
@@ -240,88 +227,44 @@ void MainFrameImpl::DoSelectVersion()
 
 
 
-void MainFrameImpl::OnClose( wxCloseEvent& event )
+void MainFrameImpl::CloseProject(bool force /* true */)
 {
-	this->Deinit();
-	event.Skip();
-}
-
-
-
-void MainFrameImpl::OnModuleMenuSelect( wxCommandEvent& event )
-{
-	int id = event.GetId();
-	if (id >= MODULE_MENU_START && id < MODULE_MENU_END )
-	{
-		DoModuleCommand( id );
+	if (mCurrentProject != NULL)
+	{	if ( force || CheckProject() )
+		{
+			delete mCurrentProject;
+			mCurrentProject = NULL;
+		}
 	}
 }
 
 
 
-void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
+bool MainFrameImpl::CheckProject()
 {
-	int id = event.GetId();
-	switch ( id )
+	if (!mCurrentProject)
 	{
-		case wxID_HELP_HELP:
-			if (mHelpController)
-			{
-				if (!mHelpController->DisplayContents())
-				{
-					wxLogError("Help was initialized, but can not display contents!");
-				}
-			}
-		break;
-
-		case wxID_FILE_OPEN:
-			DoFileOpen();
-		break;
-
-		case wxID_FILE_QUIT:
-			this->Close();
-		break;
-
-		case wxID_LUA_SELECT:
-			DoSelectModule();
-		break;
-
-		case wxID_LUA_VERSION:
-			DoSelectVersion();
-		break;
-
-		case wxID_LUA_REBOOT:
-			if ( AREYOUSURE("Reboot Lua virtual machine...") == wxID_YES )
-			{
-				Lua::SetRebootFlag();
-			}
-		break;
-
-		case wxID_UNDO:
-			COMMAND->Undo();
-		break;
-
-		case wxID_REDO:
-			COMMAND->Redo();
-		break;
-
-		default:
-			wxLogMessage( wxString::Format("Unknown command from main menu: %d", id) );
-		break;
+		return true;
 	}
-	event.Skip();
+
+
 }
 
 
 
-/* virtual */ void MainFrameImpl::OnPageChanged( wxAuiNotebookEvent& event )
+void MainFrameImpl::CreateNewProject()
 {
-	wxWindow* wnd = mAUINotebook->GetPage( event.GetSelection() );
-	if (wnd)
+	CloseProject();
+
+	if ( mCurrentProject != NULL )
 	{
-		mPalWindow->ChangeOwnerToCurrentPage( wnd->GetId() );
+		return;
 	}
-	event.Skip();
+
+	mCurrentProject = new Project();
+
+	UpdateMenuStates();
+	COMMAND->ClearCommands();
 }
 
 
@@ -392,3 +335,161 @@ void MainFrameImpl::UpdateModuleMenu( const wxArrayString& strings )
 	}
 }
 
+
+
+void MainFrameImpl::UpdateMenuStates()
+{
+	bool projectActive = mCurrentProject != NULL;
+	bool projectChanged = projectActive && mCurrentProject->IsChanged();
+
+	mMainToolBar->EnableTool( wxID_NEW_PROJECT, true );
+	mFileMenu->Enable( wxID_NEW_PROJECT,  true );
+
+	mMainToolBar->EnableTool( wxID_OPEN_PROJECT, true );
+	mFileMenu->Enable( wxID_OPEN_PROJECT,  true );
+
+	mMainToolBar->EnableTool( wxID_SAVE_PROJECT, projectChanged );
+	mFileMenu->Enable( wxID_SAVE_PROJECT,  projectChanged );
+	mFileMenu->Enable( wxID_SAVE_PROJECT_AS,  projectChanged );
+
+
+
+	mMainToolBar->EnableTool( wxID_IMPORT_FONT, projectActive && mCurrentProject->IsAllowed(iecImport, etFont) );
+	mImportExportMenu->Enable( wxID_IMPORT_FONT,  projectActive && mCurrentProject->IsAllowed(iecImport, etFont) );
+
+	mMainToolBar->EnableTool( wxID_IMPORT_IMAGE, projectActive && mCurrentProject->IsAllowed(iecImport, etImage) );
+	mImportExportMenu->Enable( wxID_IMPORT_IMAGE,  projectActive && mCurrentProject->IsAllowed(iecImport, etImage) );
+
+	mMainToolBar->EnableTool( wxID_IMPORT_LIBRARY, projectActive && mCurrentProject->IsAllowed(iecImport, etLibrary) );
+	mImportExportMenu->Enable( wxID_IMPORT_LIBRARY,  projectActive && mCurrentProject->IsAllowed(iecImport, etLibrary) );
+
+	mMainToolBar->EnableTool( wxID_IMPORT_ANIMATION, projectActive && mCurrentProject->IsAllowed(iecImport, etAnimation) );
+	mImportExportMenu->Enable( wxID_IMPORT_ANIMATION,  projectActive && mCurrentProject->IsAllowed(iecImport, etAnimation) );
+
+
+
+	mMainToolBar->EnableTool( wxID_EXPORT_FONT, projectActive && mCurrentProject->IsAllowed(iecExport, etFont) );
+	mImportExportMenu->Enable( wxID_EXPORT_FONT,  projectActive && mCurrentProject->IsAllowed(iecExport, etFont) );
+
+	mMainToolBar->EnableTool( wxID_EXPORT_IMAGE, projectActive && mCurrentProject->IsAllowed(iecExport, etImage) );
+	mImportExportMenu->Enable( wxID_EXPORT_IMAGE,  projectActive && mCurrentProject->IsAllowed(iecExport, etImage) );
+
+	mMainToolBar->EnableTool( wxID_EXPORT_LIBRARY, projectActive && mCurrentProject->IsAllowed(iecExport, etLibrary) );
+	mImportExportMenu->Enable( wxID_EXPORT_LIBRARY,  projectActive && mCurrentProject->IsAllowed(iecExport, etLibrary) );
+
+	mMainToolBar->EnableTool( wxID_EXPORT_ANIMATION, projectActive && mCurrentProject->IsAllowed(iecExport, etAnimation) );
+	mImportExportMenu->Enable( wxID_EXPORT_ANIMATION,  projectActive && mCurrentProject->IsAllowed(iecExport, etAnimation) );
+
+	mMainToolBar->Refresh();
+}
+
+
+
+void MainFrameImpl::OnIdle( wxIdleEvent& )
+{
+	if (Lua::GetRebootFlag())
+	{
+		Lua::Done();
+		Lua::Init();
+	}
+}
+
+
+
+void MainFrameImpl::OnShow( wxShowEvent& event )
+{
+	event.Skip();
+	m_mgr.Update();
+}
+
+
+void MainFrameImpl::OnClose( wxCloseEvent& event )
+{
+	this->Deinit();
+	event.Skip();
+}
+
+
+
+void MainFrameImpl::OnModuleMenuSelect( wxCommandEvent& event )
+{
+	int id = event.GetId();
+	if (id >= MODULE_MENU_START && id < MODULE_MENU_END )
+	{
+		DoModuleCommand( id );
+	}
+}
+
+
+
+void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
+{
+	int id = event.GetId();
+	switch ( id )
+	{
+		case wxID_HELP_HELP:
+			if (mHelpController)
+			{
+				if (!mHelpController->DisplayContents())
+				{
+					wxLogError("Help was initialized, but can not display contents!");
+				}
+			}
+		break;
+
+		case wxID_NEW_PROJECT:
+			CreateNewProject();
+		break;
+
+		case wxID_FILE_QUIT:
+			this->Close();
+		break;
+
+		case wxID_LUA_SELECT:
+			DoSelectModule();
+		break;
+
+		case wxID_LUA_VERSION:
+			DoSelectVersion();
+		break;
+
+		case wxID_LUA_REBOOT:
+			if ( AREYOUSURE("Reboot Lua virtual machine...") == wxID_YES )
+			{
+				Lua::SetRebootFlag();
+			}
+		break;
+
+		case wxID_UNDO:
+			COMMAND->Undo();
+		break;
+
+		case wxID_REDO:
+			COMMAND->Redo();
+		break;
+
+		case wxID_HELP_ABOUT:
+			{
+				AboutBoxGui about(this);
+				about.ShowModal();
+			}
+		break;
+
+		default:
+			wxLogMessage( wxString::Format("Unknown command from main menu: %d", id) );
+		break;
+	}
+	event.Skip();
+}
+
+
+
+/* virtual */ void MainFrameImpl::OnPageChanged( wxAuiNotebookEvent& event )
+{
+	wxWindow* wnd = mAUINotebook->GetPage( event.GetSelection() );
+	if (wnd)
+	{
+		mPalWindow->ChangeOwnerToCurrentPage( wnd->GetId() );
+	}
+	event.Skip();
+}
