@@ -59,6 +59,13 @@ function getModuleMenu()
 end
 
 
+
+function hasModuleCommand( command )
+	return CurrentModule ~= nil and CurrentModule[command] ~= nil
+end
+
+
+
 -- returns list of files extensions that are allowed to open
 function getExtensions()
 	if CurrentModule ~= nil then

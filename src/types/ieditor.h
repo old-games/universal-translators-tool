@@ -22,7 +22,7 @@ enum EditorType
 	etNum
 };
 
-
+extern const wxString sEditorNames[ etNum ];
 
 class IEditor
 {

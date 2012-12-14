@@ -12,6 +12,17 @@
 
 
 
+const wxString sEditorNames[ etNum ] = 
+{
+	"Font",
+	"Image",
+	"Library",
+	"Animation",
+	"Sound",
+	"Video"
+};
+
+
 IEditor::IEditor( wxWindow* parent, EditorType edtype, const wxString& name ):
 	mParent( parent ),
 	mEditorType( edtype ),

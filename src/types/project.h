@@ -17,8 +17,13 @@
 enum IECommands
 {
 	iecImport,
-	iecExport
+	iecExport,
+	iecNum
 };
+
+extern const wxString sCommandNames[iecNum];
+
+
 
 class Project: public IStateStore
 {
@@ -30,9 +35,12 @@ public:
 
 	bool IsChanged() const { return mChanged; }
 	int CheckChanged();
+
+	bool CreateProject( const wxString& fullPath );
 	bool SaveProject();
 
 	bool IsAllowed( IECommands what, EditorType who );
+	bool Do( IECommands what, EditorType who );
 
 protected:
 
@@ -41,11 +49,15 @@ protected:
 	
 private:
 
+	wxString		GetFunctionName( IECommands what, EditorType who );
+
 	bool			mChanged;
+	wxString		mProjectName;
 	wxString		mModuleName;
 	wxString		mModuleVersion;
 	wxString		mLastDir;
 	wxString		mProjectFileName;
+
 
 	EditorsArray	mEditors;
 };

@@ -25,6 +25,8 @@
 #define MODULE_MENU_START	(wxID_HIGHEST + 1)
 #define MODULE_MENU_END		(MODULE_MENU_START + 32)
 
+const wxString PROJECT_EXTENSIONS = "UTT Project file (*.UTTPROJ)|*.uttproj";
+
 MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
 	mHelpController( NULL ),
@@ -176,31 +178,28 @@ void MainFrameImpl::Deinit()
 
 
 
-void MainFrameImpl::DoFileOpen()
+void MainFrameImpl::DoOpenProject()
 {
-	if (!Lua::Get().call( "getExtensions" ) )
-	{
-		Lua::ShowLastError();
-		return;
-	}
+	
+	wxFileDialog dlg(this, "Open project", wxEmptyString, wxEmptyString, PROJECT_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
-	std::string result;
-	OOLUA::pull2cpp(Lua::Get(), result);
-	wxString extensions( result );
+	Project* old = mCurrentProject;
 
-	wxFileDialog openFileDialog(this, "Open file", "./", "", extensions, wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-
-	if (openFileDialog.ShowModal() == wxID_CANCEL)
+	if (dlg.ShowModal() != wxID_OK || !CloseProject())
 	{
 		return;
 	}
 
-	if ( !Lua::Get().call( "openFile", openFileDialog.GetPath().ToStdString() ) )
+	Project* newProject = new Project();
+
+	if (!newProject->LoadFromFile( dlg.GetPath() ))
 	{
-		Lua::ShowLastError();
-		return;
+		delete newProject;
+		newProject = old;
+		wxLogError("MainFrameImpl::DoOpenProject: there was an error(s)");
 	}
 
+	mCurrentProject = newProject;
 }
 
 
@@ -227,15 +226,24 @@ void MainFrameImpl::DoSelectVersion()
 
 
 
-void MainFrameImpl::CloseProject(bool force /* true */)
+bool MainFrameImpl::CloseProject(bool force /* true */)
 {
+	bool result = true;
+
 	if (mCurrentProject != NULL)
-	{	if ( force || CheckProject() )
+	{	
+		if ( force || CheckProject() )
 		{
 			delete mCurrentProject;
 			mCurrentProject = NULL;
 		}
+		else
+		{
+			result = false;
+		}
 	}
+
+	return result;
 }
 
 
@@ -254,14 +262,20 @@ bool MainFrameImpl::CheckProject()
 
 void MainFrameImpl::CreateNewProject()
 {
-	CloseProject();
+	if ( !CloseProject() != NULL )
+	{
+		return;
+	}
 
-	if ( mCurrentProject != NULL )
+	wxFileDialog dlg( this, "Create new project", wxEmptyString, wxEmptyString, PROJECT_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+
+	if (dlg.ShowModal() != wxID_OK)
 	{
 		return;
 	}
 
 	mCurrentProject = new Project();
+	mCurrentProject->CreateProject( dlg.GetPath() );
 
 	UpdateMenuStates();
 	COMMAND->ClearCommands();
@@ -278,12 +292,14 @@ void MainFrameImpl::DoModuleChanged()
 	}
 
 	std::string s;
+
 	if ( OOLUA::pull2cpp(Lua::Get(), s ) )
 	{
 		mStatusBar->SetStatusText(s, 1 );
 	}
 
 	wxArrayString res;
+
 	if ( Lua::Get().call( "getModuleMenu" ) )
 	{
 		Helpers::PullTableOfStrings( res );
@@ -301,6 +317,7 @@ void MainFrameImpl::DoModuleChanged()
 void MainFrameImpl::DoModuleCommand( int n )
 {
 	wxString command = mModuleMenu->GetLabelText(n);
+
 	if ( !Lua::Get().call( "executeModuleMenuCommand", command.ToStdString() ) )
 	{
 		Lua::ShowLastError();
@@ -425,6 +442,10 @@ void MainFrameImpl::OnModuleMenuSelect( wxCommandEvent& event )
 void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 {
 	int id = event.GetId();
+	
+	IECommands what = iecNum;
+	EditorType who = etNum;
+
 	switch ( id )
 	{
 		case wxID_HELP_HELP:
@@ -475,11 +496,59 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 			}
 		break;
 
+		case wxID_OPEN_PROJECT:
+			DoOpenProject();
+		break;
+
+		case wxID_IMPORT_FONT:
+			what = iecImport;
+			who = etFont;
+		break;
+
+		case wxID_IMPORT_IMAGE:
+			what = iecImport;
+			who = etImage;
+		break;
+
+		case wxID_IMPORT_LIBRARY:
+			what = iecImport;
+			who = etLibrary;
+		break;
+
+		case wxID_IMPORT_ANIMATION:
+			what = iecImport;
+			who = etAnimation;
+		break;
+
+		case wxID_EXPORT_FONT:
+			what = iecExport;
+			who = etFont;
+		break;
+
+		case wxID_EXPORT_IMAGE:
+			what = iecExport;
+			who = etImage;
+		break;
+
+		case wxID_EXPORT_LIBRARY:
+			what = iecExport;
+			who = etLibrary;
+		break;
+
+		case wxID_EXPORT_ANIMATION:
+			what = iecExport;
+			who = etAnimation;
+		break;
+
 		default:
 			wxLogMessage( wxString::Format("Unknown command from main menu: %d", id) );
 		break;
 	}
-	event.Skip();
+
+	if (mCurrentProject && what < iecNum && who < etNum)
+	{
+		mCurrentProject->Do(what, who);
+	}
 }
 
 

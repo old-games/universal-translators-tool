@@ -42,11 +42,11 @@ private:
 	void AddPane( wxWindow* wnd, const wxString& name );
 
 	void UpdateMenuStates();
-	void CloseProject(bool force = false);
+	bool CloseProject(bool force = false);
 	bool CheckProject();
 	void CreateNewProject();
 
-	void DoFileOpen();
+	void DoOpenProject();
 	void DoSelectModule();
 	void DoSelectVersion();
 	void DoModuleChanged();

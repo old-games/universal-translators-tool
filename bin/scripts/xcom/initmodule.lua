@@ -43,9 +43,11 @@ end
 
 function Xcom.getModuleMenu()
 	local menuItems = {}
+	
 	for command, func in pairs( MenuCommands ) do
 		table.insert(menuItems, command)
 	end
+	
 	return menuItems
 end
 
@@ -55,6 +57,15 @@ function Xcom.getExtensions()
 	return '*.DAT (*.dat)|*.dat|*.SCR (*.scr)|*.scr|*.CAT (*.cat)|*.cat|*.LBM (*.lbm)|*.lbm'
 end
 
+
+
+function Xcom.ImportFont()
+	local fileName = openFileDialog("Font file (BIGLETS.DAT)|biglets.dat|Font file (SMALLSET.DAT)|smallset.dat")
+	
+	if fileName ~= nil then
+		Operations.loadDAT( fileName )
+	end
+end
 
 
 function Xcom.openFile( fileName )

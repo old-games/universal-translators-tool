@@ -127,6 +127,27 @@ int selectFromList(lua_State *L)
 
 
 
+int openFileDialog(lua_State *L)
+{
+	std::string extensions;
+	if ( !OOLUA::pull2cpp(L, extensions) )
+	{
+		extensions = "Any file (*.*)|*.*";
+	}
+
+
+	wxFileDialog dlg( NULL, "Open file...", wxEmptyString, wxEmptyString, extensions, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
+	if (dlg.ShowModal() != wxID_OK)
+	{
+		return 0;
+	}
+
+	OOLUA::push2lua(L, dlg.GetPath().ToStdString());
+
+	return 1;
+}
+
+
 int setModuleReady(lua_State* L)
 {
 	L; // to remove warning of unused variable
