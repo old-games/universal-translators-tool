@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>utt</ProjectName>
+    <ProjectGuid>{748A1965-6A10-4860-A3EA-50FEF6087C5A}</ProjectGuid>
+    <RootNamespace>utt</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(WXWIN)/lib/vc_lib/mswud;../../lua/include;../../oolua/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXDEBUG;__WXDEBUG__;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ooluad.lib;Rpcrt4.lib;comctl32.lib;wxbase29ud.lib;wxbase29ud_xml.lib;wxexpatd.lib;wxjpegd.lib;wxmsw29ud_adv.lib;wxmsw29ud_aui.lib;wxmsw29ud_core.lib;wxmsw29ud_gl.lib;wxmsw29ud_html.lib;wxmsw29ud_media.lib;wxmsw29ud_propgrid.lib;wxmsw29ud_qa.lib;wxmsw29ud_ribbon.lib;wxmsw29ud_richtext.lib;wxmsw29ud_stc.lib;wxmsw29ud_webview.lib;wxmsw29ud_xrc.lib;wxpngd.lib;wxregexud.lib;wxscintillad.lib;wxtiffd.lib;wxzlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\bin\$(ProjectName)_d.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(WXWIN)/lib/vc_lib;../../lua;../../oolua/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(WXWIN)/lib/vc_lib/mswu;../../lua/include;../../oolua/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;__WXMSW__;_WINDOWS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>oolua.lib;Rpcrt4.lib;comctl32.lib;wxbase29u.lib;wxbase29u_net.lib;wxbase29u_xml.lib;wxexpat.lib;wxjpeg.lib;wxmsw29u_adv.lib;wxmsw29u_aui.lib;wxmsw29u_core.lib;wxmsw29u_gl.lib;wxmsw29u_html.lib;wxmsw29u_media.lib;wxmsw29u_propgrid.lib;wxmsw29u_qa.lib;wxmsw29u_ribbon.lib;wxmsw29u_richtext.lib;wxmsw29u_stc.lib;wxmsw29u_webview.lib;wxmsw29u_xrc.lib;wxpng.lib;wxregexu.lib;wxscintilla.lib;wxtiff.lib;wxzlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\bin\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(WXWIN)/lib/vc_lib;../../lua;../../oolua/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\helpers.cpp" />
+    <ClCompile Include="..\..\src\luaconsole.cpp" />
+    <ClCompile Include="..\..\src\luacontrol.cpp" />
+    <ClCompile Include="..\..\src\utt.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\bmpribbonctrl.cpp" />
+    <ClCompile Include="..\..\src\gui\editpanelimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\libwindowimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\logwindowimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\mainframeimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\palwindowimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\selmoduleimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\simplegui.cpp" />
+    <ClCompile Include="..\..\src\gui\uttgui.cpp" />
+    <ClCompile Include="..\..\src\gui\fonteditimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\fontsettingsimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\gridhexeditor.cpp" />
+    <ClCompile Include="..\..\src\gui\lettercodesimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\symboleditgui.cpp" />
+    <ClCompile Include="..\..\src\luaexports\common.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luabuffer.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luafont.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luaifflib.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luaimage.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luaindexmask.cpp" />
+    <ClCompile Include="..\..\src\luaexports\lualibitem.cpp" />
+    <ClCompile Include="..\..\src\luaexports\lualibtree.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luapalette.cpp" />
+    <ClCompile Include="..\..\src\panels\controlline.cpp" />
+    <ClCompile Include="..\..\src\panels\drawpanel.cpp" />
+    <ClCompile Include="..\..\src\panels\editpanel.cpp" />
+    <ClCompile Include="..\..\src\panels\palettepanel.cpp" />
+    <ClCompile Include="..\..\src\panels\selectrect.cpp" />
+    <ClCompile Include="..\..\src\panels\symbolpanel.cpp" />
+    <ClCompile Include="..\..\src\panels\thumbnail.cpp" />
+    <ClCompile Include="..\..\src\types\buffer.cpp" />
+    <ClCompile Include="..\..\src\types\customevents.cpp" />
+    <ClCompile Include="..\..\src\types\fontinfo.cpp" />
+    <ClCompile Include="..\..\src\types\ieditor.cpp" />
+    <ClCompile Include="..\..\src\types\ifflib.cpp" />
+    <ClCompile Include="..\..\src\types\imageinfo.cpp" />
+    <ClCompile Include="..\..\src\types\indexmask.cpp" />
+    <ClCompile Include="..\..\src\types\istatestore.cpp" />
+    <ClCompile Include="..\..\src\types\libitem.cpp" />
+    <ClCompile Include="..\..\src\types\libtree.cpp" />
+    <ClCompile Include="..\..\src\types\origin.cpp" />
+    <ClCompile Include="..\..\src\types\palette.cpp" />
+    <ClCompile Include="..\..\src\types\project.cpp" />
+    <ClCompile Include="..\..\src\types\symbolinfo.cpp" />
+    <ClCompile Include="..\..\src\types\undo.cpp" />
+    <ClCompile Include="..\..\src\types\uttypes.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\src\algs\bitwise.cpp" />
+    <ClCompile Include="..\..\src\algs\rle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\helpers.h" />
+    <ClInclude Include="..\..\src\luaconsole.h" />
+    <ClInclude Include="..\..\src\luacontrol.h" />
+    <ClInclude Include="..\..\src\pch.h" />
+    <ClInclude Include="..\..\src\utt.h" />
+    <ClInclude Include="..\..\src\gui\bmpribbonctrl.h" />
+    <ClInclude Include="..\..\src\gui\editpanelimpl.h" />
+    <ClInclude Include="..\..\src\gui\libwindowimpl.h" />
+    <ClInclude Include="..\..\src\gui\logwindowimpl.h" />
+    <ClInclude Include="..\..\src\gui\mainframeimpl.h" />
+    <ClInclude Include="..\..\src\gui\palwindowimpl.h" />
+    <ClInclude Include="..\..\src\gui\selmoduleimpl.h" />
+    <ClInclude Include="..\..\src\gui\simplegui.h" />
+    <ClInclude Include="..\..\src\gui\uttgui.h" />
+    <ClInclude Include="..\..\src\gui\fonteditimpl.h" />
+    <ClInclude Include="..\..\src\gui\fontsettingsimpl.h" />
+    <ClInclude Include="..\..\src\gui\gridhexeditor.h" />
+    <ClInclude Include="..\..\src\gui\lettercodesimpl.h" />
+    <ClInclude Include="..\..\src\gui\symboleditgui.h" />
+    <ClInclude Include="..\..\src\luaexports\common.h" />
+    <ClInclude Include="..\..\src\luaexports\luabuffer.h" />
+    <ClInclude Include="..\..\src\luaexports\luafont.h" />
+    <ClInclude Include="..\..\src\luaexports\luaifflib.h" />
+    <ClInclude Include="..\..\src\luaexports\luaimage.h" />
+    <ClInclude Include="..\..\src\luaexports\luaindexmask.h" />
+    <ClInclude Include="..\..\src\luaexports\lualibitem.h" />
+    <ClInclude Include="..\..\src\luaexports\lualibtree.h" />
+    <ClInclude Include="..\..\src\luaexports\luapalette.h" />
+    <ClInclude Include="..\..\src\panels\controlline.h" />
+    <ClInclude Include="..\..\src\panels\drawpanel.h" />
+    <ClInclude Include="..\..\src\panels\editpanel.h" />
+    <ClInclude Include="..\..\src\panels\palettepanel.h" />
+    <ClInclude Include="..\..\src\panels\selectrect.h" />
+    <ClInclude Include="..\..\src\panels\symbolpanel.h" />
+    <ClInclude Include="..\..\src\panels\thumbnail.h" />
+    <ClInclude Include="..\..\src\types\buffer.h" />
+    <ClInclude Include="..\..\src\types\customevents.h" />
+    <ClInclude Include="..\..\src\types\defaultpals.h" />
+    <ClInclude Include="..\..\src\types\fontinfo.h" />
+    <ClInclude Include="..\..\src\types\ieditor.h" />
+    <ClInclude Include="..\..\src\types\ifflib.h" />
+    <ClInclude Include="..\..\src\types\imageinfo.h" />
+    <ClInclude Include="..\..\src\types\indexmask.h" />
+    <ClInclude Include="..\..\src\types\istatestore.h" />
+    <ClInclude Include="..\..\src\types\libitem.h" />
+    <ClInclude Include="..\..\src\types\libtree.h" />
+    <ClInclude Include="..\..\src\types\origin.h" />
+    <ClInclude Include="..\..\src\types\palette.h" />
+    <ClInclude Include="..\..\src\types\project.h" />
+    <ClInclude Include="..\..\src\types\symbolinfo.h" />
+    <ClInclude Include="..\..\src\types\undo.h" />
+    <ClInclude Include="..\..\src\types\uttypes.h" />
+    <ClInclude Include="..\..\src\algs\bitwise.h" />
+    <ClInclude Include="..\..\src\algs\rle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\icon\to_left.xpm" />
+    <None Include="..\..\src\icon\to_right.xpm" />
+    <None Include="..\..\src\gui\uttgui.fbp" />
+    <None Include="..\..\docs\utthelp.hnd" />
+    <None Include="..\..\src\gui\uttsimplegui.fbp" />
+    <None Include="..\..\bin\scripts\common.lua" />
+    <None Include="..\..\bin\scripts\init.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\lua\build\msw\lua_vc11.vcxproj">
+      <Project>{1ab92e49-f47f-4132-90e6-0b2dddfa1ad0}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\oolua\build\msw\oolua_vc11.vcxproj">
+      <Project>{6e67994c-6042-8d42-b924-8e2625e9a002}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
