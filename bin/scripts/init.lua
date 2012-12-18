@@ -60,6 +60,26 @@ end
 
 
 
+function getModuleVersions(moduleName)
+	return UTTModules[ moduleName ].getVersions()
+end
+
+
+
+function getAvailableModules()
+	local result = {}
+	
+	for key, value in pairs(UTTModules) do
+		if value ~= nil then
+			table.insert(result, key)
+		end
+	end
+	
+	return result
+end
+
+
+
 function hasModuleCommand( command )
 	return CurrentModule ~= nil and CurrentModule[command] ~= nil
 end

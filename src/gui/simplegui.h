@@ -22,8 +22,10 @@
 #include <wx/button.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
-#include <wx/dialog.h>
+#include <wx/stattext.h>
+#include <wx/filepicker.h>
 #include <wx/combobox.h>
+#include <wx/dialog.h>
 #include <wx/statbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -68,10 +70,23 @@ class CreateProjectGui : public wxDialog
 	private:
 	
 	protected:
+		wxStaticText* m_staticText1;
+		wxFilePickerCtrl* mFileDlg;
+		wxStaticText* m_staticText2;
+		wxComboBox* mModulesCombo;
+		wxStaticText* m_staticText3;
+		wxComboBox* mVersionsCombo;
+		wxStdDialogButtonSizer* m_sdbSizer1;
+		wxButton* m_sdbSizer1OK;
+		wxButton* m_sdbSizer1Cancel;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnModuleChanged( wxCommandEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		
-		CreateProjectGui( wxWindow* parent, wxWindowID id = wxID_CREATE_PROJECT_DLG, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 478,393 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		CreateProjectGui( wxWindow* parent, wxWindowID id = wxID_CREATE_PROJECT_DLG, const wxString& title = wxT("Create new project"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 426,205 ), long style = wxCAPTION|wxCLOSE_BOX|wxRESIZE_BORDER|wxSYSTEM_MENU ); 
 		~CreateProjectGui();
 	
 };

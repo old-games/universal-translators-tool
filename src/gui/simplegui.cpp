@@ -96,12 +96,67 @@ CreateProjectGui::CreateProjectGui( wxWindow* parent, wxWindowID id, const wxStr
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
+	wxGridSizer* gSizer4;
+	gSizer4 = new wxGridSizer( 1, 1, 0, 0 );
+	
+	wxFlexGridSizer* fgSizer4;
+	fgSizer4 = new wxFlexGridSizer( 4, 2, 0, 0 );
+	fgSizer4->AddGrowableCol( 1 );
+	fgSizer4->AddGrowableRow( 3 );
+	fgSizer4->SetFlexibleDirection( wxBOTH );
+	fgSizer4->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText1 = new wxStaticText( this, wxID_ANY, wxT("Filename:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1->Wrap( -1 );
+	fgSizer4->Add( m_staticText1, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5 );
+	
+	mFileDlg = new wxFilePickerCtrl( this, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.UTTPROJ"), wxDefaultPosition, wxDefaultSize, wxFLP_OVERWRITE_PROMPT|wxFLP_SAVE|wxFLP_USE_TEXTCTRL );
+	fgSizer4->Add( mFileDlg, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5 );
+	
+	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("Default module:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2->Wrap( -1 );
+	fgSizer4->Add( m_staticText2, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5 );
+	
+	mModulesCombo = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
+	fgSizer4->Add( mModulesCombo, 1, wxTOP|wxBOTTOM|wxEXPAND, 5 );
+	
+	m_staticText3 = new wxStaticText( this, wxID_ANY, wxT("Default version:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText3->Wrap( -1 );
+	fgSizer4->Add( m_staticText3, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5 );
+	
+	mVersionsCombo = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
+	fgSizer4->Add( mVersionsCombo, 1, wxTOP|wxBOTTOM|wxEXPAND, 5 );
+	
+	
+	fgSizer4->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_sdbSizer1 = new wxStdDialogButtonSizer();
+	m_sdbSizer1OK = new wxButton( this, wxID_OK );
+	m_sdbSizer1->AddButton( m_sdbSizer1OK );
+	m_sdbSizer1Cancel = new wxButton( this, wxID_CANCEL );
+	m_sdbSizer1->AddButton( m_sdbSizer1Cancel );
+	m_sdbSizer1->Realize();
+	
+	fgSizer4->Add( m_sdbSizer1, 0, wxALIGN_BOTTOM|wxALIGN_RIGHT, 5 );
+	
+	
+	gSizer4->Add( fgSizer4, 1, wxEXPAND|wxALL, 5 );
+	
+	
+	this->SetSizer( gSizer4 );
+	this->Layout();
 	
 	this->Centre( wxBOTH );
+	
+	// Connect Events
+	mModulesCombo->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( CreateProjectGui::OnModuleChanged ), NULL, this );
 }
 
 CreateProjectGui::~CreateProjectGui()
 {
+	// Disconnect Events
+	mModulesCombo->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( CreateProjectGui::OnModuleChanged ), NULL, this );
+	
 }
 
 AboutBoxGui::AboutBoxGui( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )

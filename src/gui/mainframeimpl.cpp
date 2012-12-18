@@ -14,11 +14,8 @@
 #include "types/imageinfo.h"
 #include "types/project.h"
 
-#include "fonteditimpl.h"
-#include "logwindowimpl.h"
-#include "editpanelimpl.h"
-#include "palwindowimpl.h"
-#include "libwindowimpl.h"
+
+#include "createdlgimpl.h"
 
 #include "panels/symbolpanel.h"
 
@@ -107,7 +104,7 @@ void MainFrameImpl::OnColourPickEvent( ColourPickEvent& event )
 		return;
 	}
 
-	bool right = event.GetButton() == wxMOUSE_BTN_RIGHT;
+	/*bool right = event.GetButton() == wxMOUSE_BTN_RIGHT;
 	switch ( event.GetAction() )
 	{
 		case ColourPickEvent::cpeSetThisColour:
@@ -121,7 +118,7 @@ void MainFrameImpl::OnColourPickEvent( ColourPickEvent& event )
 		default:
 			wxLogError( wxString::Format( "MainFrameImpl::OnColourPickEvent: unknown action %d", event.GetAction() ) );
 			return;
-	}
+	}*/
 	event.Skip();
 }
 
@@ -157,6 +154,8 @@ void MainFrameImpl::Init()
 		delete mHelpController;
 		mHelpController = NULL;
 	}
+
+	UpdateMenuStates();
 }
 
 
@@ -267,15 +266,15 @@ void MainFrameImpl::CreateNewProject()
 		return;
 	}
 
-	wxFileDialog dlg( this, "Create new project", wxEmptyString, wxEmptyString, PROJECT_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+	CreateProjectDlg dlg;
 
-	if (dlg.ShowModal() != wxID_OK)
+	if (!dlg.IsReady() || dlg.ShowModal() != wxID_OK)
 	{
 		return;
 	}
 
 	mCurrentProject = new Project();
-	mCurrentProject->CreateProject( dlg.GetPath() );
+	mCurrentProject->CreateProject( dlg.GetPath(), dlg.GetModule(), dlg.GetVersion() );
 
 	UpdateMenuStates();
 	COMMAND->ClearCommands();
@@ -356,14 +355,15 @@ void MainFrameImpl::UpdateModuleMenu( const wxArrayString& strings )
 
 void MainFrameImpl::UpdateMenuStates()
 {
-	bool projectActive = mCurrentProject != NULL;
+	bool luaOk = Lua::IsOk();
+	bool projectActive = mCurrentProject != NULL && luaOk;
 	bool projectChanged = projectActive && mCurrentProject->IsChanged();
 
-	mMainToolBar->EnableTool( wxID_NEW_PROJECT, true );
-	mFileMenu->Enable( wxID_NEW_PROJECT,  true );
+	mMainToolBar->EnableTool( wxID_NEW_PROJECT, luaOk );
+	mFileMenu->Enable( wxID_NEW_PROJECT,  luaOk );
 
-	mMainToolBar->EnableTool( wxID_OPEN_PROJECT, true );
-	mFileMenu->Enable( wxID_OPEN_PROJECT,  true );
+	mMainToolBar->EnableTool( wxID_OPEN_PROJECT, luaOk );
+	mFileMenu->Enable( wxID_OPEN_PROJECT,  luaOk );
 
 	mMainToolBar->EnableTool( wxID_SAVE_PROJECT, projectChanged );
 	mFileMenu->Enable( wxID_SAVE_PROJECT,  projectChanged );
@@ -418,6 +418,7 @@ void MainFrameImpl::OnShow( wxShowEvent& event )
 	event.Skip();
 	m_mgr.Update();
 }
+
 
 
 void MainFrameImpl::OnClose( wxCloseEvent& event )
@@ -558,7 +559,7 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 	wxWindow* wnd = mAUINotebook->GetPage( event.GetSelection() );
 	if (wnd)
 	{
-		mPalWindow->ChangeOwnerToCurrentPage( wnd->GetId() );
+		
 	}
 	event.Skip();
 }

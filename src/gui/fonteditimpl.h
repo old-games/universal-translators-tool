@@ -29,7 +29,8 @@ public:
 	SymbolPanel* GetSymbolPanel();
 	void SetCurrentSymbol(int n);
 
-	bool SaveEditor();
+	virtual bool SaveEditor( wxOutputStream& output );	// IEditor
+	virtual bool LoadEditor( wxInputStream& input );	// IEditor
 
 protected:
 

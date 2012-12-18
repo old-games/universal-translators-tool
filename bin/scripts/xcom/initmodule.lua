@@ -35,6 +35,12 @@ end
 
 
 
+function Xcom.getVersions()
+	return gameVersions
+end
+
+
+
 function Xcom.getModuleName()
 	return gameVersions[currentVersion]
 end

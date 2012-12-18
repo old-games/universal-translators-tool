@@ -17,17 +17,10 @@
 
 PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 	PaletteWindowGui( parent ),
-	mPalPanel( NULL )
+	mPalPanel( NULL ),
+	mPalette( NULL )
 {
-	for (int i = 0; i < PalOwners::poNum; ++i)
-	{
-		mOwnerType->Append(PalOwners::OwnerName[i]);
-		mPalettes[i] = new Palette();
-		mPalettes[i]->Initiate( Palette::bppMono, (wxByte*) NULL );
-	}
-	mOwnerType->SetSelection(0);
-
-	mPalPanel = new PalettePanel( mPalScrolledBack, mPalettes[0], true );
+	mPalPanel = new PalettePanel( mPalScrolledBack, mPalette, true );
 	mPalHolder->Add( mPalPanel, 1, wxEXPAND, 5 );
 
 	for (int i = 0; i < Palette::bppNum; ++i)
@@ -54,10 +47,7 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 PaletteWindowImpl::~PaletteWindowImpl(void)
 {
 	mPalScrolledBack->Unbind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
-	for (int i = 0; i < PalOwners::poNum; ++i)
-	{
-		delete mPalettes[i];
-	}
+	wxTheApp->Unbind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this );
 }
 
 
@@ -70,32 +60,20 @@ void PaletteWindowImpl::OnPaint( wxPaintEvent& event )
 
 
 
-void PaletteWindowImpl::OwnerChanged()
-{
-	int owner = mOwnerType->GetSelection();
-	mPalType->SetSelection( mPalettes[owner]->GetPalType() );
-	mCGAType->SetSelection( mPalettes[owner]->GetCGAType() );
-	mCGAIntensity->SetValue( mPalettes[owner]->GetIntensity() );
-	PalTypeChanged();
-}
-
-
-
 void PaletteWindowImpl::PalTypeChanged()
 {
-	int owner = mOwnerType->GetSelection();
 	bool changeCGA = mPalType->GetSelection() == Palette::bpp2;
 
 	if ( changeCGA )
 	{
-		mPalettes[owner]->SetCGAType( mCGAType->GetSelection(), mCGAIntensity->IsChecked() );
+		mPalette->SetCGAType( mCGAType->GetSelection(), mCGAIntensity->IsChecked() );
 	}
 	else
 	{
-		mPalettes[owner]->ChangeBPP( (Palette::BPP) mPalType->GetSelection() );
+		mPalette->ChangeBPP( (Palette::BPP) mPalType->GetSelection() );
 	}
 
-	mPalPanel->SetCurrentPalette( mPalettes[owner] );
+	mPalPanel->SetCurrentPalette( mPalette );
 
 
 	bool cgaControls = mPalType->GetSelection() == Palette::bpp2;
@@ -135,7 +113,6 @@ void PaletteWindowImpl::LockChanged()
 {
 	bool b = IsLocked();
 	SpinEnable( !b );
-	mOwnerType->Enable( !b );
 	mPalType->Enable( !b );
 }
 
@@ -274,29 +251,10 @@ bool PaletteWindowImpl::CheckLocked()
 
 
 
-void PaletteWindowImpl::ChangeOwnerToCurrentPage( wxWindowID id )
-{
-	for (size_t i = 0; i < PalOwners::poNum; ++i)
-	{
-		if (PalOwners::OwnerID[i] == id)
-		{
-			mOwnerType->SetSelection(i);
-			OwnerChanged();
-			break;
-		}
-	}
-}
-
-
-
 /* virtual */ void PaletteWindowImpl::OnCommandEvent( wxCommandEvent& event )
 {
 	switch( event.GetId() )
 	{
-		case wxID_OWNER_CHOICE:
-			OwnerChanged();
-		break;
-
 		case wxID_PALLOCK_CHECK:
 			LockChanged();
 		break;
@@ -354,43 +312,22 @@ void PaletteWindowImpl::ChangeOwnerToCurrentPage( wxWindowID id )
 
 /* virtual */ void PaletteWindowImpl::OnPaletteChangeEvent( ChangePaletteEvent& event )
 {
-	int owner = -1;
-	bool ownerToRecalc = false;
-
-	switch( event.GetId() )
-	{
-		case wxID_ANY:
-			ownerToRecalc = true;
-			owner = mOwnerType->GetSelection();
-		break;
-
-		case wxID_FONTEDITOR:
-			owner = PalOwners::poFontEditor;
-		break;
-
-		case wxID_IMAGEEDITOR:
-			owner = PalOwners::poImageEditor;
-		break;
-	}
-
-	if (owner >= 0 && CheckLocked() )
+	if (CheckLocked() )
 	{
 
-		Palette* oldPal = mPalettes[owner];
-		mPalettes[owner] = event.GetPalette()->Clone();
-		mOwnerType->SetSelection( owner );
-		OwnerChanged();
+		Palette* oldPal = mPalette;
+		mPalette = event.GetPalette()->Clone();
 		delete oldPal;
 		this->Lock( event.GetLock() );
 
-		if ( ownerToRecalc )
-		{
-			EditorRebuildDataEvent* rebuildEvent = new EditorRebuildDataEvent( 
-											PalOwners::OwnerID[owner], 
-											EditorRebuildDataEvent::whPaletteChanged,
-											mPalettes[owner] );
-			wxTheApp->QueueEvent( rebuildEvent );
-		}
+		//if ( ownerToRecalc )
+		//{
+		//	EditorRebuildDataEvent* rebuildEvent = new EditorRebuildDataEvent( 
+		//									PalOwners::OwnerID[owner], 
+		//									EditorRebuildDataEvent::whPaletteChanged,
+		//									mPalettes[owner] );
+		//	wxTheApp->QueueEvent( rebuildEvent );
+		//}
 	}
 	event.Skip();
 }

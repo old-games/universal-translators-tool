@@ -33,7 +33,10 @@ public:
 	virtual ~IEditor();
 
 	virtual int CheckChanged();
-	virtual bool SaveEditor() = 0; 
+	EditorType GetType() const { return mEditorType; }
+
+	virtual bool SaveEditor( wxOutputStream& output ) = 0; 
+	virtual bool LoadEditor( wxInputStream& input ) = 0; 
 
 protected:
 

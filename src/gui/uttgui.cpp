@@ -343,49 +343,6 @@ UttMainFrame::~UttMainFrame()
 	
 }
 
-AboutBoxGui::AboutBoxGui( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
-{
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	
-	wxGridSizer* gSizer14;
-	gSizer14 = new wxGridSizer( 1, 1, 0, 0 );
-	
-	m_panel3 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxFlexGridSizer* fgSizer13;
-	fgSizer13 = new wxFlexGridSizer( 2, 1, 0, 0 );
-	fgSizer13->AddGrowableCol( 0 );
-	fgSizer13->AddGrowableRow( 0 );
-	fgSizer13->SetFlexibleDirection( wxBOTH );
-	fgSizer13->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	wxFlexGridSizer* fgSizer15;
-	fgSizer15 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer15->SetFlexibleDirection( wxBOTH );
-	fgSizer15->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	
-	fgSizer13->Add( fgSizer15, 1, wxEXPAND, 5 );
-	
-	mCloseButton = new wxButton( m_panel3, wxID_OK, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer13->Add( mCloseButton, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	
-	m_panel3->SetSizer( fgSizer13 );
-	m_panel3->Layout();
-	fgSizer13->Fit( m_panel3 );
-	gSizer14->Add( m_panel3, 1, wxEXPAND, 5 );
-	
-	
-	this->SetSizer( gSizer14 );
-	this->Layout();
-	
-	this->Centre( wxBOTH );
-}
-
-AboutBoxGui::~AboutBoxGui()
-{
-}
-
 FontSettingsGui::FontSettingsGui( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
@@ -636,45 +593,6 @@ LetterCodesGui::~LetterCodesGui()
 	mGenerateBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LetterCodesGui::OnBtnClick ), NULL, this );
 	mGetEncodingBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LetterCodesGui::OnBtnClick ), NULL, this );
 	mOkBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LetterCodesGui::OnBtnClick ), NULL, this );
-	
-}
-
-SelectModuleGui::SelectModuleGui( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
-{
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	
-	wxStaticBoxSizer* mBoxSizer;
-	mBoxSizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxEmptyString ), wxVERTICAL );
-	
-	mModulesChoice = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_DROPDOWN|wxCB_READONLY ); 
-	mBoxSizer->Add( mModulesChoice, 0, wxALL|wxEXPAND, 5 );
-	
-	wxGridSizer* gSizer6;
-	gSizer6 = new wxGridSizer( 1, 2, 0, 0 );
-	
-	mOkBtn = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	gSizer6->Add( mOkBtn, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
-	
-	mCancelBtn = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	gSizer6->Add( mCancelBtn, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
-	
-	
-	mBoxSizer->Add( gSizer6, 0, wxEXPAND, 5 );
-	
-	
-	this->SetSizer( mBoxSizer );
-	this->Layout();
-	
-	this->Centre( wxBOTH );
-	
-	// Connect Events
-	mOkBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SelectModuleGui::OnBtnClick ), NULL, this );
-}
-
-SelectModuleGui::~SelectModuleGui()
-{
-	// Disconnect Events
-	mOkBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SelectModuleGui::OnBtnClick ), NULL, this );
 	
 }
 
@@ -992,18 +910,11 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	sbSizer12->Add( fgSizer8, 1, wxEXPAND, 5 );
 	
 	wxFlexGridSizer* fgSizer111;
-	fgSizer111 = new wxFlexGridSizer( 1, 8, 0, 0 );
-	fgSizer111->AddGrowableCol( 4 );
+	fgSizer111 = new wxFlexGridSizer( 1, 6, 0, 0 );
+	fgSizer111->AddGrowableCol( 2 );
 	fgSizer111->AddGrowableRow( 0 );
 	fgSizer111->SetFlexibleDirection( wxBOTH );
 	fgSizer111->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	m_staticText21 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("Owner:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText21->Wrap( -1 );
-	fgSizer111->Add( m_staticText21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-	
-	mOwnerType = new wxComboBox( mPalScrolledBack, wxID_OWNER_CHOICE, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
-	fgSizer111->Add( mOwnerType, 0, wxALL, 5 );
 	
 	m_staticText13 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("Palette type:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText13->Wrap( -1 );
@@ -1012,7 +923,7 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	mPalType = new wxComboBox( mPalScrolledBack, wxID_PAL_CHOICE, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
 	fgSizer111->Add( mPalType, 0, wxALL|wxALIGN_RIGHT, 5 );
 	
-	mLockCheck = new wxCheckBox( mPalScrolledBack, wxID_PALLOCK_CHECK, wxT("Lock!"), wxDefaultPosition, wxDefaultSize, 0 );
+	mLockCheck = new wxCheckBox( mPalScrolledBack, wxID_PALLOCK_CHECK, wxT("Read only"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer111->Add( mLockCheck, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	m_staticText14 = new wxStaticText( mPalScrolledBack, wxID_ANY, wxT("Set of CGA colours:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -1051,7 +962,6 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	mRRSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRGSpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRISpin->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
-	mOwnerType->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mPalType->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mLockCheck->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAType->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
@@ -1070,7 +980,6 @@ PaletteWindowGui::~PaletteWindowGui()
 	mRRSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRGSpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
 	mRISpin->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( PaletteWindowGui::OnSpinCtrl ), NULL, this );
-	mOwnerType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mPalType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mLockCheck->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );
 	mCGAType->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( PaletteWindowGui::OnCommandEvent ), NULL, this );

@@ -36,20 +36,20 @@ FontEditor::FontEditor(  wxWindow* parent ):
 	mSymbolEditor->Disable();
 	mCentralSizer->Add( mSymbolEditor, 1, wxEXPAND, 5 );
 	this->Layout();
-	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this );
-	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this );
-	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, wxID_FONTEDITOR );
+	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
+	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, this->GetId() );
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, this->GetId() );
 	wxWindowID id = GetSymbolPanel()->GetId();
-	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, id );
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, id, this->GetId() );
 }
 
 
 
 FontEditor::~FontEditor(void)
 {
-	wxTheApp->Unbind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this );
-	wxTheApp->Unbind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this );
-	wxTheApp->Unbind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, wxID_FONTEDITOR );
+	wxTheApp->Unbind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
+	wxTheApp->Unbind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, this->GetId() );
+	wxTheApp->Unbind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, this->GetId() );
 	ClearFont( true );
 }
 
@@ -211,16 +211,23 @@ void FontEditor::SetPaletteAsMain()
 	Palette* pal = mCurrentFont->GetPalette();
 	if ( pal && pal->IsOk() )
 	{
-		ChangePaletteEvent palEvent( wxID_FONTEDITOR, pal, true );
+		ChangePaletteEvent palEvent( this->GetId(), pal, true );
 		wxTheApp->QueueEvent( palEvent.Clone() );
 	}
 }
 
 
 
-bool FontEditor::SaveEditor()
+/* virtual */ bool FontEditor::SaveEditor( wxOutputStream& output )
 {
-	return SaveFont();
+	return mCurrentFont->SaveToStream(output);
+}
+
+
+
+/* virtual */ bool FontEditor::LoadEditor( wxInputStream& input )
+{
+	return mCurrentFont->LoadFromStream( input );
 }
 
 

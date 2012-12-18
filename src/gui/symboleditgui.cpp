@@ -13,12 +13,10 @@
 #include "panels/symbolpanel.h"
 #include "types/imageinfo.h"
 
-#define wxID_SYMBOLEDITOR	999
-
 
 
 SymbolEditGui::SymbolEditGui(  wxWindow* parent ):
-	ImageEditor( parent, wxID_SYMBOLEDITOR ),
+	ImageEditor( parent, wxID_ANY ),
 	mSymbolPanel( new SymbolPanel( this ) )
 {
 	ImageEditor::SetEditPanel( mSymbolPanel );

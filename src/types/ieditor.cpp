@@ -53,12 +53,5 @@ IEditor::IEditor( const IEditor& other ):
 /* virtual */ int IEditor::CheckChanged()
 {
 	wxString message = mEditorName + " modified";
-	int res = wxMessageDialog(mParent, "Save changes?", message, wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
-
-	if (res == wxID_YES)
-	{
-		this->SaveEditor();
-	}
-
-	return res;
+	return wxMessageDialog(mParent, "Save changes?", message, wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
 }

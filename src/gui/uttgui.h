@@ -25,21 +25,21 @@
 #include "logwindowimpl.h"
 #include <wx/statusbr.h>
 #include <wx/frame.h>
-#include <wx/sizer.h>
-#include <wx/button.h>
-#include <wx/panel.h>
-#include <wx/dialog.h>
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
+#include <wx/button.h>
+#include <wx/sizer.h>
 #include <wx/scrolwin.h>
+#include <wx/dialog.h>
 #include <wx/textctrl.h>
 #include <wx/statbox.h>
 #include <wx/grid.h>
-#include <wx/combobox.h>
 #include "bmpribbonctrl.h"
+#include <wx/panel.h>
 #include <wx/splitter.h>
 #include <wx/checkbox.h>
 #include <wx/choice.h>
+#include <wx/combobox.h>
 #include <wx/treectrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -77,33 +77,30 @@
 #define wxID_GENERATE_CODES_BTN 1030
 #define wxID_GET_ENCODING_BTN 1031
 #define wxID_CODES_GRID 1032
-#define wxID_SELECT_MODULE_ID 1033
-#define wxID_FONTEDITOR 1034
-#define wxID_CREATE_FONT 1035
-#define wxID_SAVE_BTN 1036
-#define wxID_LOAD_BTN 1037
-#define wxID_FONT_SETTINGS 1038
-#define wxID_IMAGEEDITOR 1039
-#define wxID_GRID_CHECK 1040
-#define wxID_GRID_MODE 1041
-#define wxID_GRIDCOL_BTN 1042
-#define wxID_PALETTEWINDOW 1043
-#define wxID_LR_SPIN 1044
-#define wxID_LG_SPIN 1045
-#define wxID_LB_SPIN 1046
-#define wxID_LI_SPIN 1047
-#define wxID_HEX_CHECK 1048
-#define wxID_RB_SPIN 1049
-#define wxID_RR_SPIN 1050
-#define wxID_RG_SPIN 1051
-#define wxID_RI_SPIN 1052
-#define wxID_OWNER_CHOICE 1053
-#define wxID_PAL_CHOICE 1054
-#define wxID_PALLOCK_CHECK 1055
-#define wxID_CGA_CHOICE 1056
-#define wxID_INTENSITY_CHECK 1057
-#define wxID_LIBRARYWINDOW 1058
-#define wxID_LIBTREE 1059
+#define wxID_CREATE_FONT 1033
+#define wxID_SAVE_BTN 1034
+#define wxID_LOAD_BTN 1035
+#define wxID_FONT_SETTINGS 1036
+#define wxID_IMAGEEDITOR 1037
+#define wxID_GRID_CHECK 1038
+#define wxID_GRID_MODE 1039
+#define wxID_GRIDCOL_BTN 1040
+#define wxID_PALETTEWINDOW 1041
+#define wxID_LR_SPIN 1042
+#define wxID_LG_SPIN 1043
+#define wxID_LB_SPIN 1044
+#define wxID_LI_SPIN 1045
+#define wxID_HEX_CHECK 1046
+#define wxID_RB_SPIN 1047
+#define wxID_RR_SPIN 1048
+#define wxID_RG_SPIN 1049
+#define wxID_RI_SPIN 1050
+#define wxID_PAL_CHOICE 1051
+#define wxID_PALLOCK_CHECK 1052
+#define wxID_CGA_CHOICE 1053
+#define wxID_INTENSITY_CHECK 1054
+#define wxID_LIBRARYWINDOW 1055
+#define wxID_LIBTREE 1056
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame
@@ -137,24 +134,6 @@ class UttMainFrame : public wxFrame
 		wxAuiManager m_mgr;
 		
 		~UttMainFrame();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class AboutBoxGui
-///////////////////////////////////////////////////////////////////////////////
-class AboutBoxGui : public wxDialog 
-{
-	private:
-	
-	protected:
-		wxPanel* m_panel3;
-		wxButton* mCloseButton;
-	
-	public:
-		
-		AboutBoxGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 505,371 ), long style = wxDIALOG_NO_PARENT ); 
-		~AboutBoxGui();
 	
 };
 
@@ -235,29 +214,6 @@ class LetterCodesGui : public wxDialog
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class SelectModuleGui
-///////////////////////////////////////////////////////////////////////////////
-class SelectModuleGui : public wxDialog 
-{
-	private:
-	
-	protected:
-		wxComboBox* mModulesChoice;
-		wxButton* mOkBtn;
-		wxButton* mCancelBtn;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void OnBtnClick( wxCommandEvent& event ) { event.Skip(); }
-		
-	
-	public:
-		
-		SelectModuleGui( wxWindow* parent, wxWindowID id = wxID_SELECT_MODULE_ID, const wxString& title = wxT("Select Lua module:"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 307,106 ), long style = wxCAPTION|wxCLOSE_BOX|wxSYSTEM_MENU ); 
-		~SelectModuleGui();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
 /// Class FontEditGui
 ///////////////////////////////////////////////////////////////////////////////
 class FontEditGui : public wxPanel 
@@ -282,7 +238,7 @@ class FontEditGui : public wxPanel
 	
 	public:
 		
-		FontEditGui( wxWindow* parent, wxWindowID id = wxID_FONTEDITOR, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,442 ), long style = wxTAB_TRAVERSAL ); 
+		FontEditGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,442 ), long style = wxTAB_TRAVERSAL ); 
 		~FontEditGui();
 		
 		void mFontSplitterOnIdle( wxIdleEvent& )
@@ -348,8 +304,6 @@ class PaletteWindowGui : public wxPanel
 		wxSpinCtrl* mRGSpin;
 		wxStaticText* m_staticText221;
 		wxSpinCtrl* mRISpin;
-		wxStaticText* m_staticText21;
-		wxComboBox* mOwnerType;
 		wxStaticText* m_staticText13;
 		wxComboBox* mPalType;
 		wxCheckBox* mLockCheck;
@@ -364,7 +318,7 @@ class PaletteWindowGui : public wxPanel
 	
 	public:
 		
-		PaletteWindowGui( wxWindow* parent, wxWindowID id = wxID_PALETTEWINDOW, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1019,439 ), long style = wxTAB_TRAVERSAL ); 
+		PaletteWindowGui( wxWindow* parent, wxWindowID id = wxID_PALETTEWINDOW, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 877,439 ), long style = wxTAB_TRAVERSAL ); 
 		~PaletteWindowGui();
 	
 };

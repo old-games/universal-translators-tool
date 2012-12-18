@@ -31,7 +31,6 @@ public:
 	bool IsLocked() { return mLockCheck->IsChecked(); }
 	void Lock( bool b = true );
 	bool CheckLocked();
-	void ChangeOwnerToCurrentPage( wxWindowID id );
 
 protected:
 	virtual void OnCommandEvent( wxCommandEvent& event );
@@ -42,7 +41,6 @@ private:
 
 	void SetSpinsBase();
 	void OnPaint( wxPaintEvent& event );
-	void OwnerChanged();
 	void PalTypeChanged();
 	void UpdateColour(bool right);
 	void UpdateSpin(bool right);
@@ -53,7 +51,7 @@ private:
 	void LockChanged();
 
 	PalettePanel*	mPalPanel;
-	Palette*		mPalettes[PalOwners::poNum];
+	Palette*		mPalette;
 };
 
 #endif

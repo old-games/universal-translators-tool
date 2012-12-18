@@ -36,7 +36,7 @@ public:
 	bool IsChanged() const { return mChanged; }
 	int CheckChanged();
 
-	bool CreateProject( const wxString& fullPath );
+	bool CreateProject( const wxString& fullPath, const wxString& module, const wxString& version );
 	bool SaveProject();
 
 	bool IsAllowed( IECommands what, EditorType who );
@@ -49,7 +49,11 @@ protected:
 	
 private:
 
+	IEditor*		CreateEditor( EditorType who );
+
 	wxString		GetFunctionName( IECommands what, EditorType who );
+	bool			SaveEditors( wxOutputStream& output );
+	bool			LoadEditors( wxInputStream& input );
 
 	bool			mChanged;
 	wxString		mProjectName;

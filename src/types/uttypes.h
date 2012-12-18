@@ -33,21 +33,6 @@ struct RGBA
 
 
 
-namespace PalOwners
-{
-	enum
-	{
-		poFontEditor,
-		poImageEditor,
-		poNum
-	};
-
-	extern const wxString OwnerName[poNum];
-
-	extern const wxWindowID OwnerID[poNum];
-}
-
-
 
 class UttColour: public wxColour
 {
