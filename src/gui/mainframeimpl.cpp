@@ -329,6 +329,7 @@ void MainFrameImpl::DoModuleCommand( int n )
 void MainFrameImpl::ClearModuleMenu()
 {
 	wxMenuItemList& list = mModuleMenu->GetMenuItems();
+
 	for ( size_t i = 0; i < list.GetCount(); ++i )
 	{
 		wxMenuItem* item = list[i];
@@ -342,6 +343,7 @@ void MainFrameImpl::ClearModuleMenu()
 void MainFrameImpl::UpdateModuleMenu( const wxArrayString& strings )
 {
 	wxASSERT( strings.size() + MODULE_MENU_START < MODULE_MENU_END ); 
+
 	ClearModuleMenu();
 	for (size_t i = 0; i < strings.size(); ++i)
 	{

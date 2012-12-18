@@ -190,6 +190,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\gui\createdlgimpl.cpp" />
     <ClCompile Include="..\..\src\helpers.cpp" />
     <ClCompile Include="..\..\src\luaconsole.cpp" />
     <ClCompile Include="..\..\src\luacontrol.cpp" />
@@ -255,6 +256,7 @@
     <ClCompile Include="..\..\src\algs\rle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\gui\createdlgimpl.h" />
     <ClInclude Include="..\..\src\helpers.h" />
     <ClInclude Include="..\..\src\luaconsole.h" />
     <ClInclude Include="..\..\src\luacontrol.h" />

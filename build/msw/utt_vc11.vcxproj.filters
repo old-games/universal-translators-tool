@@ -187,6 +187,9 @@
     <ClCompile Include="..\..\src\algs\rle.cpp">
       <Filter>algorithms</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\gui\createdlgimpl.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\helpers.h">
@@ -350,6 +353,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\algs\rle.h">
       <Filter>algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\createdlgimpl.h">
+      <Filter>gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
