@@ -39,7 +39,7 @@
 #include <wx/splitter.h>
 #include <wx/checkbox.h>
 #include <wx/choice.h>
-#include <wx/combobox.h>
+#include "palholderctrl.h"
 #include <wx/treectrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -85,22 +85,8 @@
 #define wxID_GRID_CHECK 1038
 #define wxID_GRID_MODE 1039
 #define wxID_GRIDCOL_BTN 1040
-#define wxID_PALETTEWINDOW 1041
-#define wxID_LR_SPIN 1042
-#define wxID_LG_SPIN 1043
-#define wxID_LB_SPIN 1044
-#define wxID_LI_SPIN 1045
-#define wxID_HEX_CHECK 1046
-#define wxID_RB_SPIN 1047
-#define wxID_RR_SPIN 1048
-#define wxID_RG_SPIN 1049
-#define wxID_RI_SPIN 1050
-#define wxID_PAL_CHOICE 1051
-#define wxID_PALLOCK_CHECK 1052
-#define wxID_CGA_CHOICE 1053
-#define wxID_INTENSITY_CHECK 1054
-#define wxID_LIBRARYWINDOW 1055
-#define wxID_LIBTREE 1056
+#define wxID_LIBRARYWINDOW 1041
+#define wxID_LIBTREE 1042
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame
@@ -265,6 +251,7 @@ class EditPanelGui : public wxPanel
 		wxButton* mGetGridColour;
 		wxButton* mSaveBtn;
 		wxButton* mLoadBtn;
+		PaletteHolderCtrl* mPaletteHolder;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnCommandEvent( wxCommandEvent& event ) { event.Skip(); }
@@ -274,52 +261,6 @@ class EditPanelGui : public wxPanel
 		
 		EditPanelGui( wxWindow* parent, wxWindowID id = wxID_IMAGEEDITOR, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,400 ), long style = wxTAB_TRAVERSAL|wxWANTS_CHARS ); 
 		~EditPanelGui();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class PaletteWindowGui
-///////////////////////////////////////////////////////////////////////////////
-class PaletteWindowGui : public wxPanel 
-{
-	private:
-	
-	protected:
-		wxScrolledWindow* mPalScrolledBack;
-		wxStaticBoxSizer* mPalHolder;
-		wxStaticText* m_staticText15;
-		wxSpinCtrl* mLRSpin;
-		wxStaticText* m_staticText16;
-		wxSpinCtrl* mLGSpin;
-		wxStaticText* m_staticText17;
-		wxSpinCtrl* mLBSpin;
-		wxStaticText* m_staticText22;
-		wxSpinCtrl* mLISpin;
-		wxCheckBox* mHexCheck;
-		wxStaticText* m_staticText18;
-		wxSpinCtrl* mRBSpin;
-		wxStaticText* m_staticText19;
-		wxSpinCtrl* mRRSpin;
-		wxStaticText* m_staticText20;
-		wxSpinCtrl* mRGSpin;
-		wxStaticText* m_staticText221;
-		wxSpinCtrl* mRISpin;
-		wxStaticText* m_staticText13;
-		wxComboBox* mPalType;
-		wxCheckBox* mLockCheck;
-		wxStaticText* m_staticText14;
-		wxComboBox* mCGAType;
-		wxCheckBox* mCGAIntensity;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void OnSpinCtrl( wxSpinEvent& event ) { event.Skip(); }
-		virtual void OnCommandEvent( wxCommandEvent& event ) { event.Skip(); }
-		
-	
-	public:
-		
-		PaletteWindowGui( wxWindow* parent, wxWindowID id = wxID_PALETTEWINDOW, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 877,439 ), long style = wxTAB_TRAVERSAL ); 
-		~PaletteWindowGui();
 	
 };
 

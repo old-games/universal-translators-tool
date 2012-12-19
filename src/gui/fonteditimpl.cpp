@@ -40,7 +40,7 @@ FontEditor::FontEditor(  wxWindow* parent ):
 	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, this->GetId() );
 	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, this->GetId() );
 	wxWindowID id = GetSymbolPanel()->GetId();
-	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, id, this->GetId() );
+	//wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, id, this->GetId() );
 }
 
 

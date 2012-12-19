@@ -18,6 +18,7 @@ class ChangeImageEvent;
 class ChangePaletteEvent;
 class SymbolSelectionEvent;
 class EditorRebuildDataEvent;
+class AddAUIWindowEvent;
 
 
 
@@ -28,6 +29,7 @@ wxDECLARE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
 wxDECLARE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
 wxDECLARE_EVENT( uttEVT_REBUILDDATA, EditorRebuildDataEvent );
+wxDECLARE_EVENT( uttEVT_ADDAUIWINDOW, AddAUIWindowEvent );
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -152,13 +154,13 @@ class ChangeFontEvent : public wxEvent
 public:
 	
 
-    ChangeFontEvent( )
+    ChangeFontEvent()
         : wxEvent(0, uttEVT_CHANGEFONT),
 		mFontInfo( NULL )
 	{ }
 	
-    ChangeFontEvent( FontInfo* fontInfo )
-        : wxEvent(0, uttEVT_CHANGEFONT),
+    ChangeFontEvent( FontInfo* fontInfo, int winId = 0 )
+        : wxEvent(winId, uttEVT_CHANGEFONT),
 		mFontInfo( fontInfo )
 	{ }
 	
@@ -415,6 +417,69 @@ typedef void (wxEvtHandler::*EditorRebuildDataEventFunction)(EditorRebuildDataEv
     wxEVENT_HANDLER_CAST(EditorRebuildDataEventFunction, func)
 
 #define EVT_REBUILDDATA(func) wx__DECLARE_EVT0(uttEVT_REBUILDDATA, EditorRebuildDataEventHandler(func))
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+class AddAUIWindowEvent : public wxEvent
+{
+public:
+
+
+	AddAUIWindowEvent( )
+		: wxEvent(0, uttEVT_ADDAUIWINDOW),
+		mAdd( true ),
+		mWindow( NULL ),
+		mName( wxEmptyString )
+	{ 	
+	}
+
+
+
+	AddAUIWindowEvent(wxWindow* wnd, const wxString& name, bool add = true)
+		: wxEvent(0, uttEVT_ADDAUIWINDOW),
+		mAdd( add ),
+		mWindow( wnd ),
+		mName( name )
+	{ 
+	}
+
+	AddAUIWindowEvent(const AddAUIWindowEvent& event)
+		: wxEvent(event),
+		mAdd( event.mAdd ),
+		mWindow( event.mWindow ),
+		mName( event.mName )
+	{ 
+	}
+
+	virtual wxEvent *Clone() const { return new AddAUIWindowEvent(*this); }
+
+	bool			DoAdd() const { return mAdd; }
+	wxWindow*		GetWindow() const { return mWindow; }
+	const wxString& GetName() const { return mName; }
+
+protected:
+
+private:
+
+	bool		mAdd;
+	wxWindow*	mWindow;
+	wxString	mName;
+
+	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(AddAUIWindowEvent)
+};
+
+typedef void (wxEvtHandler::*AddAUIWindowEventFunction)(AddAUIWindowEvent&);
+
+
+
+#define AddAUIWindowEventHandler(func) \
+	wxEVENT_HANDLER_CAST(AddAUIWindowEventFunction, func)
+
+#define EVT_ADDAUIWINDOW(func) wx__DECLARE_EVT0(uttEVT_ADDAUIWINDOW, AddAUIWindowEventHandler(func))
 
 
 

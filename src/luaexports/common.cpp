@@ -126,26 +126,55 @@ int selectFromList(lua_State *L)
 }
 
 
+//////////////////////////////////////////////////////////////////////////
+
+
+
+#define FILEDIALOG_BODY(txt, flags) \
+	std::string extensions;\
+	if ( !OOLUA::pull2cpp(L, extensions) )\
+	{	extensions = "Any file (*.*)|*.*";	}\
+	wxFileDialog dlg( NULL, txt, wxEmptyString, wxEmptyString, extensions, flags );\
+	if (dlg.ShowModal() != wxID_OK)\
+	{		return 0;	}\
+	OOLUA::push2lua(L, dlg.GetPath().ToStdString());\
+	return 1;\
+
 
 int openFileDialog(lua_State *L)
 {
-	std::string extensions;
-	if ( !OOLUA::pull2cpp(L, extensions) )
-	{
-		extensions = "Any file (*.*)|*.*";
-	}
+	FILEDIALOG_BODY("Open file...", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+	//std::string extensions;
+	//if ( !OOLUA::pull2cpp(L, extensions) )
+	//{
+	//	extensions = "Any file (*.*)|*.*";
+	//}
 
 
-	wxFileDialog dlg( NULL, "Open file...", wxEmptyString, wxEmptyString, extensions, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
-	if (dlg.ShowModal() != wxID_OK)
-	{
-		return 0;
-	}
+	//wxFileDialog dlg( NULL, "Open file...", wxEmptyString, wxEmptyString, extensions, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
+	//if (dlg.ShowModal() != wxID_OK)
+	//{
+	//	return 0;
+	//}
 
-	OOLUA::push2lua(L, dlg.GetPath().ToStdString());
+	//OOLUA::push2lua(L, dlg.GetPath().ToStdString());
 
-	return 1;
+	//return 1;
 }
+
+
+
+int saveFileDialog(lua_State *L)
+{
+	FILEDIALOG_BODY("Save file...", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+}
+
+#undef FILEDIALOG_BODY
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
 
 
 int setModuleReady(lua_State* L)
@@ -394,6 +423,10 @@ void CommonRegister()
 	
 	// calls MessageBox to show important messages to user
 	LUA_REG_C_FUNCTION( messageBox );
+
+	// calls wxFileDialog 
+	LUA_REG_C_FUNCTION( openFileDialog );
+	LUA_REG_C_FUNCTION( saveFileDialog );
 
 	// export for wxBusyCursor class, will be usefull for continious operations
 	Get().register_class<BusyCursor>();

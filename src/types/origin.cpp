@@ -16,10 +16,20 @@ const int		ORIGINVERSION = 0x100;
 
 
 
-Origin::Origin( OriginEnum origin ):
+Origin::Origin():
+	IStateStore( ORIGINNAME, ORIGINVERSION ),
+	mOriginFrom(Unknown),
+	mOriginFileName( wxEmptyString ),
+	mOriginAdditional( wxEmptyString )
+{
+}
+
+
+
+Origin::Origin( OriginEnum origin, const char* fileName ):
 	IStateStore( ORIGINNAME, ORIGINVERSION ),
 	mOriginFrom(origin),
-	mOriginFileName( wxEmptyString ),
+	mOriginFileName( fileName ),
 	mOriginAdditional( wxEmptyString )
 {
 }

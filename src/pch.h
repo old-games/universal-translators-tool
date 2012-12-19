@@ -65,6 +65,7 @@
 #endif
 
 // project headers
+#include "gui/simplegui.h"
 #include "gui/uttgui.h"
 #include "types/uttypes.h"
 #include "types/defaultpals.h"

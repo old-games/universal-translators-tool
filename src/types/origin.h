@@ -23,10 +23,12 @@ public:
 	{
 		Unknown,
 		FromFile,
-		FromLibrary
+		FromLibrary,
+		MaxOrigins
 	};
 
-	Origin( OriginEnum origin );
+	Origin();
+	Origin( OriginEnum origin, const char* fileName );
 	Origin( const Origin& other );
 
 	void SetOriginFileName( const wxString& fileName );

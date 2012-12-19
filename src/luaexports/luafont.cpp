@@ -45,8 +45,8 @@ namespace Lua
 
 
 
-EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( FontInfo, SetValues, AddSymbolFromBuf, AddSymbolIndexed, SetPalette )
-EXPORT_OOLUA_FUNCTIONS_0_CONST( FontInfo )
+EXPORT_OOLUA_FUNCTIONS_5_NON_CONST( FontInfo, SetValues, AddSymbolFromBuf, AddSymbolIndexed, SetPalette, SetOrigin )
+EXPORT_OOLUA_FUNCTIONS_1_CONST( FontInfo, GetOrigin )
 
 
 

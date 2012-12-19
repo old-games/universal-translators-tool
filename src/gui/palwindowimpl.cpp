@@ -20,7 +20,7 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 	mPalPanel( NULL ),
 	mPalette( NULL )
 {
-	mPalPanel = new PalettePanel( mPalScrolledBack, mPalette, true );
+	mPalPanel = new PalettePanel( this, mPalette, true );
 	mPalHolder->Add( mPalPanel, 1, wxEXPAND, 5 );
 
 	for (int i = 0; i < Palette::bppNum; ++i)
@@ -35,9 +35,9 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 	}
 	mCGAType->SetSelection(0);
 
-	PalTypeChanged();
-	mPalScrolledBack->Bind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
-	wxTheApp->Bind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this );
+	//PalTypeChanged();
+	//mPalScrolledBack->Bind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
+	//wxTheApp->Bind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this );
 
 	this->SetSpinsBase();
 }
@@ -46,7 +46,7 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 
 PaletteWindowImpl::~PaletteWindowImpl(void)
 {
-	mPalScrolledBack->Unbind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
+	this->Unbind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
 	wxTheApp->Unbind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this );
 }
 

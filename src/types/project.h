@@ -25,7 +25,7 @@ extern const wxString sCommandNames[iecNum];
 
 
 
-class Project: public IStateStore
+class Project: public IStateStore, public wxEvtHandler
 {
 public:
 
@@ -38,18 +38,28 @@ public:
 
 	bool CreateProject( const wxString& fullPath, const wxString& module, const wxString& version );
 	bool SaveProject();
+	bool LoadProject( const wxString& fullPath );
+
+	bool SetActiveModule();
+	bool SetActiveModule( const wxString& module, const wxString& version );
 
 	bool IsAllowed( IECommands what, EditorType who );
 	bool Do( IECommands what, EditorType who );
+
+	static wxWindow* sParentWindow;
 
 protected:
 
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
+
+	virtual void OnChangeFontEvent( ChangeFontEvent& event );
 	
 private:
 
 	IEditor*		CreateEditor( EditorType who );
+	void			CreateFontEditor( FontInfo* info );
+	void			AddEditorWindow( wxWindow* wnd, IEditor* editor, const wxString& name );
 
 	wxString		GetFunctionName( IECommands what, EditorType who );
 	bool			SaveEditors( wxOutputStream& output );

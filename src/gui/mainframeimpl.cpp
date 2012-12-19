@@ -81,15 +81,19 @@ MainFrameImpl::MainFrameImpl(void):
 	//mEditWindow->GetEditPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
 	//mFontEditor->GetSymbolPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
 	wxTheApp->Bind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
+	wxTheApp->Bind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAddRemoveWindow, this );
 
 	m_mgr.Update();
 	UpdateMenuStates();
+
+	Project::sParentWindow = this;
 }
 
 
 
 MainFrameImpl::~MainFrameImpl(void)
 {
+	wxTheApp->Unbind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAddRemoveWindow, this );
 	wxTheApp->Unbind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
 	this->Unbind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
 	this->Unbind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
@@ -191,7 +195,7 @@ void MainFrameImpl::DoOpenProject()
 
 	Project* newProject = new Project();
 
-	if (!newProject->LoadFromFile( dlg.GetPath() ))
+	if (!newProject->LoadProject( dlg.GetPath() ))
 	{
 		delete newProject;
 		newProject = old;
@@ -199,6 +203,7 @@ void MainFrameImpl::DoOpenProject()
 	}
 
 	mCurrentProject = newProject;
+	UpdateMenuStates();
 }
 
 
@@ -254,7 +259,9 @@ bool MainFrameImpl::CheckProject()
 		return true;
 	}
 
-
+	if (mCurrentProject->CheckChanged() == wxYES)
+	{
+	}
 }
 
 
@@ -410,6 +417,13 @@ void MainFrameImpl::OnIdle( wxIdleEvent& )
 	{
 		Lua::Done();
 		Lua::Init();
+		
+		if (mCurrentProject)
+		{
+			mCurrentProject->SetActiveModule();
+		}
+
+		UpdateMenuStates();
 	}
 }
 
@@ -556,6 +570,28 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 
 
 
+void MainFrameImpl::OnAddRemoveWindow( AddAUIWindowEvent& event )
+{
+	wxWindow* wnd = event.GetWindow();
+	if (wnd == NULL)
+	{
+		return;
+	}
+
+	if (event.DoAdd())
+	{
+		m_mgr.AddPane( wnd, wxAuiPaneInfo() .Left() .PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).DockFixed( false ) );
+	}
+	else
+	{
+		m_mgr.DetachPane( wnd );
+	}
+
+	m_mgr.Update();
+}
+
+
+
 /* virtual */ void MainFrameImpl::OnPageChanged( wxAuiNotebookEvent& event )
 {
 	wxWindow* wnd = mAUINotebook->GetPage( event.GetSelection() );
@@ -565,3 +601,5 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 	}
 	event.Skip();
 }
+
+

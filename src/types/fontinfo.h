@@ -139,6 +139,9 @@ public:
 	bool SetPalette(Palette* pal);
 	Palette* GetPalette() { return mPalette; }
 
+	void SetOrigin( const Origin* origin );
+	const Origin* GetOrigin() const;
+
 	static SymbolInfo	sBadSymbol;
 
 protected:

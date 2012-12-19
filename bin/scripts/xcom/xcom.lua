@@ -200,7 +200,16 @@ end
 
 
 
-function LoadXcomFont( path, name, fh )
+function LoadXcomFont( fileName )
+	local fh = assert(io.open(fileName, "rb"))
+	if not fh then
+		return
+	end
+	
+	local vol, path, name, ext = parseFileName( fileName )
+	path = vol..path..'/'
+	
+	
 	local exec = xcomFontInfo[currentVersion].execInfo
 	local params = xcomFontInfo[currentVersion][name]
 	local width = params.width
@@ -244,9 +253,14 @@ function LoadXcomFont( path, name, fh )
 		end
 		
 	until not bytes
+	fh:close()
 	
 	print ("Symbols loaded: ", num)
-	editFont( font )
+
+	local origin = Origin:new(Origin.FromFile, fileName)
+	font:SetOrigin(origin)
+	
+	return font
 end
 
 

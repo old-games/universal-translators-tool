@@ -20,6 +20,7 @@
 #define LUA_REG_CLASS(x)		Get().register_class<x>(); REG_MESSAGE(class #x)
 
 
+
 namespace Lua
 {
     bool Init();
@@ -32,5 +33,7 @@ namespace Lua
 	void SetRebootFlag();
 	bool GetRebootFlag();
 }
+
+
 
 #endif // LUACONTROL_H_INCLUDED

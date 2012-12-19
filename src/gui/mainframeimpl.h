@@ -38,6 +38,7 @@ private:
 	void OnShow( wxShowEvent& event );
 	void OnColourPickEvent( ColourPickEvent& event );
 	void OnModuleChanged( ModuleChangedEvent& event );
+	void OnAddRemoveWindow( AddAUIWindowEvent& event );
 
 	void AddPane( wxWindow* wnd, const wxString& name );
 

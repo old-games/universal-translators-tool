@@ -5,17 +5,17 @@ local Xcom = {}
 
 local gameVersions = { 'UFO 1 (DOS)', 'UFO 2 (WIN)' }
 
-local ActionsOnExtension = 
-{ 
-	dat = "loadDAT",
-	scr = "loadDAT",
-	cat = "loadCAT",
-	lbm = "loadLBM"
-}
+--local ActionsOnExtension = 
+--{ 
+--	dat = "loadDAT",
+--	scr = "loadDAT",
+--	cat = "loadCAT",
+--	lbm = "loadLBM"
+--}
 
 
 
-local Operations = {}
+--local Operations = {}
 
 local MenuCommands = { ["Change palette"] = ChangePalette }
 
@@ -30,6 +30,16 @@ function Xcom.selectVersion()
 	if res ~= nil then
 		currentVersion = res
 		setModuleReady()
+	end
+end
+
+
+
+function Xcom.setVersion( version )
+	local res = findStringInTable( gameVersions, version )
+	if res ~= nil then
+		currentVersion = res
+		return true
 	end
 end
 
@@ -58,10 +68,10 @@ function Xcom.getModuleMenu()
 end
 
 
-
-function Xcom.getExtensions()
-	return '*.DAT (*.dat)|*.dat|*.SCR (*.scr)|*.scr|*.CAT (*.cat)|*.cat|*.LBM (*.lbm)|*.lbm'
-end
+--
+--function Xcom.getExtensions()
+--	return '*.DAT (*.dat)|*.dat|*.SCR (*.scr)|*.scr|*.CAT (*.cat)|*.cat|*.LBM (*.lbm)|*.lbm'
+--end
 
 
 
@@ -69,48 +79,51 @@ function Xcom.ImportFont()
 	local fileName = openFileDialog("Font file (BIGLETS.DAT)|biglets.dat|Font file (SMALLSET.DAT)|smallset.dat")
 	
 	if fileName ~= nil then
-		Operations.loadDAT( fileName )
-	end
-end
-
-
-function Xcom.openFile( fileName )
-	local fileName = string.lower( fileName )
-	local vol, path, name, ext = parseFileName( fileName )
-	local key = ActionsOnExtension[ ext ]
-	if key == nil then
-		print( "Can't find function for '"..ext.."' extension" )
-		return
-	end
-	Operations[ key ]( fileName )
-end
-
-
-
-function Operations.loadDAT( filename )
-	--local busy = BusyCursor:new()
-	
-	local vol, path, name, ext = parseFileName( filename )
-	path = vol..path..'/'
-
-	local fh = assert(io.open(filename, "rb"))
-	if not fh then
-		return
-	end
-	
-	 
-	if name == 'biglets' or name == 'smallset' then
-		LoadXcomFont( path, name, fh )
-	else
-		local key = findAnyStringInTable( getKnownImageNames(), name )
-		if key ~= nil then
-			LoadXcomImage( path, name, key, fh )
-		else
-			print ("I don't know what to do with ", filename)
+		local font = LoadXcomFont( fileName )
+		if font ~= nil then
+			editFont(font)
 		end
 	end
-	fh:close()
 end
+
+--
+--function Xcom.openFile( fileName )
+--	local fileName = string.lower( fileName )
+--	local vol, path, name, ext = parseFileName( fileName )
+--	local key = ActionsOnExtension[ ext ]
+--	if key == nil then
+--		print( "Can't find function for '"..ext.."' extension" )
+--		return
+--	end
+--	Operations[ key ]( fileName )
+--end
+
+
+
+--function Operations.loadDAT( filename )
+--	--local busy = BusyCursor:new()
+--	
+--	local vol, path, name, ext = parseFileName( filename )
+--	path = vol..path..'/'
+--
+--	local fh = assert(io.open(filename, "rb"))
+--	if not fh then
+--		return
+--	end
+--	
+--	 
+--	if name == 'biglets' or name == 'smallset' then
+--		LoadXcomFont( path, name, fh )
+--	else
+--		local key = findAnyStringInTable( getKnownImageNames(), name )
+--		if key ~= nil then
+--			LoadXcomImage( path, name, key, fh )
+--		else
+--			print ("I don't know what to do with ", filename)
+--		end
+--	end
+--	fh:close()
+--end
 
 
 
@@ -120,26 +133,26 @@ CATStruct[2] =	{ SIZE 		= "DWORD" 	}
 
 
 
-function Operations.loadCAT( filename )
-	local vol, path, name, ext = parseFileName( filename )
-	path = vol..path..'/'
-
-	local fh = assert(io.open(filename, "rb"))
-	if not fh then
-		return
-	end
-	
-	local done = false
-	local size = fileSize( filename )
-	
-	while not done do
-		local data = readData( fh, CATStruct )
-		done = (data ~= nil) and (data.OFFSET + data.SIZE) == size
-		showTable(data)
-	end
-	
-	fh:close()
-end
+--function Operations.loadCAT( filename )
+--	local vol, path, name, ext = parseFileName( filename )
+--	path = vol..path..'/'
+--
+--	local fh = assert(io.open(filename, "rb"))
+--	if not fh then
+--		return
+--	end
+--	
+--	local done = false
+--	local size = fileSize( filename )
+--	
+--	while not done do
+--		local data = readData( fh, CATStruct )
+--		done = (data ~= nil) and (data.OFFSET + data.SIZE) == size
+--		showTable(data)
+--	end
+--	
+--	fh:close()
+--end
 
 
 --1      2        Height         Image height (Big endian)
@@ -173,67 +186,67 @@ LBMHeader[12] = { PAGEHEIGHT 	= "WORD_BE"	}
 
 
 
-function Operations.loadLBM( filename )
-	iff = IFFLib:new()
-	iff:LoadIFFFile( filename )
-	
-	local form = iff:FindForm("PBM ")
-	
-	if not form:IsOk() then
-		print("PBM form not found!")
-		return
-	end
-	
-	local header = iff:FindChunk("BMHD", form)
-	local colorMap = iff:FindChunk("CMAP", form)
-	local body = iff:FindChunk("BODY", form)
-	
-	if not header:IsOk()  then
-		print "BMHD not loaded!"
-		return
-	end
-	
-	if not colorMap:IsOk()  then
-		print "CMAP not loaded!"
-		return
-	end
-	
-	if not body:IsOk()  then
-		print "BODY not loaded!"
-		return
-	end
-		
-	local info = readDataFromBuffer( iff:ReadChunkData(header), LBMHeader )
-	
-	showTable(info)
-	
-	
-	local palBuf = iff:ReadChunkData(colorMap)
-	local imgBuf = iff:ReadChunkData(body)
-	
-	
-	
-	local size = info.WIDTH * info.HEIGHT
-	local image = ImageInfo:new()
-	local pal = Palette:new()
-	
-	if pal:Initiate( Palette.bpp8, palBuf, Palette.sfPlain, false ) then
-		if not image:SetPalette( pal ) then
-			print "loadLBM error: can't set Palette."
-			return
-		end
-	end
-		
-	local mask = IndexMask:new()
-	mask:SetMask( unpackLBMBody(imgBuf, size), size, info.WIDTH, info.HEIGHT, -1, -1)
-	if mask:IsOk() then
-		image:SetImage( mask )
-		editImage( image )
-	else
-		print("loadLBM error: There was an error while initiating IndexMask")
-	end
-	
-end
+--function Operations.loadLBM( filename )
+--	iff = IFFLib:new()
+--	iff:LoadIFFFile( filename )
+--	
+--	local form = iff:FindForm("PBM ")
+--	
+--	if not form:IsOk() then
+--		print("PBM form not found!")
+--		return
+--	end
+--	
+--	local header = iff:FindChunk("BMHD", form)
+--	local colorMap = iff:FindChunk("CMAP", form)
+--	local body = iff:FindChunk("BODY", form)
+--	
+--	if not header:IsOk()  then
+--		print "BMHD not loaded!"
+--		return
+--	end
+--	
+--	if not colorMap:IsOk()  then
+--		print "CMAP not loaded!"
+--		return
+--	end
+--	
+--	if not body:IsOk()  then
+--		print "BODY not loaded!"
+--		return
+--	end
+--		
+--	local info = readDataFromBuffer( iff:ReadChunkData(header), LBMHeader )
+--	
+--	showTable(info)
+--	
+--	
+--	local palBuf = iff:ReadChunkData(colorMap)
+--	local imgBuf = iff:ReadChunkData(body)
+--	
+--	
+--	
+--	local size = info.WIDTH * info.HEIGHT
+--	local image = ImageInfo:new()
+--	local pal = Palette:new()
+--	
+--	if pal:Initiate( Palette.bpp8, palBuf, Palette.sfPlain, false ) then
+--		if not image:SetPalette( pal ) then
+--			print "loadLBM error: can't set Palette."
+--			return
+--		end
+--	end
+--		
+--	local mask = IndexMask:new()
+--	mask:SetMask( unpackLBMBody(imgBuf, size), size, info.WIDTH, info.HEIGHT, -1, -1)
+--	if mask:IsOk() then
+--		image:SetImage( mask )
+--		editImage( image )
+--	else
+--		print("loadLBM error: There was an error while initiating IndexMask")
+--	end
+--	
+--end
 
 
 function Xcom.executeModuleMenuCommand( command )

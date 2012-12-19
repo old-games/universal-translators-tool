@@ -10,15 +10,14 @@
 #define PALWDINWOIMPL_H_INCLUDED
 
 
+#include "simplegui.h"
+
 // forward declarations
 class PalettePanel;
 
 
 
-
-
-class PaletteWindowImpl :
-	public PaletteWindowGui
+class PaletteWindowImpl: public PaletteWindowGui
 {
 public:
 	PaletteWindowImpl( wxWindow* parent );

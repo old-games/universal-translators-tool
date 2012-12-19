@@ -49,6 +49,7 @@ bool Lua::Init()
 
 	gLuaState = new OOLUA::Script();
 	CommonRegister();
+	OriginRegister();
 	PaletteRegister();
 	IndexMaskRegister();
 	FontRegister();

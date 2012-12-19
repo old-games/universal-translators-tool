@@ -72,3 +72,12 @@ Palette* EditorRebuildDataEvent::GetPalette()
 {
 	return static_cast<Palette*>(mData);
 }
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
+wxDEFINE_EVENT( uttEVT_ADDAUIWINDOW, AddAUIWindowEvent );
+IMPLEMENT_DYNAMIC_CLASS(AddAUIWindowEvent, wxEvent)

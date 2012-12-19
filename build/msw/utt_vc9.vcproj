@@ -285,6 +285,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\gui\palholderctrl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\palholderctrl.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\palwindowimpl.cpp"
 				>
 			</File>
@@ -462,6 +470,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\luaexports\lualibtree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luaorigin.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luaorigin.h"
 				>
 			</File>
 			<File

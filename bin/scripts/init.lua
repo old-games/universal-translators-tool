@@ -26,7 +26,8 @@ end
 
 
 initModules()
-CurrentModule =UTTModules['xcom']	-- set it to nil for module selection on program start
+
+CurrentModule = nil -- UTTModules['xcom']	-- set it to nil for module selection on program start
 
 
 -- returns current active module
@@ -86,6 +87,12 @@ end
 
 
 
+function doModuleCommand( command )
+	CurrentModule[command]()
+end
+
+
+
 -- returns list of files extensions that are allowed to open
 function getExtensions()
 	if CurrentModule ~= nil then
@@ -114,6 +121,7 @@ function selectVersion( fileName )
 end
 
 
+
 -- command Select Module from main menu
 function selectModule()
 	-- we will allow user to select only succesfully loaded module
@@ -135,12 +143,31 @@ end
 
 
 
--- set current module to any correct value to avoid module selection dialog on start/restart
-if CurrentModule == nil then
-	selectModule()
-else
+function setCurrentModule( moduleName )
+	print ("setCurrentModule: ", moduleName)
+	CurrentModule = UTTModules[ moduleName ]
 	setModuleReady()
 end
+
+
+
+function setModuleVersion( versionName )
+	print ("setModuleVersion: ", versionName)
+	if CurrentModule ~= nil and CurrentModule.setVersion ~= nil then
+		if CurrentModule.setVersion( versionName ) then 
+			setModuleReady()
+		end
+	end
+end
+
+
+
+-- set current module to any correct value to avoid module selection dialog on start/restart
+--if CurrentModule == nil then
+--	selectModule()
+--else
+--	setModuleReady()
+--end
 
 
 

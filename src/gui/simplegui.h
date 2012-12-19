@@ -27,6 +27,8 @@
 #include <wx/combobox.h>
 #include <wx/dialog.h>
 #include <wx/statbox.h>
+#include <wx/spinctrl.h>
+#include <wx/checkbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -35,6 +37,19 @@
 #define wxID_SCROLLRIGHT_BTN 2002
 #define wxID_CREATE_PROJECT_DLG 2003
 #define wxID_SELECT_MODULE_ID 2004
+#define wxID_LR_SPIN 2005
+#define wxID_LG_SPIN 2006
+#define wxID_LB_SPIN 2007
+#define wxID_LI_SPIN 2008
+#define wxID_RB_SPIN 2009
+#define wxID_RR_SPIN 2010
+#define wxID_RG_SPIN 2011
+#define wxID_RI_SPIN 2012
+#define wxID_PAL_CHOICE 2013
+#define wxID_CGA_CHOICE 2014
+#define wxID_INTENSITY_CHECK 2015
+#define wxID_PALLOCK_CHECK 2016
+#define wxID_HEX_CHECK 2017
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class BitmapRibbonGui
@@ -129,6 +144,73 @@ class SelectModuleGui : public wxDialog
 		
 		SelectModuleGui( wxWindow* parent, wxWindowID id = wxID_SELECT_MODULE_ID, const wxString& title = wxT("Select Lua module:"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 307,106 ), long style = wxCAPTION|wxCLOSE_BOX|wxSYSTEM_MENU ); 
 		~SelectModuleGui();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class PaletteWindowGui
+///////////////////////////////////////////////////////////////////////////////
+class PaletteWindowGui : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticBoxSizer* mPalHolder;
+		wxStaticText* m_staticText15;
+		wxSpinCtrl* mLRSpin;
+		wxStaticText* m_staticText16;
+		wxSpinCtrl* mLGSpin;
+		wxStaticText* m_staticText17;
+		wxSpinCtrl* mLBSpin;
+		wxStaticText* m_staticText22;
+		wxSpinCtrl* mLISpin;
+		wxStaticText* m_staticText18;
+		wxSpinCtrl* mRBSpin;
+		wxStaticText* m_staticText19;
+		wxSpinCtrl* mRRSpin;
+		wxStaticText* m_staticText20;
+		wxSpinCtrl* mRGSpin;
+		wxStaticText* m_staticText221;
+		wxSpinCtrl* mRISpin;
+		wxStaticText* m_staticText13;
+		wxComboBox* mPalType;
+		wxStaticText* m_staticText14;
+		wxComboBox* mCGAType;
+		wxCheckBox* mCGAIntensity;
+		wxCheckBox* mLockCheck;
+		wxCheckBox* mHexCheck;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnSpinCtrl( wxSpinEvent& event ) { event.Skip(); }
+		virtual void OnCommandEvent( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		PaletteWindowGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,300 ), long style = wxTAB_TRAVERSAL ); 
+		~PaletteWindowGui();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class PaletteHolderGui
+///////////////////////////////////////////////////////////////////////////////
+class PaletteHolderGui : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxFlexGridSizer* mPalHolderSizer;
+		wxButton* mPalHideBtn;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnPalHideBtnClick( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		PaletteHolderGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,25 ), long style = wxTAB_TRAVERSAL ); 
+		~PaletteHolderGui();
 	
 };
 

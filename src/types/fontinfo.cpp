@@ -33,7 +33,7 @@ FontInfo::FontInfo():
 	mBPP( Palette::bppMono ),
 	mFontCodePage( 0 ),
 	mPalette( NULL ),
-	mOrigin( Origin::Unknown )
+	mOrigin()
 {
 }
 
@@ -250,3 +250,18 @@ bool FontInfo::SetPalette(Palette* pal)
 
 	return res;
 }
+
+
+
+void FontInfo::SetOrigin( const Origin* origin )
+{
+	mOrigin = Origin(*origin);
+}
+
+
+
+const Origin* FontInfo::GetOrigin() const
+{
+	return &mOrigin;
+}
+

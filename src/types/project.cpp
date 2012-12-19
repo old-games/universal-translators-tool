@@ -17,6 +17,8 @@
 #include "gui/palwindowimpl.h"
 #include "gui/libwindowimpl.h"
 
+wxWindow* Project::sParentWindow = NULL;
+
 const wxString sCommandNames[iecNum] = 
 {
 	"Import",
@@ -31,6 +33,7 @@ const int		PROJECTVERSION = 0x100;
 
 Project::Project():
 	IStateStore( PROJECTNAME, PROJECTVERSION ),
+	wxEvtHandler(),
 	mChanged( false ),
 	mProjectName( wxEmptyString ),
 	mModuleName( wxEmptyString ),
@@ -39,12 +42,14 @@ Project::Project():
 	mProjectFileName( wxEmptyString ),
 	mEditors()
 {
+	wxTheApp->Bind(uttEVT_CHANGEFONT, &Project::OnChangeFontEvent, this);
 }
 
 
 	
 Project::Project( const Project& other ):
 	IStateStore( PROJECTNAME, PROJECTVERSION ),
+	wxEvtHandler(),
 	mChanged( other.mChanged ),
 	mProjectName( other.mProjectName ),
 	mModuleName( other.mModuleName ),
@@ -89,6 +94,7 @@ int Project::CheckChanged()
 		}
 
 	}
+
 	return res;
 }
 
@@ -111,11 +117,37 @@ bool Project::CreateProject( const wxString& fullPath, const wxString& module, c
 
 	mProjectName = name;
 	mProjectFileName = fullPath;
+	SetActiveModule( module, version );
+	mLastDir = vol + wxFileName::GetVolumeSeparator( wxPATH_NATIVE ) + path;
+	return SaveProject();
+}
+
+
+
+bool Project::SetActiveModule()
+{
+	bool res = Lua::Get().call( "setCurrentModule", mModuleName.ToStdString() );
+	
+	if (res && !mModuleVersion.IsEmpty())
+	{
+		res = Lua::Get().call( "setModuleVersion", mModuleVersion.ToStdString() );
+	}
+
+	if (!res)
+	{
+		wxLogError("Project::SetActiveModule: can't set up module %s (version %s)", mModuleName, mModuleVersion);
+	}
+
+	return res;
+}
+
+
+
+bool Project::SetActiveModule( const wxString& module, const wxString& version )
+{
 	mModuleName = module;
 	mModuleVersion = version;
-	mLastDir = vol + wxFileName::GetVolumeSeparator( wxPATH_NATIVE ) + path;
-
-	return SaveProject();
+	return SetActiveModule();
 }
 
 
@@ -128,6 +160,22 @@ bool Project::SaveProject()
 	{
 		mChanged = false;
 		result = true;
+	}
+
+	return result;
+}
+
+
+
+bool Project::LoadProject( const wxString& fullPath )
+{
+	bool result = false;
+
+	if ( CheckChanged() )
+	{
+		result = LoadFromFile( fullPath );
+		mProjectFileName = fullPath;
+		SetActiveModule();
 	}
 
 	return result;
@@ -158,7 +206,7 @@ bool Project::Do( IECommands what, EditorType who )
 {
 	wxString command = GetFunctionName(what, who);
 
-	bool result = Lua::Get().call( command.ToStdString() );
+	bool result = Lua::Get().call( "doModuleCommand", command.ToStdString() );
 
 	if ( !result )
 	{
@@ -245,6 +293,24 @@ bool Project::LoadEditors( wxInputStream& input )
 
 
 
+void Project::CreateFontEditor( FontInfo* info )
+{
+	FontEditor* fe = new FontEditor( sParentWindow );
+	AddEditorWindow( fe, fe, "Font editor" );
+	fe->SetFont(info);
+}
+
+
+
+void Project::AddEditorWindow( wxWindow* wnd, IEditor* editor, const wxString& name )
+{
+	AddAUIWindowEvent* event = new AddAUIWindowEvent(wnd, name); 
+	wxTheApp->QueueEvent( event );
+	mEditors.push_back( editor );
+}
+
+
+
 /* virtual */ bool Project::SaveState( wxOutputStream& output )
 {
 	bool res = SaveString( output, mProjectName ) &&
@@ -273,4 +339,12 @@ bool Project::LoadEditors( wxInputStream& input )
 	res = LoadEditors( input );
 
 	return res;
+}
+
+
+
+/* virtual */ void Project::OnChangeFontEvent( ChangeFontEvent& event )
+{
+	CreateFontEditor( event.GetFontInfo() );
+	event.Skip();
 }

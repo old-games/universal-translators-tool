@@ -13,6 +13,7 @@
 #include "types/fontinfo.h"
 #include "gui/fonteditimpl.h"
 #include "luapalette.h"
+#include "luaorigin.h"
 #include "luaindexmask.h"
 
 namespace Lua
@@ -49,6 +50,9 @@ OOLUA_CLASS_NO_BASES( FontInfo )
 	OOLUA_MEM_FUNC_5( void, AddSymbolFromBuf, const wxByte*, int, int, int, int )
 	OOLUA_MEM_FUNC_3( void, AddSymbolIndexed, IndexMask*, int, int )
 	OOLUA_MEM_FUNC_1( bool, SetPalette, Palette* )
+
+	OOLUA_MEM_FUNC_1( void, SetOrigin, const Origin* )
+	OOLUA_MEM_FUNC_0_CONST( const Origin*, GetOrigin )
 
 OOLUA_CLASS_END
 
