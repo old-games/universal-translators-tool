@@ -190,6 +190,12 @@
     <ClCompile Include="..\..\src\gui\createdlgimpl.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\luaexports\luaorigin.cpp">
+      <Filter>luaexports</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\palholderctrl.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\helpers.h">
@@ -355,6 +361,12 @@
       <Filter>algorithms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\gui\createdlgimpl.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\luaexports\luaorigin.h">
+      <Filter>luaexports</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\palholderctrl.h">
       <Filter>gui</Filter>
     </ClInclude>
   </ItemGroup>

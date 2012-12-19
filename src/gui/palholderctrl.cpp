@@ -38,12 +38,12 @@ void PaletteHolderCtrl::UpdateState()
 	if (mPaletteCtrl->IsShown())
 	{
 		mPalHolderSizer->Add( mPaletteCtrl, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
-		size += mPaletteCtrl->GetBestFittingSize();
+		size += mPaletteCtrl->GetMinSize();
 	}
 	else
 	{
 		mPalHolderSizer->Detach( (wxWindow*) mPaletteCtrl  );
-		size -= mPaletteCtrl->GetBestFittingSize();
+		size -= mPaletteCtrl->GetMinSize();
 	}
 
 	this->SetSize(size);

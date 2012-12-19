@@ -86,7 +86,9 @@ MainFrameImpl::MainFrameImpl(void):
 	m_mgr.Update();
 	UpdateMenuStates();
 
-	Project::sParentWindow = this;
+	wxWindow* hiddenPanel = new wxWindow( this, wxID_ANY );	// this is hack for new windows creating
+	hiddenPanel->Hide();					// if parent is hidden - no flickering on window construction
+	Project::sParentWindow = hiddenPanel;	// MainFrame will delete it automatically on exit
 }
 
 

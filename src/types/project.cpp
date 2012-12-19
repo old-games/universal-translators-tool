@@ -33,7 +33,7 @@ const int		PROJECTVERSION = 0x100;
 
 Project::Project():
 	IStateStore( PROJECTNAME, PROJECTVERSION ),
-	wxEvtHandler(),
+	//wxEvtHandler(),
 	mChanged( false ),
 	mProjectName( wxEmptyString ),
 	mModuleName( wxEmptyString ),
@@ -49,7 +49,7 @@ Project::Project():
 	
 Project::Project( const Project& other ):
 	IStateStore( PROJECTNAME, PROJECTVERSION ),
-	wxEvtHandler(),
+	//wxEvtHandler(),
 	mChanged( other.mChanged ),
 	mProjectName( other.mProjectName ),
 	mModuleName( other.mModuleName ),

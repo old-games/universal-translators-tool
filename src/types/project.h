@@ -25,7 +25,7 @@ extern const wxString sCommandNames[iecNum];
 
 
 
-class Project: public IStateStore, public wxEvtHandler
+class Project: public IStateStore//, public wxEvtHandler
 {
 public:
 

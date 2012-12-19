@@ -208,7 +208,7 @@ void LuaConsole::LoadHistory()
     }
     mHistoryCounter = mCommands.size();
     file.Close();
-    wxLogDebug(wxString::Format( "LuaConsole::LoadHistory() ok! %d commands loaded.", mCommands.size()) );
+    wxLogDebug(wxString::Format( "LuaConsole::LoadHistory() ok! %d commands loaded.", (wxUint32) mCommands.size()) );
 }
 
 void LuaConsole::SaveHistory()

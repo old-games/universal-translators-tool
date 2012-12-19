@@ -350,29 +350,29 @@ PaletteWindowGui::PaletteWindowGui( wxWindow* parent, wxWindowID id, const wxPoi
 	
 	m_staticText13 = new wxStaticText( this, wxID_ANY, wxT("Palette type:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText13->Wrap( -1 );
-	fgSizer111->Add( m_staticText13, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	fgSizer111->Add( m_staticText13, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxALIGN_RIGHT, 5 );
 	
 	mPalType = new wxComboBox( this, wxID_PAL_CHOICE, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
-	fgSizer111->Add( mPalType, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	fgSizer111->Add( mPalType, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5 );
 	
 	
 	fgSizer111->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	m_staticText14 = new wxStaticText( this, wxID_ANY, wxT("Set of CGA colours:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText14->Wrap( -1 );
-	fgSizer111->Add( m_staticText14, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	fgSizer111->Add( m_staticText14, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxALIGN_RIGHT, 5 );
 	
 	mCGAType = new wxComboBox( this, wxID_CGA_CHOICE, wxEmptyString, wxDefaultPosition, wxSize( 90,-1 ), 0, NULL, wxCB_READONLY ); 
-	fgSizer111->Add( mCGAType, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	fgSizer111->Add( mCGAType, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5 );
 	
 	mCGAIntensity = new wxCheckBox( this, wxID_INTENSITY_CHECK, wxT("CGA intensity"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer111->Add( mCGAIntensity, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5 );
 	
 	mLockCheck = new wxCheckBox( this, wxID_PALLOCK_CHECK, wxT("Read only"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer111->Add( mLockCheck, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	fgSizer111->Add( mLockCheck, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	mHexCheck = new wxCheckBox( this, wxID_HEX_CHECK, wxT("Hex values"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer111->Add( mHexCheck, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	fgSizer111->Add( mHexCheck, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	fgSizer111->Add( 0, 0, 1, wxEXPAND, 5 );

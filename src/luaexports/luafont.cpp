@@ -60,8 +60,8 @@ int editFont(lua_State *L)
 	FontInfo* fontInfo;
 	OOLUA::pull2cpp(L, fontInfo);
 	
-	ChangeFontEvent fontEvent/* = new ChangeFontEvent*/( fontInfo );
-	wxTheApp->ProcessEvent( fontEvent );
+	ChangeFontEvent* fontEvent = new ChangeFontEvent( fontInfo );
+	wxTheApp->QueueEvent( fontEvent );
 	return 0;
 }
 

@@ -191,9 +191,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\gui\createdlgimpl.cpp" />
+    <ClCompile Include="..\..\src\gui\palholderctrl.cpp" />
     <ClCompile Include="..\..\src\helpers.cpp" />
     <ClCompile Include="..\..\src\luaconsole.cpp" />
     <ClCompile Include="..\..\src\luacontrol.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luaorigin.cpp" />
     <ClCompile Include="..\..\src\utt.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug x64|Win32'">Create</PrecompiledHeader>
@@ -257,9 +259,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\gui\createdlgimpl.h" />
+    <ClInclude Include="..\..\src\gui\palholderctrl.h" />
     <ClInclude Include="..\..\src\helpers.h" />
     <ClInclude Include="..\..\src\luaconsole.h" />
     <ClInclude Include="..\..\src\luacontrol.h" />
+    <ClInclude Include="..\..\src\luaexports\luaorigin.h" />
     <ClInclude Include="..\..\src\pch.h" />
     <ClInclude Include="..\..\src\utt.h" />
     <ClInclude Include="..\..\src\gui\bmpribbonctrl.h" />
