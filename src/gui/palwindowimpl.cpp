@@ -20,6 +20,9 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 	mPalPanel( NULL ),
 	mPalette( NULL )
 {
+	mPalette = new Palette();
+	mPalette->Initiate( Palette::bppMono, (wxByte*) NULL );
+
 	mPalPanel = new PalettePanel( this, mPalette, true );
 	mPalHolder->Add( mPalPanel, 1, wxEXPAND, 5 );
 
@@ -35,9 +38,10 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 	}
 	mCGAType->SetSelection(0);
 
-	//PalTypeChanged();
-	//mPalScrolledBack->Bind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
-	//wxTheApp->Bind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this );
+	PaletteChanged();
+
+	this->Bind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
+	wxTheApp->Bind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this, parent->GetId() );
 
 	this->SetSpinsBase();
 }
@@ -47,7 +51,7 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 PaletteWindowImpl::~PaletteWindowImpl(void)
 {
 	this->Unbind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
-	wxTheApp->Unbind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this );
+	wxTheApp->Unbind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this, this->GetParent()->GetId() );
 }
 
 
@@ -251,6 +255,17 @@ bool PaletteWindowImpl::CheckLocked()
 
 
 
+void PaletteWindowImpl::PaletteChanged()
+{
+	mPalType->SetSelection( mPalette->GetPalType() );
+	mCGAType->SetSelection( mPalette->GetCGAType() );
+	mCGAIntensity->SetValue( mPalette->GetIntensity() );
+	PalTypeChanged();
+}
+
+
+
+
 /* virtual */ void PaletteWindowImpl::OnCommandEvent( wxCommandEvent& event )
 {
 	switch( event.GetId() )
@@ -314,20 +329,38 @@ bool PaletteWindowImpl::CheckLocked()
 {
 	if (CheckLocked() )
 	{
-
 		Palette* oldPal = mPalette;
 		mPalette = event.GetPalette()->Clone();
 		delete oldPal;
 		this->Lock( event.GetLock() );
-
-		//if ( ownerToRecalc )
-		//{
-		//	EditorRebuildDataEvent* rebuildEvent = new EditorRebuildDataEvent( 
-		//									PalOwners::OwnerID[owner], 
-		//									EditorRebuildDataEvent::whPaletteChanged,
-		//									mPalettes[owner] );
-		//	wxTheApp->QueueEvent( rebuildEvent );
-		//}
+		PaletteChanged();
 	}
+	event.Skip();
+}
+
+
+
+/* virtual */ void PaletteWindowImpl::OnColourPickEvent( ColourPickEvent& event )
+{
+	if ( event.GetButton() != wxMOUSE_BTN_LEFT && event.GetButton() != wxMOUSE_BTN_RIGHT )
+	{
+		return;
+	}
+
+	/*bool right = event.GetButton() == wxMOUSE_BTN_RIGHT;
+	switch ( event.GetAction() )
+	{
+		case ColourPickEvent::cpeSetThisColour:
+			mPalWindow->SetColour(right, event.GetColour() );
+		break;
+
+		case ColourPickEvent::cpeFindThisColour:
+			mPalWindow->FindColour(right, event.GetColour(), true );
+		break;
+
+		default:
+			wxLogError( wxString::Format( "MainFrameImpl::OnColourPickEvent: unknown action %d", event.GetAction() ) );
+			return;
+	}*/
 	event.Skip();
 }

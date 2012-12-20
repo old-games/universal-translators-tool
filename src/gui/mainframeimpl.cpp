@@ -28,10 +28,6 @@ MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
 	mHelpController( NULL ),
 	mCurrentProject( NULL )
-	//mFontEditor( new FontEditor( mAUINotebook ) ),
-	//mEditWindow( new ImageEditor( mAUINotebook, wxID_IMAGEEDITOR ) ),
-	//mPalWindow( new PaletteWindowImpl( mAUINotebook ) ),
-	//mLibWindow( new LibraryPanel( mAUINotebook ) )
 {
 	
 	COMMAND->SetEditMenu( mEditMenu );
@@ -44,11 +40,6 @@ MainFrameImpl::MainFrameImpl(void):
 					wxAUI_MGR_HINT_FADE				|
 					wxAUI_MGR_LIVE_RESIZE              );
 
-
-	//this->AddPane(mFontEditor, "Font editor");
-	//this->AddPane(mEditWindow, "Image editor");
-	//this->AddPane(mPalWindow, "Palette window");
-	//this->AddPane(mLibWindow, "Library");
 
 //		wxBMPHandler: For loading (including alpha support) and saving, always installed.
 //		wxPNGHandler: For loading and saving. Includes alpha support.
@@ -78,10 +69,8 @@ MainFrameImpl::MainFrameImpl(void):
 	this->Bind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
 	this->Bind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
 
-	//mEditWindow->GetEditPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
-	//mFontEditor->GetSymbolPanel()->Bind( uttEVT_COLOURPICK, &MainFrameImpl::OnColourPickEvent, this );
 	wxTheApp->Bind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
-	wxTheApp->Bind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAddRemoveWindow, this );
+	wxTheApp->Bind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAUIWindowEvent, this );
 
 	m_mgr.Update();
 	UpdateMenuStates();
@@ -95,37 +84,10 @@ MainFrameImpl::MainFrameImpl(void):
 
 MainFrameImpl::~MainFrameImpl(void)
 {
-	wxTheApp->Unbind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAddRemoveWindow, this );
+	wxTheApp->Unbind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAUIWindowEvent, this );
 	wxTheApp->Unbind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
 	this->Unbind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
 	this->Unbind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
-}
-
-
-
-void MainFrameImpl::OnColourPickEvent( ColourPickEvent& event )
-{
-	if ( event.GetButton() != wxMOUSE_BTN_LEFT && event.GetButton() != wxMOUSE_BTN_RIGHT )
-	{
-		return;
-	}
-
-	/*bool right = event.GetButton() == wxMOUSE_BTN_RIGHT;
-	switch ( event.GetAction() )
-	{
-		case ColourPickEvent::cpeSetThisColour:
-			mPalWindow->SetColour(right, event.GetColour() );
-		break;
-
-		case ColourPickEvent::cpeFindThisColour:
-			mPalWindow->FindColour(right, event.GetColour(), true );
-		break;
-
-		default:
-			wxLogError( wxString::Format( "MainFrameImpl::OnColourPickEvent: unknown action %d", event.GetAction() ) );
-			return;
-	}*/
-	event.Skip();
 }
 
 
@@ -140,7 +102,15 @@ void MainFrameImpl::OnModuleChanged( ModuleChangedEvent& event )
 
 void MainFrameImpl::AddPane( wxWindow* wnd, const wxString& name )
 {
-	mAUINotebook->AddPage( wnd, name );
+	if (wnd)
+	{
+		wnd->Reparent(this);
+		m_mgr.AddPane( wnd, wxAuiPaneInfo().Show().Name(wxString::Format("%s_%X", name, (wxUint32) wnd)).\
+			Caption(name).
+			Left().PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).DockFixed( false ) );
+		m_mgr.Update();
+		UpdateMenuStates();
+	}
 }
 
 
@@ -168,7 +138,6 @@ void MainFrameImpl::Init()
 
 void MainFrameImpl::Deinit()
 {
-	CloseProject( true );
 	ImageInfo::Done();
 
 	if (mHelpController)
@@ -291,6 +260,29 @@ void MainFrameImpl::CreateNewProject()
 
 
 
+void MainFrameImpl::DoSaveProject( bool saveAs /* false */)
+{
+	if (!mCurrentProject)
+	{
+		return;
+	}
+
+	wxString projName = mCurrentProject->GetProjectFileName();
+	if (saveAs)
+	{
+		wxFileDialog dlg( this, "Save project as...", wxEmptyString, projName, PROJECT_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+
+		if (dlg.ShowModal() != wxID_OK)
+		{
+			return;
+		}
+		
+		projName = dlg.GetPath();
+	}
+
+	mCurrentProject->SaveProject( projName );
+}
+
 void MainFrameImpl::DoModuleChanged()
 {
 	if ( !Lua::Get().call( "getModuleName" ) )
@@ -378,7 +370,7 @@ void MainFrameImpl::UpdateMenuStates()
 
 	mMainToolBar->EnableTool( wxID_SAVE_PROJECT, projectChanged );
 	mFileMenu->Enable( wxID_SAVE_PROJECT,  projectChanged );
-	mFileMenu->Enable( wxID_SAVE_PROJECT_AS,  projectChanged );
+	mFileMenu->Enable( wxID_SAVE_PROJECT_AS,  projectActive );
 
 
 
@@ -441,6 +433,11 @@ void MainFrameImpl::OnShow( wxShowEvent& event )
 
 void MainFrameImpl::OnClose( wxCloseEvent& event )
 {
+	if ( !CloseProject() )
+	{
+		event.Veto();
+		return;
+	}
 	this->Deinit();
 	event.Skip();
 }
@@ -479,6 +476,14 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 
 		case wxID_NEW_PROJECT:
 			CreateNewProject();
+		break;
+
+		case wxID_SAVE_PROJECT:
+			DoSaveProject();
+		break;
+
+		case wxID_SAVE_PROJECT_AS:
+			DoSaveProject( true );
 		break;
 
 		case wxID_FILE_QUIT:
@@ -572,36 +577,35 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 
 
 
-void MainFrameImpl::OnAddRemoveWindow( AddAUIWindowEvent& event )
+void MainFrameImpl::OnAUIWindowEvent( AUIWindowEvent& event )
 {
 	wxWindow* wnd = event.GetWindow();
-	if (wnd == NULL)
+
+	switch (event.GetCommand())
 	{
-		return;
-	}
+		case AUIWindowEvent::AddWindow:
+			AddPane( wnd, event.GetName() );
+		break;
 
-	if (event.DoAdd())
-	{
-		m_mgr.AddPane( wnd, wxAuiPaneInfo() .Left() .PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).DockFixed( false ) );
-	}
-	else
-	{
-		m_mgr.DetachPane( wnd );
-	}
+		case AUIWindowEvent::RemoveWindow:
+			if (wnd)
+			{
+				m_mgr.DetachPane( wnd );
+			}
+		break;
 
-	m_mgr.Update();
-}
-
-
-
-/* virtual */ void MainFrameImpl::OnPageChanged( wxAuiNotebookEvent& event )
-{
-	wxWindow* wnd = mAUINotebook->GetPage( event.GetSelection() );
-	if (wnd)
-	{
+		case AUIWindowEvent::UpdateManager:
+			m_mgr.Update();
+			if ( wnd )
+			{
+				m_mgr.GetPane(wnd).FloatingSize( wnd->GetSize() );
+				wnd->SendSizeEvent();
+			}
+		break;
 		
+		case AUIWindowEvent::RenameWindow:
+			m_mgr.GetPane(event.GetWindow()).Name( event.GetName() );
+		break;
 	}
-	event.Skip();
 }
-
 

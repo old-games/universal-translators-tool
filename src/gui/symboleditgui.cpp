@@ -16,7 +16,7 @@
 
 
 SymbolEditGui::SymbolEditGui(  wxWindow* parent ):
-	ImageEditor( parent, wxID_ANY ),
+	ImageEditor( parent ),
 	mSymbolPanel( new SymbolPanel( this ) )
 {
 	ImageEditor::SetEditPanel( mSymbolPanel );

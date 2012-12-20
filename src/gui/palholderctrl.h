@@ -14,7 +14,7 @@ class PaletteWindowImpl;
 class PaletteHolderCtrl: public PaletteHolderGui
 {
 public:
-	PaletteHolderCtrl( wxWindow* parent );
+	PaletteHolderCtrl( wxWindow* parent, wxWindow* grand, wxFlexGridSizer* parentSizer );
 	~PaletteHolderCtrl();
 
 
@@ -24,6 +24,8 @@ private:
 	void UpdateState();
 
 	PaletteWindowImpl*	mPaletteCtrl;
+	wxWindow*			mGrand;
+	wxFlexGridSizer*	mParentSizer;
 };
 
 #endif

@@ -37,8 +37,10 @@ public:
 	int CheckChanged();
 
 	bool CreateProject( const wxString& fullPath, const wxString& module, const wxString& version );
-	bool SaveProject();
+	bool SaveProject( const wxString& saveAs = wxEmptyString );
 	bool LoadProject( const wxString& fullPath );
+
+	const wxString& GetProjectFileName() const { return mProjectFileName; }
 
 	bool SetActiveModule();
 	bool SetActiveModule( const wxString& module, const wxString& version );
@@ -57,9 +59,10 @@ protected:
 	
 private:
 
+	void			BindEvents();
 	IEditor*		CreateEditor( EditorType who );
 	void			CreateFontEditor( FontInfo* info );
-	void			AddEditorWindow( wxWindow* wnd, IEditor* editor, const wxString& name );
+	void			AddEditorWindow( wxWindow* wnd, const wxString& wndName );
 
 	wxString		GetFunctionName( IECommands what, EditorType who );
 	bool			SaveEditors( wxOutputStream& output );

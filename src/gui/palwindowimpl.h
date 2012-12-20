@@ -35,9 +35,10 @@ protected:
 	virtual void OnCommandEvent( wxCommandEvent& event );
 	virtual void OnSpinCtrl( wxSpinEvent& event );
 	virtual void OnPaletteChangeEvent( ChangePaletteEvent& event );
-
+	virtual void OnColourPickEvent( ColourPickEvent& event );	
 private:
 
+	void PaletteChanged();
 	void SetSpinsBase();
 	void OnPaint( wxPaintEvent& event );
 	void PalTypeChanged();

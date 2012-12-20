@@ -37,10 +37,8 @@ FontEditor::FontEditor(  wxWindow* parent ):
 	mCentralSizer->Add( mSymbolEditor, 1, wxEXPAND, 5 );
 	this->Layout();
 	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
-	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, this->GetId() );
+	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, mSymbolsRibbon->GetId() );
 	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, this->GetId() );
-	wxWindowID id = GetSymbolPanel()->GetId();
-	//wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, id, this->GetId() );
 }
 
 
@@ -48,7 +46,7 @@ FontEditor::FontEditor(  wxWindow* parent ):
 FontEditor::~FontEditor(void)
 {
 	wxTheApp->Unbind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
-	wxTheApp->Unbind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, this->GetId() );
+	wxTheApp->Unbind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, mSymbolsRibbon->GetId() );
 	wxTheApp->Unbind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, this->GetId() );
 	ClearFont( true );
 }
@@ -211,7 +209,7 @@ void FontEditor::SetPaletteAsMain()
 	Palette* pal = mCurrentFont->GetPalette();
 	if ( pal && pal->IsOk() )
 	{
-		ChangePaletteEvent palEvent( this->GetId(), pal, true );
+		ChangePaletteEvent palEvent( mSymbolEditor->GetPaletteCtrlId(), pal, true );
 		wxTheApp->QueueEvent( palEvent.Clone() );
 	}
 }
@@ -220,14 +218,25 @@ void FontEditor::SetPaletteAsMain()
 
 /* virtual */ bool FontEditor::SaveEditor( wxOutputStream& output )
 {
-	return mCurrentFont->SaveToStream(output);
+	return mCurrentFont ? mCurrentFont->SaveToStream(output) : false;
 }
 
 
 
 /* virtual */ bool FontEditor::LoadEditor( wxInputStream& input )
 {
-	return mCurrentFont->LoadFromStream( input );
+	FontInfo* fontInfo = new FontInfo();
+	bool res = fontInfo->LoadFromStream( input );
+
+	if ( res )
+	{
+		SetFont( fontInfo );
+
+	}
+
+	delete fontInfo;
+
+	return res;
 }
 
 

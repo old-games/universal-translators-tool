@@ -18,7 +18,7 @@ class ChangeImageEvent;
 class ChangePaletteEvent;
 class SymbolSelectionEvent;
 class EditorRebuildDataEvent;
-class AddAUIWindowEvent;
+class AUIWindowEvent;
 
 
 
@@ -29,7 +29,7 @@ wxDECLARE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
 wxDECLARE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
 wxDECLARE_EVENT( uttEVT_REBUILDDATA, EditorRebuildDataEvent );
-wxDECLARE_EVENT( uttEVT_ADDAUIWINDOW, AddAUIWindowEvent );
+wxDECLARE_EVENT( uttEVT_ADDAUIWINDOW, AUIWindowEvent );
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -322,8 +322,8 @@ public:
 	
 
 
-    SymbolSelectionEvent(int key )
-        : wxEvent(0, uttEVT_SYMBOLSELECT),
+    SymbolSelectionEvent(int winid, int key )
+        : wxEvent(winid, uttEVT_SYMBOLSELECT),
 		mKey( key )
 	{ 
 	}
@@ -367,6 +367,7 @@ class EditorRebuildDataEvent : public wxEvent
 public:
 	enum WhatHappend
 	{
+		whEditColourChanged,
 		whPaletteChanged,
 		whIndexMaskChanged,
 		whNum
@@ -374,23 +375,27 @@ public:
 
     EditorRebuildDataEvent( )
         : wxEvent(0, uttEVT_REBUILDDATA),
-		mWhat( whNum )
+		mWhat( whNum ),
+		mData( NULL ),
+		mBool( false )
 	{ 	
 	}
 	
 
 
-    EditorRebuildDataEvent( int winid, WhatHappend what, void* data = NULL )
+    EditorRebuildDataEvent( int winid, WhatHappend what, void* data = NULL, bool additional = false )
         : wxEvent(winid, uttEVT_REBUILDDATA),
 		mWhat( what ),
-		mData( data )
+		mData( data ),
+		mBool( additional )
 	{ 
 	}
 	
     EditorRebuildDataEvent(const EditorRebuildDataEvent& event)
         : wxEvent(event),
 		mWhat( event.mWhat ),
-		mData( event.mData )
+		mData( event.mData ),
+		mBool(  event.mBool )
     { 
 	}
 
@@ -398,6 +403,8 @@ public:
   
 	int			GetWhat() { return mWhat; }
 	Palette*	GetPalette();
+	UttColour*  GetColour();
+	bool		GetBool() { return mBool; }
 
 protected:
 	
@@ -405,6 +412,7 @@ private:
 
 	WhatHappend		mWhat;
 	void*			mData;
+	bool			mBool;
 
 	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(EditorRebuildDataEvent)
 };
@@ -424,14 +432,22 @@ typedef void (wxEvtHandler::*EditorRebuildDataEventFunction)(EditorRebuildDataEv
 
 
 
-class AddAUIWindowEvent : public wxEvent
+class AUIWindowEvent : public wxEvent
 {
 public:
+	
+	enum
+	{
+		AddWindow,
+		RemoveWindow,
+		RenameWindow,
+		UpdateManager,
+		AUIEventNum
+	};
 
-
-	AddAUIWindowEvent( )
+	AUIWindowEvent( )
 		: wxEvent(0, uttEVT_ADDAUIWINDOW),
-		mAdd( true ),
+		mCommand( AUIEventNum ),
 		mWindow( NULL ),
 		mName( wxEmptyString )
 	{ 	
@@ -439,25 +455,25 @@ public:
 
 
 
-	AddAUIWindowEvent(wxWindow* wnd, const wxString& name, bool add = true)
+	AUIWindowEvent(int command, wxWindow* wnd = NULL, const wxString& name = wxEmptyString)
 		: wxEvent(0, uttEVT_ADDAUIWINDOW),
-		mAdd( add ),
+		mCommand( command ),
 		mWindow( wnd ),
 		mName( name )
 	{ 
 	}
 
-	AddAUIWindowEvent(const AddAUIWindowEvent& event)
+	AUIWindowEvent(const AUIWindowEvent& event)
 		: wxEvent(event),
-		mAdd( event.mAdd ),
+		mCommand( event.mCommand ),
 		mWindow( event.mWindow ),
 		mName( event.mName )
 	{ 
 	}
 
-	virtual wxEvent *Clone() const { return new AddAUIWindowEvent(*this); }
+	virtual wxEvent *Clone() const { return new AUIWindowEvent(*this); }
 
-	bool			DoAdd() const { return mAdd; }
+	int				GetCommand() const { return mCommand; }
 	wxWindow*		GetWindow() const { return mWindow; }
 	const wxString& GetName() const { return mName; }
 
@@ -465,14 +481,14 @@ protected:
 
 private:
 
-	bool		mAdd;
+	int			mCommand;
 	wxWindow*	mWindow;
 	wxString	mName;
 
-	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(AddAUIWindowEvent)
+	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(AUIWindowEvent)
 };
 
-typedef void (wxEvtHandler::*AddAUIWindowEventFunction)(AddAUIWindowEvent&);
+typedef void (wxEvtHandler::*AddAUIWindowEventFunction)(AUIWindowEvent&);
 
 
 
@@ -480,6 +496,10 @@ typedef void (wxEvtHandler::*AddAUIWindowEventFunction)(AddAUIWindowEvent&);
 	wxEVENT_HANDLER_CAST(AddAUIWindowEventFunction, func)
 
 #define EVT_ADDAUIWINDOW(func) wx__DECLARE_EVT0(uttEVT_ADDAUIWINDOW, AddAUIWindowEventHandler(func))
+
+
+
+//////////////////////////////////////////////////////////////////////////
 
 
 

@@ -27,7 +27,8 @@ IEditor::IEditor( wxWindow* parent, EditorType edtype, const wxString& name ):
 	mParent( parent ),
 	mEditorType( edtype ),
 	mChanged( false ),
-	mEditorName( name )
+	mEditorName( name ),
+	mEditorId(-1)
 {
 }
 
@@ -37,8 +38,16 @@ IEditor::IEditor( const IEditor& other ):
 	mParent( other.mParent ),
 	mEditorType( other.mEditorType ),
 	mChanged( other.mChanged ),
-	mEditorName( other.mEditorName )
+	mEditorName( other.mEditorName ),
+	mEditorId( other.mEditorId )
 {
+}
+
+
+
+wxString IEditor::CreateName()
+{
+	return wxString::Format("%s_%d", sEditorNames[mEditorType], (wxInt32) mEditorId);
 }
 
 

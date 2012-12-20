@@ -10,12 +10,9 @@
 #ifndef MAINFRAMEIMPL_H_INCLUDED
 #define MAINFRAMEIMPL_H_INCLUDED
 
-class FontEditor;
-class LogWindowImpl;
-class ImageEditor;
-class PaletteWindowImpl;
-class LibraryPanel;
 class Project;
+
+
 
 class MainFrameImpl:
 	public UttMainFrame
@@ -31,14 +28,13 @@ private:
 
 	virtual void OnClose( wxCloseEvent& event );
 	virtual void OnMenuSelect( wxCommandEvent& event );
-	virtual void OnPageChanged( wxAuiNotebookEvent& event );
 	void OnModuleMenuSelect( wxCommandEvent& event );
 
 	void OnIdle( wxIdleEvent& );
 	void OnShow( wxShowEvent& event );
 	void OnColourPickEvent( ColourPickEvent& event );
 	void OnModuleChanged( ModuleChangedEvent& event );
-	void OnAddRemoveWindow( AddAUIWindowEvent& event );
+	void OnAUIWindowEvent( AUIWindowEvent& event );
 
 	void AddPane( wxWindow* wnd, const wxString& name );
 
@@ -48,6 +44,7 @@ private:
 	void CreateNewProject();
 
 	void DoOpenProject();
+	void DoSaveProject( bool saveAs = false );
 	void DoSelectModule();
 	void DoSelectVersion();
 	void DoModuleChanged();
@@ -57,10 +54,6 @@ private:
 
 	wxHelpController*		mHelpController;
 	Project*				mCurrentProject;
-	FontEditor*				mFontEditor;
-	ImageEditor*			mEditWindow;
-	PaletteWindowImpl*		mPalWindow;
-	LibraryPanel*			mLibWindow;
 };
 
 #endif

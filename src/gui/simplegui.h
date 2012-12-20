@@ -45,11 +45,11 @@
 #define wxID_RR_SPIN 2010
 #define wxID_RG_SPIN 2011
 #define wxID_RI_SPIN 2012
-#define wxID_PAL_CHOICE 2013
-#define wxID_CGA_CHOICE 2014
-#define wxID_INTENSITY_CHECK 2015
-#define wxID_PALLOCK_CHECK 2016
-#define wxID_HEX_CHECK 2017
+#define wxID_PALLOCK_CHECK 2013
+#define wxID_HEX_CHECK 2014
+#define wxID_PAL_CHOICE 2015
+#define wxID_CGA_CHOICE 2016
+#define wxID_INTENSITY_CHECK 2017
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class BitmapRibbonGui
@@ -172,13 +172,13 @@ class PaletteWindowGui : public wxPanel
 		wxSpinCtrl* mRGSpin;
 		wxStaticText* m_staticText221;
 		wxSpinCtrl* mRISpin;
+		wxCheckBox* mLockCheck;
+		wxCheckBox* mHexCheck;
 		wxStaticText* m_staticText13;
 		wxComboBox* mPalType;
 		wxStaticText* m_staticText14;
 		wxComboBox* mCGAType;
 		wxCheckBox* mCGAIntensity;
-		wxCheckBox* mLockCheck;
-		wxCheckBox* mHexCheck;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnSpinCtrl( wxSpinEvent& event ) { event.Skip(); }
@@ -187,7 +187,7 @@ class PaletteWindowGui : public wxPanel
 	
 	public:
 		
-		PaletteWindowGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,300 ), long style = wxTAB_TRAVERSAL ); 
+		PaletteWindowGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,300 ), long style = wxTAB_TRAVERSAL ); 
 		~PaletteWindowGui();
 	
 };
@@ -209,7 +209,7 @@ class PaletteHolderGui : public wxPanel
 	
 	public:
 		
-		PaletteHolderGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,25 ), long style = wxTAB_TRAVERSAL ); 
+		PaletteHolderGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 400,25 ), long style = wxTAB_TRAVERSAL ); 
 		~PaletteHolderGui();
 	
 };

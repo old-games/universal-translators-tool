@@ -114,19 +114,8 @@ void PalettePanel::CorrectColourPosition( bool right )
 	{
 		pos.y = mBitmap->GetHeight() - 1;
 	}
+
 	GetBitmapColour( right );
-}
-
-
-
-void PalettePanel::SetGlobalColours()
-{
-	if (!mChangeGlobals)
-	{
-		return;
-	}
-	EditPanel::gGlobalLeftColour = mLeftColour;
-	EditPanel::gGlobalRightColour = mRightColour;
 }
 
 
@@ -145,7 +134,11 @@ void PalettePanel::GetBitmapColour( bool right )
 		this->GetPixel( pos , colour );
 	}
 	this->GetParent()->Refresh();
-	SetGlobalColours();
+
+
+	EditorRebuildDataEvent* event = new EditorRebuildDataEvent(this->GetGrandParent()->GetId(), 
+		EditorRebuildDataEvent::whEditColourChanged, &colour, right);
+	wxTheApp->QueueEvent( event );
 }
 
 

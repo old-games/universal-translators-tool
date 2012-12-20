@@ -16,7 +16,7 @@ class ImageEditor:
 	public EditPanelGui
 {
 public:
-	ImageEditor( wxWindow* parent, wxWindowID id );
+	ImageEditor( wxWindow* parent );
 	~ImageEditor(void);
 
 	void SetBitmap( wxBitmap* bitmap );
@@ -27,6 +27,7 @@ public:
 	}
 
 	void SetEditPanel( EditPanel* editPanel );
+	wxWindowID GetPaletteCtrlId() const { return mPaletteHolder->GetId(); }
 
 protected:
 

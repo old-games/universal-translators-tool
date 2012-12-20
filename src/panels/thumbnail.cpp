@@ -52,7 +52,7 @@ ThumbnailPanel::~ThumbnailPanel(void)
 
 	if (!up)
 	{
-		SymbolSelectionEvent event(mInfontNumber);
+		SymbolSelectionEvent event( GetParent()->GetId(), mInfontNumber);
 		wxTheApp->QueueEvent( event.Clone() );
 	}
 	return false;

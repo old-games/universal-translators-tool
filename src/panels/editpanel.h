@@ -50,9 +50,6 @@ public:
 		mAllowEdit = b;
 	}
 
-	static UttColour	gGlobalLeftColour;
-	static UttColour	gGlobalRightColour;
-
 protected:
 
 	virtual bool MouseButton( int btn, bool up );
@@ -71,6 +68,7 @@ protected:
 	bool DoPaste( const wxPoint& pos, const ImageInfo* img );
 	bool GetPixel( const wxPoint& pos, UttColour& color );
 
+	void SetEditColour( bool right, const UttColour& col );
 	virtual	PlacePixelCommand*	CreatePlacePixelCommand();
 
 	bool		mDrawing;
@@ -98,6 +96,10 @@ private:
 	UttColour	mCurrentColour;
 	wxPoint		mPreviousPoint;
 	bool		mAllowEdit;
+
+
+	UttColour	mLeftColour;
+	UttColour	mRightColour;
 
 };
 

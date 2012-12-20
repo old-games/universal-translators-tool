@@ -13,14 +13,14 @@
 
 
 
-PaletteHolderCtrl::PaletteHolderCtrl(  wxWindow* parent ):
-	PaletteHolderGui( parent )
-	//mPaletteCtrl(new PaletteWindowImpl( parent ))
+PaletteHolderCtrl::PaletteHolderCtrl(  wxWindow* parent, wxWindow* grand, wxFlexGridSizer* parentSizer ):
+	PaletteHolderGui( parent ),
+	mPaletteCtrl(new PaletteWindowImpl( this )),
+	mGrand( grand ),
+	mParentSizer( parentSizer )
 {
-	mPaletteCtrl = new PaletteWindowImpl( this );
 	mPaletteCtrl->Hide();
-//	mPalHolderSizer->Add( mPaletteCtrl, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
-
+	mPalHolderSizer->Add( mPaletteCtrl, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
 }
 
 
@@ -33,23 +33,17 @@ PaletteHolderCtrl::~PaletteHolderCtrl(void)
 
 void PaletteHolderCtrl::UpdateState()
 {
-	wxSize size = this->GetClientSize();
-
 	if (mPaletteCtrl->IsShown())
 	{
-		mPalHolderSizer->Add( mPaletteCtrl, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
-		size += mPaletteCtrl->GetMinSize();
+		mParentSizer->AddGrowableRow(2);
 	}
 	else
 	{
-		mPalHolderSizer->Detach( (wxWindow*) mPaletteCtrl  );
-		size -= mPaletteCtrl->GetMinSize();
+		mParentSizer->RemoveGrowableRow(2);
 	}
-
-	this->SetSize(size);
-	this->Layout();
-	//	wxSize size = mPaletteCtrl->IsShown() ? mPalHolderSizer->GetSize() : mPalHideBtn->GetSize();
-	//	this->SetSize(size);
+	mGrand->Layout();
+	//AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::UpdateManager, mGrand ); 
+	//wxTheApp->QueueEvent( event );
 }
 
 

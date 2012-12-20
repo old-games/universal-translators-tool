@@ -13,10 +13,11 @@
 #include "types/imageinfo.h"
 #include "types/undo.h"
 
+
+
 #define GRID_EDGE	6.0f		// the value after the grid will be shown
 
-UttColour	EditPanel::gGlobalLeftColour = *wxBLACK;
-UttColour	EditPanel::gGlobalRightColour = *wxWHITE;
+
 
 EditPanel::EditPanel(  wxWindow* parent ):
 	DrawPanel( parent ),
@@ -31,7 +32,9 @@ EditPanel::EditPanel(  wxWindow* parent ):
 	mGridLogic( wxCOPY ),
 	mCurrentColour( *wxBLACK ),
 	mPreviousPoint( -1, -1),
-	mAllowEdit( true )
+	mAllowEdit( true ),
+	mLeftColour(*wxBLACK),
+	mRightColour(*wxWHITE)
 {
 }
 
@@ -250,6 +253,19 @@ bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 
 
 
+void EditPanel::SetEditColour( bool right, const UttColour& col ) 
+{
+	if (right)
+	{
+		mRightColour = UttColour(col);
+	}
+	else
+	{
+		mLeftColour = UttColour(col);
+	}
+}
+
+
 /* virtual */ bool EditPanel::MouseButton( int btn, bool up )
 {
 	if ( mDrawing && up )
@@ -273,7 +289,7 @@ bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 
 	if (left || right)
 	{
-		mCurrentColour = right ? gGlobalRightColour : gGlobalLeftColour;
+		mCurrentColour = right ? mRightColour : mLeftColour;
 	}
 
 	if ( !up && ( left || right ) )
@@ -339,6 +355,7 @@ bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 	{
 		return true;
 	}
+
 	bool res = false;
 	switch ( keyCode )
 	{
@@ -351,7 +368,7 @@ bool EditPanel::GetPixel( const wxPoint& pos, UttColour& color )
 
 		case WXK_NUM_ONE:
 		case WXK_NUM_TWO:
-			mCurrentColour = keyCode == WXK_NUM_TWO ? gGlobalRightColour : gGlobalLeftColour;
+			mCurrentColour = keyCode == WXK_NUM_TWO ? mRightColour : mLeftColour;
 			res = BeginDrawing();
 		break;
 

@@ -48,7 +48,6 @@ private:
 	void GetBitmapColour( bool right );
 	void SetBitmapColour( bool right );
 	void CorrectColourPosition( bool right );
-	void SetGlobalColours();
 	
 
 	wxPoint		mLeftPos;

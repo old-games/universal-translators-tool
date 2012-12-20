@@ -15,14 +15,14 @@
 
 const wxString	UUT_IMAGE_EXTENSIONS = "UTT Image files (*.uim)|*.uim";
 
-ImageEditor::ImageEditor(  wxWindow* parent, wxWindowID id ):
+ImageEditor::ImageEditor(  wxWindow* parent ):
 	EditPanelGui( parent ),
 	mEditPanel( NULL )
 {
 	mEditPanel = new EditPanel( mEditScrolledBack );
 	SetEditPanel( mEditPanel );
 	wxTheApp->Bind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this );
-	wxTheApp->Bind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, id );
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, this->GetPaletteCtrlId() );
 }
 
 
@@ -30,7 +30,7 @@ ImageEditor::ImageEditor(  wxWindow* parent, wxWindowID id ):
 ImageEditor::~ImageEditor(void)
 {
 	wxTheApp->Unbind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this );
-	wxTheApp->Unbind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, this->GetId() );
+	wxTheApp->Unbind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, this->GetPaletteCtrlId() );
 //	ClearImage( true );
 }
 
@@ -160,6 +160,13 @@ void ImageEditor::LoadImage()
 {
 	switch (event.GetWhat())
 	{
+		case EditorRebuildDataEvent::whEditColourChanged:
+			if (event.GetColour() != NULL)
+			{
+				mEditPanel->SetEditColour( event.GetBool(), *event.GetColour() );
+			}
+		break;
+
 		case EditorRebuildDataEvent::whPaletteChanged:
 			ChangeImagePalette( event.GetPalette() );
 		break;

@@ -73,11 +73,14 @@ Palette* EditorRebuildDataEvent::GetPalette()
 	return static_cast<Palette*>(mData);
 }
 
-
+UttColour* EditorRebuildDataEvent::GetColour()
+{
+	return static_cast<UttColour*>(mData);
+}
 
 //////////////////////////////////////////////////////////////////////////
 
 
 
-wxDEFINE_EVENT( uttEVT_ADDAUIWINDOW, AddAUIWindowEvent );
-IMPLEMENT_DYNAMIC_CLASS(AddAUIWindowEvent, wxEvent)
+wxDEFINE_EVENT( uttEVT_ADDAUIWINDOW, AUIWindowEvent );
+IMPLEMENT_DYNAMIC_CLASS(AUIWindowEvent, wxEvent)

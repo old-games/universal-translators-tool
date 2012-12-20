@@ -711,17 +711,17 @@ EditPanelGui::EditPanelGui( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	
 	mEditScrolledBack = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
 	mEditScrolledBack->SetScrollRate( 5, 5 );
-	wxFlexGridSizer* fgSizer6;
-	fgSizer6 = new wxFlexGridSizer( 3, 1, 0, 0 );
-	fgSizer6->AddGrowableCol( 0 );
-	fgSizer6->AddGrowableRow( 0 );
-	fgSizer6->SetFlexibleDirection( wxBOTH );
-	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* mEditSizer;
+	mEditSizer = new wxFlexGridSizer( 3, 1, 0, 0 );
+	mEditSizer->AddGrowableCol( 0 );
+	mEditSizer->AddGrowableRow( 0 );
+	mEditSizer->SetFlexibleDirection( wxBOTH );
+	mEditSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
 	mDrawHolder = new wxStaticBoxSizer( new wxStaticBox( mEditScrolledBack, wxID_ANY, wxT("Image:") ), wxVERTICAL );
 	
 	
-	fgSizer6->Add( mDrawHolder, 1, wxEXPAND, 5 );
+	mEditSizer->Add( mDrawHolder, 1, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizer10;
 	sbSizer10 = new wxStaticBoxSizer( new wxStaticBox( mEditScrolledBack, wxID_ANY, wxT("Operations:") ), wxVERTICAL );
@@ -761,15 +761,15 @@ EditPanelGui::EditPanelGui( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	sbSizer10->Add( gSizer8, 1, wxEXPAND, 5 );
 	
 	
-	fgSizer6->Add( sbSizer10, 1, wxEXPAND, 5 );
+	mEditSizer->Add( sbSizer10, 1, wxEXPAND, 5 );
 	
-	mPaletteHolder = new PaletteHolderCtrl(mEditScrolledBack);
-	fgSizer6->Add( mPaletteHolder, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
+	mPaletteHolder = new PaletteHolderCtrl(mEditScrolledBack, this, mEditSizer);
+	mEditSizer->Add( mPaletteHolder, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	
-	mEditScrolledBack->SetSizer( fgSizer6 );
+	mEditScrolledBack->SetSizer( mEditSizer );
 	mEditScrolledBack->Layout();
-	fgSizer6->Fit( mEditScrolledBack );
+	mEditSizer->Fit( mEditScrolledBack );
 	gSizer7->Add( mEditScrolledBack, 1, wxEXPAND, 5 );
 	
 	

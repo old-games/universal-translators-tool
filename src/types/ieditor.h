@@ -32,11 +32,16 @@ public:
 	IEditor( const IEditor& other );
 	virtual ~IEditor();
 
-	virtual int CheckChanged();
-	EditorType GetType() const { return mEditorType; }
+	EditorType	GetType() const { return mEditorType; }
+	int			GetEditorId() const { return mEditorId; }
+	wxWindow*	GetWindow() const { return mParent; }
+	wxString	CreateName();
 
-	virtual bool SaveEditor( wxOutputStream& output ) = 0; 
-	virtual bool LoadEditor( wxInputStream& input ) = 0; 
+	void SetEditorId( int id ) { mEditorId = id; }
+
+	virtual int		CheckChanged();
+	virtual bool	SaveEditor( wxOutputStream& output ) = 0; 
+	virtual bool	LoadEditor( wxInputStream& input ) = 0; 
 
 protected:
 
@@ -47,6 +52,7 @@ private:
 	EditorType	mEditorType;
 	bool		mChanged;
 	wxString	mEditorName;
+	int			mEditorId;
 };
 
 
