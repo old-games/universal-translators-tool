@@ -25,7 +25,7 @@ extern const wxString sCommandNames[iecNum];
 
 
 
-class Project: public IStateStore//, public wxEvtHandler
+class Project: public IStateStore
 {
 public:
 
@@ -34,7 +34,7 @@ public:
 	~Project();
 
 	bool IsChanged() const { return mChanged; }
-	int CheckChanged();
+	bool CheckChanged();
 
 	bool CreateProject( const wxString& fullPath, const wxString& module, const wxString& version );
 	bool SaveProject( const wxString& saveAs = wxEmptyString );

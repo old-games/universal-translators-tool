@@ -24,13 +24,16 @@ public:
 
 	void SetFont( FontInfo* newFont );
 
-	bool CheckChanges();
+	//bool CheckChanges();
 
 	SymbolPanel* GetSymbolPanel();
 	void SetCurrentSymbol(int n);
 
-	virtual bool SaveEditor( wxOutputStream& output );	// IEditor
-	virtual bool LoadEditor( wxInputStream& input );	// IEditor
+	// from IEditor
+	virtual bool SaveEditor();
+	virtual bool LoadEditor();
+	virtual bool SaveEditor( wxOutputStream& output );
+	virtual bool LoadEditor( wxInputStream& input );
 
 protected:
 
@@ -38,11 +41,9 @@ protected:
 	virtual void OnFontChangeEvent( ChangeFontEvent& event );
 	virtual void OnSymbolSelection( SymbolSelectionEvent& event );
 	virtual void OnRebuildDataEvent( EditorRebuildDataEvent& event );
+
 private:
 
-	
-	void LoadFont();
-	bool SaveFont();
 
 	bool ShowSettings();
 	bool CreateFont();
@@ -57,8 +58,6 @@ private:
 	SymbolEditGui*	mSymbolEditor;
 	FontInfo*		mCurrentFont;
 	unsigned int	mCurrentSymbol;
-	bool			mHasChanges;
-
 
 };
 

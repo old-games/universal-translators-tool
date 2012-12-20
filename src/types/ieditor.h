@@ -35,16 +35,20 @@ public:
 	EditorType	GetType() const { return mEditorType; }
 	int			GetEditorId() const { return mEditorId; }
 	wxWindow*	GetWindow() const { return mParent; }
+	bool		IsChanged() const { return mChanged; }
 	wxString	CreateName();
 
 	void SetEditorId( int id ) { mEditorId = id; }
 
-	virtual int		CheckChanged();
+	virtual bool	CheckChanged();
+	virtual bool	SaveEditor() = 0; 
+	virtual bool	LoadEditor() = 0; 
 	virtual bool	SaveEditor( wxOutputStream& output ) = 0; 
 	virtual bool	LoadEditor( wxInputStream& input ) = 0; 
 
 protected:
 
+	inline void Changed( bool b = true ) { mChanged = b; }
 
 private:
 

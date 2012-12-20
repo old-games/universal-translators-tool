@@ -29,8 +29,7 @@ FontEditor::FontEditor(  wxWindow* parent ):
 	IEditor( this, etFont, "Font editor" ),
 	mSymbolEditor( new SymbolEditGui( mSymEditorOwner ) ), 
 	mCurrentFont( NULL ),
-	mCurrentSymbol( 0 ),
-	mHasChanges( false )
+	mCurrentSymbol( 0 )
 {
 	mSymbolEditor->GetSymbolPanel()->SetAlign( utdHCenter | utdVCenter | utdExpand);
 	mSymbolEditor->Disable();
@@ -64,10 +63,11 @@ void FontEditor::ClearFont( bool force /* false */ )
 {
 	if (mCurrentFont != NULL)
 	{
-		if (!CheckChanges() && !force)
+		if ( !force && CheckChanged())
 		{
 			return;
 		}
+
 		delete mCurrentFont;
 		mCurrentFont = NULL;
 	}
@@ -87,35 +87,36 @@ void FontEditor::SetFont( FontInfo* newFont )
 
 
 
-bool FontEditor::CheckChanges()
-{
-	if (mHasChanges)
-	{
-		int res = wxMessageDialog(this, "Save changes?", "Font has changes", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
-
-		if (res == wxID_OK)
-		{
-			mHasChanges = !SaveFont();
-		}
-		else
-		{
-			mHasChanges = false;
-		}
-
-	}
-	return !mHasChanges;
-}
+//bool FontEditor::CheckChanges()
+//{
+//	if (mHasChanges)
+//	{
+//		int res = wxMessageDialog(this, "Save changes?", "Font has changes", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
+//
+//		if (res == wxID_OK)
+//		{
+//			mHasChanges = !SaveFont();
+//		}
+//		else
+//		{
+//			mHasChanges = false;
+//		}
+//
+//	}
+//	return !mHasChanges;
+//}
 
 
 
 bool FontEditor::CreateFont()
 {
-	if ( mCurrentFont != NULL && !CheckChanges() )
+	if ( mCurrentFont != NULL && !CheckChanged() )
 	{
 		return false;
 	}
 
 	mCurrentFont = new FontInfo();
+
 	if ( ShowSettings() )
 	{
 		mCurrentSymbol = 0;
@@ -180,7 +181,7 @@ void FontEditor::UpdateRibbon()
 
 void FontEditor::CurrentSymbolChanged()
 {
-	mHasChanges = true;
+	Changed();
 
 	if (mCurrentFont && mCurrentSymbol < mCurrentFont->GetSymbols().size() )
 	{
@@ -231,7 +232,6 @@ void FontEditor::SetPaletteAsMain()
 	if ( res )
 	{
 		SetFont( fontInfo );
-
 	}
 
 	delete fontInfo;
@@ -241,8 +241,9 @@ void FontEditor::SetPaletteAsMain()
 
 
 
-bool FontEditor::SaveFont()
+bool FontEditor::SaveEditor()
 {
+	bool res = false;
 
 	if (!mCurrentFont )
 	{
@@ -251,28 +252,38 @@ bool FontEditor::SaveFont()
 	else
 	{
 		wxFileDialog dlg( this, "Save font as...", wxEmptyString, "fontfile", UUT_FONT_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+
 		if (dlg.ShowModal() == wxID_OK)
 		{
-			mHasChanges = mCurrentFont->SaveToFile( dlg.GetPath() );
+			// mChanged flag can be set true only as Project part... or not?
+			//Changed( mCurrentFont->SaveToFile( dlg.GetPath() ) );
+
+			res  = mCurrentFont->SaveToFile( dlg.GetPath() );
 		}
 	}
-	return !mHasChanges;
+	return res;
 }
 
 
 
-void FontEditor::LoadFont()
+bool FontEditor::LoadEditor()
 {
+	bool res = false;
 	wxFileDialog dlg( this, "Open UTT font...", wxEmptyString, "fontfile", UUT_FONT_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
+
 	if (dlg.ShowModal() == wxID_OK)
 	{
 		FontInfo* fontInfo = new FontInfo();
+
 		if ( fontInfo->LoadFromFile( dlg.GetPath() ) )
 		{
 			SetFont( fontInfo );
+			res = true;
 		}
 		delete fontInfo;
 	}
+
+	return res;
 }
 
 
@@ -283,11 +294,11 @@ void FontEditor::LoadFont()
 	{
 
 		case wxID_SAVE_BTN:
-			SaveFont();
+			SaveEditor();
 		break;
 
 		case wxID_LOAD_BTN:
-			LoadFont();
+			LoadEditor();
 		break;
 
 		case wxID_CREATE_FONT:

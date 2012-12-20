@@ -33,7 +33,6 @@ const int		PROJECTVERSION = 0x100;
 
 Project::Project():
 	IStateStore( PROJECTNAME, PROJECTVERSION ),
-	//wxEvtHandler(),
 	mChanged( false ),
 	mProjectName( wxEmptyString ),
 	mModuleName( wxEmptyString ),
@@ -49,7 +48,6 @@ Project::Project():
 	
 Project::Project( const Project& other ):
 	IStateStore( PROJECTNAME, PROJECTVERSION ),
-	//wxEvtHandler(),
 	mChanged( other.mChanged ),
 	mProjectName( other.mProjectName ),
 	mModuleName( other.mModuleName ),
@@ -77,21 +75,24 @@ void Project::BindEvents()
 
 
 
-int Project::CheckChanged()
+bool Project::CheckChanged()
 {
-	int res = wxID_YES;
+	bool hasUnsavedEditors = false;
 
 	for (EditorsIterator it = mEditors.begin(); it != mEditors.end(); ++it)
 	{
-		if ( (*it)->CheckChanged() == wxID_CANCEL )
+		if ( (*it)->IsChanged() )
 		{
-			return wxID_CANCEL;
+			hasUnsavedEditors = true;
+			break;
 		}
 	}
 
-	if (mChanged)
+	int res = wxID_YES;
+
+	if (mChanged || hasUnsavedEditors)
 	{
-		int res = wxMessageDialog(NULL, "Save changes?", "Project modified", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
+		res = wxMessageDialog(NULL, "Save changes?", "Project modified", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
 
 		if (res == wxID_YES)
 		{
@@ -104,7 +105,7 @@ int Project::CheckChanged()
 		}
 	}
 
-	return res;
+	return res != wxID_CANCEL;
 }
 
 
@@ -163,20 +164,12 @@ bool Project::SetActiveModule( const wxString& module, const wxString& version )
 
 bool Project::SaveProject( const wxString& saveAs /* wxEmptyString */)
 {
-	bool result = false;
-
 	if (!saveAs.IsEmpty())
 	{
 		mProjectFileName = saveAs;
 	}
 
-	if ( SaveToFile( mProjectFileName ) )
-	{
-		mChanged = false;
-		result = true;
-	}
-
-	return result;
+	return SaveToFile( mProjectFileName );
 }
 
 

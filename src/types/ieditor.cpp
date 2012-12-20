@@ -59,8 +59,37 @@ wxString IEditor::CreateName()
 
 
 
-/* virtual */ int IEditor::CheckChanged()
+/* virtual */ bool IEditor::CheckChanged()
 {
 	wxString message = mEditorName + " modified";
-	return wxMessageDialog(mParent, "Save changes?", message, wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
+	int res = wxMessageDialog(mParent, "Save changes?", message, wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
+
+	if (res == wxID_YES)
+	{
+		bool done = false;
+
+		while (!done)
+		{
+			mChanged = !SaveEditor();
+			if (mChanged)
+			{
+				res = wxMessageDialog(mParent, 
+					"Retry save changes?", 
+					"There was an error while saving " + mEditorName, 
+					wxYES_NO | wxCANCEL | wxCENTRE | wxYES_DEFAULT).ShowModal();
+				done = res == wxID_NO || res == wxID_CANCEL;
+			}
+			else
+			{
+				done = true;
+			}
+		}
+	}
+
+	if (res == wxID_NO)
+	{
+		mChanged = false;
+	}
+	
+	return res != wxID_CANCEL;
 }
