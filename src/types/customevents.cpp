@@ -78,6 +78,13 @@ UttColour* EditorRebuildDataEvent::GetColour()
 	return static_cast<UttColour*>(mData);
 }
 
+IEditor* EditorRebuildDataEvent::GetEditor()
+{
+	return static_cast<IEditor*>(mData);
+}
+
+
+
 //////////////////////////////////////////////////////////////////////////
 
 

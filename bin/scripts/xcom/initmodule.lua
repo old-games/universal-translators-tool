@@ -68,12 +68,6 @@ function Xcom.getModuleMenu()
 end
 
 
---
---function Xcom.getExtensions()
---	return '*.DAT (*.dat)|*.dat|*.SCR (*.scr)|*.scr|*.CAT (*.cat)|*.cat|*.LBM (*.lbm)|*.lbm'
---end
-
-
 
 function Xcom.ImportFont()
 	local fileName = openFileDialog("Font file (BIGLETS.DAT)|biglets.dat|Font file (SMALLSET.DAT)|smallset.dat")
@@ -85,18 +79,6 @@ function Xcom.ImportFont()
 		end
 	end
 end
-
---
---function Xcom.openFile( fileName )
---	local fileName = string.lower( fileName )
---	local vol, path, name, ext = parseFileName( fileName )
---	local key = ActionsOnExtension[ ext ]
---	if key == nil then
---		print( "Can't find function for '"..ext.."' extension" )
---		return
---	end
---	Operations[ key ]( fileName )
---end
 
 
 
@@ -249,8 +231,8 @@ LBMHeader[12] = { PAGEHEIGHT 	= "WORD_BE"	}
 --end
 
 
-function Xcom.executeModuleMenuCommand( command )
-	MenuCommands[command]()
+function Xcom.executeModuleMenuCommand( command, editorId )
+	MenuCommands[command](Xcom.GamePath, editorId)
 end
 
 

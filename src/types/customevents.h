@@ -19,6 +19,7 @@ class ChangePaletteEvent;
 class SymbolSelectionEvent;
 class EditorRebuildDataEvent;
 class AUIWindowEvent;
+class IEditor;
 
 
 
@@ -30,7 +31,6 @@ wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
 wxDECLARE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
 wxDECLARE_EVENT( uttEVT_REBUILDDATA, EditorRebuildDataEvent );
 wxDECLARE_EVENT( uttEVT_ADDAUIWINDOW, AUIWindowEvent );
-
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -370,6 +370,7 @@ public:
 		whEditColourChanged,
 		whPaletteChanged,
 		whIndexMaskChanged,
+		whEditorStateChanged,
 		whNum
 	};
 
@@ -404,6 +405,7 @@ public:
 	int			GetWhat() { return mWhat; }
 	Palette*	GetPalette();
 	UttColour*  GetColour();
+	IEditor*	GetEditor();
 	bool		GetBool() { return mBool; }
 
 protected:

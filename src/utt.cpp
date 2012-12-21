@@ -21,7 +21,8 @@ IMPLEMENT_APP(UTTApp);
 
 bool UTTApp::OnInit()
 {
-	//_CrtSetBreakAlloc ( 53238 );
+	// _CrtSetBreakAlloc ( 86092 );
+
 	mCommandProcessor = new wxCommandProcessor();
 	MainFrameImpl* frame = new MainFrameImpl();
 #ifdef VISUALC

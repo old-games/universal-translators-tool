@@ -32,14 +32,16 @@ private:
 
 	void OnIdle( wxIdleEvent& );
 	void OnShow( wxShowEvent& event );
-	void OnColourPickEvent( ColourPickEvent& event );
+
 	void OnModuleChanged( ModuleChangedEvent& event );
 	void OnAUIWindowEvent( AUIWindowEvent& event );
+	void OnAUIManagerEvent( wxAuiManagerEvent& event );
+	void OnEditorRebuildDataEvent( EditorRebuildDataEvent& event );
 
 	void AddPane( wxWindow* wnd, const wxString& name );
 
 	void UpdateMenuStates();
-	bool CloseProject(bool force = false);
+	bool DoCloseProject(bool force = false);
 	bool CheckProject();
 	void CreateNewProject();
 
@@ -54,6 +56,7 @@ private:
 
 	wxHelpController*		mHelpController;
 	Project*				mCurrentProject;
+	wxAuiPaneInfo*			mCurrentPane;
 };
 
 #endif

@@ -1,6 +1,6 @@
 local PalName = 'geodata/PALETTES.DAT'
 local PalSize = 768
-local LastPalPath = ""
+
 
 currentVersion = 1
 
@@ -142,8 +142,6 @@ local function GetXComPalette( path, n )
 	if not fh then
 		return
 	end
-	
-	LastPalPath = path
 	
 	local fileSize = fh:seek("end")
 	local maxPal = fileSize / (PalSize + 6)
@@ -293,30 +291,31 @@ end
 
 
 
-function ChangePalette()
-	if LastPalPath:len() == 0 then
-		messageBox("You must load font or image before changing palette")
-		return
-	end
-	local num = GetXcomPalNum( LastPalPath )
+function ChangePalette(gamePath, editorId)
+	local num = GetXcomPalNum( gamePath )
 	
 	local list = {} 
+	
 	for i = 1, num do
 		table.insert( list, "Palette ¹"..string.char(i + 48) )
 	end
 	
 	local selected = selectFromList( list )
+	
 	if selected == nil then
 		print("Nothing selected")
 		return
 	end
+	
 	selected = getStrInt(selected, 9) - 49
-	local palBuffer = GetXComPalette(LastPalPath, selected)
+	local palBuffer = GetXComPalette(gamePath, selected)
+	
 	if palBuffer ~= nil then
 		local pal = Palette:new()
 		if pal:Initiate( Palette.bpp8, palBuffer, Palette.sfPlain, true ) then
-			setCurrentPalette( pal )
+			setCurrentPalette( pal, editorId )
 		end
 	end
+	
 end 
 

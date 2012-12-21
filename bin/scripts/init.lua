@@ -37,9 +37,9 @@ end
 
 
 -- runs command from special section of Main Menu - Module 
-function executeModuleMenuCommand( command )
+function executeModuleMenuCommand( command, id )
 	if CurrentModule ~= nil then
-		return CurrentModule.executeModuleMenuCommand( command )
+		return CurrentModule.executeModuleMenuCommand( command, id )
 	end
 end
 
@@ -143,9 +143,12 @@ end
 
 
 
-function setCurrentModule( moduleName )
+function setCurrentModule( moduleName, gamePath )
 	print ("setCurrentModule: ", moduleName)
+	
 	CurrentModule = UTTModules[ moduleName ]
+	CurrentModule["GamePath"] = gamePath
+	
 	setModuleReady()
 end
 

@@ -83,16 +83,14 @@ PlacePixelCommand::PlacePixelCommand( EditPanel* owner, const UttColour& oldValu
 
 /* virtual */ bool PlacePixelCommand::Do()
 {
-	mOwner->DoPlacePixel( mPoint, mNewValue );
-	return true;
+	return mOwner->DoPlacePixel( mPoint, mNewValue );
 }
 
 
 
 /* virtual */ bool PlacePixelCommand::Undo()
 {
-	mOwner->DoPlacePixel( mPoint, mOldValue );
-	return true;
+	return mOwner->DoPlacePixel( mPoint, mOldValue );
 }
 
 

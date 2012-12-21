@@ -100,9 +100,9 @@ CreateProjectGui::CreateProjectGui( wxWindow* parent, wxWindowID id, const wxStr
 	gSizer4 = new wxGridSizer( 1, 1, 0, 0 );
 	
 	wxFlexGridSizer* fgSizer4;
-	fgSizer4 = new wxFlexGridSizer( 4, 2, 0, 0 );
+	fgSizer4 = new wxFlexGridSizer( 5, 2, 0, 0 );
 	fgSizer4->AddGrowableCol( 1 );
-	fgSizer4->AddGrowableRow( 3 );
+	fgSizer4->AddGrowableRow( 4 );
 	fgSizer4->SetFlexibleDirection( wxBOTH );
 	fgSizer4->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -110,8 +110,15 @@ CreateProjectGui::CreateProjectGui( wxWindow* parent, wxWindowID id, const wxStr
 	m_staticText1->Wrap( -1 );
 	fgSizer4->Add( m_staticText1, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5 );
 	
-	mFileDlg = new wxFilePickerCtrl( this, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.UTTPROJ"), wxDefaultPosition, wxDefaultSize, wxFLP_OVERWRITE_PROMPT|wxFLP_SAVE|wxFLP_USE_TEXTCTRL );
+	mFileDlg = new wxFilePickerCtrl( this, wxID_ANY, wxEmptyString, wxT("Select a project filename and location"), wxT("*.UTTPROJ"), wxDefaultPosition, wxDefaultSize, wxFLP_OVERWRITE_PROMPT|wxFLP_SAVE|wxFLP_USE_TEXTCTRL );
 	fgSizer4->Add( mFileDlg, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5 );
+	
+	m_staticText11 = new wxStaticText( this, wxID_ANY, wxT("Game directory:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText11->Wrap( -1 );
+	fgSizer4->Add( m_staticText11, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5 );
+	
+	mDirDlg = new wxDirPickerCtrl( this, wxID_ANY, wxEmptyString, wxT("Select a game folder"), wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE|wxDIRP_DIR_MUST_EXIST );
+	fgSizer4->Add( mDirDlg, 1, wxTOP|wxBOTTOM|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("Default module:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText2->Wrap( -1 );
@@ -149,13 +156,17 @@ CreateProjectGui::CreateProjectGui( wxWindow* parent, wxWindowID id, const wxStr
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	mFileDlg->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( CreateProjectGui::OnProjectFileNameChanged ), NULL, this );
 	mModulesCombo->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( CreateProjectGui::OnModuleChanged ), NULL, this );
+	m_sdbSizer1OK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CreateProjectGui::OnOKButtonClick ), NULL, this );
 }
 
 CreateProjectGui::~CreateProjectGui()
 {
 	// Disconnect Events
+	mFileDlg->Disconnect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( CreateProjectGui::OnProjectFileNameChanged ), NULL, this );
 	mModulesCombo->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( CreateProjectGui::OnModuleChanged ), NULL, this );
+	m_sdbSizer1OK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CreateProjectGui::OnOKButtonClick ), NULL, this );
 	
 }
 
@@ -476,4 +487,22 @@ PaletteHolderGui::~PaletteHolderGui()
 	// Disconnect Events
 	mPalHideBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PaletteHolderGui::OnPalHideBtnClick ), NULL, this );
 	
+}
+
+ProjectWindowGui::ProjectWindowGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxGridSizer* gSizer5;
+	gSizer5 = new wxGridSizer( 1, 1, 0, 0 );
+	
+	mProjectFilesList = new wxTreeListCtrl();
+	mProjectFilesList->Create(this, wxID_ANY);
+	gSizer5->Add( mProjectFilesList, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( gSizer5 );
+	this->Layout();
+}
+
+ProjectWindowGui::~ProjectWindowGui()
+{
 }

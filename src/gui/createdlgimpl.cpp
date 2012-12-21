@@ -96,8 +96,50 @@ wxString CreateProjectDlg::GetVersion() const
 
 
 
+wxString CreateProjectDlg::GetGamePath() const
+{
+	return mDirDlg->GetPath();
+}
+
+
+
 /* virtual */ void CreateProjectDlg::OnModuleChanged( wxCommandEvent& event ) 
 { 
 	UpdateVersionsCombo();
 	event.Skip(); 
 }
+
+
+
+/* virtual */ void CreateProjectDlg::OnProjectFileNameChanged( wxFileDirPickerEvent& event )
+{
+	if (mDirDlg->GetPath().IsEmpty() && mFileDlg->GetPath().length() > 2)
+	{
+		wxString path, name, ext;
+		wxFileName::SplitPath( mFileDlg->GetPath(), &path, &name, &ext );
+		mDirDlg->SetDirName( path );
+	}
+
+	event.Skip();
+}
+
+
+
+/* virtual */ void CreateProjectDlg::OnOKButtonClick( wxCommandEvent& event )
+{
+	wxString dir = mDirDlg->GetPath();
+
+	if (dir.IsEmpty() || !wxFileName::DirExists( dir ))
+	{
+		wxLogError("Game's folder MUST be selected!");
+		return;
+	}
+
+	if ( dir.Last() != wxFileName::GetPathSeparator( wxPATH_NATIVE ) )
+	{
+		dir += wxFileName::GetPathSeparator( wxPATH_NATIVE );
+		mDirDlg->SetPath( dir );
+	}
+	event.Skip();
+}
+

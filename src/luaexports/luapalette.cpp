@@ -40,15 +40,19 @@ EXPORT_OOLUA_FUNCTIONS_1_CONST( Palette, IsOk )
 
 int	setCurrentPalette(lua_State *L)
 {
-	if (Lua::Get().stack_count() != 1)
+	Palette* pal = NULL;
+	int editorId = -1;
+
+	if (	Lua::Get().stack_count() != 2 || 
+			!OOLUA::pull2cpp(L, editorId) ||
+			!OOLUA::pull2cpp(L, pal) )
 	{
-		wxLogMessage("setCurrentPalette: function need a filled FontInfo table as argument");
+		wxLogMessage("setCurrentPalette: function need a Palette and editorId as arguments");
 		return 0;
 	}
-	Palette* pal;
-	OOLUA::pull2cpp(L, pal);
-	
-	ChangePaletteEvent palEvent( wxID_ANY, pal, true );
+
+	ChangePaletteEvent palEvent( editorId, pal, true );
 	wxTheApp->ProcessEvent( palEvent );
+
 	return 0;
 }

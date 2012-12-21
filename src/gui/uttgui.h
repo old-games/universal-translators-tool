@@ -23,6 +23,7 @@
 #include <wx/aui/aui.h>
 #include <wx/aui/auibar.h>
 #include "logwindowimpl.h"
+#include "projectwindow.h"
 #include <wx/statusbr.h>
 #include <wx/frame.h>
 #include <wx/stattext.h>
@@ -49,44 +50,45 @@
 #define wxID_OPEN_PROJECT 1002
 #define wxID_SAVE_PROJECT 1003
 #define wxID_SAVE_PROJECT_AS 1004
-#define wxID_FILE_QUIT 1005
-#define wxID_IMPORT_FONT 1006
-#define wxID_IMPORT_IMAGE 1007
-#define wxID_IMPORT_LIBRARY 1008
-#define wxID_IMPORT_ANIMATION 1009
-#define wxID_EXPORT_FONT 1010
-#define wxID_EXPORT_IMAGE 1011
-#define wxID_EXPORT_LIBRARY 1012
-#define wxID_EXPORT_ANIMATION 1013
-#define wxID_LUA_SELECT 1014
-#define wxID_LUA_VERSION 1015
-#define wxID_LUA_REBOOT 1016
-#define wxID_HELP_HELP 1017
-#define wxID_HELP_ABOUT 1018
-#define wxID_FONT_SETTINGS_ID 1019
-#define wxID_NUM_SPIN_CTRL 1020
-#define wxID_SET_CODES_BTN 1021
-#define wxID_MAX_WIDTH_SPIN 1022
-#define wxID_MAX_HEIGHT_SPIN 1023
-#define wxID_MIN_WIDTH_SPIN 1024
-#define wxID_MIN_HEIGHT_SPIN 1025
-#define wxID_BASE_LINE_SPIN 1026
-#define wxID_CAP_LINE_SPIN 1027
-#define wxID_LOW_LINE_SPIN 1028
-#define wxID_LETTER_CODES_ID 1029
-#define wxID_GENERATE_CODES_BTN 1030
-#define wxID_GET_ENCODING_BTN 1031
-#define wxID_CODES_GRID 1032
-#define wxID_CREATE_FONT 1033
-#define wxID_SAVE_BTN 1034
-#define wxID_LOAD_BTN 1035
-#define wxID_FONT_SETTINGS 1036
-#define wxID_IMAGEEDITOR 1037
-#define wxID_GRID_CHECK 1038
-#define wxID_GRID_MODE 1039
-#define wxID_GRIDCOL_BTN 1040
-#define wxID_LIBRARYWINDOW 1041
-#define wxID_LIBTREE 1042
+#define wxID_CLOSE_PROJECT 1005
+#define wxID_FILE_QUIT 1006
+#define wxID_IMPORT_FONT 1007
+#define wxID_IMPORT_IMAGE 1008
+#define wxID_IMPORT_LIBRARY 1009
+#define wxID_IMPORT_ANIMATION 1010
+#define wxID_EXPORT_FONT 1011
+#define wxID_EXPORT_IMAGE 1012
+#define wxID_EXPORT_LIBRARY 1013
+#define wxID_EXPORT_ANIMATION 1014
+#define wxID_LUA_SELECT 1015
+#define wxID_LUA_VERSION 1016
+#define wxID_LUA_REBOOT 1017
+#define wxID_HELP_HELP 1018
+#define wxID_HELP_ABOUT 1019
+#define wxID_FONT_SETTINGS_ID 1020
+#define wxID_NUM_SPIN_CTRL 1021
+#define wxID_SET_CODES_BTN 1022
+#define wxID_MAX_WIDTH_SPIN 1023
+#define wxID_MAX_HEIGHT_SPIN 1024
+#define wxID_MIN_WIDTH_SPIN 1025
+#define wxID_MIN_HEIGHT_SPIN 1026
+#define wxID_BASE_LINE_SPIN 1027
+#define wxID_CAP_LINE_SPIN 1028
+#define wxID_LOW_LINE_SPIN 1029
+#define wxID_LETTER_CODES_ID 1030
+#define wxID_GENERATE_CODES_BTN 1031
+#define wxID_GET_ENCODING_BTN 1032
+#define wxID_CODES_GRID 1033
+#define wxID_CREATE_FONT 1034
+#define wxID_SAVE_BTN 1035
+#define wxID_LOAD_BTN 1036
+#define wxID_FONT_SETTINGS 1037
+#define wxID_IMAGEEDITOR 1038
+#define wxID_GRID_CHECK 1039
+#define wxID_GRID_MODE 1040
+#define wxID_GRIDCOL_BTN 1041
+#define wxID_LIBRARYWINDOW 1042
+#define wxID_LIBTREE 1043
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame
@@ -106,6 +108,7 @@ class UttMainFrame : public wxFrame
 		wxAuiNotebook* mAUINotebook;
 		wxAuiToolBar* mMainToolBar;
 		LogWindowImpl* mLogWindow;
+		ProjectWindow* mProjectWindow;
 		wxStatusBar* mStatusBar;
 		
 		// Virtual event handlers, overide them in your derived class

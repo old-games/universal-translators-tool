@@ -181,6 +181,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\src\crc32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\crc32.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\helpers.cpp"
 				>
 			</File>
@@ -298,6 +306,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\gui\palwindowimpl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\projectwindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\projectwindow.h"
 				>
 			</File>
 			<File

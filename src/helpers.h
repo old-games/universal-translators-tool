@@ -9,7 +9,9 @@
 #ifndef HELPERS_H_INCLUDED
 #define HELPERS_H_INCLUDED
 
-	//forward declarations
+#include "crc32.h"
+
+//forward declarations
 class Palette;
 
 namespace Helpers

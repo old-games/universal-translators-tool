@@ -20,11 +20,15 @@ public:
 	wxString GetPath() const;
 	wxString GetModule() const;
 	wxString GetVersion() const;
+	wxString GetGamePath() const;
+
 	bool IsReady() const { return mReady; }
 
 private:
 
 	virtual void OnModuleChanged( wxCommandEvent& event );
+	virtual void OnProjectFileNameChanged( wxFileDirPickerEvent& event );
+	virtual void OnOKButtonClick( wxCommandEvent& event );
 
 	void Init();
 	void UpdateVersionsCombo();

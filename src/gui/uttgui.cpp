@@ -15,7 +15,7 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 {
 	this->SetSizeHints( wxSize( 640,480 ), wxDefaultSize );
 	m_mgr.SetManagedWindow(this);
-	m_mgr.SetFlags(wxAUI_MGR_DEFAULT);
+	m_mgr.SetFlags(wxAUI_MGR_ALLOW_ACTIVE_PANE|wxAUI_MGR_ALLOW_FLOATING|wxAUI_MGR_LIVE_RESIZE|wxAUI_MGR_TRANSPARENT_DRAG|wxAUI_MGR_TRANSPARENT_HINT);
 	
 	mMainMenu = new wxMenuBar( 0 );
 	mFileMenu = new wxMenu();
@@ -27,6 +27,8 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	mFileNew->SetBitmap( wxArtProvider::GetBitmap( wxART_NEW_DIR, wxART_MENU ) );
 	#endif
 	mFileMenu->Append( mFileNew );
+	
+	mFileMenu->AppendSeparator();
 	
 	wxMenuItem* mFileOpen;
 	mFileOpen = new wxMenuItem( mFileMenu, wxID_OPEN_PROJECT, wxString( wxT("Open project") ) + wxT('\t') + wxT("CTRL-O"), wxEmptyString, wxITEM_NORMAL );
@@ -54,6 +56,17 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	mFileSaveAs->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE_AS, wxART_MENU ) );
 	#endif
 	mFileMenu->Append( mFileSaveAs );
+	
+	mFileMenu->AppendSeparator();
+	
+	wxMenuItem* mFileClose;
+	mFileClose = new wxMenuItem( mFileMenu, wxID_CLOSE_PROJECT, wxString( wxT("Close project") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mFileClose->SetBitmaps( wxArtProvider::GetBitmap( wxART_REMOVABLE, wxART_MENU ) );
+	#elif defined( __WXGTK__ )
+	mFileClose->SetBitmap( wxArtProvider::GetBitmap( wxART_REMOVABLE, wxART_MENU ) );
+	#endif
+	mFileMenu->Append( mFileClose );
 	
 	mFileMenu->AppendSeparator();
 	
@@ -231,6 +244,8 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	mMainToolBar = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
 	mMainToolBar->AddTool( wxID_NEW_PROJECT, wxT("New project"), wxArtProvider::GetBitmap( wxART_NEW_DIR, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("New project"), wxEmptyString, NULL ); 
 	
+	mMainToolBar->AddSeparator(); 
+	
 	mMainToolBar->AddTool( wxID_OPEN_PROJECT, wxT("Open project"), wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Open project"), wxEmptyString, NULL ); 
 	
 	mMainToolBar->AddTool( wxID_SAVE_PROJECT, wxT("Save project"), wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Save project"), wxEmptyString, NULL ); 
@@ -256,10 +271,13 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	mMainToolBar->AddTool( wxID_EXPORT_ANIMATION, wxT("Export animation"), wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Export animation"), wxEmptyString, NULL ); 
 	
 	mMainToolBar->Realize();
-	m_mgr.AddPane( mMainToolBar, wxAuiPaneInfo().Top().PinButton( true ).Dock().Resizable().FloatingSize( wxSize( 37,39 ) ).DockFixed( false ).Row( 1 ) );
+	m_mgr.AddPane( mMainToolBar, wxAuiPaneInfo().Top().CaptionVisible( false ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( 37,39 ) ).DockFixed( false ).Row( 1 ) );
 	
 	mLogWindow = new LogWindowImpl( this );
 	m_mgr.AddPane( mLogWindow, wxAuiPaneInfo() .Bottom() .MaximizeButton( true ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ) );
+	
+	mProjectWindow = new ProjectWindow( this );
+	m_mgr.AddPane( mProjectWindow, wxAuiPaneInfo() .Name( wxT("ProjectWindow") ).Left() .Caption( wxT("Project") ).MaximizeButton( true ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).Layer( 10 ).DefaultPane() );
 	
 	mStatusBar = this->CreateStatusBar( 3, wxST_SIZEGRIP, wxID_ANY );
 	
@@ -272,6 +290,7 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( mFileOpen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mFileSave->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mFileSaveAs->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mFileClose->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mIE_ImpFont->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mIE_ImpImage->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -310,6 +329,7 @@ UttMainFrame::~UttMainFrame()
 	this->Disconnect( wxID_OPEN_PROJECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_SAVE_PROJECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_SAVE_PROJECT_AS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_CLOSE_PROJECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_FILE_QUIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_IMPORT_FONT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_IMPORT_IMAGE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );

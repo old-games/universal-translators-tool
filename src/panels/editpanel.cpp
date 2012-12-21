@@ -464,6 +464,7 @@ bool EditPanel::CommandEdit()
 	{
 		return false;
 	}
+
 	return COMMAND->Submit( CreatePlacePixelCommand() );
 }
 
@@ -506,8 +507,10 @@ bool EditPanel::CommandPaste( const ImageInfo* newValue )
 	{
 		return false;
 	}
+
 	wxRect zone( mCursor, newValue->GetSize() );
 	ImageInfo* old = mImageInfo->CopyToImageInfo( zone );
+
 	if (old)
 	{
 		ImagePasteCommand* paste = new ImagePasteCommand( this, old->Clone(), newValue->Clone(), mCursor );

@@ -50,6 +50,7 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 
 PaletteWindowImpl::~PaletteWindowImpl(void)
 {
+	delete mPalette;
 	this->Unbind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
 	wxTheApp->Unbind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this, this->GetParent()->GetId() );
 }
@@ -327,11 +328,10 @@ void PaletteWindowImpl::PaletteChanged()
 
 /* virtual */ void PaletteWindowImpl::OnPaletteChangeEvent( ChangePaletteEvent& event )
 {
-	if (CheckLocked() )
+	if ( CheckLocked() )
 	{
-		Palette* oldPal = mPalette;
+		delete mPalette;
 		mPalette = event.GetPalette()->Clone();
-		delete oldPal;
 		this->Lock( event.GetLock() );
 		PaletteChanged();
 	}
@@ -340,6 +340,7 @@ void PaletteWindowImpl::PaletteChanged()
 
 
 
+// TODO: !!!
 /* virtual */ void PaletteWindowImpl::OnColourPickEvent( ColourPickEvent& event )
 {
 	if ( event.GetButton() != wxMOUSE_BTN_LEFT && event.GetButton() != wxMOUSE_BTN_RIGHT )

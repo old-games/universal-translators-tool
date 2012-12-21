@@ -45,16 +45,37 @@ IEditor::IEditor( const IEditor& other ):
 
 
 
-wxString IEditor::CreateName()
+/* virtual */ IEditor::~IEditor()
 {
-	return wxString::Format("%s_%d", sEditorNames[mEditorType], (wxInt32) mEditorId);
 }
 
 
 
-/* virtual */ IEditor::~IEditor()
+wxString IEditor::CreateName()
 {
-	CheckChanged();
+	return wxString::Format("%s_%X", sEditorNames[mEditorType], (wxInt32) mEditorId);
+}
+
+
+
+void IEditor::CreateEditorId()
+{
+	// TODO: test casting of this to wxUint32 in x64 builds
+	wxString src = wxString::Format("%s_%X", sEditorNames[mEditorType], (wxUint32) this);
+	mEditorId = Helpers::crc32buf( src.c_str().AsChar(), src.length() );
+}
+
+
+
+void IEditor::Changed( bool b /* true */)
+{
+	if (mChanged != b)
+	{
+		EditorRebuildDataEvent* event = new EditorRebuildDataEvent(0, EditorRebuildDataEvent::whEditorStateChanged, this, b);
+		wxTheApp->QueueEvent( event );
+	}
+
+	mChanged = b;
 }
 
 

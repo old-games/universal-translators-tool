@@ -60,6 +60,31 @@ void Origin::SetOriginAdditional( const wxString& additional )
 
 
 
+const wxString& Origin::GetFullPath() const
+{
+	return mOriginFileName;
+}
+
+
+
+wxString Origin::GetPath() const
+{
+	wxString path, name, ext;
+	wxFileName::SplitPath( mOriginFileName, &path, &name, &ext );
+	return path;
+}
+
+
+
+wxString Origin::GetFileName() const
+{
+	wxString path, name, ext;
+	wxFileName::SplitPath( mOriginFileName, &path, &name, &ext );
+	return name + "." + ext;
+}
+
+
+
 /* virtual */ bool Origin::SaveState( wxOutputStream& output )
 {
 	bool res = SaveSimpleType<wxInt32>( output, mOriginFrom) &&
@@ -79,5 +104,6 @@ void Origin::SetOriginAdditional( const wxString& additional )
 	bool res = LoadSimpleType<wxInt32>( input, (wxInt32&) mOriginFrom) &&
 		LoadString( input, mOriginFileName ) &&
 		LoadString( input, mOriginAdditional );
+
 	return res;
 }

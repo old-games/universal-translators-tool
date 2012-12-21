@@ -36,9 +36,10 @@ public:
 	bool IsChanged() const { return mChanged; }
 	bool CheckChanged();
 
-	bool CreateProject( const wxString& fullPath, const wxString& module, const wxString& version );
+	bool CreateProject( const wxString& fullPath, const wxString& gamePath, const wxString& module, const wxString& version );
 	bool SaveProject( const wxString& saveAs = wxEmptyString );
 	bool LoadProject( const wxString& fullPath );
+	void CloseProject();
 
 	const wxString& GetProjectFileName() const { return mProjectFileName; }
 
@@ -48,6 +49,10 @@ public:
 	bool IsAllowed( IECommands what, EditorType who );
 	bool Do( IECommands what, EditorType who );
 
+	size_t GetEditorsNum() const { return mEditors.GetCount(); }
+	IEditor* GetEditor( size_t n ) const { return mEditors[n]; }
+	IEditor* FindEditor( wxWindow* wnd ) const;
+
 	static wxWindow* sParentWindow;
 
 protected:
@@ -56,11 +61,13 @@ protected:
 	virtual bool LoadState( wxInputStream& input, int version );
 
 	virtual void OnChangeFontEvent( ChangeFontEvent& event );
+	virtual void OnEditorRebuildDataEvent( EditorRebuildDataEvent& event );
 	
 private:
 
 	void			BindEvents();
-	IEditor*		CreateEditor( EditorType who );
+	IEditor*		CreateEditor( EditorType who, bool createId );
+	void			CloseEditor( IEditor* editor );
 	void			CreateFontEditor( FontInfo* info );
 	void			AddEditorWindow( wxWindow* wnd, const wxString& wndName );
 
@@ -73,6 +80,7 @@ private:
 	wxString		mModuleName;
 	wxString		mModuleVersion;
 	wxString		mLastDir;
+	wxString		mGamePath;
 	wxString		mProjectFileName;
 
 

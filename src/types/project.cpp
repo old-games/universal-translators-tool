@@ -38,6 +38,7 @@ Project::Project():
 	mModuleName( wxEmptyString ),
 	mModuleVersion( wxEmptyString ),
 	mLastDir( wxEmptyString ),
+	mGamePath( wxEmptyString ),
 	mProjectFileName( wxEmptyString ),
 	mEditors()
 {
@@ -64,6 +65,7 @@ Project::Project( const Project& other ):
 Project::~Project()
 {
 	wxTheApp->Unbind(uttEVT_CHANGEFONT, &Project::OnChangeFontEvent, this);
+	wxTheApp->Unbind(uttEVT_REBUILDDATA, &Project::OnEditorRebuildDataEvent, this);
 }
 
 
@@ -71,6 +73,7 @@ Project::~Project()
 void Project::BindEvents()
 {
 	wxTheApp->Bind(uttEVT_CHANGEFONT, &Project::OnChangeFontEvent, this);
+	wxTheApp->Bind(uttEVT_REBUILDDATA, &Project::OnEditorRebuildDataEvent, this);
 }
 
 
@@ -110,7 +113,7 @@ bool Project::CheckChanged()
 
 
 
-bool Project::CreateProject( const wxString& fullPath, const wxString& module, const wxString& version )
+bool Project::CreateProject( const wxString& fullPath, const wxString& gamePath, const wxString& module, const wxString& version )
 {
 	wxFile file;
 
@@ -127,6 +130,7 @@ bool Project::CreateProject( const wxString& fullPath, const wxString& module, c
 
 	mProjectName = name;
 	mProjectFileName = fullPath;
+	mGamePath = gamePath;
 	SetActiveModule( module, version );
 	mLastDir = vol + wxFileName::GetVolumeSeparator( wxPATH_NATIVE ) + path;
 	return SaveProject();
@@ -136,7 +140,7 @@ bool Project::CreateProject( const wxString& fullPath, const wxString& module, c
 
 bool Project::SetActiveModule()
 {
-	bool res = Lua::Get().call( "setCurrentModule", mModuleName.ToStdString() );
+	bool res = Lua::Get().call( "setCurrentModule", mModuleName.ToStdString(), mGamePath.ToStdString() );
 	
 	if (res && !mModuleVersion.IsEmpty())
 	{
@@ -169,7 +173,13 @@ bool Project::SaveProject( const wxString& saveAs /* wxEmptyString */)
 		mProjectFileName = saveAs;
 	}
 
-	return SaveToFile( mProjectFileName );
+	bool result = SaveToFile( mProjectFileName );
+
+	if (result)
+	{
+		mChanged = false;
+	}
+	return result;
 }
 
 
@@ -183,6 +193,7 @@ bool Project::LoadProject( const wxString& fullPath )
 		result = LoadFromFile( fullPath );
 		mProjectFileName = fullPath;
 		SetActiveModule();
+		mChanged = false;
 	}
 
 	return result;
@@ -190,7 +201,28 @@ bool Project::LoadProject( const wxString& fullPath )
 
 
 
-// TODO: implement it, high priority
+void Project::CloseProject()
+{
+	EditorsIterator it = mEditors.begin();
+	while (it != mEditors.end())
+	{
+		CloseEditor( *it );
+		delete (*it);
+		mEditors.erase(it);
+	}
+	mChanged = false;
+}
+
+
+
+void Project::CloseEditor( IEditor* editor )
+{
+	AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::RemoveWindow, editor->GetWindow() ); 
+	wxTheApp->QueueEvent( event );
+}
+
+
+
 bool Project::IsAllowed( IECommands what, EditorType who )
 {
 	wxString command = GetFunctionName(what, who);
@@ -233,7 +265,7 @@ wxString Project::GetFunctionName( IECommands what, EditorType who )
 
 
 
-IEditor* Project::CreateEditor( EditorType who )
+IEditor* Project::CreateEditor( EditorType who, bool createId )
 {
 	IEditor* result = NULL;
 
@@ -253,7 +285,11 @@ IEditor* Project::CreateEditor( EditorType who )
 
 	if (result)
 	{
-		result->SetEditorId( mEditors.size() );
+		if (createId) 
+		{
+			result->CreateEditorId();
+		}
+
 		mEditors.push_back( result );
 	}
 
@@ -271,6 +307,7 @@ bool Project::SaveEditors( wxOutputStream& output )
 		res = SaveSimpleType<wxInt32>(output, (*it)->GetType()) &&
 			SaveSimpleType<wxInt32>(output, (*it)->GetEditorId()) &&
 			(*it)->SaveEditor( output );
+
 	}
 
 	return res;
@@ -292,7 +329,7 @@ bool Project::LoadEditors( wxInputStream& input )
 		
 		if (res)
 		{
-			IEditor* editor = CreateEditor( (EditorType) edType );
+			IEditor* editor = CreateEditor( (EditorType) edType, false );
 			
 			if (editor)
 			{
@@ -318,7 +355,8 @@ bool Project::LoadEditors( wxInputStream& input )
 
 void Project::CreateFontEditor( FontInfo* info )
 {
-	FontEditor* fe = static_cast<FontEditor*>( CreateEditor( etFont ) );
+	FontEditor* fe = static_cast<FontEditor*>( CreateEditor( etFont, true ) );
+
 	if (fe)
 	{
 		AddEditorWindow( fe, fe->CreateName() );
@@ -337,12 +375,27 @@ void Project::AddEditorWindow( wxWindow* wnd, const wxString& wndName )
 
 
 
+IEditor* Project::FindEditor( wxWindow* wnd ) const
+{
+	for (ConstEditorsIterator it = mEditors.begin(); it != mEditors.end(); ++it)
+	{
+		if ((*it)->GetWindow() == wnd)
+		{
+			return *it;
+		}
+	}
+	return NULL;
+}
+
+
+
 /* virtual */ bool Project::SaveState( wxOutputStream& output )
 {
 	bool res = SaveString( output, mProjectName ) &&
 		SaveString( output, mProjectFileName ) &&
 		SaveString( output, mModuleName ) &&
 		SaveString( output, mModuleVersion ) &&
+		SaveString( output, mGamePath ) &&
 		SaveString( output, mLastDir );
 
 	res = SaveEditors( output );
@@ -360,6 +413,7 @@ void Project::AddEditorWindow( wxWindow* wnd, const wxString& wndName )
 		LoadString( input, mProjectFileName ) &&
 		LoadString( input, mModuleName ) &&
 		LoadString( input, mModuleVersion ) &&
+		LoadString( input, mGamePath ) &&
 		LoadString( input, mLastDir );
 
 	res = LoadEditors( input );
@@ -372,5 +426,19 @@ void Project::AddEditorWindow( wxWindow* wnd, const wxString& wndName )
 /* virtual */ void Project::OnChangeFontEvent( ChangeFontEvent& event )
 {
 	CreateFontEditor( event.GetFontInfo() );
+	event.Skip();
+}
+
+
+
+/* virtual */ void Project::OnEditorRebuildDataEvent( EditorRebuildDataEvent& event )
+{
+	switch (event.GetWhat())
+	{
+		case EditorRebuildDataEvent::whEditorStateChanged:
+			mChanged = true;
+		break;
+	}
+
 	event.Skip();
 }

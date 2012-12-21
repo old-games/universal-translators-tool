@@ -34,6 +34,10 @@ public:
 	void SetOriginFileName( const wxString& fileName );
 	void SetOriginAdditional( const wxString& additional );
 
+	const wxString& GetFullPath() const;
+	wxString GetPath() const;
+	wxString GetFileName() const;
+
 protected:
 
 	virtual bool SaveState( wxOutputStream& output );

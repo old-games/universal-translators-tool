@@ -34,6 +34,7 @@ public:
 	virtual bool LoadEditor();
 	virtual bool SaveEditor( wxOutputStream& output );
 	virtual bool LoadEditor( wxInputStream& input );
+	virtual const Origin*	GetOrigin() const;
 
 protected:
 

@@ -10,6 +10,9 @@
 #define IEDITOR_H_INCLUDED
 
 
+// forward declarations
+
+class Origin;
 
 enum EditorType
 {
@@ -35,9 +38,11 @@ public:
 	EditorType	GetType() const { return mEditorType; }
 	int			GetEditorId() const { return mEditorId; }
 	wxWindow*	GetWindow() const { return mParent; }
+	void		Changed( bool b = true );
 	bool		IsChanged() const { return mChanged; }
 	wxString	CreateName();
 
+	void CreateEditorId();
 	void SetEditorId( int id ) { mEditorId = id; }
 
 	virtual bool	CheckChanged();
@@ -45,10 +50,10 @@ public:
 	virtual bool	LoadEditor() = 0; 
 	virtual bool	SaveEditor( wxOutputStream& output ) = 0; 
 	virtual bool	LoadEditor( wxInputStream& input ) = 0; 
+	virtual const Origin*	GetOrigin() const = 0; 
 
 protected:
 
-	inline void Changed( bool b = true ) { mChanged = b; }
 
 private:
 
@@ -57,12 +62,14 @@ private:
 	bool		mChanged;
 	wxString	mEditorName;
 	int			mEditorId;
+
 };
 
 
 
 WX_DEFINE_ARRAY( IEditor* , EditorsArray );
 typedef EditorsArray::iterator EditorsIterator;
+typedef EditorsArray::const_iterator ConstEditorsIterator;
 
 
 

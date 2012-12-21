@@ -37,7 +37,7 @@ FontEditor::FontEditor(  wxWindow* parent ):
 	this->Layout();
 	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
 	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, mSymbolsRibbon->GetId() );
-	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, this->GetId() );
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, mSymbolEditor->GetSymbolPanel()->GetId() );
 }
 
 
@@ -46,7 +46,7 @@ FontEditor::~FontEditor(void)
 {
 	wxTheApp->Unbind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
 	wxTheApp->Unbind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, mSymbolsRibbon->GetId() );
-	wxTheApp->Unbind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, this->GetId() );
+	wxTheApp->Unbind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, mSymbolEditor->GetSymbolPanel()->GetId() );
 	ClearFont( true );
 }
 
@@ -219,7 +219,14 @@ void FontEditor::SetPaletteAsMain()
 
 /* virtual */ bool FontEditor::SaveEditor( wxOutputStream& output )
 {
-	return mCurrentFont ? mCurrentFont->SaveToStream(output) : false;
+	bool result = mCurrentFont ? mCurrentFont->SaveToStream(output) : false;
+
+	if (result)
+	{
+		this->Changed( false );
+	}
+
+	return result;
 }
 
 
@@ -241,7 +248,13 @@ void FontEditor::SetPaletteAsMain()
 
 
 
-bool FontEditor::SaveEditor()
+/* virtual */ const Origin*	FontEditor::GetOrigin() const
+{
+	return mCurrentFont ? mCurrentFont->GetOrigin() : NULL;
+}
+
+
+/* virtual */ bool FontEditor::SaveEditor()
 {
 	bool res = false;
 
@@ -266,7 +279,7 @@ bool FontEditor::SaveEditor()
 
 
 
-bool FontEditor::LoadEditor()
+/* virtual */ bool FontEditor::LoadEditor()
 {
 	bool res = false;
 	wxFileDialog dlg( this, "Open UTT font...", wxEmptyString, "fontfile", UUT_FONT_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
@@ -339,15 +352,18 @@ bool FontEditor::LoadEditor()
 	{
 		case EditorRebuildDataEvent::whPaletteChanged:
 			ChangeFontPalette( event.GetPalette() );
+			this->Changed();
 		break;
 
 		case EditorRebuildDataEvent::whIndexMaskChanged:
 			CurrentSymbolChanged();
+			this->Changed();
 		break;
 
 		default:
 			wxLogError("FontEditor::OnRebuildDataEvent error: unknown \"what to do\" id (%d)", event.GetWhat());
 		break;
 	}
+
 	event.Skip();
 }

@@ -1,11 +1,17 @@
-/***************************************************************
+/************************************************************************************
  * Name:      mainframeimpl.cpp
  * Purpose:   Code for MainFrameImpl Class
  * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)
  * Created:   2012-01-17
  * Copyright: Pavlovets Ilia
  * License:
- **************************************************************/
+*
+ * Notes to whole project:
+ *		- we are not using STL except std::string in OOLUA functions
+ *		- we are using iterators in wxARRAY because they are faster than [] operator
+ ************************************************************************************/
+
+
 
 #include "pch.h"
 #include "mainframeimpl.h"
@@ -27,19 +33,12 @@ const wxString PROJECT_EXTENSIONS = "UTT Project file (*.UTTPROJ)|*.uttproj";
 MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
 	mHelpController( NULL ),
-	mCurrentProject( NULL )
+	mCurrentProject( NULL ),
+	mCurrentPane( NULL )
 {
 	
 	COMMAND->SetEditMenu( mEditMenu );
 	COMMAND->Initialize();
-
-	m_mgr.SetFlags( wxAUI_MGR_ALLOW_FLOATING		|
-					wxAUI_MGR_ALLOW_ACTIVE_PANE		|
-					wxAUI_MGR_TRANSPARENT_DRAG		|
-					wxAUI_MGR_TRANSPARENT_HINT		|
-					wxAUI_MGR_HINT_FADE				|
-					wxAUI_MGR_LIVE_RESIZE              );
-
 
 //		wxBMPHandler: For loading (including alpha support) and saving, always installed.
 //		wxPNGHandler: For loading and saving. Includes alpha support.
@@ -68,9 +67,11 @@ MainFrameImpl::MainFrameImpl(void):
 
 	this->Bind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
 	this->Bind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
+	this->Bind( wxEVT_AUI_PANE_ACTIVATED, &MainFrameImpl::OnAUIManagerEvent, this );
 
 	wxTheApp->Bind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
 	wxTheApp->Bind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAUIWindowEvent, this );
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &MainFrameImpl::OnEditorRebuildDataEvent, this);
 
 	m_mgr.Update();
 	UpdateMenuStates();
@@ -78,16 +79,21 @@ MainFrameImpl::MainFrameImpl(void):
 	wxWindow* hiddenPanel = new wxWindow( this, wxID_ANY );	// this is hack for new windows creating
 	hiddenPanel->Hide();					// if parent is hidden - no flickering on window construction
 	Project::sParentWindow = hiddenPanel;	// MainFrame will delete it automatically on exit
+	// may be it needs just a little research of wxWidgets functionality so TODO it someday
 }
 
 
 
 MainFrameImpl::~MainFrameImpl(void)
 {
+	this->Unbind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
+	this->Unbind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
+	this->Unbind( wxEVT_AUI_PANE_ACTIVATED, &MainFrameImpl::OnAUIManagerEvent, this );
+
 	wxTheApp->Unbind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAUIWindowEvent, this );
 	wxTheApp->Unbind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
-	this->Unbind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
-	this->Unbind( wxEVT_IDLE, &MainFrameImpl::OnIdle, this );
+	wxTheApp->Unbind(uttEVT_REBUILDDATA, &MainFrameImpl::OnEditorRebuildDataEvent, this);
+
 }
 
 
@@ -105,10 +111,20 @@ void MainFrameImpl::AddPane( wxWindow* wnd, const wxString& name )
 	if (wnd)
 	{
 		wnd->Reparent(this);
-		m_mgr.AddPane( wnd, wxAuiPaneInfo().Show().Name(wxString::Format("%s_%X", name, (wxUint32) wnd)).\
-			Caption(name).
-			Left().PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).DockFixed( false ) );
+
+		m_mgr.AddPane( wnd, wxAuiPaneInfo().Show().
+			Name(name).
+			Center().
+			MaximizeButton( true ).
+			PinButton( true ).
+			Dock().
+			Resizable().
+			FloatingSize( wxDefaultSize ).
+			DockFixed( false ) );
+
 		m_mgr.Update();
+
+		mProjectWindow->UpdateProjectTree();
 		UpdateMenuStates();
 	}
 }
@@ -157,23 +173,25 @@ void MainFrameImpl::DoOpenProject()
 	
 	wxFileDialog dlg(this, "Open project", wxEmptyString, wxEmptyString, PROJECT_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
-	Project* old = mCurrentProject;
-
-	if (dlg.ShowModal() != wxID_OK || !CloseProject())
+	if ( dlg.ShowModal() != wxID_OK || !DoCloseProject() )
 	{
 		return;
 	}
 
+	Project* old = mCurrentProject;
 	Project* newProject = new Project();
 
 	if (!newProject->LoadProject( dlg.GetPath() ))
 	{
 		delete newProject;
 		newProject = old;
-		wxLogError("MainFrameImpl::DoOpenProject: there was an error(s)");
+		wxLogError("MainFrameImpl::DoOpenProject: there was an error(s). Project NOT loaded!");
 	}
 
 	mCurrentProject = newProject;
+
+	mProjectWindow->SetProject( mCurrentProject );
+
 	UpdateMenuStates();
 }
 
@@ -201,7 +219,7 @@ void MainFrameImpl::DoSelectVersion()
 
 
 
-bool MainFrameImpl::CloseProject(bool force /* true */)
+bool MainFrameImpl::DoCloseProject(bool force /* true */)
 {
 	bool result = true;
 
@@ -209,8 +227,11 @@ bool MainFrameImpl::CloseProject(bool force /* true */)
 	{	
 		if ( force || CheckProject() )
 		{
+			mCurrentProject->CloseProject();
 			delete mCurrentProject;
 			mCurrentProject = NULL;
+			mProjectWindow->SetProject( NULL );
+			COMMAND->ClearCommands();
 		}
 		else
 		{
@@ -230,16 +251,14 @@ bool MainFrameImpl::CheckProject()
 		return true;
 	}
 
-	if (mCurrentProject->CheckChanged() == wxYES)
-	{
-	}
+	return mCurrentProject->CheckChanged();
 }
 
 
 
 void MainFrameImpl::CreateNewProject()
 {
-	if ( !CloseProject() != NULL )
+	if ( !DoCloseProject() )
 	{
 		return;
 	}
@@ -252,7 +271,9 @@ void MainFrameImpl::CreateNewProject()
 	}
 
 	mCurrentProject = new Project();
-	mCurrentProject->CreateProject( dlg.GetPath(), dlg.GetModule(), dlg.GetVersion() );
+	mCurrentProject->CreateProject( dlg.GetPath(), dlg.GetGamePath(), dlg.GetModule(), dlg.GetVersion() );
+
+	mProjectWindow->SetProject( mCurrentProject );
 
 	UpdateMenuStates();
 	COMMAND->ClearCommands();
@@ -281,7 +302,11 @@ void MainFrameImpl::DoSaveProject( bool saveAs /* false */)
 	}
 
 	mCurrentProject->SaveProject( projName );
+
+	UpdateMenuStates();
 }
+
+
 
 void MainFrameImpl::DoModuleChanged()
 {
@@ -316,12 +341,26 @@ void MainFrameImpl::DoModuleChanged()
 
 void MainFrameImpl::DoModuleCommand( int n )
 {
-	wxString command = mModuleMenu->GetLabelText(n);
-
-	if ( !Lua::Get().call( "executeModuleMenuCommand", command.ToStdString() ) )
+	if (!mCurrentProject || !mCurrentPane)
 	{
-		Lua::ShowLastError();
 		return;
+	}
+
+	IEditor* editor = mCurrentProject->FindEditor( mCurrentPane->window );
+
+	if (editor)
+	{
+		wxString command = mModuleMenu->GetLabelText(n);
+
+		if ( !Lua::Get().call( "executeModuleMenuCommand", command.ToStdString(), mCurrentPane->window->GetId() ) )
+		{
+			Lua::ShowLastError();
+			return;
+		}
+	}
+	else
+	{
+		wxLogError("MainFrameImpl::DoModuleCommand: %s window not found in editors!", mCurrentPane->name);
 	}
 }
 
@@ -433,7 +472,7 @@ void MainFrameImpl::OnShow( wxShowEvent& event )
 
 void MainFrameImpl::OnClose( wxCloseEvent& event )
 {
-	if ( !CloseProject() )
+	if ( !DoCloseProject() )
 	{
 		event.Veto();
 		return;
@@ -484,6 +523,14 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 
 		case wxID_SAVE_PROJECT_AS:
 			DoSaveProject( true );
+		break;
+
+
+		case wxID_CLOSE_PROJECT:
+			if (DoCloseProject())
+			{
+				UpdateMenuStates();
+			}
 		break;
 
 		case wxID_FILE_QUIT:
@@ -604,8 +651,37 @@ void MainFrameImpl::OnAUIWindowEvent( AUIWindowEvent& event )
 		break;
 		
 		case AUIWindowEvent::RenameWindow:
-			m_mgr.GetPane(event.GetWindow()).Name( event.GetName() );
+			m_mgr.GetPane(event.GetWindow()).Caption( event.GetName() );
 		break;
 	}
 }
 
+
+
+void MainFrameImpl::OnEditorRebuildDataEvent( EditorRebuildDataEvent& event )
+{
+	switch (event.GetWhat())
+	{
+		case EditorRebuildDataEvent::whEditorStateChanged:
+			UpdateMenuStates();
+			mProjectWindow->UpdateState( event.GetEditor() );
+		break;
+	}
+
+	event.Skip();
+}
+
+
+
+void  MainFrameImpl::OnAUIManagerEvent( wxAuiManagerEvent& event )
+{
+	mCurrentPane = event.GetPane();
+
+	if (!mCurrentProject || !mCurrentProject->FindEditor( mCurrentPane->window ))
+	{
+		mCurrentPane = NULL;
+	}
+	
+	
+	event.Skip();
+}
