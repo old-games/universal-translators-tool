@@ -12,14 +12,27 @@
 #include "pch.h"
 #include "istatestore.h"
 
+
+
 const wxString TEMP_FILENAME = "__savestate_temp__";
 
+
+
 IStateStore::IStateStore(const wxString& myName, int version):
-	mMyName(myName),
+	mMyName( myName ),
 	mVersion( version ),
 	mMyTemporary()
 {
 	mMyTemporary = wxString::Format( "%s%X.utemp", TEMP_FILENAME, (unsigned int) this );
+}
+
+
+
+IStateStore::IStateStore( const IStateStore& other ):
+	mMyName( other.mMyName ),
+	mVersion( other.mVersion ),
+	mMyTemporary( other.mMyTemporary )
+{
 }
 
 

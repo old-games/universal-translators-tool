@@ -18,6 +18,7 @@ class IStateStore
 public:
 
 	IStateStore( const wxString& myName, int version );
+	IStateStore( const IStateStore& other );
 	virtual ~IStateStore();
 
 	bool SaveToFile( const wxString& fileName );

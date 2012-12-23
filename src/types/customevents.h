@@ -10,11 +10,12 @@
 #define CUSTOMEVENTS_H_INCLUDED
 
 #include "types/uttypes.h"
+#include "types/iinfo.h"
 
 class ModuleChangedEvent;
 class ColourPickEvent;
-class ChangeFontEvent;
-class ChangeImageEvent;
+class ChangeInfoEvent;
+//class ChangeImageEvent;
 class ChangePaletteEvent;
 class SymbolSelectionEvent;
 class EditorRebuildDataEvent;
@@ -25,8 +26,8 @@ class IEditor;
 
 wxDECLARE_EVENT( uttEVT_MODULECHANGED, ModuleChangedEvent );
 wxDECLARE_EVENT( uttEVT_COLOURPICK, ColourPickEvent );
-wxDECLARE_EVENT( uttEVT_CHANGEFONT, ChangeFontEvent );
-wxDECLARE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
+wxDECLARE_EVENT( uttEVT_CHANGEINFO, ChangeInfoEvent );
+//wxDECLARE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
 wxDECLARE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
 wxDECLARE_EVENT( uttEVT_REBUILDDATA, EditorRebuildDataEvent );
@@ -147,102 +148,99 @@ typedef void (wxEvtHandler::*ColourPickEventFunction)(ColourPickEvent&);
 //////////////////////////////////////////////////////////////////////////
 
 
-class FontInfo;
 
-class ChangeFontEvent : public wxEvent
+class ChangeInfoEvent : public wxEvent
 {
 public:
 	
 
-    ChangeFontEvent()
-        : wxEvent(0, uttEVT_CHANGEFONT),
-		mFontInfo( NULL )
+    ChangeInfoEvent()
+        : wxEvent(0, uttEVT_CHANGEINFO),
+		mInfo( NULL )
 	{ }
 	
-    ChangeFontEvent( FontInfo* fontInfo, int winId = 0 )
-        : wxEvent(winId, uttEVT_CHANGEFONT),
-		mFontInfo( fontInfo )
+    ChangeInfoEvent( IInfo* info, int winId = 0 )
+        : wxEvent(winId, uttEVT_CHANGEINFO),
+		mInfo( info )
 	{ }
 	
-    ChangeFontEvent(const ChangeFontEvent& event)
+    ChangeInfoEvent(const ChangeInfoEvent& event)
         : wxEvent(event),
-		mFontInfo( event.mFontInfo )
+		mInfo( event.mInfo )
     { }
 
-    virtual wxEvent *Clone() const { return new ChangeFontEvent(*this); }
+    virtual wxEvent *Clone() const { return new ChangeInfoEvent(*this); }
     
-    FontInfo*	GetFontInfo()
-	{
-		return mFontInfo;
-	}
+    IInfo*	GetInfo() { return mInfo; }
+
 
 protected:
 	
 private:
 
-	FontInfo*	mFontInfo;
+	IInfo*		mInfo;
 
-	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangeFontEvent)
+	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangeInfoEvent)
 };
 
-typedef void (wxEvtHandler::*ChangeFontEventFunction)(ChangeFontEvent&);
+typedef void (wxEvtHandler::*ChangeInfoEventFunction)(ChangeInfoEvent&);
 
 
 
-#define ChangeFontEventHandler(func) \
-    wxEVENT_HANDLER_CAST(ChangeFontEventFunction, func)
+#define ChangeInfoEventHandler(func) \
+    wxEVENT_HANDLER_CAST(ChangeInfoEventFunction, func)
 
-#define EVT_CHANGEFONT(func) wx__DECLARE_EVT0(uttEVT_CHANGEFONT, ChangeFontEventHandler(func))
+#define EVT_CHANGEINFO(func) wx__DECLARE_EVT0(uttEVT_CHANGEINFO, ChangeInfoEventHandler(func))
 
 
 //////////////////////////////////////////////////////////////////////////
 
-
-class ImageInfo;
-
-class ChangeImageEvent : public wxEvent
-{
-public:
-	
-
-    ChangeImageEvent( )
-        : wxEvent(0, uttEVT_CHANGEIMAGE),
-		mImageInfo( NULL )
-	{ }
-	
-    ChangeImageEvent( ImageInfo* imageInfo )
-        : wxEvent(0, uttEVT_CHANGEIMAGE),
-		mImageInfo( imageInfo )
-	{ }
-	
-    ChangeImageEvent(const ChangeImageEvent& event)
-        : wxEvent(event),
-		mImageInfo( event.mImageInfo )
-    { }
-
-    virtual wxEvent *Clone() const { return new ChangeImageEvent(*this); }
-    
-    ImageInfo*	GetImageInfo()
-	{
-		return mImageInfo;
-	}
-
-protected:
-	
-private:
-
-	ImageInfo*	mImageInfo;
-
-	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangeImageEvent)
-};
-
-typedef void (wxEvtHandler::*ChangeImageEventFunction)(ChangeImageEvent&);
-
-#define ChangeImageEventHandler(func) \
-    wxEVENT_HANDLER_CAST(ChangeImageEventFunction, func)
-
-#define EVT_CHANGEIMAGE(func) wx__DECLARE_EVT0(uttEVT_CHANGEIMAGE, ChangeImageEventHandler(func))
-
+//
+//class ImageInfo;
+//
+//class ChangeImageEvent : public wxEvent
+//{
+//public:
+//	
+//
+//    ChangeImageEvent( )
+//        : wxEvent(0, uttEVT_CHANGEIMAGE),
+//		mImageInfo( NULL )
+//	{ }
+//	
+//    ChangeImageEvent( ImageInfo* imageInfo )
+//        : wxEvent(0, uttEVT_CHANGEIMAGE),
+//		mImageInfo( imageInfo )
+//	{ }
+//	
+//    ChangeImageEvent(const ChangeImageEvent& event)
+//        : wxEvent(event),
+//		mImageInfo( event.mImageInfo )
+//    { }
+//
+//    virtual wxEvent *Clone() const { return new ChangeImageEvent(*this); }
+//    
+//    ImageInfo*	GetImageInfo()
+//	{
+//		return mImageInfo;
+//	}
+//
+//protected:
+//	
+//private:
+//
+//	ImageInfo*	mImageInfo;
+//
+//	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangeImageEvent)
+//};
+//
+//typedef void (wxEvtHandler::*ChangeImageEventFunction)(ChangeImageEvent&);
+//
+//#define ChangeImageEventHandler(func) \
+//    wxEVENT_HANDLER_CAST(ChangeImageEventFunction, func)
+//
+//#define EVT_CHANGEIMAGE(func) wx__DECLARE_EVT0(uttEVT_CHANGEIMAGE, ChangeImageEventHandler(func))
+//
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -259,37 +257,37 @@ public:
     ChangePaletteEvent( )
         : wxEvent(0, uttEVT_CHANGEPALETTE),
 		mData( NULL ),
-		mLock( false )
+		mRebuild( false )
 	{ 	
 	}
 	
 
 
-    ChangePaletteEvent( int winid, Palette* pal, bool lockPal  )
+    ChangePaletteEvent( int winid, Palette* pal, bool rebuild )
         : wxEvent(winid, uttEVT_CHANGEPALETTE),
 		mData( pal ),
-		mLock( lockPal )
+		mRebuild( rebuild )
 	{ 
 	}
 	
     ChangePaletteEvent(const ChangePaletteEvent& event)
         : wxEvent(event),
 		mData( event.mData ),
-		mLock( event.mLock )
+		mRebuild( event.mRebuild )
     { 
 	}
 
     virtual wxEvent *Clone() const { return new ChangePaletteEvent(*this); }
   
 	Palette*	GetPalette() { return mData; }
-	bool		GetLock() { return mLock; }
+	bool		GetRebuild() { return mRebuild; }
 
 protected:
 	
 private:
 
 	Palette*	mData;
-	bool		mLock;
+	bool		mRebuild;
 
 	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangePaletteEvent)
 };

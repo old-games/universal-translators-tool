@@ -18,7 +18,7 @@ class IndexMask;
 class SymbolEditGui: public ImageEditor
 {
 public:
-	SymbolEditGui( wxWindow* parent );
+	SymbolEditGui( wxWindow* parent, wxWindowID eventsId );
 	~SymbolEditGui(void);
 
 	SymbolPanel* GetSymbolPanel()

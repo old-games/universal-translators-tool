@@ -22,7 +22,7 @@ const int		FINFOVERSION = 0x100;
 
 
 FontInfo::FontInfo():
-	IStateStore( FINFONAME, FINFOVERSION ),
+	IInfo( FINFONAME, FINFOVERSION, etFont ),
 	mMaxHeight( 0 ),
 	mMinHeight( 0 ),
 	mMaxWidth( 0 ),
@@ -32,15 +32,14 @@ FontInfo::FontInfo():
 	mLowLine( 0 ),
 	mBPP( Palette::bppMono ),
 	mFontCodePage( 0 ),
-	mPalette( NULL ),
-	mOrigin()
+	mPalette( NULL )
 {
 }
 
 
 
 FontInfo::FontInfo( const FontInfo& other ):
-	IStateStore( FINFONAME, FINFOVERSION ),
+	IInfo( other ),
 	mMaxHeight( other.mMaxHeight ),
 	mMinHeight( other.mMinHeight ),
 	mMaxWidth( other.mMaxWidth ),
@@ -51,8 +50,7 @@ FontInfo::FontInfo( const FontInfo& other ):
 	mBPP( other.mBPP ),
 	mFontCodePage( other.mFontCodePage ),
 	mSymbols( other.mSymbols ),
-	mPalette( NULL ),
-	mOrigin( other.mOrigin )
+	mPalette( NULL )
 {
 	if (other.mPalette)
 	{
@@ -166,7 +164,8 @@ bool FontInfo::SetPalette(Palette* pal)
 		return false;
 	}
 
-	bool res = SaveSimpleType<wxInt32>( output, mMaxHeight ) &&
+	bool res = IInfo::SaveState( output ) &&
+		SaveSimpleType<wxInt32>( output, mMaxHeight ) &&
 		SaveSimpleType<wxInt32>( output, mMinHeight ) &&
 		SaveSimpleType<wxInt32>( output, mMaxWidth ) &&
 		SaveSimpleType<wxInt32>( output, mMinWidth ) &&
@@ -190,11 +189,6 @@ bool FontInfo::SetPalette(Palette* pal)
 		}
 	}
 
-	if (res)
-	{
-		res = mOrigin.SaveToStream( output );
-	}
-
 	return res;
 }
 
@@ -209,7 +203,8 @@ bool FontInfo::SetPalette(Palette* pal)
 	ClearPalette();
 	mSymbols.clear();
 
-	bool res = LoadSimpleType<wxInt32>( input, mMaxHeight ) &&
+	bool res = IInfo::LoadState( input, version ) &&
+		LoadSimpleType<wxInt32>( input, mMaxHeight ) &&
 		LoadSimpleType<wxInt32>( input, mMinHeight ) &&
 		LoadSimpleType<wxInt32>( input, mMaxWidth ) &&
 		LoadSimpleType<wxInt32>( input, mMinWidth ) &&
@@ -243,25 +238,7 @@ bool FontInfo::SetPalette(Palette* pal)
 		}
 	}
 
-	if (res)
-	{
-		res = mOrigin.LoadFromStream( input );
-	}
-
 	return res;
 }
 
-
-
-void FontInfo::SetOrigin( const Origin* origin )
-{
-	mOrigin = Origin(*origin);
-}
-
-
-
-const Origin* FontInfo::GetOrigin() const
-{
-	return &mOrigin;
-}
 

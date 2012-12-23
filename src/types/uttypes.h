@@ -22,6 +22,19 @@ typedef wxByte PixelA[4];
 
 
 
+enum EditorType
+{
+	etFont,
+	etImage,
+	etLibrary,
+	etAnimation,
+	etSound,
+	etVideo,
+	etNum
+};
+
+
+
 struct RGBA
 {
 	RGBA(): R(0), G(0), B(0), A(0xFF)	{};

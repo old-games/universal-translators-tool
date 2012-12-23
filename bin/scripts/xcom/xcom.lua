@@ -11,6 +11,7 @@ local KnownImageNames =
 	--	XCOM2WIN 
 	{ "lang", "back", "geobord", "up_bord2"} 
 }
+
 function getKnownImageNames() return KnownImageNames[currentVersion] end
 
 local imageParams = 
@@ -204,8 +205,8 @@ function LoadXcomFont( fileName )
 		return
 	end
 	
-	local vol, path, name, ext = parseFileName( fileName )
-	path = vol..path..'/'
+	local path, name, ext = parseFileName( fileName )
+	path = path..'/'
 	
 	
 	local exec = xcomFontInfo[currentVersion].execInfo
@@ -319,3 +320,70 @@ function ChangePalette(gamePath, editorId)
 	
 end 
 
+
+
+function LoadLBM( filename )
+	iff = IFFLib:new()
+	iff:LoadIFFFile( filename )
+	
+	local form = iff:FindForm("PBM ")
+	
+	if not form:IsOk() then
+		print("PBM form not found!")
+		return
+	end
+	
+	local header = iff:FindChunk("BMHD", form)
+	local colorMap = iff:FindChunk("CMAP", form)
+	local body = iff:FindChunk("BODY", form)
+	
+	if not header:IsOk()  then
+		print "BMHD not loaded!"
+		return
+	end
+	
+	if not colorMap:IsOk()  then
+		print "CMAP not loaded!"
+		return
+	end
+	
+	if not body:IsOk()  then
+		print "BODY not loaded!"
+		return
+	end
+		
+	local info = readDataFromBuffer( iff:ReadChunkData(header), LBMHeader )
+	
+	showTable(info)
+	
+	
+	local palBuf = iff:ReadChunkData(colorMap)
+	local imgBuf = iff:ReadChunkData(body)
+	
+	
+	
+	local size = info.WIDTH * info.HEIGHT
+	local image = ImageInfo:new()
+	local pal = Palette:new()
+	
+	if pal:Initiate( Palette.bpp8, palBuf, Palette.sfPlain, false ) then
+		if not image:SetPalette( pal ) then
+			print "loadLBM error: can't set Palette."
+			return
+		end
+	end
+	
+	local origin = Origin:new(Origin.FromFile, filename)
+	
+	local mask = IndexMask:new()
+	mask:SetMask( unpackLBMBody(imgBuf, size), size, info.WIDTH, info.HEIGHT, -1, -1)
+	
+	if mask:IsOk() then
+		image:SetImage( mask )
+		image:SetOrigin(origin)
+		return image
+	else
+		print("loadLBM error: There was an error while initiating IndexMask")
+	end
+	
+end

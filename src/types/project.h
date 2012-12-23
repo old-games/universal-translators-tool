@@ -60,16 +60,17 @@ protected:
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
 
-	virtual void OnChangeFontEvent( ChangeFontEvent& event );
+	virtual void OnChangeInfoEvent( ChangeInfoEvent& event );
 	virtual void OnEditorRebuildDataEvent( EditorRebuildDataEvent& event );
 	
 private:
 
 	void			BindEvents();
 	IEditor*		CreateEditor( EditorType who, bool createId );
+	void			CreateEditorAndSetIt( IInfo* info );
 	void			CloseEditor( IEditor* editor );
-	void			CreateFontEditor( FontInfo* info );
-	void			AddEditorWindow( wxWindow* wnd, const wxString& wndName );
+
+	void			AddEditorWindow( IEditor* editor, const wxString& wndName );
 
 	wxString		GetFunctionName( IECommands what, EditorType who );
 	bool			SaveEditors( wxOutputStream& output );
@@ -82,7 +83,6 @@ private:
 	wxString		mLastDir;
 	wxString		mGamePath;
 	wxString		mProjectFileName;
-
 
 	EditorsArray	mEditors;
 };

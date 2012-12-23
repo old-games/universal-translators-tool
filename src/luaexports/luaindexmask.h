@@ -10,7 +10,12 @@
 #ifndef LUAINDEXMASK_H_INCLUDED
 #define LUAINDEXMASK_H_INCLUDED
 
+
+
 #include "types/indexmask.h"
+#include "luaiinfo.h"
+
+
 
 namespace Lua
 {
@@ -24,8 +29,11 @@ namespace Lua
 
 
 
-OOLUA_CLASS_NO_BASES( IndexMask )
+OOLUA_CLASS( IndexMask ) : public Proxy_class< IInfo >
+	OOLUA_BASIC
+
 	OOLUA_NO_TYPEDEFS
+	OOLUA_BASES_START IInfo OOLUA_BASES_END
 	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
 
 	//	void SetMask( unsigned char* mask, unsigned size, int width, int height, int srcWidth, int srcHeight );

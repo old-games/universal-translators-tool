@@ -51,20 +51,22 @@ int writeToLog(lua_State *L)
 int parseFileName(lua_State *L)
 {
 	int n = lua_gettop(L);
+
 	if (n != 1)
 	{
 		wxLogMessage("parseFileName: function need a string as argument");
 		return 0;
 	}
+
 	wxString src( lua_tostring(L, 1) );
-	wxString volume, path, name, ext;
-	wxFileName::SplitPath( src, &volume, &path, &name, &ext );
-	volume += wxFileName::GetVolumeSeparator( wxPATH_NATIVE );
-	lua_pushstring(L, volume.c_str().AsChar());
+	wxString path, name, ext;
+	wxFileName::SplitPath( src, &path, &name, &ext );
+	//volume += wxFileName::GetVolumeSeparator( wxPATH_NATIVE );
+	//lua_pushstring(L, volume.c_str().AsChar());
 	lua_pushstring(L, path.c_str().AsChar());
 	lua_pushstring(L, name.c_str().AsChar());
 	lua_pushstring(L, ext.c_str().AsChar());
-	return 4;
+	return 3;
 }
 
 

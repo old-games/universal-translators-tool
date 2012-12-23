@@ -731,7 +731,6 @@ EditPanelGui::EditPanelGui( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	
 	mEditScrolledBack = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
 	mEditScrolledBack->SetScrollRate( 5, 5 );
-	wxFlexGridSizer* mEditSizer;
 	mEditSizer = new wxFlexGridSizer( 3, 1, 0, 0 );
 	mEditSizer->AddGrowableCol( 0 );
 	mEditSizer->AddGrowableRow( 0 );
@@ -783,8 +782,10 @@ EditPanelGui::EditPanelGui( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	
 	mEditSizer->Add( sbSizer10, 1, wxEXPAND, 5 );
 	
-	mPaletteHolder = new PaletteHolderCtrl(mEditScrolledBack, this, mEditSizer);
-	mEditSizer->Add( mPaletteHolder, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
+	mPalSizer = new wxGridSizer( 1, 1, 0, 0 );
+	
+	
+	mEditSizer->Add( mPalSizer, 1, wxEXPAND, 5 );
 	
 	
 	mEditScrolledBack->SetSizer( mEditSizer );

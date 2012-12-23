@@ -15,14 +15,13 @@
 class PaletteWindowImpl;
 class Palette;
 
-class PalettePanel :
-	public EditPanel
+class PalettePanel : public EditPanel
 {
 
 friend class PaletteWindowImpl;
 
 public:
-	PalettePanel( wxWindow* parent, Palette* pal, bool changeGlobalColours = true );
+	PalettePanel( wxWindow* parent, Palette* pal, wxWindowID eventsId = wxID_ANY );
 	~PalettePanel();
 
 	const UttColour& GetColour( bool right );
@@ -54,7 +53,6 @@ private:
 	wxPoint		mRightPos;
 	UttColour	mLeftColour;
 	UttColour	mRightColour;
-	bool		mChangeGlobals;
 	bool		mContainerMode; 
 
 	Palette*	mCurrentPal;

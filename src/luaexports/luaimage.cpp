@@ -47,9 +47,12 @@ int editImage(lua_State *L)
 		return 0;
 	}
 	ImageInfo* imageInfo;
-	OOLUA::pull2cpp(L, imageInfo);
-	
-	ChangeImageEvent imageEvent( imageInfo );
-	wxTheApp->ProcessEvent( imageEvent );
+
+	if ( OOLUA::pull2cpp(L, imageInfo) )
+	{
+		ChangeInfoEvent imageEvent( imageInfo );	
+		wxTheApp->ProcessEvent( imageEvent );	// don't use QueueEvent here!
+	}
+
 	return 0;
 }

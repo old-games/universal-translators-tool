@@ -2,6 +2,7 @@ print "Starting Lua initiate..."
 
 package.path = package.path..";./scripts/?.lua"
 require 'common'
+require 'structs'
 
 
 

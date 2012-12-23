@@ -10,14 +10,13 @@
 #define FONTINFO_H_INCLUDED
 
 #include "symbolinfo.h"
-#include "istatestore.h"
-#include "origin.h"
+#include "iinfo.h"
 
 // forward declarations
 class Palette;
 class IndexMask;
 
-class FontInfo: public IStateStore
+class FontInfo: public IInfo
 {
 
 public:
@@ -138,9 +137,6 @@ public:
 
 	bool SetPalette(Palette* pal);
 	Palette* GetPalette() { return mPalette; }
-
-	void SetOrigin( const Origin* origin );
-	const Origin* GetOrigin() const;
 
 	static SymbolInfo	sBadSymbol;
 

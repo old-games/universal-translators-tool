@@ -40,7 +40,6 @@
 #include <wx/splitter.h>
 #include <wx/checkbox.h>
 #include <wx/choice.h>
-#include "palholderctrl.h"
 #include <wx/treectrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -247,6 +246,7 @@ class EditPanelGui : public wxPanel
 	
 	protected:
 		wxScrolledWindow* mEditScrolledBack;
+		wxFlexGridSizer* mEditSizer;
 		wxStaticBoxSizer* mDrawHolder;
 		wxCheckBox* mGridCheck;
 		wxStaticText* m_staticText12;
@@ -254,7 +254,7 @@ class EditPanelGui : public wxPanel
 		wxButton* mGetGridColour;
 		wxButton* mSaveBtn;
 		wxButton* mLoadBtn;
-		PaletteHolderCtrl* mPaletteHolder;
+		wxGridSizer* mPalSizer;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnCommandEvent( wxCommandEvent& event ) { event.Skip(); }

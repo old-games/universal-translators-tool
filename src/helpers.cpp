@@ -71,8 +71,8 @@ bool CopyToClipboard( const wxRect& rect, const wxBitmap* bmp )
 void Buffer8bpp_to_Pixels(Pixel* dst, int dstWidth, int dstHeight, const wxByte* src, int srcWidth, int srcHeight, const Palette* pal )
 {
 	memset( dst, 0, dstWidth * dstHeight * sizeof( Pixel ) );
-	size_t copyLength = sizeof( Pixel ) * dstWidth;
-	int correction = dstWidth - srcWidth;
+	//size_t copyLength = sizeof( Pixel ) * dstWidth;
+	//int correction = dstWidth - srcWidth;
 	for (int  y = 0; y < srcHeight; ++y)
 	{
 		for (int x = 0; x < srcWidth; ++x)

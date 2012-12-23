@@ -64,7 +64,7 @@ Project::Project( const Project& other ):
 
 Project::~Project()
 {
-	wxTheApp->Unbind(uttEVT_CHANGEFONT, &Project::OnChangeFontEvent, this);
+	wxTheApp->Unbind(uttEVT_CHANGEINFO, &Project::OnChangeInfoEvent, this);
 	wxTheApp->Unbind(uttEVT_REBUILDDATA, &Project::OnEditorRebuildDataEvent, this);
 }
 
@@ -72,7 +72,7 @@ Project::~Project()
 
 void Project::BindEvents()
 {
-	wxTheApp->Bind(uttEVT_CHANGEFONT, &Project::OnChangeFontEvent, this);
+	wxTheApp->Bind(uttEVT_CHANGEINFO, &Project::OnChangeInfoEvent, this);
 	wxTheApp->Bind(uttEVT_REBUILDDATA, &Project::OnEditorRebuildDataEvent, this);
 }
 
@@ -276,7 +276,7 @@ IEditor* Project::CreateEditor( EditorType who, bool createId )
 		break;
 
 		case etImage:
-			//result = static_cast<IEditor*> ( new ImageEditor(NULL) );
+			result = static_cast<IEditor*> ( new ImageEditor( sParentWindow ) );
 		break;
 
 		default:
@@ -338,7 +338,7 @@ bool Project::LoadEditors( wxInputStream& input )
 
 				if ( res )
 				{
-					AddEditorWindow( editor->GetWindow(), editor->CreateName() );
+					AddEditorWindow( editor, editor->CreateName() );
 				}
 			}
 			else
@@ -353,23 +353,33 @@ bool Project::LoadEditors( wxInputStream& input )
 
 
 
-void Project::CreateFontEditor( FontInfo* info )
+void Project::CreateEditorAndSetIt( IInfo* info )
 {
-	FontEditor* fe = static_cast<FontEditor*>( CreateEditor( etFont, true ) );
+	IEditor* editor = CreateEditor( info->GetEditorType(), true );
 
-	if (fe)
+	if (editor)
 	{
-		AddEditorWindow( fe, fe->CreateName() );
-		fe->SetFont(info);
+		AddEditorWindow( editor, editor->CreateName() );
+		editor->SetInfo( info );
+
+
 	}
 }
 
 
 
-void Project::AddEditorWindow( wxWindow* wnd, const wxString& wndName )
+void Project::AddEditorWindow( IEditor* editor, const wxString& wndName )
 {
-	AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::AddWindow, wnd, wndName ); 
+	AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::AddWindow, editor->GetWindow(), wndName ); 
 	wxTheApp->QueueEvent( event );
+
+	if (editor->GetOrigin())
+	{
+		AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::RenameWindow, 
+			editor->GetWindow(), editor->GetOrigin()->GetFileName() ); 
+		wxTheApp->QueueEvent( event );
+	}
+
 	mChanged = true;
 }
 
@@ -423,9 +433,9 @@ IEditor* Project::FindEditor( wxWindow* wnd ) const
 
 
 
-/* virtual */ void Project::OnChangeFontEvent( ChangeFontEvent& event )
+/* virtual */ void Project::OnChangeInfoEvent( ChangeInfoEvent& event )
 {
-	CreateFontEditor( event.GetFontInfo() );
+	CreateEditorAndSetIt( event.GetInfo() );
 	event.Skip();
 }
 
@@ -435,6 +445,10 @@ IEditor* Project::FindEditor( wxWindow* wnd ) const
 {
 	switch (event.GetWhat())
 	{
+		case EditorRebuildDataEvent::whPaletteChanged:
+			wxLogMessage("rebuild palette");
+		break;
+
 		case EditorRebuildDataEvent::whEditorStateChanged:
 			mChanged = true;
 		break;

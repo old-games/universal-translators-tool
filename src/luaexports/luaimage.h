@@ -22,9 +22,12 @@ namespace Lua
 
 
 
-OOLUA_CLASS_NO_BASES( ImageInfo )
-	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
+OOLUA_CLASS( ImageInfo ) : public Proxy_class< IInfo >
+	OOLUA_BASIC
+
 	OOLUA_NO_TYPEDEFS
+	OOLUA_BASES_START IInfo OOLUA_BASES_END
+	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
 
 	OOLUA_MEM_FUNC_1( void, SetImage, IndexMask* )
 	OOLUA_MEM_FUNC_1( bool, SetPalette, Palette* )

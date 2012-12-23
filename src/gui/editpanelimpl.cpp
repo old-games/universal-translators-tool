@@ -12,25 +12,38 @@
 #include "panels/editpanel.h"
 #include "types/imageinfo.h"
 #include "types/palette.h"
+#include "types/indexmask.h"
+#include "palholderctrl.h"
 
 const wxString	UUT_IMAGE_EXTENSIONS = "UTT Image files (*.uim)|*.uim";
 
-ImageEditor::ImageEditor(  wxWindow* parent ):
+ImageEditor::ImageEditor(  wxWindow* parent, wxWindowID eventsId /* wxID_ANY */ ):
 	EditPanelGui( parent ),
-	mEditPanel( NULL )
+	IEditor( this, etImage, "Image editor" ),
+	mEditPanel( NULL ),
+	mPalettePanel( NULL )
 {
-	mEditPanel = new EditPanel( mEditScrolledBack );
+	if (eventsId == wxID_ANY)
+	{
+		eventsId = this->GetId();
+	}
+
+	mEditPanel = new EditPanel( mEditScrolledBack, eventsId );
 	SetEditPanel( mEditPanel );
-	wxTheApp->Bind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this );
-	wxTheApp->Bind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, this->GetPaletteCtrlId() );
+
+	mPalettePanel = new PaletteHolderCtrl(mEditScrolledBack, eventsId, this, mEditSizer);
+	mPalSizer->Add( mPalettePanel, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
+
+	//wxTheApp->Bind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this, eventsId );
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, eventsId );
 }
 
 
 
 ImageEditor::~ImageEditor(void)
 {
-	wxTheApp->Unbind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this );
-	wxTheApp->Unbind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, this->GetPaletteCtrlId() );
+	//wxTheApp->Unbind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this );
+	wxTheApp->Unbind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this );
 //	ClearImage( true );
 }
 
@@ -53,9 +66,10 @@ void ImageEditor::ClearImage( bool force /* false */ )
 }
 
 
-
-void ImageEditor::SetImage( ImageInfo* newImage )
+/* virtual */ void ImageEditor::SetInfo( IInfo* info )
 {
+	ImageInfo* newImage = static_cast<ImageInfo*>( info );
+
 	ClearImage();
 	mEditPanel->SetIndexedBitmap(  newImage	);
 	SetPaletteAsMain();
@@ -77,48 +91,11 @@ bool ImageEditor::CheckChanges()
 
 
 
-void ImageEditor::SaveImage()
-{
-
-	if (!mEditPanel->mImageInfo || !mEditPanel->mImageInfo->IsOk())
-	{
-		wxLogWarning("Image is not ready to save!");
-		return;
-	}
-
-	wxFileDialog dlg( this, "Save image as...", wxEmptyString, "fileimage", UUT_IMAGE_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
-	if (dlg.ShowModal() == wxID_OK)
-	{
-		mEditPanel->mImageInfo->SaveToFile( dlg.GetPath() );
-	}
-}
-
-
-
-void ImageEditor::LoadImage()
-{
-	wxFileDialog dlg( this, "Open UTT image...", wxEmptyString, "fileimage", UUT_IMAGE_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
-	if (dlg.ShowModal() == wxID_OK)
-	{
-		ImageInfo* imageInfo = new ImageInfo();
-		imageInfo->LoadFromFile( dlg.GetPath() );
-
-		if ( imageInfo->IsOk() )
-		{
-			SetImage(imageInfo);
-		}
-
-		delete imageInfo;
-	}
-}
-
-
-
-/* virtual */ void ImageEditor::OnImageChangeEvent( ChangeImageEvent& event )
-{
-	SetImage( event.GetImageInfo() );
-//	event.Skip();
-}
+///* virtual */ void ImageEditor::OnImageChangeEvent( ChangeImageEvent& event )
+//{
+//	SetInfo( event.GetImageInfo() );
+////	event.Skip();
+//}
 
 
 
@@ -139,11 +116,11 @@ void ImageEditor::LoadImage()
 		break;
 
 		case wxID_SAVE_BTN:
-			SaveImage();
+			SaveEditor();
 		break;
 
 		case wxID_LOAD_BTN:
-			LoadImage();
+			LoadEditor();
 		break;
 
 		default:
@@ -172,11 +149,11 @@ void ImageEditor::LoadImage()
 		break;
 
 		default:
-			wxLogError("ImageEditor::OnRebuildDataEvent error: unknown \"what to do\" id (%d)", event.GetWhat());
+			event.Skip();
+			//wxLogError("ImageEditor::OnRebuildDataEvent error: unknown \"what to do\" id (%d)", event.GetWhat());
 		break;
 	}
 
-	event.Skip();
 }
 
 
@@ -257,7 +234,7 @@ void ImageEditor::SetPaletteAsMain()
 	Palette* pal = mEditPanel->mImageInfo->GetPalette();
 	if ( pal && pal->IsOk() )
 	{
-		ChangePaletteEvent palEvent( wxID_IMAGEEDITOR, pal, true );
+		ChangePaletteEvent palEvent( wxID_IMAGEEDITOR, pal, false );
 		wxTheApp->QueueEvent( palEvent.Clone() );
 	}
 }
@@ -270,4 +247,90 @@ void ImageEditor::ChangeImagePalette( Palette* pal )
 	{
 		UpdateImage();
 	}
+}
+
+
+
+/* virtual */ bool ImageEditor::SaveEditor( wxOutputStream& output )
+{
+	bool result = mEditPanel->mImageInfo ? 
+		mEditPanel->mImageInfo->SaveToStream(output) : false;
+
+	if (result)
+	{
+		this->Changed( false );
+	}
+
+	return result;
+}
+
+
+
+/* virtual */ bool ImageEditor::LoadEditor( wxInputStream& input )
+{
+	ImageInfo* imageInfo = new ImageInfo();
+
+	bool res = imageInfo->LoadFromStream( input );
+
+	if ( res && imageInfo->IsOk() )
+	{
+		SetInfo(imageInfo);
+	}
+
+	delete imageInfo;
+
+	return res;
+}
+
+
+
+/* virtual */ const Origin*	ImageEditor::GetOrigin() const
+{
+	return mEditPanel->mImageInfo ? mEditPanel->mImageInfo->GetOrigin() : NULL;
+}
+
+
+/* virtual */ bool ImageEditor::SaveEditor()
+{
+	bool res = false;
+
+	if (!mEditPanel->mImageInfo || !mEditPanel->mImageInfo->IsOk())
+	{
+		wxLogWarning("Image is not ready to save!");
+		return res;
+	}
+
+	wxFileDialog dlg( this, "Save image as...", wxEmptyString, "fileimage", UUT_IMAGE_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+
+	if (dlg.ShowModal() == wxID_OK)
+	{
+		res = mEditPanel->mImageInfo->SaveToFile( dlg.GetPath() );
+	}
+
+	return res;
+}
+
+
+
+/* virtual */ bool ImageEditor::LoadEditor()
+{
+	bool res = false;
+
+	wxFileDialog dlg( this, "Open UTT image...", wxEmptyString, "fileimage", UUT_IMAGE_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
+
+	if (dlg.ShowModal() == wxID_OK)
+	{
+		ImageInfo* imageInfo = new ImageInfo();
+		imageInfo->LoadFromFile( dlg.GetPath() );
+
+		if ( imageInfo->IsOk() )
+		{
+			SetInfo(imageInfo);
+			res = true;
+		}
+
+		delete imageInfo;
+	}
+
+	return res;
 }

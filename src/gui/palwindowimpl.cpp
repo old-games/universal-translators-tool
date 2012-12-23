@@ -15,15 +15,16 @@
 
 
 
-PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
+PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent, wxWindowID eventsId /* wxID_ANY */ ):
 	PaletteWindowGui( parent ),
 	mPalPanel( NULL ),
 	mPalette( NULL )
 {
+
 	mPalette = new Palette();
 	mPalette->Initiate( Palette::bppMono, (wxByte*) NULL );
 
-	mPalPanel = new PalettePanel( this, mPalette, true );
+	mPalPanel = new PalettePanel( this, mPalette, eventsId );
 	mPalHolder->Add( mPalPanel, 1, wxEXPAND, 5 );
 
 	for (int i = 0; i < Palette::bppNum; ++i)
@@ -41,7 +42,7 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 	PaletteChanged();
 
 	this->Bind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
-	wxTheApp->Bind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this, parent->GetId() );
+	wxTheApp->Bind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this, mPalPanel->GetEventsId() );
 
 	this->SetSpinsBase();
 }
@@ -50,9 +51,9 @@ PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent ):
 
 PaletteWindowImpl::~PaletteWindowImpl(void)
 {
-	delete mPalette;
 	this->Unbind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
-	wxTheApp->Unbind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this, this->GetParent()->GetId() );
+	wxTheApp->Unbind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this, mPalPanel->GetEventsId() );
+	delete mPalette;
 }
 
 
@@ -261,7 +262,9 @@ void PaletteWindowImpl::PaletteChanged()
 	mPalType->SetSelection( mPalette->GetPalType() );
 	mCGAType->SetSelection( mPalette->GetCGAType() );
 	mCGAIntensity->SetValue( mPalette->GetIntensity() );
+
 	PalTypeChanged();
+
 }
 
 
@@ -332,8 +335,15 @@ void PaletteWindowImpl::PaletteChanged()
 	{
 		delete mPalette;
 		mPalette = event.GetPalette()->Clone();
-		this->Lock( event.GetLock() );
 		PaletteChanged();
+
+		if (event.GetRebuild())
+		{
+			EditorRebuildDataEvent* event = new EditorRebuildDataEvent(mPalPanel->GetEventsId(), 
+				EditorRebuildDataEvent::whPaletteChanged, mPalette); 
+			wxTheApp->QueueEvent( event );
+		}
+
 	}
 	event.Skip();
 }

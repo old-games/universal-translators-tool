@@ -13,11 +13,10 @@
 
 
 
-PalettePanel::PalettePanel(  wxWindow* parent, Palette* pal, bool changeGlobalColours /* true */ ):
-	EditPanel( parent ),
+PalettePanel::PalettePanel(  wxWindow* parent, Palette* pal, wxWindowID eventsId /* wxID_ANY */):
+	EditPanel( parent, eventsId ),
 	mLeftPos(0, 0),
 	mRightPos(1, 0),
-	mChangeGlobals( changeGlobalColours ),
 	mContainerMode( pal != NULL ),
 	mCurrentPal( pal )
 {
@@ -136,7 +135,7 @@ void PalettePanel::GetBitmapColour( bool right )
 	this->GetParent()->Refresh();
 
 
-	EditorRebuildDataEvent* event = new EditorRebuildDataEvent(this->GetGrandParent()->GetId(), 
+	EditorRebuildDataEvent* event = new EditorRebuildDataEvent(mEventsId, 
 		EditorRebuildDataEvent::whEditColourChanged, &colour, right);
 	wxTheApp->QueueEvent( event );
 }

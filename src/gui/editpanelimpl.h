@@ -11,12 +11,12 @@
 
 class EditPanel;
 class ImageInfo;
+class PaletteHolderCtrl;
 
-class ImageEditor:
-	public EditPanelGui
+class ImageEditor: public EditPanelGui, public IEditor
 {
 public:
-	ImageEditor( wxWindow* parent );
+	ImageEditor( wxWindow* parent, wxWindowID eventsId = wxID_ANY);
 	~ImageEditor(void);
 
 	void SetBitmap( wxBitmap* bitmap );
@@ -27,23 +27,27 @@ public:
 	}
 
 	void SetEditPanel( EditPanel* editPanel );
-	wxWindowID GetPaletteCtrlId() const { return mPaletteHolder->GetId(); }
+	void ChangeImagePalette( Palette* pal );
+	
+	// from IEditor
+	virtual bool SaveEditor();
+	virtual bool LoadEditor();
+	virtual bool SaveEditor( wxOutputStream& output );
+	virtual bool LoadEditor( wxInputStream& input );
+	virtual const Origin*	GetOrigin() const;
+	virtual void SetInfo( IInfo* info );
+
 
 protected:
 
 	virtual void OnCommandEvent( wxCommandEvent& event );
-	virtual void OnImageChangeEvent( ChangeImageEvent& event );
+	//virtual void OnImageChangeEvent( ChangeImageEvent& event );
 	virtual void OnRebuildDataEvent( EditorRebuildDataEvent& event );
-
-	void SaveImage();
-	void LoadImage();
 
 private:
 
-	void SetImage( ImageInfo* newImage );
 	void ClearImage( bool force = false );
 	void UpdateImage();
-	void ChangeImagePalette( Palette* pal );
 
 	bool CheckChanges();
 	void SetGridEnabled();
@@ -51,7 +55,8 @@ private:
 	void SetGridColour();
 	void SetPaletteAsMain();
 
-	EditPanel*	mEditPanel;
+	EditPanel*			mEditPanel;
+	PaletteHolderCtrl*	mPalettePanel;
 };
 
 #endif

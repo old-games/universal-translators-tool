@@ -196,6 +196,18 @@
     <ClCompile Include="..\..\src\gui\palholderctrl.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\crc32.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\projectwindow.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\iinfo.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\luaexports\luaiinfo.cpp">
+      <Filter>luaexports</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\helpers.h">
@@ -368,6 +380,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\gui\palholderctrl.h">
       <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\crc32.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\projectwindow.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\types\iinfo.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\luaexports\luaiinfo.h">
+      <Filter>luaexports</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -24,8 +24,10 @@ friend class ImagePasteCommand;
 
 public:
 
-	EditPanel( wxWindow* parent );
+	EditPanel( wxWindow* parent, wxWindowID eventsId = wxID_ANY );
 	virtual ~EditPanel(void);
+
+	wxWindowID GetEventsId() const { return mEventsId; }
 
 	void SetGridColour(const wxColour& color);
 	const wxColour& GetGridColour()
@@ -74,6 +76,7 @@ protected:
 	bool		mDrawing;
 	bool		mDrawCursor;
 	wxPoint     mCursor;				// coordinates of current pixel, must be always valid
+	wxWindowID  mEventsId;
 
 private:
 

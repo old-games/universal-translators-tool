@@ -45,8 +45,9 @@ namespace Lua
 
 
 
-EXPORT_OOLUA_FUNCTIONS_5_NON_CONST( FontInfo, SetValues, AddSymbolFromBuf, AddSymbolIndexed, SetPalette, SetOrigin )
-EXPORT_OOLUA_FUNCTIONS_1_CONST( FontInfo, GetOrigin )
+EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( FontInfo, SetValues, AddSymbolFromBuf, 
+								   AddSymbolIndexed, SetPalette )
+EXPORT_OOLUA_FUNCTIONS_0_CONST( FontInfo )
 
 
 
@@ -57,11 +58,15 @@ int editFont(lua_State *L)
 		wxLogMessage("editFont: function need a filled FontInfo table as argument");
 		return 0;
 	}
+
 	FontInfo* fontInfo;
-	OOLUA::pull2cpp(L, fontInfo);
-	
-	ChangeFontEvent* fontEvent = new ChangeFontEvent( fontInfo );
-	wxTheApp->QueueEvent( fontEvent );
+
+	if ( OOLUA::pull2cpp(L, fontInfo) )
+	{
+		ChangeInfoEvent fontEvent( fontInfo );	
+		wxTheApp->ProcessEvent( fontEvent );	// don't use QueueEvent here!
+	}
+
 	return 0;
 }
 

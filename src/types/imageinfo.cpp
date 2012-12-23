@@ -19,7 +19,7 @@ const int		IMINFOVERSION = 0x100;
 
 
 ImageInfo::ImageInfo(): 
-	IStateStore( IMINFONAME, IMINFOVERSION ),
+	IInfo( IMINFONAME, IMINFOVERSION, etImage ),
 	mIndexMask(NULL),
 	mPalette(NULL)
 {
@@ -28,7 +28,7 @@ ImageInfo::ImageInfo():
 
 
 ImageInfo::ImageInfo(IndexMask* mask, Palette* pal):
-	IStateStore( IMINFONAME, IMINFOVERSION ),
+	IInfo( IMINFONAME, IMINFOVERSION, etImage ),
 	mIndexMask(NULL),
 	mPalette(NULL)
 {
@@ -39,7 +39,7 @@ ImageInfo::ImageInfo(IndexMask* mask, Palette* pal):
 
 
 ImageInfo::ImageInfo( const ImageInfo& other ):
-	IStateStore( IMINFONAME, IMINFOVERSION ),
+	IInfo( other ),
 	mIndexMask( NULL ),
 	mPalette( NULL )
 {
@@ -299,7 +299,8 @@ ImageInfo* ImageInfoDataObject::GetInfo()
 		return false;
 	}
 
-	bool res = mIndexMask->SaveToStream(output) && mPalette->SaveToStream(output);
+	bool res = IInfo::SaveState( output ) &&
+		mIndexMask->SaveToStream(output) && mPalette->SaveToStream(output);
 
 	return res;
 }
@@ -314,7 +315,8 @@ ImageInfo* ImageInfoDataObject::GetInfo()
 	mIndexMask = new IndexMask();
 	mPalette = new Palette();
 
-	bool res = mIndexMask->LoadFromStream(input) && mPalette->LoadFromStream(input);
+	bool res = IInfo::LoadState( input, version ) &&
+		mIndexMask->LoadFromStream(input) && mPalette->LoadFromStream(input);
 
 	if (!res)
 	{

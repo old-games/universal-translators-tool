@@ -18,7 +18,7 @@ const int		IMASKVERSION = 0x100;
 
 
 IndexMask::IndexMask(): 
-	IStateStore( IMASKNAME, IMASKVERSION ),
+	IInfo( IMASKNAME, IMASKVERSION, etImage ),
 	mWidth(0), 
 	mHeight(0), 
 	mSize(0), 	
@@ -27,7 +27,7 @@ IndexMask::IndexMask():
 	mMask(NULL) {}
 
 IndexMask::IndexMask( const IndexMask& other ):
-	IStateStore( IMASKNAME, IMASKVERSION ),
+	IInfo( other ),
 	mWidth( 0 ),
 	mHeight( 0 ),
 	mSize( 0 ),
@@ -184,7 +184,8 @@ int IndexMask::ReadIndex( const wxPoint& pos )
 		return false;
 	}
 
-	bool res = SaveSimpleType<wxInt32>( output, mWidth ) &&
+	bool res = IInfo::SaveState( output ) &&
+		SaveSimpleType<wxInt32>( output, mWidth ) &&
 		SaveSimpleType<wxInt32>( output, mHeight ) &&
 		SaveSimpleType<wxUint32>( output, mSize ) &&
 		SaveSimpleType<wxInt32>( output, mSrcWidth ) &&
@@ -202,7 +203,8 @@ int IndexMask::ReadIndex( const wxPoint& pos )
 	
 	Clear();
 
-	bool res = LoadSimpleType<wxInt32>( input, mWidth ) &&
+	bool res = IInfo::LoadState( input, version ) &&
+		LoadSimpleType<wxInt32>( input, mWidth ) &&
 		LoadSimpleType<wxInt32>( input, mHeight ) &&
 		LoadSimpleType<wxUint32>( input, mSize ) &&
 		LoadSimpleType<wxInt32>( input, mSrcWidth ) &&

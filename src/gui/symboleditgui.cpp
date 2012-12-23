@@ -15,9 +15,9 @@
 
 
 
-SymbolEditGui::SymbolEditGui(  wxWindow* parent ):
-	ImageEditor( parent ),
-	mSymbolPanel( new SymbolPanel( this ) )
+SymbolEditGui::SymbolEditGui(  wxWindow* parent, wxWindowID eventsId ):
+	ImageEditor( parent, eventsId ),
+	mSymbolPanel( new SymbolPanel( this, eventsId ) )
 {
 	ImageEditor::SetEditPanel( mSymbolPanel );
 	mSymbolPanel->SetScaleRange( 1.0f, 50.0f );

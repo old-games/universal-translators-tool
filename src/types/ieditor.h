@@ -14,16 +14,6 @@
 
 class Origin;
 
-enum EditorType
-{
-	etFont,
-	etImage,
-	etLibrary,
-	etAnimation,
-	etSound,
-	etVideo,
-	etNum
-};
 
 extern const wxString sEditorNames[ etNum ];
 
@@ -50,6 +40,7 @@ public:
 	virtual bool	LoadEditor() = 0; 
 	virtual bool	SaveEditor( wxOutputStream& output ) = 0; 
 	virtual bool	LoadEditor( wxInputStream& input ) = 0; 
+	virtual void	SetInfo( IInfo* info ) = 0;
 	virtual const Origin*	GetOrigin() const = 0; 
 
 protected:

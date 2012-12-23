@@ -9,14 +9,14 @@
 #ifndef IMAGEINFO_H_INCLUDED
 #define IMAGEINFO_H_INCLUDED
 
-#include "istatestore.h"
+#include "iinfo.h"
 
 // forward declarations
 class IndexMask;
 class Palette;
 class ImageInfoDataObject;
 
-class ImageInfo: public IStateStore
+class ImageInfo: public IInfo
 {
 public:
 	ImageInfo();

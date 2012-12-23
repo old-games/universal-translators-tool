@@ -28,7 +28,7 @@ class SymbolPanel :
 	public EditPanel
 {
 public:
-	SymbolPanel( wxWindow* parent );
+	SymbolPanel( wxWindow* parent, wxWindowID eventsId = wxID_ANY );
 	~SymbolPanel(void);
 
 	void SetFontInfo( FontInfo* info, int symbolNumber );

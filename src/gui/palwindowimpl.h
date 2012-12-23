@@ -20,7 +20,7 @@ class PalettePanel;
 class PaletteWindowImpl: public PaletteWindowGui
 {
 public:
-	PaletteWindowImpl( wxWindow* parent );
+	PaletteWindowImpl( wxWindow* parent, wxWindowID eventsId = wxID_ANY );
 	~PaletteWindowImpl(void);
 
 	UttColour GetColour(bool right);

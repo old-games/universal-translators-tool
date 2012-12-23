@@ -19,11 +19,12 @@
 
 
 
-EditPanel::EditPanel(  wxWindow* parent ):
+EditPanel::EditPanel(  wxWindow* parent, wxWindowID eventsId /* wxID_ANY */ ):
 	DrawPanel( parent ),
 	mDrawing( false ),
 	mDrawCursor( true ),
 	mCursor( 0, 0 ),
+	mEventsId( eventsId ),
 	mDrawGrid( true ),
 	mGridColour( *wxWHITE ),
 	mGridPoints( NULL ),
@@ -36,7 +37,13 @@ EditPanel::EditPanel(  wxWindow* parent ):
 	mLeftColour(*wxBLACK),
 	mRightColour(*wxWHITE)
 {
+	if (mEventsId == wxID_ANY)
+	{
+		mEventsId = this->GetId();
+	}
 }
+
+
 
 EditPanel::~EditPanel(void)
 {
@@ -138,26 +145,6 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 	wxCoord startX = 0, startY = 0;
 	bounds = this->GetClientSize();
 
-	/*if (correctX)
-	{
-		startX = mRealScale;
-		lx += startX;
-	}
-	else
-	{
-		gridWidth += ceil(mRealScale);
-	}
-
-	if (correctY)
-	{
-		startY = mRealScale;
-		ly += startY;
-	}
-	else
-	{
-		gridHeight += ceil(mRealScale);
-	}*/
-
 	wxCoord endX = startX + gridWidth, endY = startY + gridHeight;
 	int count = 0;
 
@@ -229,7 +216,7 @@ bool EditPanel::DoPlacePixel( const wxPoint& pos, const UttColour& color )
 
 void EditPanel::SendRebuildDataEvent()
 {
-	EditorRebuildDataEvent* rebuildEvent = new EditorRebuildDataEvent( this->GetId(),  
+	EditorRebuildDataEvent* rebuildEvent = new EditorRebuildDataEvent( mEventsId,  
 											EditorRebuildDataEvent::whIndexMaskChanged);
 	wxTheApp->QueueEvent( rebuildEvent );
 }

@@ -21,9 +21,7 @@ class FontEditor :	public FontEditGui, public IEditor
 public:
 	FontEditor( wxWindow* parent );
 	~FontEditor(void);
-
-	void SetFont( FontInfo* newFont );
-
+	
 	//bool CheckChanges();
 
 	SymbolPanel* GetSymbolPanel();
@@ -35,11 +33,12 @@ public:
 	virtual bool SaveEditor( wxOutputStream& output );
 	virtual bool LoadEditor( wxInputStream& input );
 	virtual const Origin*	GetOrigin() const;
+	virtual void SetInfo( IInfo* info );
 
 protected:
 
 	virtual void OnBtnClick( wxCommandEvent& event );
-	virtual void OnFontChangeEvent( ChangeFontEvent& event );
+	//virtual void OnFontChangeEvent( ChangeInfoEvent& event );
 	virtual void OnSymbolSelection( SymbolSelectionEvent& event );
 	virtual void OnRebuildDataEvent( EditorRebuildDataEvent& event );
 

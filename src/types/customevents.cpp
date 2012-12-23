@@ -30,16 +30,16 @@ IMPLEMENT_DYNAMIC_CLASS(ColourPickEvent, wxEvent)
 
 
 
-wxDEFINE_EVENT( uttEVT_CHANGEFONT, ChangeFontEvent );
-IMPLEMENT_DYNAMIC_CLASS(ChangeFontEvent, wxEvent)
+wxDEFINE_EVENT( uttEVT_CHANGEINFO, ChangeInfoEvent );
+IMPLEMENT_DYNAMIC_CLASS(ChangeInfoEvent, wxEvent)
 
 
 //////////////////////////////////////////////////////////////////////////
 
 
 
-wxDEFINE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
-IMPLEMENT_DYNAMIC_CLASS(ChangeImageEvent, wxEvent)
+//wxDEFINE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
+//IMPLEMENT_DYNAMIC_CLASS(ChangeImageEvent, wxEvent)
 
 
 

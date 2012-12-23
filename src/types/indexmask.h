@@ -10,14 +10,14 @@
 #ifndef INDEXMASK_H_INCLUDED
 #define INDEXMASK_H_INCLUDED
 
-#include "istatestore.h"
+#include "iinfo.h"
 
 // forward declarations
 class Palette;
 class IndexMask;
 class ImageInfoDataObject;
 
-class IndexMask: public IStateStore
+class IndexMask: public IInfo
 {
 public:
 
@@ -28,11 +28,10 @@ public:
 	bool	WriteIndex( const wxPoint& pos, int n );
 	int		ReadIndex( const wxPoint& pos );
 
-	/*template<typename T>
-	bool	InsertMask( const wxPoint& point, const IndexMask* src ) const;*/
-
-	void SetMask( const char* charMask, int srcSize, int width, int height, int srcWidth = -1, int srcHeight = -1 );
-	void SetMask( const wxByte* mask, int srcSize, int width, int height, int srcWidth = -1, int srcHeight = -1 );
+	void SetMask( const char* charMask, int srcSize, 
+		int width, int height, int srcWidth = -1, int srcHeight = -1 );
+	void SetMask( const wxByte* mask, int srcSize, 
+		int width, int height, int srcWidth = -1, int srcHeight = -1 );
 
 	bool			IsOk() { return mMask != NULL; }
 	wxBitmap*		GetBitmap( Palette* pal );

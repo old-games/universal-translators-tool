@@ -113,26 +113,6 @@ function Operations.loadTXT( filename )
 end
 
 
-BMPFileHeader = {}
-BMPFileHeader[1] = { ID 			= "WORD" 	}
-BMPFileHeader[2] = { FILESIZE 		= "LONG" 	}
-BMPFileHeader[3] = { RESERVED1 	= "WORD" 	}
-BMPFileHeader[4] = { RESERVED2 	= "WORD" 	}
-BMPFileHeader[5] = { DATAOFFSET 	= "DWORD" 	}
-
-
-BMPInfoHeader = {}
-BMPInfoHeader[1] 	= { DATASIZE		= "DWORD" 	}
-BMPInfoHeader[2] 	= { WIDTH			= "LONG" 	}
-BMPInfoHeader[3] 	= { HEIGHT			= "LONG" 	}
-BMPInfoHeader[4] 	= { PLANES			= "WORD" 	}
-BMPInfoHeader[5] 	= { BITCOUNT		= "WORD" 	}
-BMPInfoHeader[6] 	= { COMPRESSION 	= "DWORD" 	}
-BMPInfoHeader[7] 	= { SIZEIMAGE		= "DWORD" 	}
-BMPInfoHeader[8] 	= { XPELSPERMETER	= "LONG" 	}
-BMPInfoHeader[9] 	= { YPELSPERMETER	= "LONG" 	}
-BMPInfoHeader[10] 	= { CLRUSED			= "DWORD" 	}
-BMPInfoHeader[11] 	= { CLRIMPORTANT	= "DWORD" 	}
 
 
 

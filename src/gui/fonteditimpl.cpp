@@ -27,26 +27,27 @@ const wxString	UUT_FONT_EXTENSIONS = "UTT Font files (*.uft)|*.uft";
 FontEditor::FontEditor(  wxWindow* parent ):
 	FontEditGui( parent ),
 	IEditor( this, etFont, "Font editor" ),
-	mSymbolEditor( new SymbolEditGui( mSymEditorOwner ) ), 
+	mSymbolEditor( NULL ), 
 	mCurrentFont( NULL ),
 	mCurrentSymbol( 0 )
 {
+	mSymbolEditor = new SymbolEditGui( mSymEditorOwner, this->GetId() );
 	mSymbolEditor->GetSymbolPanel()->SetAlign( utdHCenter | utdVCenter | utdExpand);
 	mSymbolEditor->Disable();
 	mCentralSizer->Add( mSymbolEditor, 1, wxEXPAND, 5 );
 	this->Layout();
-	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
+//	wxTheApp->Bind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
 	wxTheApp->Bind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, mSymbolsRibbon->GetId() );
-	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, mSymbolEditor->GetSymbolPanel()->GetId() );
+	wxTheApp->Bind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, this->GetId() );
 }
 
 
 
 FontEditor::~FontEditor(void)
 {
-	wxTheApp->Unbind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
+//	wxTheApp->Unbind( uttEVT_CHANGEFONT, &FontEditor::OnFontChangeEvent, this, this->GetId() );
 	wxTheApp->Unbind( uttEVT_SYMBOLSELECT, &FontEditor::OnSymbolSelection, this, mSymbolsRibbon->GetId() );
-	wxTheApp->Unbind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, mSymbolEditor->GetSymbolPanel()->GetId() );
+	wxTheApp->Unbind( uttEVT_REBUILDDATA, &FontEditor::OnRebuildDataEvent, this, this->GetId() );
 	ClearFont( true );
 }
 
@@ -76,35 +77,15 @@ void FontEditor::ClearFont( bool force /* false */ )
 
 
 
-void FontEditor::SetFont( FontInfo* newFont )
+/* virtual */ void FontEditor::SetInfo( IInfo* info )
 {
+	FontInfo* newFont = static_cast<FontInfo*>( info );
 	ClearFont();
 	mCurrentFont = newFont->Clone();
-	SetPaletteAsMain();
 	UpdateFont();
+	SetPaletteAsMain();
 	mSymbolEditor->Enable();
 }
-
-
-
-//bool FontEditor::CheckChanges()
-//{
-//	if (mHasChanges)
-//	{
-//		int res = wxMessageDialog(this, "Save changes?", "Font has changes", wxYES_NO | wxCANCEL | wxCENTRE | wxCANCEL_DEFAULT).ShowModal();
-//
-//		if (res == wxID_OK)
-//		{
-//			mHasChanges = !SaveFont();
-//		}
-//		else
-//		{
-//			mHasChanges = false;
-//		}
-//
-//	}
-//	return !mHasChanges;
-//}
 
 
 
@@ -147,6 +128,7 @@ void FontEditor::UpdateFont()
 	{
 		return;
 	}
+
 	UpdateRibbon();
 	SetCurrentSymbol( mCurrentSymbol );
 }
@@ -208,10 +190,11 @@ void FontEditor::ChangeFontPalette( Palette* pal )
 void FontEditor::SetPaletteAsMain()
 {
 	Palette* pal = mCurrentFont->GetPalette();
+
 	if ( pal && pal->IsOk() )
 	{
-		ChangePaletteEvent palEvent( mSymbolEditor->GetPaletteCtrlId(), pal, true );
-		wxTheApp->QueueEvent( palEvent.Clone() );
+		ChangePaletteEvent* palEvent = new ChangePaletteEvent ( this->GetId(), pal, false );
+		wxTheApp->QueueEvent( palEvent );
 	}
 }
 
@@ -238,7 +221,7 @@ void FontEditor::SetPaletteAsMain()
 
 	if ( res )
 	{
-		SetFont( fontInfo );
+		SetInfo( fontInfo );
 	}
 
 	delete fontInfo;
@@ -290,7 +273,7 @@ void FontEditor::SetPaletteAsMain()
 
 		if ( fontInfo->LoadFromFile( dlg.GetPath() ) )
 		{
-			SetFont( fontInfo );
+			SetInfo( fontInfo );
 			res = true;
 		}
 		delete fontInfo;
@@ -329,12 +312,12 @@ void FontEditor::SetPaletteAsMain()
 }
 
 
-
-/* virtual */ void FontEditor::OnFontChangeEvent( ChangeFontEvent& event )
-{
-	this->SetFont( event.GetFontInfo() );
-	event.Skip();
-}
+//
+///* virtual */ void FontEditor::OnFontChangeEvent( ChangeFontEvent& event )
+//{
+//	this->SetInfo( event.GetFontInfo() );
+//	event.Skip();
+//}
 
 
 
@@ -361,7 +344,7 @@ void FontEditor::SetPaletteAsMain()
 		break;
 
 		default:
-			wxLogError("FontEditor::OnRebuildDataEvent error: unknown \"what to do\" id (%d)", event.GetWhat());
+			//wxLogError("FontEditor::OnRebuildDataEvent error: unknown \"what to do\" id (%d)", event.GetWhat());
 		break;
 	}
 

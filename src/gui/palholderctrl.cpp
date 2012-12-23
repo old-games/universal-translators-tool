@@ -13,9 +13,9 @@
 
 
 
-PaletteHolderCtrl::PaletteHolderCtrl(  wxWindow* parent, wxWindow* grand, wxFlexGridSizer* parentSizer ):
+PaletteHolderCtrl::PaletteHolderCtrl( wxWindow* parent, wxWindowID eventsId, wxWindow* grand, wxFlexGridSizer* parentSizer ):
 	PaletteHolderGui( parent ),
-	mPaletteCtrl(new PaletteWindowImpl( this )),
+	mPaletteCtrl(new PaletteWindowImpl( this, eventsId )),
 	mGrand( grand ),
 	mParentSizer( parentSizer )
 {
@@ -41,9 +41,8 @@ void PaletteHolderCtrl::UpdateState()
 	{
 		mParentSizer->RemoveGrowableRow(2);
 	}
+
 	mGrand->Layout();
-	//AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::UpdateManager, mGrand ); 
-	//wxTheApp->QueueEvent( event );
 }
 
 

@@ -15,8 +15,8 @@
 #include "panels/controlline.h"
 
 
-SymbolPanel::SymbolPanel(  wxWindow* parent ):
-	EditPanel( parent ),
+SymbolPanel::SymbolPanel(  wxWindow* parent, wxWindowID eventsId /* wxID_ANY */):
+	EditPanel( parent, eventsId ),
 	mFontInfo( NULL ),
 	mAllowEdit( true ),
 	mSymbolNumber( 0 ),
