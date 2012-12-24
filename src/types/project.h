@@ -39,6 +39,8 @@ public:
 	bool CreateProject( const wxString& fullPath, const wxString& gamePath, const wxString& module, const wxString& version );
 	bool SaveProject( const wxString& saveAs = wxEmptyString );
 	bool LoadProject( const wxString& fullPath );
+	void ReparentEditorWindows( wxWindow* wnd );
+
 
 	void CloseProject();
 	void RemoveEditor( IEditor* editor );

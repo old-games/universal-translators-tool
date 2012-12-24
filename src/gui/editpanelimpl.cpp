@@ -234,7 +234,7 @@ void ImageEditor::SetPaletteAsMain()
 	Palette* pal = mEditPanel->mImageInfo->GetPalette();
 	if ( pal && pal->IsOk() )
 	{
-		ChangePaletteEvent palEvent( wxID_IMAGEEDITOR, pal, false );
+		ChangePaletteEvent palEvent( this->GetId(), pal, false );
 		wxTheApp->QueueEvent( palEvent.Clone() );
 	}
 }

@@ -57,6 +57,7 @@ private:
 	void UpdateViewMenu( wxWindowID id, bool visible );
 	void UpdateModuleMenu( const wxArrayString& strings );
 	void ClearModuleMenu();
+	void SetActivePane( wxWindow* wnd );
 
 	wxHelpController*		mHelpController;
 	Project*				mCurrentProject;

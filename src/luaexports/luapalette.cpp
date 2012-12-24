@@ -51,8 +51,8 @@ int	setCurrentPalette(lua_State *L)
 		return 0;
 	}
 
-	ChangePaletteEvent* event = new ChangePaletteEvent( editorId, pal, true );
-	wxTheApp->QueueEvent( event );
+	ChangePaletteEvent event( editorId, pal, true );
+	wxTheApp->ProcessEvent( event );
 
 	return 0;
 }

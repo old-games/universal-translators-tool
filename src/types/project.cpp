@@ -204,6 +204,16 @@ bool Project::LoadProject( const wxString& fullPath )
 
 
 
+void Project::ReparentEditorWindows( wxWindow* wnd )
+{
+	for (EditorsIterator it = mEditors.begin(); it != mEditors.end(); ++it)
+	{
+		(*it)->GetWindow()->Reparent( wnd );
+	}
+}
+
+
+
 void Project::CloseProject()
 {
 	EditorsIterator it = mEditors.begin();
@@ -234,6 +244,7 @@ void Project::RemoveEditor( IEditor* editor )
 {
 	CloseEditor( editor, true );
 	mEditors.Remove( editor );
+	delete editor;
 	mChanged = true;
 	SendUpdateEvent();
 }
@@ -337,6 +348,10 @@ void Project::CreateEditorAndSetIt( IInfo* info )
 		mEditors.push_back( editor );
 		editor->SetInfo( info );
 		AddEditorWindow( editor, editor->CreateName(), true );
+
+		AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::ShowWindow, 
+			editor->GetWindow() );
+		wxTheApp->QueueEvent( event );
 	}
 }
 
@@ -366,8 +381,11 @@ void Project::SendSetCaptionEvent( IEditor* editor )
 
 void Project::SendUpdateEvent()
 {
-	AUIWindowEvent event( AUIWindowEvent::UpdateManager ); 
-	wxTheApp->ProcessEvent( event );
+	AUIWindowEvent* event = new AUIWindowEvent ( AUIWindowEvent::UpdateManager ); 
+	wxTheApp->QueueEvent( event );
+	//AUIWindowEvent event( AUIWindowEvent::UpdateManager ); 
+	//wxTheApp->ProcessEvent( event );
+
 }
 
 

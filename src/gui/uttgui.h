@@ -84,12 +84,11 @@
 #define wxID_SAVE_BTN 1038
 #define wxID_LOAD_BTN 1039
 #define wxID_FONT_SETTINGS 1040
-#define wxID_IMAGEEDITOR 1041
-#define wxID_GRID_CHECK 1042
-#define wxID_GRID_MODE 1043
-#define wxID_GRIDCOL_BTN 1044
-#define wxID_LIBRARYWINDOW 1045
-#define wxID_LIBTREE 1046
+#define wxID_GRID_CHECK 1041
+#define wxID_GRID_MODE 1042
+#define wxID_GRIDCOL_BTN 1043
+#define wxID_LIBRARYWINDOW 1044
+#define wxID_LIBTREE 1045
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame
@@ -264,7 +263,7 @@ class EditPanelGui : public wxPanel
 	
 	public:
 		
-		EditPanelGui( wxWindow* parent, wxWindowID id = wxID_IMAGEEDITOR, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,400 ), long style = wxTAB_TRAVERSAL|wxWANTS_CHARS ); 
+		EditPanelGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,400 ), long style = wxTAB_TRAVERSAL|wxWANTS_CHARS ); 
 		~EditPanelGui();
 	
 };

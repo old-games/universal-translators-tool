@@ -93,7 +93,6 @@ MainFrameImpl::~MainFrameImpl(void)
 	wxTheApp->Unbind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAUIWindowEvent, this );
 	wxTheApp->Unbind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
 	wxTheApp->Unbind(uttEVT_REBUILDDATA, &MainFrameImpl::OnEditorRebuildDataEvent, this);
-
 }
 
 
@@ -110,7 +109,6 @@ void MainFrameImpl::AddPane( wxWindow* wnd, const wxString& name, bool show)
 {
 	if (wnd)
 	{
-		wnd->Reparent(this);
 		m_mgr.AddPane( wnd, wxAuiPaneInfo().Name(name).Show( show ).
 			Center().
 			MaximizeButton( true ).
@@ -183,10 +181,14 @@ void MainFrameImpl::DoOpenProject()
 
 	mCurrentProject = newProject;
 
-	mProjectWindow->SetProject( mCurrentProject );
-	m_mgr.GetPane( mProjectWindow ).Caption( "Project: " + mCurrentProject->GetName() );
-	m_mgr.LoadPerspective( mCurrentProject->GetPerspective() );
-	m_mgr.Update();
+	if ( mCurrentProject )
+	{
+		mProjectWindow->SetProject( mCurrentProject );
+		m_mgr.GetPane( mProjectWindow ).Caption( "Project: " + mCurrentProject->GetName() );
+		m_mgr.LoadPerspective( mCurrentProject->GetPerspective() );
+		mCurrentProject->ReparentEditorWindows( this );
+		m_mgr.Update();
+	}
 	UpdateMenuStates();
 }
 
@@ -414,6 +416,28 @@ void MainFrameImpl::ClearModuleMenu()
 
 
 
+void MainFrameImpl::SetActivePane( wxWindow* wnd )
+{
+	wxAuiPaneInfoArray& allPanes = m_mgr.GetAllPanes();
+
+	for (size_t i = 0; i < allPanes.size(); ++i)
+	{
+		wxAuiPaneInfo& pane = allPanes[i];
+
+		if (pane.window == wnd)
+		{
+			mCurrentPane = &pane;
+			pane.SetFlag( wxAuiPaneInfo::optionActive, true );
+		}
+		else
+		{
+			pane.SetFlag( wxAuiPaneInfo::optionActive, false );
+		}
+	}
+}
+
+
+
 void MainFrameImpl::UpdateModuleMenu( const wxArrayString& strings )
 {
 	wxASSERT( strings.size() + MODULE_MENU_START < MODULE_MENU_END ); 
@@ -522,7 +546,7 @@ void MainFrameImpl::OnClose( wxCloseEvent& event )
 void MainFrameImpl::OnModuleMenuSelect( wxCommandEvent& event )
 {
 	int id = event.GetId();
-	if (id >= MODULE_MENU_START && id < MODULE_MENU_END )
+	if ( id >= MODULE_MENU_START && id < MODULE_MENU_END )
 	{
 		DoModuleCommand( id );
 	}
@@ -670,6 +694,7 @@ void MainFrameImpl::OnAUIWindowEvent( AUIWindowEvent& event )
 {
 	wxWindow* wnd = event.GetWindow();
 	wxAuiPaneInfo& pane = m_mgr.GetPane(wnd);
+	bool show = true;
 
 	switch (event.GetCommand())
 	{
@@ -693,17 +718,21 @@ void MainFrameImpl::OnAUIWindowEvent( AUIWindowEvent& event )
 			pane.Caption( event.GetName() );
 		break;
 
-		case AUIWindowEvent::ShowWindow:
-			pane.Show( true );
-		break;
-
 		case AUIWindowEvent::HideWindow:
-			pane.Show( false );
+			show = false;
+
+		case AUIWindowEvent::ShowWindow:
+			if (pane.window->GetParent() != this)
+			{
+				pane.window->Reparent(this);
+			}
+
+			pane.Show( show );
 		break;
 
 
 		case AUIWindowEvent::SetActive:
-			wnd->SetFocus();
+			SetActivePane( wnd );
 		break;
 	}
 
@@ -738,9 +767,6 @@ void MainFrameImpl::OnAUIManagerEvent( wxAuiManagerEvent& event )
 	{
 		mCurrentPane = NULL;
 	}
-	
-	
-	event.Skip();
 }
 
 

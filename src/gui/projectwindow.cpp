@@ -39,14 +39,16 @@ namespace ItemMenu
 		imOpen,
 		imClose,
 		imExport,
+		imExclude,
 		imNum
 	};
 
 	const wxString Commands[imNum] =
 	{
-		"Open",
-		"Close",
-		"Export..."
+		"Open pane",
+		"Close pane",
+		"Export...",
+		"Exclude from project"
 	};
 }
 
@@ -253,6 +255,14 @@ void ProjectWindow::DoItemContextMenu( wxTreeListItem item )
 		break;
 
 		case ItemMenu::imExport:
+		break;
+
+		case ItemMenu::imExclude:
+			if ( AREYOUSURE("Exclude this file from project?") == wxID_YES )
+			{
+				mProject->RemoveEditor( data->mEditor );
+				mProjectFilesList->DeleteItem( item );
+			}
 		break;
 
 		case wxID_NONE:
