@@ -32,27 +32,60 @@ namespace ProjectColumns
 
 
 
-namespace ProjectMenu
+namespace ItemMenu
 {
 	enum
 	{
-		pmAdd,
-		pmRemove,
-		pmNum
+		imOpen,
+		imClose,
+		imExport,
+		imNum
 	};
 
-	const wxString Commands[pmNum] =
+	const wxString Commands[imNum] =
 	{
-		"Add item",
-		"Remove item"
+		"Open",
+		"Close",
+		"Export..."
 	};
 }
 
 
-ProjectWindow::ProjectWindow(  wxWindow* parent ):
-	ProjectWindowGui( parent ),
-	mProject( NULL )
+
+namespace CategoryMenu
 {
+	enum
+	{
+		cmOpen,
+		cmClose,
+		cmImport,
+		cmNum
+	};
+
+	const wxString Commands[cmNum] =
+	{
+		"Open all",
+		"Close all",
+		"Import..."
+	};
+}
+
+
+
+BEGIN_EVENT_TABLE(ProjectWindow, ProjectWindowGui)	
+	EVT_TREELIST_SELECTION_CHANGED(wxID_ANY, ProjectWindow::OnTreeListChanged)
+	EVT_TREELIST_ITEM_CONTEXT_MENU(wxID_ANY, ProjectWindow::OnTreeListContextMenu)
+END_EVENT_TABLE()
+
+
+
+ProjectWindow::ProjectWindow(  wxWindow* parent, wxWindowID id ):
+	ProjectWindowGui( parent, id ),
+	mProject( NULL ),
+	mItemMenu( new wxMenu() ),
+	mCategoryMenu( new wxMenu() )
+{
+	this->Bind( wxEVT_LEFT_DCLICK, &ProjectWindow::OnLeftDblClick, this, mProjectFilesList->GetId() );
 	InitTree();
 }
 
@@ -60,13 +93,27 @@ ProjectWindow::ProjectWindow(  wxWindow* parent ):
 
 ProjectWindow::~ProjectWindow(void)
 {
+	this->Unbind( wxEVT_LEFT_DCLICK, &ProjectWindow::OnLeftDblClick, this, mProjectFilesList->GetId() );
 	Clear();
+
+	delete mItemMenu;
+	delete mCategoryMenu;
 }
 
 
 
 void ProjectWindow::InitTree()
 {
+	for (int i = 0; i < ItemMenu::imNum; ++i)
+	{
+		mItemMenu->Append(i, ItemMenu::Commands[i]);
+	}
+
+	for (int i = 0; i < CategoryMenu::cmNum; ++i)
+	{
+		mCategoryMenu->Append(i, CategoryMenu::Commands[i]);
+	}
+
 	for (size_t i = 0; i < ProjectColumns::pcNum; ++i)
 	{
 		mProjectFilesList->AppendColumn( ProjectColumns::Names[i] );
@@ -158,6 +205,11 @@ void ProjectWindow::UpdateProjectTree()
 			{
 				mProjectFilesList->SetItemText(item, ProjectColumns::pcOrirgin, origin->GetPath() );
 				SetItemState( item, editor );	
+
+				ProjectItemData* data = new ProjectItemData();
+				data->mEditor = editor;
+
+				mProjectFilesList->SetItemData( item, data );
 			}
 
 			mEditorsItems[editor->GetEditorId()] = item;
@@ -185,8 +237,133 @@ void ProjectWindow::UpdateState( IEditor* editor )
 
 
 
+void ProjectWindow::DoItemContextMenu( wxTreeListItem item )
+{
+	AUIWindowEvent* event = NULL;
+	ProjectItemData* data = GetItemData( item );
+
+    switch ( this->GetPopupMenuSelectionFromUser( *mItemMenu ) )
+	{
+		case ItemMenu::imOpen:
+			event = new AUIWindowEvent( AUIWindowEvent::ShowWindow, data->mEditor->GetWindow() );
+		break;
+
+		case ItemMenu::imClose:
+			event = new AUIWindowEvent( AUIWindowEvent::HideWindow, data->mEditor->GetWindow() );
+		break;
+
+		case ItemMenu::imExport:
+		break;
+
+		case wxID_NONE:
+		break;
+
+		default:
+			wxLogError( "ProjectWindow::DoItemContextMenu: unexpected menu selection" );
+	}
+
+	if (event)
+	{
+		wxTheApp->QueueEvent( event );
+	}
+}
+
+
+
+void ProjectWindow::DoCategoryContextMenu( wxTreeListItem item )
+{
+	switch ( this->GetPopupMenuSelectionFromUser( *mCategoryMenu ) )
+	{
+		case CategoryMenu::cmOpen:
+			HideShowChildren( item, false );
+		break;
+
+		case CategoryMenu::cmClose:
+			HideShowChildren( item, true );
+		break;
+
+		case CategoryMenu::cmImport:
+
+		break;
+
+		case wxID_NONE:
+		break;
+
+		default:
+			wxLogError( "ProjectWindow::DoCategoryContextMenu: unexpected menu selection" );
+	}
+}
+
+
+
+void ProjectWindow::HideShowChildren( wxTreeListItem item, bool hide )
+{
+	wxTreeListItem child = mProjectFilesList->GetFirstChild(item);
+
+	while (child.IsOk())
+	{
+		ProjectItemData* data = GetItemData( child );
+
+		if (data)
+		{
+			AUIWindowEvent* event = new AUIWindowEvent( hide ? AUIWindowEvent::HideWindow : AUIWindowEvent::ShowWindow, data->mEditor->GetWindow() );
+			wxTheApp->QueueEvent( event );
+		}
+
+		child = mProjectFilesList->GetNextSibling( child );
+	}
+}
+
+
+
 inline void ProjectWindow::SetItemState( wxTreeListItem item, IEditor* editor )
 {
 	wxString state = editor->IsChanged() ? "*" : "";
 	mProjectFilesList->SetItemText(item, ProjectColumns::pcState, state );
+}
+
+
+
+inline ProjectItemData* ProjectWindow::GetItemData( wxTreeListItem item ) const
+{
+	return static_cast<ProjectItemData*> (mProjectFilesList->GetItemData( item ));
+}
+
+
+
+void ProjectWindow::OnTreeListContextMenu( wxTreeListEvent& event )
+{
+	if ( GetItemData( event.GetItem() ) )
+	{
+		DoItemContextMenu( event.GetItem() );
+	}
+	else
+	{
+		DoCategoryContextMenu( event.GetItem() );
+	}
+	event.Skip();
+}
+
+
+
+void ProjectWindow::OnTreeListChanged( wxTreeListEvent& event )
+{
+	ProjectItemData* data = GetItemData( event.GetItem() );
+
+	if (data && data->mEditor)
+	{
+		AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::SetActive, data->mEditor->GetWindow() );
+		wxTheApp->QueueEvent( event );
+	}
+
+	event.Skip();
+}
+
+
+
+/* virtual */ void ProjectWindow::OnLeftDblClick( wxMouseEvent& event ) 
+{ 
+	// TODO: wait =) wxTreeListCtrl don't generates dblclick events yet
+	//wxHitTest tst  = mProjectFilesList->HitTest( event.GetPosition() );
+	event.Skip(); 
 }

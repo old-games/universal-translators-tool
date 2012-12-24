@@ -457,6 +457,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\luaexports\luaiinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\luaexports\luaiinfo.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\luaexports\luaimage.cpp"
 				>
 			</File>
@@ -610,6 +618,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\types\ifflib.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\iinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\iinfo.h"
 				>
 			</File>
 			<File

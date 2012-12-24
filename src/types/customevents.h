@@ -442,6 +442,9 @@ public:
 		RemoveWindow,
 		RenameWindow,
 		UpdateManager,
+		ShowWindow,
+		HideWindow,
+		SetActive,
 		AUIEventNum
 	};
 
@@ -449,16 +452,18 @@ public:
 		: wxEvent(0, uttEVT_ADDAUIWINDOW),
 		mCommand( AUIEventNum ),
 		mWindow( NULL ),
+		mUpdate( false ),
 		mName( wxEmptyString )
 	{ 	
 	}
 
 
 
-	AUIWindowEvent(int command, wxWindow* wnd = NULL, const wxString& name = wxEmptyString)
+	AUIWindowEvent(int command, wxWindow* wnd = NULL, bool doUpdate = true, const wxString& name = wxEmptyString)
 		: wxEvent(0, uttEVT_ADDAUIWINDOW),
 		mCommand( command ),
 		mWindow( wnd ),
+		mUpdate( doUpdate || command == UpdateManager),
 		mName( name )
 	{ 
 	}
@@ -467,6 +472,7 @@ public:
 		: wxEvent(event),
 		mCommand( event.mCommand ),
 		mWindow( event.mWindow ),
+		mUpdate( event.mUpdate ),
 		mName( event.mName )
 	{ 
 	}
@@ -476,6 +482,7 @@ public:
 	int				GetCommand() const { return mCommand; }
 	wxWindow*		GetWindow() const { return mWindow; }
 	const wxString& GetName() const { return mName; }
+	bool			DoUpdate() const { return mUpdate; }
 
 protected:
 
@@ -483,6 +490,7 @@ private:
 
 	int			mCommand;
 	wxWindow*	mWindow;
+	bool		mUpdate;
 	wxString	mName;
 
 	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(AUIWindowEvent)

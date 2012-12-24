@@ -66,7 +66,6 @@ class BitmapRibbonGui : public wxPanel
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMouseDown( wxMouseEvent& event ) { event.Skip(); }
-		virtual void OnMouseEvents( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnMouseUp( wxMouseEvent& event ) { event.Skip(); }
 		
 	

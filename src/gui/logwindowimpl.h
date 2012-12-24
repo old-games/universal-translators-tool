@@ -14,7 +14,7 @@
 class LogWindowImpl : public wxPanel
 {
 public:
-	LogWindowImpl( wxWindow* parent );
+	LogWindowImpl( wxWindow* parent, wxWindowID id );
 	~LogWindowImpl(void);
 
 private:

@@ -50,19 +50,7 @@ BitmapRibbonGui::BitmapRibbonGui( wxWindow* parent, wxWindowID id, const wxPoint
 	// Connect Events
 	mScrollLeftBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BitmapRibbonGui::OnButtonClick ), NULL, this );
 	mScrollLeftBtn->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseDown ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_MIDDLE_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_MIDDLE_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_RIGHT_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_MOTION, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_MIDDLE_DCLICK, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_RIGHT_DCLICK, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Connect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
+	mScrollLeftBtn->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseUp ), NULL, this );
 	mScrollRightBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BitmapRibbonGui::OnButtonClick ), NULL, this );
 	mScrollRightBtn->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseDown ), NULL, this );
 	mScrollRightBtn->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseUp ), NULL, this );
@@ -73,19 +61,7 @@ BitmapRibbonGui::~BitmapRibbonGui()
 	// Disconnect Events
 	mScrollLeftBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BitmapRibbonGui::OnButtonClick ), NULL, this );
 	mScrollLeftBtn->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseDown ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_MIDDLE_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_MIDDLE_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_RIGHT_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_MOTION, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_MIDDLE_DCLICK, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_RIGHT_DCLICK, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
-	mScrollLeftBtn->Disconnect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( BitmapRibbonGui::OnMouseEvents ), NULL, this );
+	mScrollLeftBtn->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseUp ), NULL, this );
 	mScrollRightBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BitmapRibbonGui::OnButtonClick ), NULL, this );
 	mScrollRightBtn->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( BitmapRibbonGui::OnMouseDown ), NULL, this );
 	mScrollRightBtn->Disconnect( wxEVT_LEFT_UP, wxMouseEventHandler( BitmapRibbonGui::OnMouseUp ), NULL, this );

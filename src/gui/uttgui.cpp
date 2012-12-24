@@ -179,6 +179,39 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	mMainMenu->Append( mEditMenu, wxT("Edit") ); 
 	
+	mViewMenu = new wxMenu();
+	wxMenuItem* mViewToolBar;
+	mViewToolBar = new wxMenuItem( mViewMenu, wxID_VIEW_TOOLBAR, wxString( wxT("Toolbar") ) + wxT('\t') + wxT("CTRL-T"), wxT("Show/hide main toolbar"), wxITEM_CHECK );
+	#ifdef __WXMSW__
+	mViewToolBar->SetBitmaps( wxNullBitmap );
+	#elif defined( __WXGTK__ )
+	mViewToolBar->SetBitmap( wxNullBitmap );
+	#endif
+	mViewMenu->Append( mViewToolBar );
+	mViewToolBar->Check( true );
+	
+	wxMenuItem* mViewProject;
+	mViewProject = new wxMenuItem( mViewMenu, wxID_VIEW_PROJECT, wxString( wxT("Project window") ) + wxT('\t') + wxT("CTRL-P"), wxT("Show/hide project window"), wxITEM_CHECK );
+	#ifdef __WXMSW__
+	mViewProject->SetBitmaps( wxNullBitmap );
+	#elif defined( __WXGTK__ )
+	mViewProject->SetBitmap( wxNullBitmap );
+	#endif
+	mViewMenu->Append( mViewProject );
+	mViewProject->Check( true );
+	
+	wxMenuItem* mViewLog;
+	mViewLog = new wxMenuItem( mViewMenu, wxID_VIEW_LOG, wxString( wxT("Log window") ) + wxT('\t') + wxT("CTRL-L"), wxT("Show/hide log window"), wxITEM_CHECK );
+	#ifdef __WXMSW__
+	mViewLog->SetBitmaps( wxNullBitmap );
+	#elif defined( __WXGTK__ )
+	mViewLog->SetBitmap( wxNullBitmap );
+	#endif
+	mViewMenu->Append( mViewLog );
+	mViewLog->Check( true );
+	
+	mMainMenu->Append( mViewMenu, wxT("View") ); 
+	
 	mLuaMenu = new wxMenu();
 	wxMenuItem* mLuaSelect;
 	mLuaSelect = new wxMenuItem( mLuaMenu, wxID_LUA_SELECT, wxString( wxT("Select module") ) + wxT('\t') + wxT("ALT-M"), wxEmptyString, wxITEM_NORMAL );
@@ -237,11 +270,9 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	this->SetMenuBar( mMainMenu );
 	
-	mAUINotebook = new wxAuiNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_EXTERNAL_MOVE|wxAUI_NB_TAB_MOVE|wxAUI_NB_TAB_SPLIT|wxWANTS_CHARS );
-	m_mgr.AddPane( mAUINotebook, wxAuiPaneInfo() .Center() .CaptionVisible( false ).CloseButton( false ).PaneBorder( false ).Dock().Resizable().FloatingSize( wxDefaultSize ).DockFixed( false ).CentrePane() );
-	
-	
-	mMainToolBar = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
+	mMainToolBar = new wxAuiToolBar( this, wxID_VIEW_TOOLBAR, wxDefaultPosition, wxDefaultSize, wxAUI_TB_GRIPPER|wxAUI_TB_HORZ_LAYOUT|wxAUI_TB_OVERFLOW );
+	mMainToolBar->SetToolSeparation( 4 );
+	mMainToolBar->SetToolPacking( 2 );
 	mMainToolBar->AddTool( wxID_NEW_PROJECT, wxT("New project"), wxArtProvider::GetBitmap( wxART_NEW_DIR, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("New project"), wxEmptyString, NULL ); 
 	
 	mMainToolBar->AddSeparator(); 
@@ -271,13 +302,13 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	mMainToolBar->AddTool( wxID_EXPORT_ANIMATION, wxT("Export animation"), wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Export animation"), wxEmptyString, NULL ); 
 	
 	mMainToolBar->Realize();
-	m_mgr.AddPane( mMainToolBar, wxAuiPaneInfo().Top().CaptionVisible( false ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( 37,39 ) ).DockFixed( false ).Row( 1 ) );
+	m_mgr.AddPane( mMainToolBar, wxAuiPaneInfo().Name( wxT("MainToolbar") ).Top().CaptionVisible( false ).PinButton( true ).PaneBorder( false ).Gripper().Dock().Fixed().DockFixed( false ).Row( 1 ).Layer( 10 ).ToolbarPane() );
 	
-	mLogWindow = new LogWindowImpl( this );
-	m_mgr.AddPane( mLogWindow, wxAuiPaneInfo() .Bottom() .MaximizeButton( true ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ) );
+	mProjectWindow = new ProjectWindow( this, wxID_VIEW_PROJECT );
+	m_mgr.AddPane( mProjectWindow, wxAuiPaneInfo() .Name( wxT("ProjectWindow") ).Left() .Caption( wxT("No active project") ).MaximizeButton( true ).MinimizeButton( true ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).Layer( 1 ).DefaultPane() );
 	
-	mProjectWindow = new ProjectWindow( this );
-	m_mgr.AddPane( mProjectWindow, wxAuiPaneInfo() .Name( wxT("ProjectWindow") ).Left() .Caption( wxT("Project") ).MaximizeButton( true ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).Layer( 10 ).DefaultPane() );
+	mLogWindow = new LogWindowImpl( this, wxID_VIEW_LOG );
+	m_mgr.AddPane( mLogWindow, wxAuiPaneInfo() .Name( wxT("LogWindow") ).Left() .Caption( wxT("Log") ).MaximizeButton( true ).MinimizeButton( true ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( 37,134 ) ).Layer( 1 ) );
 	
 	mStatusBar = this->CreateStatusBar( 3, wxST_SIZEGRIP, wxID_ANY );
 	
@@ -285,6 +316,7 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	this->Connect( wxEVT_AUI_PANE_CLOSE, wxAuiManagerEventHandler( UttMainFrame::OnPaneClose ) );
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( UttMainFrame::OnClose ) );
 	this->Connect( mFileNew->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mFileOpen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -302,12 +334,14 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( mIE_ExpAnimation->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mEditUndo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mEditRedo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mViewToolBar->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mViewProject->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mViewLog->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaSelect->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaSelect1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mLuaReboot->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mHelpHelp->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
-	mAUINotebook->Connect( wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED, wxAuiNotebookEventHandler( UttMainFrame::OnPageChanged ), NULL, this );
 	this->Connect( wxID_NEW_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_OPEN_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_SAVE_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -324,6 +358,7 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 UttMainFrame::~UttMainFrame()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_AUI_PANE_CLOSE, wxAuiManagerEventHandler( UttMainFrame::OnPaneClose ) );
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( UttMainFrame::OnClose ) );
 	this->Disconnect( wxID_NEW_PROJECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_OPEN_PROJECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -341,12 +376,14 @@ UttMainFrame::~UttMainFrame()
 	this->Disconnect( wxID_EXPORT_ANIMATION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_REDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_VIEW_TOOLBAR, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_VIEW_PROJECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_VIEW_LOG, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_SELECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_VERSION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_LUA_REBOOT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_HELP_HELP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_HELP_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
-	mAUINotebook->Disconnect( wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED, wxAuiNotebookEventHandler( UttMainFrame::OnPageChanged ), NULL, this );
 	this->Disconnect( wxID_NEW_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_OPEN_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_SAVE_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );

@@ -9,6 +9,13 @@
  
 #include "pch.h"
 #include "ieditor.h"
+#include "gui/fonteditimpl.h"
+#include "gui/editpanelimpl.h"
+
+
+
+wxWindow* IEditor::sParentWindow = NULL;
+
 
 
 
@@ -23,7 +30,14 @@ const wxString sEditorNames[ etNum ] =
 };
 
 
+
+
+const int		EDITORVERSION = 0x100;
+
+
+
 IEditor::IEditor( wxWindow* parent, EditorType edtype, const wxString& name ):
+	IStateStore(name, EDITORVERSION),
 	mParent( parent ),
 	mEditorType( edtype ),
 	mChanged( false ),
@@ -35,6 +49,7 @@ IEditor::IEditor( wxWindow* parent, EditorType edtype, const wxString& name ):
 
 
 IEditor::IEditor( const IEditor& other ):
+	IStateStore( other ),
 	mParent( other.mParent ),
 	mEditorType( other.mEditorType ),
 	mChanged( other.mChanged ),
@@ -113,4 +128,73 @@ void IEditor::Changed( bool b /* true */)
 	}
 	
 	return res != wxID_CANCEL;
+}
+
+
+
+/* virtual */ bool IEditor::SaveState( wxOutputStream& output )
+{
+	bool res = SaveSimpleType<wxInt32>(output, mEditorType) &&
+		SaveSimpleType<wxInt32>(output, mEditorId);
+
+	return res;
+}
+
+
+
+/* virtual */ bool IEditor::LoadState( wxInputStream& input, int version )
+{
+	version;
+
+	bool res = LoadSimpleType<wxInt32>(input, (wxInt32&) mEditorType) && 
+		LoadSimpleType<wxInt32>(input, mEditorId);
+
+	return res;
+}
+
+
+
+/* static */ IEditor* IEditor::CreateEditor( EditorType edType, bool createId /* true */ )
+{
+	IEditor* result = NULL;
+
+	switch (edType)
+	{
+	case etFont:
+		result = static_cast<IEditor*> ( new FontEditor( sParentWindow ) );
+		break;
+
+	case etImage:
+		result = static_cast<IEditor*> ( new ImageEditor( sParentWindow ) );
+		break;
+
+	default:
+		wxLogError("IEditor::CreateEditor: unable to create editor %d", edType);
+	}
+
+	if (result && createId)
+	{
+		result->CreateEditorId();
+	}
+
+	return result;
+}
+
+
+
+/* static */ IEditor* IEditor::CreateEditor( wxInputStream& input )
+{
+	EditorType edType = etNum;
+	IEditor* result = NULL;
+
+	wxFileOffset offs = input.TellI();
+
+	if ( SkipHeader(input) && LoadSimpleType<wxInt32>(input, (wxInt32&) edType) )
+	{
+		result = CreateEditor( edType, false );
+	}
+
+	input.SeekI( offs, wxFromStart );
+
+	return result;
 }

@@ -10,8 +10,8 @@
 #include "pch.h"
 #include "logwindowimpl.h"
 
-LogWindowImpl::LogWindowImpl(  wxWindow* parent ):
-	wxPanel( parent, wxID_ANY, wxDefaultPosition, wxSize( 500, 100 )  ),
+LogWindowImpl::LogWindowImpl(  wxWindow* parent, wxWindowID id ):
+	wxPanel( parent, id, wxDefaultPosition, wxSize( 500, 100 )  ),
 	mRedirector( mLogTxt )
 {
 	this->SetMinSize( wxSize( 500, 100 ) );

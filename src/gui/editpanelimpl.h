@@ -32,8 +32,10 @@ public:
 	// from IEditor
 	virtual bool SaveEditor();
 	virtual bool LoadEditor();
-	virtual bool SaveEditor( wxOutputStream& output );
-	virtual bool LoadEditor( wxInputStream& input );
+
+	virtual bool SaveState( wxOutputStream& output );
+	virtual bool LoadState( wxInputStream& input, int version );
+
 	virtual const Origin*	GetOrigin() const;
 	virtual void SetInfo( IInfo* info );
 

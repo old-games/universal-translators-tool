@@ -17,7 +17,7 @@
 #include "gui/palwindowimpl.h"
 #include "gui/libwindowimpl.h"
 
-wxWindow* Project::sParentWindow = NULL;
+
 
 const wxString sCommandNames[iecNum] = 
 {
@@ -40,6 +40,7 @@ Project::Project():
 	mLastDir( wxEmptyString ),
 	mGamePath( wxEmptyString ),
 	mProjectFileName( wxEmptyString ),
+	mPerspective( wxEmptyString ),
 	mEditors()
 {
 	BindEvents();
@@ -55,6 +56,7 @@ Project::Project( const Project& other ):
 	mModuleVersion( other.mModuleVersion ),
 	mLastDir( other.mLastDir ),
 	mProjectFileName( other.mProjectFileName ),
+	mPerspective( other.mPerspective ),
 	mEditors( other.mEditors )
 {
 	BindEvents();
@@ -133,6 +135,7 @@ bool Project::CreateProject( const wxString& fullPath, const wxString& gamePath,
 	mGamePath = gamePath;
 	SetActiveModule( module, version );
 	mLastDir = vol + wxFileName::GetVolumeSeparator( wxPATH_NATIVE ) + path;
+
 	return SaveProject();
 }
 
@@ -204,21 +207,35 @@ bool Project::LoadProject( const wxString& fullPath )
 void Project::CloseProject()
 {
 	EditorsIterator it = mEditors.begin();
+
 	while (it != mEditors.end())
 	{
-		CloseEditor( *it );
-		delete (*it);
+		CloseEditor( *it, false );
+		delete *it;
 		mEditors.erase(it);
 	}
+
 	mChanged = false;
+
+	SendUpdateEvent();
 }
 
 
 
-void Project::CloseEditor( IEditor* editor )
+void Project::CloseEditor( IEditor* editor, bool update )
 {
-	AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::RemoveWindow, editor->GetWindow() ); 
-	wxTheApp->QueueEvent( event );
+	AUIWindowEvent event( AUIWindowEvent::RemoveWindow, editor->GetWindow(), update ); 
+	wxTheApp->ProcessEvent( event );
+}
+
+
+
+void Project::RemoveEditor( IEditor* editor )
+{
+	CloseEditor( editor, true );
+	mEditors.Remove( editor );
+	mChanged = true;
+	SendUpdateEvent();
 }
 
 
@@ -265,49 +282,13 @@ wxString Project::GetFunctionName( IECommands what, EditorType who )
 
 
 
-IEditor* Project::CreateEditor( EditorType who, bool createId )
-{
-	IEditor* result = NULL;
-
-	switch (who)
-	{
-		case etFont:
-			result = static_cast<IEditor*> ( new FontEditor( sParentWindow ) );
-		break;
-
-		case etImage:
-			result = static_cast<IEditor*> ( new ImageEditor( sParentWindow ) );
-		break;
-
-		default:
-			wxLogError("Project::CreateEditor: unable to create editor %d", who);
-	}
-
-	if (result)
-	{
-		if (createId) 
-		{
-			result->CreateEditorId();
-		}
-
-		mEditors.push_back( result );
-	}
-
-	return result;
-}
-
-
-
 bool Project::SaveEditors( wxOutputStream& output )
 {
 	bool res = SaveSimpleType<wxUint32>(output, mEditors.size());
 
 	for (EditorsIterator it = mEditors.begin(); it != mEditors.end() && res; ++it)
 	{
-		res = SaveSimpleType<wxInt32>(output, (*it)->GetType()) &&
-			SaveSimpleType<wxInt32>(output, (*it)->GetEditorId()) &&
-			(*it)->SaveEditor( output );
-
+		res = (*it)->SaveToStream( output );
 	}
 
 	return res;
@@ -322,31 +303,25 @@ bool Project::LoadEditors( wxInputStream& input )
 
 	for (size_t i = 0; i < num && res; ++i)
 	{
-		wxInt32 edType = (wxInt32) etNum;
-		wxInt32 id = -1;
-
-		res = LoadSimpleType<wxInt32>(input, edType) && LoadSimpleType<wxInt32>(input, id);
-		
-		if (res)
-		{
-			IEditor* editor = CreateEditor( (EditorType) edType, false );
+		IEditor* editor = IEditor::CreateEditor( input );
 			
-			if (editor)
-			{
-				editor->SetEditorId( id );
-				res = editor->LoadEditor( input );
+		if (editor)
+		{
+			res = editor->LoadFromStream( input );
 
-				if ( res )
-				{
-					AddEditorWindow( editor, editor->CreateName() );
-				}
-			}
-			else
+			if ( res )
 			{
-				res = false;
+				mEditors.push_back( editor );
+				AddEditorWindow( editor, editor->CreateName(), false );
 			}
 		}
+		else
+		{
+			res = false;
+		}
 	}
+
+	SendUpdateEvent();
 
 	return res;
 }
@@ -355,32 +330,44 @@ bool Project::LoadEditors( wxInputStream& input )
 
 void Project::CreateEditorAndSetIt( IInfo* info )
 {
-	IEditor* editor = CreateEditor( info->GetEditorType(), true );
+	IEditor* editor = IEditor::CreateEditor( info->GetEditorType(), true );
 
 	if (editor)
 	{
-		AddEditorWindow( editor, editor->CreateName() );
+		mEditors.push_back( editor );
 		editor->SetInfo( info );
-
-
+		AddEditorWindow( editor, editor->CreateName(), true );
 	}
 }
 
 
 
-void Project::AddEditorWindow( IEditor* editor, const wxString& wndName )
+void Project::AddEditorWindow( IEditor* editor, const wxString& wndName, bool update )
 {
-	AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::AddWindow, editor->GetWindow(), wndName ); 
-	wxTheApp->QueueEvent( event );
+	AUIWindowEvent addEvent( AUIWindowEvent::AddWindow, editor->GetWindow(), update, wndName ); 
+	wxTheApp->ProcessEvent( addEvent );
+	SendSetCaptionEvent( editor );
+	mChanged = true;
+}
 
+
+
+void Project::SendSetCaptionEvent( IEditor* editor )
+{
 	if (editor->GetOrigin())
 	{
-		AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::RenameWindow, 
-			editor->GetWindow(), editor->GetOrigin()->GetFileName() ); 
-		wxTheApp->QueueEvent( event );
+		AUIWindowEvent* renameEvent = new AUIWindowEvent( AUIWindowEvent::RenameWindow, 
+			editor->GetWindow(), false, editor->GetOrigin()->GetFileName() ); 
+		wxTheApp->QueueEvent( renameEvent );
 	}
+}
 
-	mChanged = true;
+
+
+void Project::SendUpdateEvent()
+{
+	AUIWindowEvent event( AUIWindowEvent::UpdateManager ); 
+	wxTheApp->ProcessEvent( event );
 }
 
 
@@ -406,7 +393,8 @@ IEditor* Project::FindEditor( wxWindow* wnd ) const
 		SaveString( output, mModuleName ) &&
 		SaveString( output, mModuleVersion ) &&
 		SaveString( output, mGamePath ) &&
-		SaveString( output, mLastDir );
+		SaveString( output, mLastDir ) &&
+		SaveString( output, mPerspective);
 
 	res = SaveEditors( output );
 
@@ -424,7 +412,8 @@ IEditor* Project::FindEditor( wxWindow* wnd ) const
 		LoadString( input, mModuleName ) &&
 		LoadString( input, mModuleVersion ) &&
 		LoadString( input, mGamePath ) &&
-		LoadString( input, mLastDir );
+		LoadString( input, mLastDir ) &&
+		LoadString( input, mPerspective);
 
 	res = LoadEditors( input );
 
@@ -436,6 +425,7 @@ IEditor* Project::FindEditor( wxWindow* wnd ) const
 /* virtual */ void Project::OnChangeInfoEvent( ChangeInfoEvent& event )
 {
 	CreateEditorAndSetIt( event.GetInfo() );
+	SendUpdateEvent();
 	event.Skip();
 }
 

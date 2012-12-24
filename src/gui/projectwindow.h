@@ -16,27 +16,54 @@ class Project;
 
 WX_DECLARE_HASH_MAP( wxUint32, wxTreeListItem, wxIntegerHash, wxIntegerEqual, TreeItemStorage );
 
+
+
+class ProjectItemData: public wxClientData
+{
+public:
+	IEditor*	mEditor;
+};
+
 class ProjectWindow: public ProjectWindowGui
 {
 
 public:
-	ProjectWindow( wxWindow* parent );
+	ProjectWindow( wxWindow* parent, wxWindowID id );
 	~ProjectWindow(void);
 
 	void SetProject( Project* project );
 	void UpdateProjectTree();
 	void UpdateState( IEditor* editor );
 
+protected:
+
+	virtual void OnLeftDblClick( wxMouseEvent& event );
+	void OnTreeListContextMenu( wxTreeListEvent& event );
+	void OnTreeListChanged( wxTreeListEvent& event );
+
 private:
 
 	void			Clear();
 	void			InitTree();
+
+	void DoItemContextMenu( wxTreeListItem item );
+	void DoCategoryContextMenu( wxTreeListItem item );
+	void HideShowChildren( wxTreeListItem item, bool hide );
+
 	wxTreeListItem	GetTypeRoot( EditorType edType );
 	void			SetItemState( wxTreeListItem item, IEditor* editor );
+	ProjectItemData*GetItemData( wxTreeListItem item ) const;
 
 	Project*		mProject;
+
+	wxMenu*			mItemMenu;
+	wxMenu*			mCategoryMenu;
+
 	wxTreeListItem	mTypeRoots[etNum];
 	TreeItemStorage mEditorsItems;
+
+	wxDECLARE_EVENT_TABLE();
+
 };
 
 

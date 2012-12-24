@@ -17,7 +17,7 @@ class Origin;
 
 extern const wxString sEditorNames[ etNum ];
 
-class IEditor
+class IEditor: public IStateStore
 {
 public:
 
@@ -38,13 +38,18 @@ public:
 	virtual bool	CheckChanged();
 	virtual bool	SaveEditor() = 0; 
 	virtual bool	LoadEditor() = 0; 
-	virtual bool	SaveEditor( wxOutputStream& output ) = 0; 
-	virtual bool	LoadEditor( wxInputStream& input ) = 0; 
+
 	virtual void	SetInfo( IInfo* info ) = 0;
-	virtual const Origin*	GetOrigin() const = 0; 
+	virtual const Origin*	GetOrigin() const = 0;
+
+	static IEditor* CreateEditor( EditorType edType, bool createId = true  );
+	static IEditor* CreateEditor( wxInputStream& input );
+	static wxWindow* sParentWindow;	// hack window to create invisible panels
 
 protected:
 
+	virtual bool SaveState( wxOutputStream& output );
+	virtual bool LoadState( wxInputStream& input, int version );
 
 private:
 

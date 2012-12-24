@@ -39,12 +39,17 @@ public:
 	bool CreateProject( const wxString& fullPath, const wxString& gamePath, const wxString& module, const wxString& version );
 	bool SaveProject( const wxString& saveAs = wxEmptyString );
 	bool LoadProject( const wxString& fullPath );
+
 	void CloseProject();
+	void RemoveEditor( IEditor* editor );
 
 	const wxString& GetProjectFileName() const { return mProjectFileName; }
+	const wxString& GetName() const { return mProjectName; }
+	const wxString& GetPerspective( ) const { return mPerspective; }
 
 	bool SetActiveModule();
 	bool SetActiveModule( const wxString& module, const wxString& version );
+	void SetPerspective( const wxString& perspective ) { mPerspective = perspective; }
 
 	bool IsAllowed( IECommands what, EditorType who );
 	bool Do( IECommands what, EditorType who );
@@ -52,8 +57,6 @@ public:
 	size_t GetEditorsNum() const { return mEditors.GetCount(); }
 	IEditor* GetEditor( size_t n ) const { return mEditors[n]; }
 	IEditor* FindEditor( wxWindow* wnd ) const;
-
-	static wxWindow* sParentWindow;
 
 protected:
 
@@ -66,11 +69,13 @@ protected:
 private:
 
 	void			BindEvents();
-	IEditor*		CreateEditor( EditorType who, bool createId );
-	void			CreateEditorAndSetIt( IInfo* info );
-	void			CloseEditor( IEditor* editor );
 
-	void			AddEditorWindow( IEditor* editor, const wxString& wndName );
+	void			CreateEditorAndSetIt( IInfo* info );
+	void			CloseEditor( IEditor* editor, bool update );
+
+	void			AddEditorWindow( IEditor* editor, const wxString& wndName, bool update );
+	void			SendUpdateEvent();
+	void			SendSetCaptionEvent( IEditor* editor );
 
 	wxString		GetFunctionName( IECommands what, EditorType who );
 	bool			SaveEditors( wxOutputStream& output );
@@ -83,6 +88,7 @@ private:
 	wxString		mLastDir;
 	wxString		mGamePath;
 	wxString		mProjectFileName;
+	wxString		mPerspective;
 
 	EditorsArray	mEditors;
 };

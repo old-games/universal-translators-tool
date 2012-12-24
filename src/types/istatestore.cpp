@@ -94,6 +94,8 @@ bool IStateStore::LoadFromFile( const wxString& fileName )
 
 bool IStateStore::SaveToStream( wxOutputStream& output)
 {
+	wxBusyCursor busy;
+
 	bool res = false;
 
 	if ( SaveString( output, mMyName ) && SaveSimpleType<wxInt32>( output, mVersion ) )
@@ -112,9 +114,12 @@ bool IStateStore::SaveToStream( wxOutputStream& output)
 
 bool IStateStore::LoadFromStream( wxInputStream& input )
 {
+	wxBusyCursor busy;
+
 	wxString name = wxEmptyString;
 	wxInt32 version = 0;
 
+	// correct SkipHeader if the next line changing
 	bool res = LoadString( input, name ) && LoadSimpleType<wxInt32>( input, version );
 
 	if ( res )
@@ -135,6 +140,15 @@ bool IStateStore::LoadFromStream( wxInputStream& input )
 	}
 
 	return res;
+}
+
+
+
+/* static */ bool IStateStore::SkipHeader( wxInputStream& input )	// used by IEditor
+{
+	wxString str;
+	wxInt32 ver;
+	return LoadString( input, str ) && LoadSimpleType<wxInt32>( input, ver );
 }
 
 

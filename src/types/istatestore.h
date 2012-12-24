@@ -25,7 +25,9 @@ public:
 	bool LoadFromFile( const wxString& fileName );
 
 	bool SaveToStream( wxOutputStream& output);
+	
 	bool LoadFromStream( wxInputStream& input );
+	static bool SkipHeader( wxInputStream& input );	// for IEditor indentify, may be it's need to little refactoring
 
 	inline static bool CheckLastWrite(wxOutputStream& output, size_t val)
 	{

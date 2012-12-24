@@ -78,7 +78,7 @@ MainFrameImpl::MainFrameImpl(void):
 
 	wxWindow* hiddenPanel = new wxWindow( this, wxID_ANY );	// this is hack for new windows creating
 	hiddenPanel->Hide();					// if parent is hidden - no flickering on window construction
-	Project::sParentWindow = hiddenPanel;	// MainFrame will delete it automatically on exit
+	IEditor::sParentWindow = hiddenPanel;	// MainFrame will delete it automatically on exit
 	// may be it needs just a little research of wxWidgets functionality so TODO it someday
 }
 
@@ -106,14 +106,12 @@ void MainFrameImpl::OnModuleChanged( ModuleChangedEvent& event )
 
 
 
-void MainFrameImpl::AddPane( wxWindow* wnd, const wxString& name )
+void MainFrameImpl::AddPane( wxWindow* wnd, const wxString& name, bool show)
 {
 	if (wnd)
 	{
 		wnd->Reparent(this);
-
-		m_mgr.AddPane( wnd, wxAuiPaneInfo().Show().
-			Name(name).
+		m_mgr.AddPane( wnd, wxAuiPaneInfo().Name(name).Show( show ).
 			Center().
 			MaximizeButton( true ).
 			PinButton( true ).
@@ -121,11 +119,6 @@ void MainFrameImpl::AddPane( wxWindow* wnd, const wxString& name )
 			Resizable().
 			FloatingSize( wxDefaultSize ).
 			DockFixed( false ) );
-
-		m_mgr.Update();
-
-		mProjectWindow->UpdateProjectTree();
-		UpdateMenuStates();
 	}
 }
 
@@ -191,7 +184,9 @@ void MainFrameImpl::DoOpenProject()
 	mCurrentProject = newProject;
 
 	mProjectWindow->SetProject( mCurrentProject );
-
+	m_mgr.GetPane( mProjectWindow ).Caption( "Project: " + mCurrentProject->GetName() );
+	m_mgr.LoadPerspective( mCurrentProject->GetPerspective() );
+	m_mgr.Update();
 	UpdateMenuStates();
 }
 
@@ -230,7 +225,9 @@ bool MainFrameImpl::DoCloseProject(bool force /* true */)
 			mCurrentProject->CloseProject();
 			delete mCurrentProject;
 			mCurrentProject = NULL;
+
 			mProjectWindow->SetProject( NULL );
+			m_mgr.GetPane( mProjectWindow ).Caption( "No active project" );
 			COMMAND->ClearCommands();
 		}
 		else
@@ -274,6 +271,7 @@ void MainFrameImpl::CreateNewProject()
 	mCurrentProject->CreateProject( dlg.GetPath(), dlg.GetGamePath(), dlg.GetModule(), dlg.GetVersion() );
 
 	mProjectWindow->SetProject( mCurrentProject );
+	m_mgr.GetPane( mProjectWindow ).Caption( "Project: " + mCurrentProject->GetName() );
 
 	UpdateMenuStates();
 	COMMAND->ClearCommands();
@@ -301,6 +299,7 @@ void MainFrameImpl::DoSaveProject( bool saveAs /* false */)
 		projName = dlg.GetPath();
 	}
 
+	mCurrentProject->SetPerspective( m_mgr.SavePerspective() );
 	mCurrentProject->SaveProject( projName );
 
 	UpdateMenuStates();
@@ -366,6 +365,41 @@ void MainFrameImpl::DoModuleCommand( int n )
 
 
 
+void MainFrameImpl::DoShowHide( int id )
+{
+	wxWindow* wnd = this->FindWindowById( id );
+	wxMenuItem* item = mViewMenu->FindItem( id );
+
+	if (!wnd || !item)
+	{
+		return;
+	}
+
+	bool show = item->IsChecked();
+
+	wxAuiPaneInfo& pane = m_mgr.GetPane( wnd );
+
+	if (pane.IsOk())
+	{
+		pane.Show(show);
+		m_mgr.Update();
+	}
+}
+
+
+
+void MainFrameImpl::UpdateViewMenu( wxWindowID id, bool visible )
+{
+	wxMenuItem* item = mViewMenu->FindItem( id );
+	
+	if (item)
+	{
+		item->Check( visible );
+	}
+}
+
+
+
 void MainFrameImpl::ClearModuleMenu()
 {
 	wxMenuItemList& list = mModuleMenu->GetMenuItems();
@@ -407,8 +441,8 @@ void MainFrameImpl::UpdateMenuStates()
 	mMainToolBar->EnableTool( wxID_OPEN_PROJECT, luaOk );
 	mFileMenu->Enable( wxID_OPEN_PROJECT,  luaOk );
 
-	mMainToolBar->EnableTool( wxID_SAVE_PROJECT, projectChanged );
-	mFileMenu->Enable( wxID_SAVE_PROJECT,  projectChanged );
+	mMainToolBar->EnableTool( wxID_SAVE_PROJECT, projectActive );
+	mFileMenu->Enable( wxID_SAVE_PROJECT,  projectActive );
 	mFileMenu->Enable( wxID_SAVE_PROJECT_AS,  projectActive );
 
 
@@ -444,7 +478,7 @@ void MainFrameImpl::UpdateMenuStates()
 
 
 
-void MainFrameImpl::OnIdle( wxIdleEvent& )
+void MainFrameImpl::OnIdle( wxIdleEvent& event)
 {
 	if (Lua::GetRebootFlag())
 	{
@@ -458,6 +492,8 @@ void MainFrameImpl::OnIdle( wxIdleEvent& )
 
 		UpdateMenuStates();
 	}
+
+	event.Skip();
 }
 
 
@@ -611,6 +647,12 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 			who = etAnimation;
 		break;
 
+		case wxID_VIEW_TOOLBAR:
+		case wxID_VIEW_LOG:
+		case wxID_VIEW_PROJECT:
+			DoShowHide( event.GetId() );
+		break;
+
 		default:
 			wxLogMessage( wxString::Format("Unknown command from main menu: %d", id) );
 		break;
@@ -627,11 +669,12 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 void MainFrameImpl::OnAUIWindowEvent( AUIWindowEvent& event )
 {
 	wxWindow* wnd = event.GetWindow();
+	wxAuiPaneInfo& pane = m_mgr.GetPane(wnd);
 
 	switch (event.GetCommand())
 	{
 		case AUIWindowEvent::AddWindow:
-			AddPane( wnd, event.GetName() );
+			AddPane( wnd, event.GetName(), event.DoUpdate() );
 		break;
 
 		case AUIWindowEvent::RemoveWindow:
@@ -642,17 +685,31 @@ void MainFrameImpl::OnAUIWindowEvent( AUIWindowEvent& event )
 		break;
 
 		case AUIWindowEvent::UpdateManager:
-			m_mgr.Update();
-			if ( wnd )
-			{
-				m_mgr.GetPane(wnd).FloatingSize( wnd->GetSize() );
-				wnd->SendSizeEvent();
-			}
+			mProjectWindow->UpdateProjectTree();
+			UpdateMenuStates();
 		break;
 		
 		case AUIWindowEvent::RenameWindow:
-			m_mgr.GetPane(event.GetWindow()).Caption( event.GetName() );
+			pane.Caption( event.GetName() );
 		break;
+
+		case AUIWindowEvent::ShowWindow:
+			pane.Show( true );
+		break;
+
+		case AUIWindowEvent::HideWindow:
+			pane.Show( false );
+		break;
+
+
+		case AUIWindowEvent::SetActive:
+			wnd->SetFocus();
+		break;
+	}
+
+	if (event.DoUpdate())
+	{
+		m_mgr.Update();
 	}
 }
 
@@ -673,7 +730,7 @@ void MainFrameImpl::OnEditorRebuildDataEvent( EditorRebuildDataEvent& event )
 
 
 
-void  MainFrameImpl::OnAUIManagerEvent( wxAuiManagerEvent& event )
+void MainFrameImpl::OnAUIManagerEvent( wxAuiManagerEvent& event )
 {
 	mCurrentPane = event.GetPane();
 
@@ -684,4 +741,15 @@ void  MainFrameImpl::OnAUIManagerEvent( wxAuiManagerEvent& event )
 	
 	
 	event.Skip();
+}
+
+
+
+/* virtual */ void MainFrameImpl::OnPaneClose( wxAuiManagerEvent& event ) 
+{ 
+	wxAuiPaneInfo* pane = event.GetPane();
+
+	UpdateViewMenu( pane->window->GetId(), !pane->IsShown() );
+
+	event.Skip(); 
 }

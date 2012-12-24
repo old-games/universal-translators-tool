@@ -30,15 +30,17 @@ private:
 	virtual void OnMenuSelect( wxCommandEvent& event );
 	void OnModuleMenuSelect( wxCommandEvent& event );
 
-	void OnIdle( wxIdleEvent& );
+	void OnIdle( wxIdleEvent& event );
 	void OnShow( wxShowEvent& event );
 
 	void OnModuleChanged( ModuleChangedEvent& event );
 	void OnAUIWindowEvent( AUIWindowEvent& event );
 	void OnAUIManagerEvent( wxAuiManagerEvent& event );
+	virtual void OnPaneClose( wxAuiManagerEvent& event );
+
 	void OnEditorRebuildDataEvent( EditorRebuildDataEvent& event );
 
-	void AddPane( wxWindow* wnd, const wxString& name );
+	void AddPane( wxWindow* wnd, const wxString& name, bool show );
 
 	void UpdateMenuStates();
 	bool DoCloseProject(bool force = false);
@@ -51,6 +53,8 @@ private:
 	void DoSelectVersion();
 	void DoModuleChanged();
 	void DoModuleCommand( int n );
+	void DoShowHide( int id );
+	void UpdateViewMenu( wxWindowID id, bool visible );
 	void UpdateModuleMenu( const wxArrayString& strings );
 	void ClearModuleMenu();
 

@@ -251,10 +251,15 @@ void ImageEditor::ChangeImagePalette( Palette* pal )
 
 
 
-/* virtual */ bool ImageEditor::SaveEditor( wxOutputStream& output )
+/* virtual */ bool ImageEditor::SaveState( wxOutputStream& output )
 {
-	bool result = mEditPanel->mImageInfo ? 
-		mEditPanel->mImageInfo->SaveToStream(output) : false;
+	if (!mEditPanel->mImageInfo || !mEditPanel->mImageInfo->IsOk())
+	{
+		return false;
+	}
+
+	bool result = IEditor::SaveState(output) &&
+		mEditPanel->mImageInfo->SaveToStream(output);
 
 	if (result)
 	{
@@ -266,11 +271,12 @@ void ImageEditor::ChangeImagePalette( Palette* pal )
 
 
 
-/* virtual */ bool ImageEditor::LoadEditor( wxInputStream& input )
+/* virtual */ bool ImageEditor::LoadState( wxInputStream& input, int version )
 {
 	ImageInfo* imageInfo = new ImageInfo();
 
-	bool res = imageInfo->LoadFromStream( input );
+	bool res = IEditor::LoadState( input, version ) && 
+		imageInfo->LoadFromStream( input );
 
 	if ( res && imageInfo->IsOk() )
 	{
@@ -288,6 +294,7 @@ void ImageEditor::ChangeImagePalette( Palette* pal )
 {
 	return mEditPanel->mImageInfo ? mEditPanel->mImageInfo->GetOrigin() : NULL;
 }
+
 
 
 /* virtual */ bool ImageEditor::SaveEditor()

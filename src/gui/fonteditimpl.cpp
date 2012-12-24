@@ -200,9 +200,16 @@ void FontEditor::SetPaletteAsMain()
 
 
 
-/* virtual */ bool FontEditor::SaveEditor( wxOutputStream& output )
+/* virtual */ bool FontEditor::SaveState( wxOutputStream& output )
 {
-	bool result = mCurrentFont ? mCurrentFont->SaveToStream(output) : false;
+	if (!mCurrentFont)
+	{
+		return false;
+	}
+
+	bool result = IEditor::SaveState(output) &&
+		mCurrentFont->SaveToStream(output) && 
+		this->SaveSimpleType<wxUint32>( output, mCurrentSymbol );
 
 	if (result)
 	{
@@ -214,10 +221,13 @@ void FontEditor::SetPaletteAsMain()
 
 
 
-/* virtual */ bool FontEditor::LoadEditor( wxInputStream& input )
+/* virtual */ bool FontEditor::LoadState( wxInputStream& input, int version )
 {
 	FontInfo* fontInfo = new FontInfo();
-	bool res = fontInfo->LoadFromStream( input );
+
+	bool res = IEditor::LoadState(input, version) &&
+		fontInfo->LoadFromStream( input ) &&
+		this->LoadSimpleType<wxUint32>( input, mCurrentSymbol );
 
 	if ( res )
 	{
@@ -253,8 +263,7 @@ void FontEditor::SetPaletteAsMain()
 		{
 			// mChanged flag can be set true only as Project part... or not?
 			//Changed( mCurrentFont->SaveToFile( dlg.GetPath() ) );
-
-			res  = mCurrentFont->SaveToFile( dlg.GetPath() );
+			res  = this->SaveToFile( dlg.GetPath() );
 		}
 	}
 	return res;
@@ -269,14 +278,16 @@ void FontEditor::SetPaletteAsMain()
 
 	if (dlg.ShowModal() == wxID_OK)
 	{
+		res = LoadFromFile( dlg.GetPath() );
+		/*
 		FontInfo* fontInfo = new FontInfo();
 
-		if ( fontInfo->LoadFromFile( dlg.GetPath() ) )
+		if ( fontInfo->LoadFromFile(  ) )
 		{
 			SetInfo( fontInfo );
 			res = true;
 		}
-		delete fontInfo;
+		delete fontInfo;*/
 	}
 
 	return res;
