@@ -12,7 +12,10 @@
 #include "luacontrol.h"
 
 
-int editImage(lua_State *L);
+
+DEFINE_EDIT_INFO(editImage, ImageInfo)
+
+
 
 namespace Lua
 {
@@ -38,21 +41,3 @@ EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( ImageInfo, SetImage, SetPalette )
 EXPORT_OOLUA_FUNCTIONS_1_CONST( ImageInfo, IsOk )
 
 
-
-int editImage(lua_State *L)
-{
-	if (Lua::Get().stack_count() != 1)
-	{
-		wxLogMessage("editImage: function need a filled ImageInfo class as argument");
-		return 0;
-	}
-	ImageInfo* imageInfo;
-
-	if ( OOLUA::pull2cpp(L, imageInfo) )
-	{
-		ChangeInfoEvent imageEvent( imageInfo );	
-		wxTheApp->ProcessEvent( imageEvent );	// don't use QueueEvent here!
-	}
-
-	return 0;
-}

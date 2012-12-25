@@ -109,12 +109,22 @@ void MainFrameImpl::AddPane( wxWindow* wnd, const wxString& name, bool show)
 {
 	if (wnd)
 	{
+		//m_mgr.AddPane( wnd, wxAuiPaneInfo().Name(name));
 		m_mgr.AddPane( wnd, wxAuiPaneInfo().Name(name).Show( show ).
+			Layer(0).
+			Row(0).
+			Position(0).
+			DestroyOnClose( false ).
 			Center().
-			MaximizeButton( true ).
+			PaneBorder( false ).
+			MaximizeButton().
+			MinimizeButton().
 			PinButton( true ).
+			Movable( true ).
 			Dock().
+			Floatable().
 			Resizable().
+			Dockable().
 			FloatingSize( wxDefaultSize ).
 			DockFixed( false ) );
 	}
@@ -706,6 +716,7 @@ void MainFrameImpl::OnAUIWindowEvent( AUIWindowEvent& event )
 			if (wnd)
 			{
 				m_mgr.DetachPane( wnd );
+				wnd->Hide();
 			}
 		break;
 
@@ -722,12 +733,13 @@ void MainFrameImpl::OnAUIWindowEvent( AUIWindowEvent& event )
 			show = false;
 
 		case AUIWindowEvent::ShowWindow:
-			if (pane.window->GetParent() != this)
+			if (show && pane.window->GetParent() != this)
 			{
 				pane.window->Reparent(this);
 			}
 
 			pane.Show( show );
+			pane.window->Show( show );
 		break;
 
 
@@ -763,10 +775,12 @@ void MainFrameImpl::OnAUIManagerEvent( wxAuiManagerEvent& event )
 {
 	mCurrentPane = event.GetPane();
 
-	if (!mCurrentProject || !mCurrentProject->FindEditor( mCurrentPane->window ))
+	if (!mProjectWindow->SetEditor( mCurrentPane->window ))
 	{
 		mCurrentPane = NULL;
 	}
+
+	event.Skip();
 }
 
 

@@ -71,22 +71,47 @@ bool IStateStore::SaveToFile( const wxString& fileName )
 
 
 
-bool IStateStore::LoadFromFile( const wxString& fileName )
+bool IStateStore::LoadFromFile( const wxString& fileName, bool useMemory /* true */ )
 {
-	wxFileInputStream stream(fileName);
-	bool res = false;
+#ifndef RELEASE
+	wxStopWatch sw;
+#endif
 
+	wxFileInputStream stream(fileName);
+
+	bool res = false;
+	void* block = NULL;
+	
 	if (stream.IsOk())
 	{
 		wxBusyInfo info("Loading, please wait...");
 
-		res = LoadFromStream( stream );
+		if (useMemory)
+		{
+			size_t size = stream.GetSize();
+			block = malloc(size);
+			stream.Read( block, size );
+			res = LoadFromStream( wxMemoryInputStream(block, size) );
+		}
+		else
+		{
+			res = LoadFromStream( stream );
+		}
+
 	}
 	else
 	{
 		wxLogError(wxString::Format("%s::LoadFromFile: can't open file (%s) to read data!", mMyName, fileName));
 	}
 
+	if (block)
+	{
+		free(block);
+	}
+
+#ifndef RELEASE
+	wxLogMessage("IStateStore::LoadFromFile (%s) %ldms", fileName, sw.Time());
+#endif
 	return res;
 }
 
@@ -177,35 +202,38 @@ bool IStateStore::RenameTemporary( const wxString& fileName )
 
 /* static */ bool IStateStore::SaveString(wxOutputStream& output, const wxString& txt)
 {
-        wxInt32 len = txt.Len();
-        if ( SaveSimpleType<wxInt32>(output, len) )
-        {
-                len *= sizeof(wchar_t);
-                output.Write(txt.c_str().AsWChar(), len );
-                return CheckLastWrite(output, len);
-        }
-        return false;
+    wxInt32 len = txt.Len();
+
+    if ( SaveSimpleType<wxInt32>(output, len) )
+    {
+        len *= sizeof(wchar_t);
+        output.Write(txt.c_str().AsWChar(), len );
+        return CheckLastWrite(output, len);
+    }
+    return false;
 }
 
 
 
 /* static */ bool IStateStore::LoadString(wxInputStream& input, wxString& txt)
 {
-        wxInt32 len = 0;
-        bool ret = false;
-        if (LoadSimpleType<wxInt32>(input, len))
+    wxInt32 len = 0;
+    bool ret = false;
+
+    if (LoadSimpleType<wxInt32>(input, len))
+    {
+        len *=  sizeof(wchar_t);
+        wchar_t* buf = (wchar_t*) malloc(len);
+        input.Read(buf, len);
+        if (CheckLastRead(input, len))
         {
-                len *=  sizeof(wchar_t);
-                wchar_t* buf = (wchar_t*) malloc(len);
-                input.Read(buf, len);
-                if (CheckLastRead(input, len))
-                {
-                        txt = wxString(buf, len / sizeof(wchar_t));
-                        ret = true;
-                }
-                free(buf);
+            txt = wxString(buf, len / sizeof(wchar_t));
+            ret = true;
         }
-        return ret;
+        free(buf);
+    }
+
+	return ret;
 }
 
 

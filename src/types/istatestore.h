@@ -22,7 +22,7 @@ public:
 	virtual ~IStateStore();
 
 	bool SaveToFile( const wxString& fileName );
-	bool LoadFromFile( const wxString& fileName );
+	bool LoadFromFile( const wxString& fileName, bool useMemory = true );
 
 	bool SaveToStream( wxOutputStream& output);
 	

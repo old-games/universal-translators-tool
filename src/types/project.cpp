@@ -194,6 +194,14 @@ bool Project::LoadProject( const wxString& fullPath )
 	if ( CheckChanged() )
 	{
 		result = LoadFromFile( fullPath );
+
+		for (EditorsIterator it = mEditors.begin(); it != mEditors.end(); ++it)
+		{
+			AddEditorWindow( *it, (*it)->CreateName(), false );
+		}
+
+		SendUpdateEvent();
+
 		mProjectFileName = fullPath;
 		SetActiveModule();
 		mChanged = false;
@@ -323,7 +331,6 @@ bool Project::LoadEditors( wxInputStream& input )
 			if ( res )
 			{
 				mEditors.push_back( editor );
-				AddEditorWindow( editor, editor->CreateName(), false );
 			}
 		}
 		else
@@ -331,8 +338,6 @@ bool Project::LoadEditors( wxInputStream& input )
 			res = false;
 		}
 	}
-
-	SendUpdateEvent();
 
 	return res;
 }

@@ -10,16 +10,19 @@
 #define LIBTREE_H_INCLUDED
 
 
+#include "iinfo.h"
 #include "libitem.h"
 
 
 
-class LibTree
+class LibTree: public IInfo
 {
 public:
 	LibTree();
+	LibTree( const LibTree& other );
 	virtual ~LibTree();
 
+	LibTree* Clone() { return new LibTree(*this); }
 	void DeleteItems();
 
 	LibItemId		AddItem( LibItemId parentId = LIBITEM_ROOTID );

@@ -77,10 +77,8 @@ local function imageTypeSelector( filename )
 
 	if ext == "lbm" then
 		return LoadLBM( filename )
-	elseif ext == "scr" then
-	
-	elseif ext == "dat" then
-	
+	elseif ext == "scr" or ext == "dat" then
+		return LoadXcomImage( filename )
 	end
 	
 end
@@ -89,7 +87,7 @@ end
 
 
 function Xcom.ImportImage()
-	local fileName = openFileDialog("LBM Files (*LBM.DAT)|*.lbm|Background files (*.SCR)|*.scr|DAT files (*.DAT)|*.dat")
+	local fileName = openFileDialog("LBM Files (*.LBM)|*.lbm|Background files (*.SCR)|*.scr|DAT files (*.DAT)|*.dat")
 	
 	if fileName ~= nil then
 		local image = imageTypeSelector( fileName )
@@ -103,57 +101,49 @@ end
 
 
 
-
---	local fh = assert(io.open(filename, "rb"))
---	if not fh then
---		return
---	end
---	
---	 
---	if name == 'biglets' or name == 'smallset' then
---		LoadXcomFont( path, name, fh )
---	else
---		local key = findAnyStringInTable( getKnownImageNames(), name )
---		if key ~= nil then
---			LoadXcomImage( path, name, key, fh )
---		else
---			print ("I don't know what to do with ", filename)
---		end
---	end
---	fh:close()
---end
-
-
-
 local CATStruct = {}
 CATStruct[1] =	{ OFFSET	= "DWORD" 	}
 CATStruct[2] =	{ SIZE 		= "DWORD" 	}
 
 
 
---function Operations.loadCAT( filename )
---	local vol, path, name, ext = parseFileName( filename )
---	path = vol..path..'/'
---
---	local fh = assert(io.open(filename, "rb"))
---	if not fh then
---		return
---	end
---	
---	local done = false
---	local size = fileSize( filename )
---	
---	while not done do
---		local data = readData( fh, CATStruct )
---		done = (data ~= nil) and (data.OFFSET + data.SIZE) == size
---		showTable(data)
---	end
---	
---	fh:close()
---end
+function loadCAT( filename )
+	local vol, path, name, ext = parseFileName( filename )
+	path = vol..path..'/'
+
+	local fh = assert(io.open(filename, "rb"))
+	if not fh then
+		return
+	end
+	
+	local done = false
+	local size = fileSize( filename )
+	
+	while not done do
+		local data = readData( fh, CATStruct )
+		done = (data ~= nil) and (data.OFFSET + data.SIZE) >= size
+		if data then
+			showTable(data)
+		end
+	end
+	
+	fh:close()
+end
 
 
 
+
+function Xcom.ImportLibrary()
+	local fileName = openFileDialog("CAT Files (*.CAT)|*.cat|LBM Files (*.LBM)|*.lbm")
+	
+	if fileName ~= nil then
+		local lib = loadCAT( fileName )
+		
+		if lib then
+			editLibrary(lib)
+		end
+	end
+end
 
 
 

@@ -12,7 +12,8 @@
 #include "luacontrol.h"
 
 
-int editFont(lua_State *L);
+
+DEFINE_EDIT_INFO(editFont, FontInfo)
 
 
 
@@ -49,24 +50,4 @@ EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( FontInfo, SetValues, AddSymbolFromBuf,
 								   AddSymbolIndexed, SetPalette )
 EXPORT_OOLUA_FUNCTIONS_0_CONST( FontInfo )
 
-
-
-int editFont(lua_State *L)
-{
-	if (Lua::Get().stack_count() != 1)
-	{
-		wxLogMessage("editFont: function need a filled FontInfo table as argument");
-		return 0;
-	}
-
-	FontInfo* fontInfo;
-
-	if ( OOLUA::pull2cpp(L, fontInfo) )
-	{
-		ChangeInfoEvent fontEvent( fontInfo );	
-		wxTheApp->ProcessEvent( fontEvent );	// don't use QueueEvent here!
-	}
-
-	return 0;
-}
 

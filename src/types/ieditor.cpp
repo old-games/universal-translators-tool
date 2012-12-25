@@ -156,6 +156,11 @@ void IEditor::Changed( bool b /* true */)
 
 /* static */ IEditor* IEditor::CreateEditor( EditorType edType, bool createId /* true */ )
 {
+
+#ifndef RELEASE
+	wxStopWatch sw;
+#endif
+
 	IEditor* result = NULL;
 
 	switch (edType)
@@ -174,8 +179,13 @@ void IEditor::Changed( bool b /* true */)
 
 	if (result && createId)
 	{
+		result->GetWindow()->Hide();
 		result->CreateEditorId();
 	}
+
+#ifndef RELEASE
+	wxLogMessage("IEditor::CreateEditor %ldms", sw.Time());
+#endif
 
 	return result;
 }

@@ -11,13 +11,29 @@
 #include "libtree.h"
 
 
+const wxString	LIBNAME = "LibTree";
+const int		LIBVERSION = 0x100;
+
+
 
 LibTree::LibTree():
+	IInfo( LIBNAME, LIBVERSION, etLibrary ),
 	mRoot( new LibItem(NULL, LIBITEM_ROOTID) ),
 	mAllItems(),
 	mAssignedTree(NULL)
 {
 	mRoot->SetText("Root");
+}
+
+
+
+LibTree::LibTree( const LibTree& other ):
+	IInfo( other ),
+	mRoot( other.mRoot->Clone() ),
+	mAllItems(),
+	mAssignedTree( other.mAssignedTree )
+{
+	mRoot->CollectAllItems( mAllItems );
 }
 
 

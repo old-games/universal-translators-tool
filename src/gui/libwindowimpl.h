@@ -11,7 +11,14 @@
 
 #include "uttgui.h"
 
-class LibraryPanel : public LibraryGui
+
+
+//forward declarations
+class LibTree;
+
+
+
+class LibraryPanel : public LibraryGui, public IEditor
 {
 
 public:
@@ -19,11 +26,25 @@ public:
 	LibraryPanel( wxWindow* parent );
 	virtual ~LibraryPanel(void);
 
+
+	// from IEditor
+	virtual bool SaveEditor();
+	virtual bool LoadEditor();
+
+	virtual bool SaveState( wxOutputStream& output );
+	virtual bool LoadState( wxInputStream& input, int version );
+
+	virtual const Origin*	GetOrigin() const;
+	virtual void SetInfo( IInfo* info );
+
 protected:
 
 
 private:
 
+	void ClearLibrary();
+
+	LibTree*	mLibInfo;
 };
 
 

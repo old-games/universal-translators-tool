@@ -12,12 +12,20 @@
 #include "luacontrol.h"
 
 
+
+
+
+DEFINE_EDIT_INFO(editLibrary, LibTree)
+
+
+
 namespace Lua
 {
 
 	void LibTreeRegister()
 	{
 		LUA_REG_CLASS(LibTree);
+		LUA_REG_C_FUNCTION(editLibrary);
 	}
 
 }   // namespace Lua
@@ -31,4 +39,6 @@ namespace Lua
 EXPORT_OOLUA_FUNCTIONS_1_NON_CONST( LibTree, FindItem )
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST( LibTree )
+
+
 

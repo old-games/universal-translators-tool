@@ -32,6 +32,7 @@ public:
 	~ProjectWindow(void);
 
 	void SetProject( Project* project );
+	bool SetEditor( wxWindow* wnd );	// highlight current editor
 	void UpdateProjectTree();
 	void UpdateState( IEditor* editor );
 
@@ -52,6 +53,8 @@ private:
 
 	wxTreeListItem	GetTypeRoot( EditorType edType );
 	void			SetItemState( wxTreeListItem item, IEditor* editor );
+
+	wxTreeListItem	GetEditorItem( IEditor* editor );
 	ProjectItemData*GetItemData( wxTreeListItem item ) const;
 
 	Project*		mProject;

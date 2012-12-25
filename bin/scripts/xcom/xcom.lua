@@ -12,8 +12,6 @@ local KnownImageNames =
 	{ "lang", "back", "geobord", "up_bord2"} 
 }
 
-function getKnownImageNames() return KnownImageNames[currentVersion] end
-
 local imageParams = 
 {
 	-- UFO1DOS
@@ -264,7 +262,20 @@ end
 
 
 
-function LoadXcomImage( path, name, key, fh )
+function LoadXcomImage( filename )
+	local path, name, ext = parseFileName( filename )
+	path = path..'/'
+
+	local key = findAnyStringInTable( KnownImageNames[currentVersion], name )
+	if key == nil then
+		print ("I don't know what to do with ", filename)
+	end
+
+	local fh = assert(io.open(filename, "rb"))
+	if not fh then
+		return
+	end
+	
 	local params = imageParams[currentVersion][key]
 	local width = params.width
 	local height = params.height
@@ -277,17 +288,28 @@ function LoadXcomImage( path, name, key, fh )
 	
 	
 	local bytes = fh:read( bufsize )
+	fh:close()
+
 	print ("Image loading...", bytes:len(), "bytes loaded")
+	
 	if bytes ~= nil and bytes:len() == bufsize then
 		local mask = IndexMask:new()
 		mask:SetMask( bytes, bufsize, width, height, -1, -1)
+		
 		if mask:IsOk() then
+		
 			image:SetImage( mask )
-			editImage( image )
+
+			local origin = Origin:new(Origin.FromFile, filename)
+			image:SetOrigin(origin)
+			
+			return image
 		else
 			print("There was an error while loading "..name)
 		end
+		
 	end
+	
 end
 
 

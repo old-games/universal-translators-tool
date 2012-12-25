@@ -173,6 +173,42 @@ void ProjectWindow::SetProject( Project* project )
 
 
 
+wxTreeListItem ProjectWindow::GetEditorItem( IEditor* editor )
+{
+	wxTreeListItem res;
+
+	if (editor)
+	{
+		TreeItemStorage::iterator it = mEditorsItems.find(editor->GetEditorId());
+
+		if (it != mEditorsItems.end())
+		{
+			res = it->second;
+		}
+	}
+
+	return res;
+}
+
+
+
+bool ProjectWindow::SetEditor( wxWindow* wnd )
+{
+	if (mProject)
+	{
+		wxTreeListItem item = GetEditorItem( mProject->FindEditor( wnd ) );
+		
+		if (item.IsOk())
+		{
+			mProjectFilesList->Select( item );
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
 void ProjectWindow::UpdateProjectTree()
 {
 	if (!mProject)

@@ -56,12 +56,14 @@ LibItem::LibItem( const LibItem& item ):
 	mIsOk(item.mIsOk),
 	mData(NULL),
 	mParent(item.mParent),
-	mChildren(item.mChildren)
+	mChildren()
 {
 	if (item.mData)
 	{
 		mData = item.mData->Clone();
 	}
+
+	CopyChildren( item.mChildren );
 }
 
 
@@ -69,6 +71,7 @@ LibItem::LibItem( const LibItem& item ):
 /*virtual */ LibItem::~LibItem()
 {
 	ClearData();
+
 	for (LibItemArray::iterator it = mChildren.begin(); it != mChildren.end(); ++it)
 	{
 		delete *it;
@@ -133,3 +136,40 @@ void LibItem::SetData( LibItemData* data )
 	ClearData();
 	mData = data;
 }
+
+
+
+void LibItem::ChangeParentItem( LibItem* parent )
+{
+	mParent = parent;
+	for (ItemsArrayIterator it = mChildren.begin(); it != mChildren.end(); ++it)
+	{
+		(*it)->ChangeParentItem( this );
+	}
+}
+
+
+
+void LibItem::CopyChildren( const LibItemArray& src )
+{
+	for (ConstItemsArrayIterator it = src.begin(); it != src.end(); ++it)
+	{
+		LibItem* newItem = (*it)->Clone();
+		mChildren.Add( newItem );
+		newItem->ChangeParentItem( this );
+	}
+}
+
+
+
+void LibItem::CollectAllItems( LibItemsMap& dest )
+{
+	dest[ mID ] = this;
+
+	for (ItemsArrayIterator it = mChildren.begin(); it != mChildren.end(); ++it)
+	{
+		(*it)->CollectAllItems( dest );
+	}
+}
+
+

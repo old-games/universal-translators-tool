@@ -19,6 +19,7 @@
 #include <wx/vector.h>
 #include <wx/menu.h>
 #include <wx/wfstream.h>
+#include <wx/mstream.h>
 #include <wx/txtstrm.h>
 #include <wx/listimpl.cpp>
 #include <wx/snglinst.h>
@@ -40,6 +41,7 @@
 #include <wx/cmdproc.h>
 #include <wx/progdlg.h>
 #include <wx/busyinfo.h>
+#include <wx/stopwatch.h>
 
 // own written but wx compatible
 #include "types/customevents.h"
