@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="utt" />
+		<Option pch_mode="2" />
+		<Option compiler="msvc8" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="../../bin/uttd" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin" />
+				<Option object_output="Debug Win32" />
+				<Option type="0" />
+				<Option compiler="msvc8" />
+				<Compiler>
+					<Add option="/MTd" />
+					<Add option="/Od" />
+					<Add option="/W4" />
+					<Add option="/Zi" />
+					<Add option="/D_DEBUG" />
+					<Add option="/D__WXMSW__" />
+					<Add option="/DWXDEBUG" />
+					<Add option="/D__WXDEBUG__" />
+					<Add option="/D_WINDOWS" />
+					<Add directory="../../src/." />
+					<Add directory="$(WXWIN)/include" />
+					<Add directory="$(WXWIN)/lib/vc_lib/mswud" />
+					<Add directory="../../lua/include" />
+					<Add directory="../../oolua/include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../../src/." />
+					<Add directory="$(WXWIN)/include" />
+					<Add directory="$(WXWIN)/lib/vc_lib/mswud" />
+					<Add directory="../../lua/include" />
+					<Add directory="../../oolua/include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="/DEBUG" />
+					<Add library="lua" />
+					<Add library="ooluad" />
+					<Add library="Rpcrt4" />
+					<Add library="comctl32" />
+					<Add library="wxbase29ud" />
+					<Add library="wxbase29ud_xml" />
+					<Add library="wxexpatd" />
+					<Add library="wxjpegd" />
+					<Add library="wxmsw29ud_adv" />
+					<Add library="wxmsw29ud_aui" />
+					<Add library="wxmsw29ud_core" />
+					<Add library="wxmsw29ud_gl" />
+					<Add library="wxmsw29ud_html" />
+					<Add library="wxmsw29ud_media" />
+					<Add library="wxmsw29ud_propgrid" />
+					<Add library="wxmsw29ud_qa" />
+					<Add library="wxmsw29ud_ribbon" />
+					<Add library="wxmsw29ud_richtext" />
+					<Add library="wxmsw29ud_stc" />
+					<Add library="wxmsw29ud_webview" />
+					<Add library="wxmsw29ud_xrc" />
+					<Add library="wxpngd" />
+					<Add library="wxregexud" />
+					<Add library="wxscintillad" />
+					<Add library="wxtiffd" />
+					<Add library="wxzlibd" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="winspool.lib" />
+					<Add directory="$(WXWIN)/lib/vc_lib" />
+					<Add directory="../../lua" />
+					<Add directory="../../oolua/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="../../bin/utt" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin" />
+				<Option object_output="Release Win32" />
+				<Option type="0" />
+				<Option compiler="msvc8" />
+				<Compiler>
+					<Add option="/MT" />
+					<Add option="/O2" />
+					<Add option="/W3" />
+					<Add option="/Zi" />
+					<Add option="/DNDEBUG" />
+					<Add option="/D__WXMSW__" />
+					<Add option="/D_WINDOWS" />
+					<Add option="/DRELEASE" />
+					<Add directory="../../src/." />
+					<Add directory="$(WXWIN)/include" />
+					<Add directory="$(WXWIN)/lib/vc_lib/mswu" />
+					<Add directory="../../lua/include" />
+					<Add directory="../../oolua/include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../../src/." />
+					<Add directory="$(WXWIN)/include" />
+					<Add directory="$(WXWIN)/lib/vc_lib/mswu" />
+					<Add directory="../../lua/include" />
+					<Add directory="../../oolua/include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="/DEBUG" />
+					<Add option="/INCREMENTAL:NO" />
+					<Add library="lua" />
+					<Add library="oolua" />
+					<Add library="Rpcrt4" />
+					<Add library="comctl32" />
+					<Add library="wxbase29u" />
+					<Add library="wxbase29u_net" />
+					<Add library="wxbase29u_xml" />
+					<Add library="wxexpat" />
+					<Add library="wxjpeg" />
+					<Add library="wxmsw29u_adv" />
+					<Add library="wxmsw29u_aui" />
+					<Add library="wxmsw29u_core" />
+					<Add library="wxmsw29u_gl" />
+					<Add library="wxmsw29u_html" />
+					<Add library="wxmsw29u_media" />
+					<Add library="wxmsw29u_propgrid" />
+					<Add library="wxmsw29u_qa" />
+					<Add library="wxmsw29u_ribbon" />
+					<Add library="wxmsw29u_richtext" />
+					<Add library="wxmsw29u_stc" />
+					<Add library="wxmsw29u_webview" />
+					<Add library="wxmsw29u_xrc" />
+					<Add library="wxpng" />
+					<Add library="wxregexu" />
+					<Add library="wxscintilla" />
+					<Add library="wxtiff" />
+					<Add library="wxzlib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="winspool.lib" />
+					<Add directory="$(WXWIN)/lib/vc_lib" />
+					<Add directory="../../lua" />
+					<Add directory="../../oolua/lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../bin/scripts/common.lua" />
+		<Unit filename="../../bin/scripts/init.lua" />
+		<Unit filename="../../docs/utthelp.hnd" />
+		<Unit filename="../../src/algs/bitwise.cpp" />
+		<Unit filename="../../src/algs/bitwise.h" />
+		<Unit filename="../../src/algs/rle.cpp" />
+		<Unit filename="../../src/algs/rle.h" />
+		<Unit filename="../../src/crc32.cpp" />
+		<Unit filename="../../src/crc32.h" />
+		<Unit filename="../../src/gui/bmpribbonctrl.cpp" />
+		<Unit filename="../../src/gui/bmpribbonctrl.h" />
+		<Unit filename="../../src/gui/createdlgimpl.cpp" />
+		<Unit filename="../../src/gui/createdlgimpl.h" />
+		<Unit filename="../../src/gui/editpanelimpl.cpp" />
+		<Unit filename="../../src/gui/editpanelimpl.h" />
+		<Unit filename="../../src/gui/fonteditimpl.cpp" />
+		<Unit filename="../../src/gui/fonteditimpl.h" />
+		<Unit filename="../../src/gui/fontsettingsimpl.cpp" />
+		<Unit filename="../../src/gui/fontsettingsimpl.h" />
+		<Unit filename="../../src/gui/gridhexeditor.cpp" />
+		<Unit filename="../../src/gui/gridhexeditor.h" />
+		<Unit filename="../../src/gui/lettercodesimpl.cpp" />
+		<Unit filename="../../src/gui/lettercodesimpl.h" />
+		<Unit filename="../../src/gui/libwindowimpl.cpp" />
+		<Unit filename="../../src/gui/libwindowimpl.h" />
+		<Unit filename="../../src/gui/logwindowimpl.cpp" />
+		<Unit filename="../../src/gui/logwindowimpl.h" />
+		<Unit filename="../../src/gui/mainframeimpl.cpp" />
+		<Unit filename="../../src/gui/mainframeimpl.h" />
+		<Unit filename="../../src/gui/palholderctrl.cpp" />
+		<Unit filename="../../src/gui/palholderctrl.h" />
+		<Unit filename="../../src/gui/palwindowimpl.cpp" />
+		<Unit filename="../../src/gui/palwindowimpl.h" />
+		<Unit filename="../../src/gui/projectwindow.cpp" />
+		<Unit filename="../../src/gui/projectwindow.h" />
+		<Unit filename="../../src/gui/selmoduleimpl.cpp" />
+		<Unit filename="../../src/gui/selmoduleimpl.h" />
+		<Unit filename="../../src/gui/simplegui.cpp" />
+		<Unit filename="../../src/gui/simplegui.h" />
+		<Unit filename="../../src/gui/symboleditgui.cpp" />
+		<Unit filename="../../src/gui/symboleditgui.h" />
+		<Unit filename="../../src/gui/uttgui.cpp" />
+		<Unit filename="../../src/gui/uttgui.fbp" />
+		<Unit filename="../../src/gui/uttgui.h" />
+		<Unit filename="../../src/gui/uttsimplegui.fbp" />
+		<Unit filename="../../src/helpers.cpp" />
+		<Unit filename="../../src/helpers.h" />
+		<Unit filename="../../src/icon/to_left.xpm" />
+		<Unit filename="../../src/icon/to_right.xpm" />
+		<Unit filename="../../src/luaconsole.cpp" />
+		<Unit filename="../../src/luaconsole.h" />
+		<Unit filename="../../src/luacontrol.cpp" />
+		<Unit filename="../../src/luacontrol.h" />
+		<Unit filename="../../src/luaexports/common.cpp" />
+		<Unit filename="../../src/luaexports/common.h" />
+		<Unit filename="../../src/luaexports/luabuffer.cpp" />
+		<Unit filename="../../src/luaexports/luabuffer.h" />
+		<Unit filename="../../src/luaexports/luafont.cpp" />
+		<Unit filename="../../src/luaexports/luafont.h" />
+		<Unit filename="../../src/luaexports/luaifflib.cpp" />
+		<Unit filename="../../src/luaexports/luaifflib.h" />
+		<Unit filename="../../src/luaexports/luaiinfo.cpp" />
+		<Unit filename="../../src/luaexports/luaiinfo.h" />
+		<Unit filename="../../src/luaexports/luaimage.cpp" />
+		<Unit filename="../../src/luaexports/luaimage.h" />
+		<Unit filename="../../src/luaexports/luaindexmask.cpp" />
+		<Unit filename="../../src/luaexports/luaindexmask.h" />
+		<Unit filename="../../src/luaexports/lualibitem.cpp" />
+		<Unit filename="../../src/luaexports/lualibitem.h" />
+		<Unit filename="../../src/luaexports/lualibtree.cpp" />
+		<Unit filename="../../src/luaexports/lualibtree.h" />
+		<Unit filename="../../src/luaexports/luaorigin.cpp" />
+		<Unit filename="../../src/luaexports/luaorigin.h" />
+		<Unit filename="../../src/luaexports/luapalette.cpp" />
+		<Unit filename="../../src/luaexports/luapalette.h" />
+		<Unit filename="../../src/panels/controlline.cpp" />
+		<Unit filename="../../src/panels/controlline.h" />
+		<Unit filename="../../src/panels/drawpanel.cpp" />
+		<Unit filename="../../src/panels/drawpanel.h" />
+		<Unit filename="../../src/panels/editpanel.cpp" />
+		<Unit filename="../../src/panels/editpanel.h" />
+		<Unit filename="../../src/panels/palettepanel.cpp" />
+		<Unit filename="../../src/panels/palettepanel.h" />
+		<Unit filename="../../src/panels/selectrect.cpp" />
+		<Unit filename="../../src/panels/selectrect.h" />
+		<Unit filename="../../src/panels/symbolpanel.cpp" />
+		<Unit filename="../../src/panels/symbolpanel.h" />
+		<Unit filename="../../src/panels/thumbnail.cpp" />
+		<Unit filename="../../src/panels/thumbnail.h" />
+		<Unit filename="../../src/pch.h" />
+		<Unit filename="../../src/types/buffer.cpp" />
+		<Unit filename="../../src/types/buffer.h" />
+		<Unit filename="../../src/types/customevents.cpp" />
+		<Unit filename="../../src/types/customevents.h" />
+		<Unit filename="../../src/types/defaultpals.h" />
+		<Unit filename="../../src/types/fontinfo.cpp" />
+		<Unit filename="../../src/types/fontinfo.h" />
+		<Unit filename="../../src/types/ieditor.cpp" />
+		<Unit filename="../../src/types/ieditor.h" />
+		<Unit filename="../../src/types/ifflib.cpp" />
+		<Unit filename="../../src/types/ifflib.h" />
+		<Unit filename="../../src/types/iinfo.cpp" />
+		<Unit filename="../../src/types/iinfo.h" />
+		<Unit filename="../../src/types/imageinfo.cpp" />
+		<Unit filename="../../src/types/imageinfo.h" />
+		<Unit filename="../../src/types/indexmask.cpp" />
+		<Unit filename="../../src/types/indexmask.h" />
+		<Unit filename="../../src/types/istatestore.cpp" />
+		<Unit filename="../../src/types/istatestore.h" />
+		<Unit filename="../../src/types/libitem.cpp" />
+		<Unit filename="../../src/types/libitem.h" />
+		<Unit filename="../../src/types/libtree.cpp" />
+		<Unit filename="../../src/types/libtree.h" />
+		<Unit filename="../../src/types/origin.cpp" />
+		<Unit filename="../../src/types/origin.h" />
+		<Unit filename="../../src/types/palette.cpp" />
+		<Unit filename="../../src/types/palette.h" />
+		<Unit filename="../../src/types/project.cpp" />
+		<Unit filename="../../src/types/project.h" />
+		<Unit filename="../../src/types/symbolinfo.cpp" />
+		<Unit filename="../../src/types/symbolinfo.h" />
+		<Unit filename="../../src/types/undo.cpp" />
+		<Unit filename="../../src/types/undo.h" />
+		<Unit filename="../../src/types/uttypes.cpp" />
+		<Unit filename="../../src/types/uttypes.h" />
+		<Unit filename="../../src/utt.cpp" />
+		<Unit filename="../../src/utt.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
