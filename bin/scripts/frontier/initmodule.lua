@@ -5,19 +5,7 @@ UTTModules[ModuleName] = Frontier
 
 local gameVersions = { 'Elite 2 Frontier (DOS)' }
 
-local ActionsOnExtension = 
-{ 
-	ovl = "loadOVL"
-}
-
 local currentVersion = 1
-
-local Operations = {}
-
-
-
-
-
 
 
 function Frontier.selectVersion()
@@ -37,22 +25,6 @@ end
 
 
 
-function Frontier.getExtensions()
-	return 'el2mcga3.ovl(Font file)|el2mcga3.ovl'
-end
-
-
-
-function Frontier.openFile( fileName )
-	local fileName = string.lower( fileName )
-	local vol, path, name, ext = parseFileName( fileName )
-	local key = ActionsOnExtension[ ext ]
-	if key == nil then
-		print( "Can't find function for '"..ext.."' extension" )
-		return
-	end
-	Operations[ key ]( fileName )
-end
 
 
 
@@ -63,14 +35,14 @@ SymbolStruct[2] =	{ WIDTH 	= "BYTE" 	}
 
 
 
-function Operations.loadOVL( filename )
-	local vol, path, name, ext = parseFileName( filename )
+function loadOVL( filename )
+	local path, name, ext = parseFileName( filename )
 	if name ~= "el2mcga3" then
 		print "Frontier can open EL2MCGA3.OVL only!"
 		return
 	end
 
-	path = vol..path..'/'
+	path = path..'/'
 
 	local pal = Palette:new()
 	if pal:Initiate( Palette.bppMono, 0, Palette.sfNone, false ) ~= true then
@@ -105,12 +77,22 @@ function Operations.loadOVL( filename )
 		end
 	end
 	
-	editFont( font )
-	
 	fh:close()
+	
+	return font
 end
 
 
 
+function Frontier.ImportFont()
+	local fileName = openFileDialog('el2mcga3.ovl(Font file)|el2mcga3.ovl')
+	
+	if fileName ~= nil then
+		local font = loadOVL( fileName )
+		if font ~= nil then
+			editFont(font)
+		end
+	end
+end
 
 print "Frontier module loaded"

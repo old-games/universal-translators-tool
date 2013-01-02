@@ -6,11 +6,15 @@
  * Copyright: Pavlovets Ilia
  * License:
  **************************************************************/
- 
+
+
+
 #include "pch.h"
 #include "ifflib.h"
 #include "luacontrol.h"
 #include "buffer.h"
+
+
 
 IFFChunkInfo::IFFChunkInfo( const IFFChunkInfo& other ):
 	LibItemData( other ),
@@ -117,9 +121,9 @@ bool IFFLib::LoadIFFStream( wxInputStream& input, LibItem* parent )
 		
 		if (success)
 		{
-			LibItem* child = parent->AddChild();
-
+			LibItem* child = this->AddItem( parent );
 			LibItem* nextParent = NULL;
+			
 			if ( info.IsFORM() )
 			{
 				child->SetText( info.mChunkName + " " + info.mFormDescription );
@@ -132,9 +136,7 @@ bool IFFLib::LoadIFFStream( wxInputStream& input, LibItem* parent )
 				input.SeekI( info.mChunkSize, wxFromCurrent );
 			}
 
-			
 			child->SetData( info.Clone() );
-
 			LoadIFFStream( input, nextParent );
 		}
 	}

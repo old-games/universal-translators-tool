@@ -14,6 +14,8 @@
 				<Option compiler="msvc8" />
 				<Compiler>
 					<Add option="/MTd" />
+					<Add option="/EHc" />
+					<Add option="/EHs" />
 					<Add option="/Od" />
 					<Add option="/W4" />
 					<Add option="/Zi" />
@@ -85,6 +87,8 @@
 				<Option compiler="msvc8" />
 				<Compiler>
 					<Add option="/MT" />
+					<Add option="/EHc" />
+					<Add option="/EHs" />
 					<Add option="/O2" />
 					<Add option="/W3" />
 					<Add option="/Zi" />
@@ -282,6 +286,15 @@
 			<envvars />
 			<debugger />
 			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

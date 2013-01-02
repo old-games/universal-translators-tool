@@ -2,19 +2,6 @@ local ModuleName = 'example'
 local Example = {}
 
 
-
-local ActionsOnExtension = 
-{ 
-	dat = "loadDAT",
-	bmp = "loadBMP"
-}
-
-
-
-local Operations = {}
-
-
-
 UTTModules[ModuleName] = Example
 
 
@@ -23,26 +10,9 @@ function Example.getModuleName()
 end
 
 
-function Example.getExtensions()
-	return 'BMP files (*.bmp)|*.bmp|TXT files (*.txt)|*.txt'
-end
 
 
-
-function Example.openFile( fileName )
-	local fileName = string.lower( fileName )
-	local vol, path, name, ext = parseFileName( fileName )
-	local key = ActionsOnExtension[ ext ]
-	if key == nil then
-		print( "Can't find function for '"..ext.."' extension" )
-		return
-	end
-	Operations[ key ]( fileName )
-end
-
-
-
-function Operations.loadBMP( filename )
+function loadBMP( filename )
 	local fh = assert(io.open(filename, "rb"))
 	
 	if not fh then
@@ -94,16 +64,17 @@ function Operations.loadBMP( filename )
 			
 			if mask:IsOk() then
 				img:SetImage( mask )
-				editImage( img )
 			end
 		end
 	end
 	fh:close()
+	
+	return img
 end
 
 
 
-function Operations.loadTXT( filename )
+function loadTXT( filename )
 	local fh = assert(io.open(filename, "r"))
 	if not fh then
 		return
@@ -114,6 +85,17 @@ end
 
 
 
+function Example.ImportImage()
+	local fileName = openFileDialog("BMP files (*.bmp)|*.bmp")
+	
+	if fileName ~= nil then
+		local image = loadBMP( fileName )
+		
+		if image then
+			editImage(image)
+		end
+	end
+end
 
 
 print 'Example module loaded'

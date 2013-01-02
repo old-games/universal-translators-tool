@@ -1,18 +1,11 @@
-local ModuleName = 'template'
+require 'template/template'
 
+local ModuleName = 'template'
 local Template = {}
 
-local gameVersions = { 'template1', 'template2' }
+local gameVersions = { 'Game version DOS', 'Game version Amiga' }
 
-local ActionsOnExtension = 
-{ 
-	ext = "loadEXT"
-}
-
-local currentVersion = 1
-
-local Operations = {}
-
+local MenuCommands = { ["Change palette"] = ChangePalette }
 
 
 UTTModules[ModuleName] = Template
@@ -30,44 +23,87 @@ end
 
 
 
+function Template.setVersion( version )
+	local res = findStringInTable( gameVersions, version )
+	if res ~= nil then
+		currentVersion = res
+		return true
+	end
+end
+
+
+
+function Template.getVersions()
+	return gameVersions
+end
+
+
+
 function Template.getModuleName()
 	return gameVersions[currentVersion]
 end
 
 
 
-function Template.getExtensions()
-	return '*.* (*.*)|*.*'
-end
-
-
-
-function Template.openFile( fileName )
-	local fileName = string.lower( fileName )
-	local vol, path, name, ext = parseFileName( fileName )
-	local key = ActionsOnExtension[ ext ]
-	if key == nil then
-		print( "Can't find function for '"..ext.."' extension" )
-		return
+function Template.getModuleMenu()
+	local menuItems = {}
+	
+	for command, func in pairs( MenuCommands ) do
+		table.insert(menuItems, command)
 	end
-	Operations[ key ]( fileName )
+	
+	return menuItems
 end
 
 
 
-function Operations.loadEXT( filename )
-	local vol, path, name, ext = parseFileName( filename )
-	path = vol..path..'/'
-
-	local fh = assert(io.open(filename, "rb"))
-	if not fh then
-		return
+function Template.ImportFont()
+	local fileName = openFileDialog("Font file (FONT.FNT)|font.fnt|Font file (*.FNT)|*.fnt")
+	
+	if fileName ~= nil then
+		local font = LoadTemplateFont( fileName )
+		if font ~= nil then
+			editFont(font)
+		end
 	end
-	 
-	fh:close()
+end
+
+
+
+function Template.ImportImage()
+	local fileName = openFileDialog("Image Files (*.IMG)|*.img")
+	
+	if fileName ~= nil then
+		local image = LoadTemplateImage( fileName )
+		
+		if image then
+			editImage(image)
+		end
+	end
+end
+
+
+
+function Template.ImportLibrary()
+	local fileName = openFileDialog("WAD Files (*.WAD)|*.wad")
+	
+	if fileName ~= nil then
+		local lib = LoadTemplateLibrary( fileName )
+		
+		if lib then
+			editLibrary(lib)
+		end
+	end
 end
 
 
 
 
-print "Template module loaded? No need to do it"
+function Template.executeModuleMenuCommand( command, editorId )
+	MenuCommands[command](Template.GamePath, editorId)
+end
+
+
+
+
+print "Template module can't be loaded!!!"

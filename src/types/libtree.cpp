@@ -56,20 +56,37 @@ void LibTree::DeleteItems()
 
 
 
+LibItem* LibTree::AddItem( LibItem* parent /* NULL */ )
+{
+	if (!parent)
+	{
+		parent = mRoot;
+	}
+	
+	LibItem* result = parent->AddChild();
+
+	if (result)
+	{
+		mAllItems[result->GetId()] = result;
+	}
+	
+	return result;
+}
+
+
+
 LibItemId LibTree::AddItem( LibItemId parentId /* LIBITEM_ROOTID */)
 {
 	LibItem* parent = FindItem( parentId );
-
 	LibItemId result = LIBITEM_BADID;
 
 	if (parent)
 	{
-		LibItem* newItem = parent->AddChild();
+		LibItem* newItem = this->AddItem( parent );
 
 		if (newItem)
 		{
 			result = newItem->GetId();
-			mAllItems[result] = newItem;
 		}
 	}
 
@@ -78,18 +95,20 @@ LibItemId LibTree::AddItem( LibItemId parentId /* LIBITEM_ROOTID */)
 
 
 
-LibItem* LibTree::FindItem( LibItemId itemId )
+LibItem* LibTree::FindItem( LibItemId itemId ) const
 {
 	if (itemId == LIBITEM_ROOTID)
 	{
 		return mRoot;
 	}
 
-	ItemsMapIterator it = mAllItems.find( itemId );
+	ConstItemsMapItr it = mAllItems.find( itemId );
+	
 	if (it != mAllItems.end())
 	{
 		return it->second;
 	}
+	
 	return NULL;
 }
 

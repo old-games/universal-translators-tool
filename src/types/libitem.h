@@ -13,7 +13,7 @@
 class LibItem;
 WX_DEFINE_ARRAY( LibItem* , LibItemArray );
 typedef LibItemArray::iterator ItemsArrayIterator;
-typedef LibItemArray::const_iterator ConstItemsArrayIterator;
+typedef LibItemArray::const_iterator ConstItemsArrayItr;
 
 typedef unsigned int LibItemId;
 extern const LibItemId LIBITEM_BADID;
@@ -23,18 +23,33 @@ extern const LibItemId LIBITEM_ROOTID;
 
 WX_DECLARE_HASH_MAP( LibItemId, LibItem*, wxIntegerHash, wxIntegerEqual, LibItemsMap );
 typedef LibItemsMap::iterator ItemsMapIterator;
+typedef LibItemsMap::const_iterator ConstItemsMapItr;
+
+
+// this class to hold item id in wxTreeCtrl
+class wxLibTreeData: public wxTreeItemData
+{
+public:
+	wxLibTreeData(): mLibId( LIBITEM_BADID ) {}
+	wxLibTreeData( LibItemId id ):	mLibId( id ) {}
+	
+	LibItemId mLibId;
+};
 
 
 
 struct LibItemData
 {
-	LibItemData(): mDataOwner(LIBITEM_BADID) {}
+	LibItemData();
 	LibItemData( const LibItemData& other );
+	
 	virtual ~LibItemData() {}
 
 	virtual LibItemData* Clone() { return new LibItemData(*this); }
 
-	LibItemId	mDataOwner;
+	LibItemId		mDataOwner;
+	wxFileOffset	mLibFileOffset;
+	wxFileOffset	mLibDataSize;
 };
 
 
@@ -59,6 +74,8 @@ public:
 	inline ItemsArrayIterator	GetChildrenEnd() { return mChildren.end(); }
 	
 	void SetText(const wxString& txt) { mText = txt; }
+	void SetText(const char* txt ) { mText = wxString(txt); }
+	
 	void SetData( LibItemData* data );
 	void CollectAllItems( LibItemsMap& dest );
 

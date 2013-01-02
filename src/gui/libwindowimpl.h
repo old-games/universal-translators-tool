@@ -13,8 +13,12 @@
 
 
 
+
+
+
 //forward declarations
 class LibTree;
+class LibItem;
 
 
 
@@ -42,6 +46,8 @@ protected:
 
 private:
 
+	void FillLibTree( wxTreeItemId treeId, LibItem* libItem );
+	void UpdateLibTree();
 	void ClearLibrary();
 
 	LibTree*	mLibInfo;

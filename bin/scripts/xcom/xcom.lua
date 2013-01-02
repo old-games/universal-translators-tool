@@ -345,7 +345,7 @@ end
 
 
 function LoadLBM( filename )
-	iff = IFFLib:new()
+	local iff = IFFLib:new()
 	iff:LoadIFFFile( filename )
 	
 	local form = iff:FindForm("PBM ")

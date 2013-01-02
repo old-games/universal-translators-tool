@@ -14,16 +14,18 @@
 				<Option compiler="msvc8" />
 				<Option createDefFile="1" />
 				<Compiler>
+					<Add option="/MTd" />
+					<Add option="/Gm" />
+					<Add option="/EHc" />
+					<Add option="/EHs" />
+					<Add option="/Od" />
+					<Add option="/W4" />
+					<Add option="/Zi" />
 					<Add option="/DDEBUG" />
 					<Add option="/D_DEBUG" />
 					<Add option="/DPLATFORM_CHECKED" />
 					<Add option="/DWINDOWS_BUILD" />
 					<Add option="/DWIN32" />
-					<Add option="/W4" />
-					<Add option="/Zi" />
-					<Add option="/Od" />
-					<Add option="/MTd" />
-					<Add option="/Gm" />
 					<Add directory="../../../lua/include" />
 					<Add directory="../../include" />
 				</Compiler>
@@ -31,6 +33,9 @@
 					<Add directory="../../../lua/include" />
 					<Add directory="../../include" />
 				</ResourceCompiler>
+				<Linker>
+					<Add option="/DEBUG" />
+				</Linker>
 			</Target>
 			<Target title="Release Win32">
 				<Option output="../../lib/oolua" prefix_auto="1" extension_auto="1" />
@@ -41,6 +46,8 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="/MT" />
+					<Add option="/EHc" />
+					<Add option="/EHs" />
 					<Add option="/Ox" />
 					<Add option="/W4" />
 					<Add option="/DNDEBUG" />

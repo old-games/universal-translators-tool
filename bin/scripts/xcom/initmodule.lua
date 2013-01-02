@@ -108,9 +108,16 @@ CATStruct[2] =	{ SIZE 		= "DWORD" 	}
 
 
 function loadCAT( filename )
-	local vol, path, name, ext = parseFileName( filename )
-	path = vol..path..'/'
-
+	local path, name, ext = parseFileName( filename )
+	local origin = Origin:new(Origin.FromFile, filename)
+	
+	if ext == "lbm" then
+		local iff = IFFLib:new()
+		iff:LoadIFFFile( filename )
+		iff:SetOrigin( origin )
+		return iff
+	end
+	
 	local fh = assert(io.open(filename, "rb"))
 	if not fh then
 		return
@@ -118,16 +125,38 @@ function loadCAT( filename )
 	
 	local done = false
 	local size = fileSize( filename )
-	
+	local items = {}
+
 	while not done do
 		local data = readData( fh, CATStruct )
-		done = (data ~= nil) and (data.OFFSET + data.SIZE) >= size
-		if data then
-			showTable(data)
+		
+		if not data then
+			break
 		end
+		
+		table.insert(items, data)
+		done = fh:seek() >= items[1].OFFSET
+	end
+	fh:close()
+
+	if not done then 
+		return
 	end
 	
-	fh:close()
+	local lib = LibTree:new()
+	local root = lib:GetRoot()
+	for i, current in ipairs(items) do
+		local item = lib:AddItem( root )
+		local data = LibItemData:new()
+		data.mLibDataOffset = current.OFFSET
+		item:SetText( name.." #"..tostring(i) )
+		item:SetData( data )
+	end
+	
+	
+	lib:SetOrigin( origin )
+	
+	return lib
 end
 
 

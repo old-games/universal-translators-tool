@@ -278,6 +278,10 @@ class LibraryGui : public wxPanel
 	protected:
 		wxScrolledWindow* mLibScrolledBack;
 		wxTreeCtrl* mLibTree;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnTreeItemMenu( wxTreeEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		

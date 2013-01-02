@@ -19,13 +19,34 @@ namespace Lua
 
 
 
+//////////////////////////////////////////////////////////////////////////
+// LibItemData class
+
+
+OOLUA_CLASS_NO_BASES( LibItemData )
+
+	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
+	OOLUA_NO_TYPEDEFS
+
+	OOLUA_PUBLIC_MEMBER_GET(mDataOwner)
+	OOLUA_PUBLIC_MEMBER_GET_SET(mLibFileOffset)
+	OOLUA_PUBLIC_MEMBER_GET_SET(mLibDataSize)
+
+OOLUA_CLASS_END
+
+
+
+//////////////////////////////////////////////////////////////////////////
+// LibItem class
+
 
 OOLUA_CLASS_NO_BASES( LibItem )
 	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
 	OOLUA_NO_TYPEDEFS
 	
-	// LibItem* AddChild();
-	OOLUA_MEM_FUNC_0( LibItem*, AddChild )
+	// void SetData( LibItemData* data );
+	OOLUA_MEM_FUNC_1( void, SetData, cpp_in_p<LibItemData*> )
+	OOLUA_MEM_FUNC_1( void, SetText, const char* )
 
 	OOLUA_MEM_FUNC_0_CONST( bool, IsOk )
 OOLUA_CLASS_END

@@ -693,6 +693,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\types\solidstruct.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\types\solidstruct.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\types\symbolinfo.cpp"
 				>
 			</File>

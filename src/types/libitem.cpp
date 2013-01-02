@@ -15,8 +15,20 @@ const LibItemId LIBITEM_ROOTID = 0;
 
 
 
+LibItemData::LibItemData(): 
+	mDataOwner(LIBITEM_BADID),
+	mLibFileOffset( wxInvalidOffset ),
+	mLibDataSize( wxInvalidOffset )
+{
+	
+}
+
+
+
 LibItemData::LibItemData( const LibItemData& other ):
-	mDataOwner( other.mDataOwner )
+	mDataOwner( other.mDataOwner ),
+	mLibFileOffset( other.mLibFileOffset ),
+	mLibDataSize( other.mLibDataSize )
 {
 }
 
@@ -152,7 +164,7 @@ void LibItem::ChangeParentItem( LibItem* parent )
 
 void LibItem::CopyChildren( const LibItemArray& src )
 {
-	for (ConstItemsArrayIterator it = src.begin(); it != src.end(); ++it)
+	for (ConstItemsArrayItr it = src.begin(); it != src.end(); ++it)
 	{
 		LibItem* newItem = (*it)->Clone();
 		mChildren.Add( newItem );

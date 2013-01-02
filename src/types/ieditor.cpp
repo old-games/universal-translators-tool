@@ -11,6 +11,7 @@
 #include "ieditor.h"
 #include "gui/fonteditimpl.h"
 #include "gui/editpanelimpl.h"
+#include "gui/libwindowimpl.h"
 
 
 
@@ -165,16 +166,20 @@ void IEditor::Changed( bool b /* true */)
 
 	switch (edType)
 	{
-	case etFont:
-		result = static_cast<IEditor*> ( new FontEditor( sParentWindow ) );
-		break;
+		case etFont:
+			result = static_cast<IEditor*> ( new FontEditor( sParentWindow ) );
+			break;
 
-	case etImage:
-		result = static_cast<IEditor*> ( new ImageEditor( sParentWindow ) );
-		break;
+		case etImage:
+			result = static_cast<IEditor*> ( new ImageEditor( sParentWindow ) );
+			break;
+		
+		case etLibrary:
+			result = static_cast<IEditor*> ( new LibraryPanel( sParentWindow ) );
+			break;
 
-	default:
-		wxLogError("IEditor::CreateEditor: unable to create editor %d", edType);
+		default:
+			wxLogError("IEditor::CreateEditor: unable to create editor %d", edType);
 	}
 
 	if (result && createId)

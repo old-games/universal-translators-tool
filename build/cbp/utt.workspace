@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="utt.cbp" />
+		<Project filename="utt.cbp">
+			<Depends filename="../../oolua/build/cbp/oolua.cbp" />
+			<Depends filename="../../lua/build/cbp/lua.cbp" />
+		</Project>
 		<Project filename="../../oolua/build/cbp/oolua.cbp" />
 		<Project filename="../../lua/build/cbp/lua.cbp" />
 	</Workspace>

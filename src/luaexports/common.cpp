@@ -318,41 +318,44 @@ int swap64(lua_State *L)
 // Lua's string.sub can't iterate through buffer with zero character 
 // this function is to avoid it
 // extractBuffer( string, from, to = length of string )
-int extractBuffer(lua_State *L)
-{
-	std::string buf;
-	size_t from = 0;
-	size_t to = 0;
 
-	bool correctCall = false;
-	if (lua_gettop(L) == 2)
-	{
-		correctCall = OOLUA::pull2cpp(L, from) && OOLUA::pull2cpp(L, buf);
-		to = buf.length();
-	}
-	else
-	{
-		if (lua_gettop(L) == 3)
-		{
-			correctCall = OOLUA::pull2cpp(L, to) && OOLUA::pull2cpp(L, from) &&	OOLUA::pull2cpp(L, buf);
-		}
-	}
+// upd: this is wrong, sub doing all right, TODO: delete it?
 
-	if (!correctCall || to < from)
-	{
-		wxLogError("extractBuffer call format: (string, from, to = length of string");
-		return 0;
-	}
-
-	size_t len = to - from;
-	char* res = (char*) malloc(len);
-
-	memcpy(res, buf.c_str() + from, len);
-	lua_pushlstring (L, res, len);
-	free(res);
-
-	return 1;
-}
+//int extractBuffer(lua_State *L)
+//{
+//	std::string buf;
+//	size_t from = 0;
+//	size_t to = 0;
+//
+//	bool correctCall = false;
+//	if (lua_gettop(L) == 2)
+//	{
+//		correctCall = OOLUA::pull2cpp(L, from) && OOLUA::pull2cpp(L, buf);
+//		to = buf.length();
+//	}
+//	else
+//	{
+//		if (lua_gettop(L) == 3)
+//		{
+//			correctCall = OOLUA::pull2cpp(L, to) && OOLUA::pull2cpp(L, from) &&	OOLUA::pull2cpp(L, buf);
+//		}
+//	}
+//
+//	if (!correctCall || to < from)
+//	{
+//		wxLogError("extractBuffer call format: (string, from, to = length of string");
+//		return 0;
+//	}
+//
+//	size_t len = to - from;
+//	char* res = (char*) malloc(len);
+//
+//	memcpy(res, buf.c_str() + from, len);
+//	lua_pushlstring (L, res, len);
+//	free(res);
+//
+//	return 1;
+//}
 
 
 
@@ -421,7 +424,7 @@ void CommonRegister()
 	LUA_REG_C_FUNCTION( swap32 );
 	LUA_REG_C_FUNCTION( swap64 );
 
-	LUA_REG_C_FUNCTION( extractBuffer );
+	//LUA_REG_C_FUNCTION( extractBuffer );
 	
 	// calls MessageBox to show important messages to user
 	LUA_REG_C_FUNCTION( messageBox );

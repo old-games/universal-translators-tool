@@ -34,6 +34,37 @@ void LibraryPanel::ClearLibrary()
 		delete mLibInfo;
 		mLibInfo = NULL;
 	}
+	
+	UpdateLibTree();
+}
+
+
+
+void LibraryPanel::FillLibTree( wxTreeItemId treeId, LibItem* libItem )
+{
+	for (ItemsArrayIterator it = libItem->GetChildrenBegin(); 
+		it != libItem->GetChildrenEnd(); ++it)
+	{
+		wxTreeItemId newTreeItem = mLibTree->AppendItem( treeId, (*it)->GetText() );
+		mLibTree->SetItemData( newTreeItem, new wxLibTreeData((*it)->GetId()) );
+		FillLibTree( newTreeItem, *it );
+	}
+}
+
+
+
+void LibraryPanel::UpdateLibTree()
+{
+	mLibTree->DeleteAllItems();
+	
+	if (!mLibInfo)
+	{
+		return;
+	}
+	
+	wxTreeItemId root = mLibTree->AddRoot("root");
+	
+	FillLibTree( root, mLibInfo->GetRoot() );
 }
 
 
@@ -77,6 +108,7 @@ void LibraryPanel::ClearLibrary()
 {
 	ClearLibrary();
 	mLibInfo = static_cast<LibTree*>( info )->Clone();
+	UpdateLibTree();
 }
 
 

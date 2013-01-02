@@ -1,5 +1,5 @@
-ReadFunctions = { }
 BufferReadFunctions = {}
+
 TypeSize = 
 { 
 	CHAR = 1,	BYTE = 1, 
@@ -8,6 +8,12 @@ TypeSize =
 	LONG = 4,	LONG_BE = 4, 
 	DWORD = 4,	DWORD_BE = 4, 
 }
+
+function TypeSize.Get(custom)
+	-- for parameters like DATA8 or DATA456
+	return tonumber(custom:sub(5))
+end
+
 
 originalPrint = print
 
@@ -166,12 +172,19 @@ end
 
 
 
+
 function readDataFromBuffer( buf, dataTable )
 	local result = {}
 	for i, what in ipairs( dataTable ) do
 		for key, value in pairs( what ) do
-			result[key] = BufferReadFunctions[value]( buf )
-			buf = string.sub(buf, TypeSize[value] + 1)
+			if BufferReadFunctions[value] ~= nil then
+				result[key] = BufferReadFunctions[value]( buf )
+				buf = string.sub(buf, TypeSize[value] + 1)
+			else
+				local size = TypeSize.Get(value)
+				result[key] = string.sub(buf, 1, size)
+				buf = string.sub(buf, size + 1)
+			end
 		end
 	end
 	return result
@@ -183,16 +196,6 @@ end
 
 
 
-function ReadFunctions.DATA8( file )
-	return file:read( 8 )
-end
-
-
-
-function ReadFunctions.DATA9( file )
-	return file:read( 9 )
-end
-
 
 
 function readData( file, dataTable )
@@ -202,7 +205,8 @@ function readData( file, dataTable )
 			if BufferReadFunctions[value] ~= nil then 
 				result[key] = BufferReadFunctions[value]( file:read( TypeSize[value] ) )
 			else
-				result[key] = ReadFunctions[value]( file )
+				local size = TypeSize.Get(value)
+				result[key] = file:read( size )
 			end
 		end
 	end
@@ -210,5 +214,29 @@ function readData( file, dataTable )
 end
 
 
+
+function getDataSize( dataTable )
+	local result = 0
+	
+	for i, what in ipairs( dataTable ) do
+		for key, value in pairs( what ) do
+			
+			if TypeSize[value] ~= nil then
+				result = result + TypeSize[value]
+			else	-- for parameters like DATA8 or DATA456
+				local number = value:sub(5)
+				result = result + tonumber(number)
+			end
+			
+		end
+	end
+	
+	return result
+end
+
+
+
+function createSolidData( file, dataTable )
+end
 
 

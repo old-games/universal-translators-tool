@@ -36,9 +36,9 @@ namespace Lua
 ///
 /// Экспорт класса LibTree
 ///
-EXPORT_OOLUA_FUNCTIONS_1_NON_CONST( LibTree, FindItem )
+EXPORT_OOLUA_FUNCTIONS_1_NON_CONST( LibTree, AddItem )
 
-EXPORT_OOLUA_FUNCTIONS_0_CONST( LibTree )
+EXPORT_OOLUA_FUNCTIONS_2_CONST( LibTree, FindItem, GetRoot )
 
 
 

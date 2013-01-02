@@ -867,7 +867,7 @@ LibraryGui::LibraryGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
 	fgSizer7->SetFlexibleDirection( wxBOTH );
 	fgSizer7->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	mLibTree = new wxTreeCtrl( mLibScrolledBack, wxID_LIBTREE, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE );
+	mLibTree = new wxTreeCtrl( mLibScrolledBack, wxID_LIBTREE, wxDefaultPosition, wxDefaultSize, wxTR_FULL_ROW_HIGHLIGHT|wxTR_HAS_BUTTONS|wxTR_HAS_VARIABLE_ROW_HEIGHT|wxTR_HIDE_ROOT|wxTR_LINES_AT_ROOT|wxTR_MULTIPLE|wxTR_ROW_LINES );
 	fgSizer7->Add( mLibTree, 1, wxALL|wxEXPAND, 5 );
 	
 	
@@ -879,8 +879,14 @@ LibraryGui::LibraryGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
 	
 	this->SetSizer( gSizer10 );
 	this->Layout();
+	
+	// Connect Events
+	mLibTree->Connect( wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler( LibraryGui::OnTreeItemMenu ), NULL, this );
 }
 
 LibraryGui::~LibraryGui()
 {
+	// Disconnect Events
+	mLibTree->Disconnect( wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler( LibraryGui::OnTreeItemMenu ), NULL, this );
+	
 }

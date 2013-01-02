@@ -8,7 +8,7 @@ require 'structs'
 
 -- list of module names, there are no auto searching new module in UTT
 -- new module must be added to this list
-ModuleFolders = { 'example', 'privateer2', 'xcom', 'frontier' }
+ModuleFolders = { 'example', 'privateer2', 'xcom', 'frontier', 'starwars' }
 
 
 
@@ -28,7 +28,7 @@ end
 
 initModules()
 
-CurrentModule = nil -- UTTModules['xcom']	-- set it to nil for module selection on program start
+CurrentModule = nil
 
 
 -- returns current active module

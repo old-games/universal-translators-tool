@@ -25,8 +25,11 @@ public:
 	LibTree* Clone() { return new LibTree(*this); }
 	void DeleteItems();
 
+	LibItem*		AddItem( LibItem* parent = NULL );
 	LibItemId		AddItem( LibItemId parentId = LIBITEM_ROOTID );
-	LibItem*		FindItem( LibItemId itemId );
+	
+	LibItem*		FindItem( LibItemId itemId ) const;
+	LibItem*		GetRoot() const { return mRoot; }
 
 	void			AssignTreeCtrl( wxTreeCtrl* tree );
 
@@ -34,8 +37,6 @@ protected:
 
 	inline ItemsMapIterator GetItemsBegin() { return mAllItems.begin(); }
 	inline ItemsMapIterator GetItemsEnd() { return mAllItems.end(); }
-
-	LibItem* GetRoot() const { return mRoot; }
 
 private:
 
