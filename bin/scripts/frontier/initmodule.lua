@@ -42,8 +42,6 @@ function loadOVL( filename )
 		return
 	end
 
-	path = path..'/'
-
 	local pal = Palette:new()
 	if pal:Initiate( Palette.bppMono, 0, Palette.sfNone, false ) ~= true then
 		print("Frontier::LoadOVL:  error while setting palette")

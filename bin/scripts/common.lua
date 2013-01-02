@@ -200,16 +200,30 @@ end
 
 function readData( file, dataTable )
 	local result = {}
+	
 	for i, what in ipairs( dataTable ) do
 		for key, value in pairs( what ) do
-			if BufferReadFunctions[value] ~= nil then 
-				result[key] = BufferReadFunctions[value]( file:read( TypeSize[value] ) )
+			if BufferReadFunctions[value] ~= nil then
+				local data = file:read( TypeSize[value] )
+				
+				if not data then
+					return
+				end
+				
+				result[key] = BufferReadFunctions[value]( data )
 			else
 				local size = TypeSize.Get(value)
-				result[key] = file:read( size )
+				local data = file:read( size )
+				
+				if not data then
+					return
+				end
+				
+				result[key] = data
 			end
 		end
 	end
+	
 	return result
 end
 

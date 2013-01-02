@@ -28,14 +28,14 @@ IndexMask::IndexMask():
 
 IndexMask::IndexMask( const IndexMask& other ):
 	IInfo( other ),
-	mWidth( 0 ),
-	mHeight( 0 ),
-	mSize( 0 ),
-	mSrcWidth( 0 ),
-	mSrcHeight( 0 ),
-	mMask( NULL )
+	mWidth( other.mWidth ),
+	mHeight( other.mHeight ),
+	mSize( other.mSize ),
+	mSrcWidth( other.mSrcWidth ),
+	mSrcHeight( other.mSrcHeight ),
+	mMask( (wxByte*) malloc(other.mSize) )
 {
-	SetMask( (char*) other.mMask, other.mSize, other.mWidth, other.mHeight, other.mSrcWidth, other.mSrcHeight );
+	memcpy(mMask, other.mMask, other.mSize);
 }
 
 
@@ -75,9 +75,9 @@ void IndexMask::SetMask( const wxByte* mask, int srcSize, int width, int height,
 		mSrcHeight = mHeight;
 	}
 
-	mSize = bmpLike ? -srcSize : srcSize;
-
-	int bytesOnPixel = mSize / (mSrcHeight * mSrcWidth);
+	mSize = mHeight * mWidth;
+	
+	int bytesOnPixel = mSize / (mWidth * mHeight);
 
 	mMask = (wxByte*) malloc( mSize );
 

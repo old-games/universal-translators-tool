@@ -146,22 +146,6 @@ int selectFromList(lua_State *L)
 int openFileDialog(lua_State *L)
 {
 	FILEDIALOG_BODY("Open file...", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-	//std::string extensions;
-	//if ( !OOLUA::pull2cpp(L, extensions) )
-	//{
-	//	extensions = "Any file (*.*)|*.*";
-	//}
-
-
-	//wxFileDialog dlg( NULL, "Open file...", wxEmptyString, wxEmptyString, extensions, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
-	//if (dlg.ShowModal() != wxID_OK)
-	//{
-	//	return 0;
-	//}
-
-	//OOLUA::push2lua(L, dlg.GetPath().ToStdString());
-
-	//return 1;
 }
 
 
@@ -315,6 +299,48 @@ int swap64(lua_State *L)
 
 //////////////////////////////////////////////////////////////////////////
 
+
+//	on entry:	buffer source, first position, second position, quantity of bytes 
+//				to swap
+int swapStringBytes(lua_State *L)
+{
+	std::string	src;
+	int pos1 = 0;
+	int pos2 = 0;
+	int quantity = 0;
+	
+	if (!OOLUA::pull2cpp( L, quantity ) ||
+		!OOLUA::pull2cpp( L, pos2 ) ||
+		!OOLUA::pull2cpp( L, pos1 ) ||
+		!OOLUA::pull2cpp( L, src ) )
+	{
+		wxLogError("swapStringBytes: function need arguments (string, position 1, position 2, quantity");
+		return 0;
+	}
+	
+	std::string result( src.c_str(), src.length() );
+	
+	int pos1count = pos1;
+	int pos2count = pos2;
+	
+	for (int i = 0; i < quantity; ++i)
+	{
+		result[pos1count] = src[pos2count];
+		result[pos2count] = src[pos1count];
+		++pos1count;
+		++pos2count;
+	}
+
+	lua_pushlstring(L, result.c_str(), result.length());
+	return 1;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+
 // Lua's string.sub can't iterate through buffer with zero character 
 // this function is to avoid it
 // extractBuffer( string, from, to = length of string )
@@ -423,6 +449,9 @@ void CommonRegister()
 	LUA_REG_C_FUNCTION( swap16 );
 	LUA_REG_C_FUNCTION( swap32 );
 	LUA_REG_C_FUNCTION( swap64 );
+	
+	// swap bytes in buffer
+	LUA_REG_C_FUNCTION( swapStringBytes );
 
 	//LUA_REG_C_FUNCTION( extractBuffer );
 	
