@@ -39,9 +39,8 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="/DEBUG" />
-					<Add library="lua" />
+					<Add library="luad" />
 					<Add library="ooluad" />
-					<Add library="Rpcrt4" />
 					<Add library="comctl32" />
 					<Add library="wxbase29ud" />
 					<Add library="wxbase29ud_xml" />
@@ -74,9 +73,7 @@
 					<Add library="ole32.lib" />
 					<Add library="oleaut32.lib" />
 					<Add library="winspool.lib" />
-					<Add directory="$(WXWIN)/lib/vc_lib" />
-					<Add directory="../../lua" />
-					<Add directory="../../oolua/lib" />
+					<Add library="Rpcrt4" />
 				</Linker>
 			</Target>
 			<Target title="Release Win32">
@@ -148,12 +145,14 @@
 					<Add library="ole32.lib" />
 					<Add library="oleaut32.lib" />
 					<Add library="winspool.lib" />
-					<Add directory="$(WXWIN)/lib/vc_lib" />
-					<Add directory="../../lua" />
-					<Add directory="../../oolua/lib" />
 				</Linker>
 			</Target>
 		</Build>
+		<Linker>
+			<Add directory="$(WXWIN)/lib/vc_lib" />
+			<Add directory="../../lua" />
+			<Add directory="../../oolua/lib" />
+		</Linker>
 		<Unit filename="../../bin/scripts/common.lua" />
 		<Unit filename="../../bin/scripts/init.lua" />
 		<Unit filename="../../docs/utthelp.hnd" />
