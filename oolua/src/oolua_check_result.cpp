@@ -20,7 +20,7 @@ namespace OOLUA
             else if(pcall_result == LUA_ERRMEM)
                 throw OOLUA::Memory_error(l,(OOLUA::ERROR::PopTheStack*)0);
             else if(pcall_result == LUA_ERRERR)
-			throw OOLUA::Runtime_error(l,(OOLUA::ERROR::PopTheStack*)0);
+				throw OOLUA::Runtime_error(l,(OOLUA::ERROR::PopTheStack*)0);
 #elif OOLUA_DEBUG_CHECKS == 1
             (void)l;
             if( pcall_result == LUA_ERRRUN)

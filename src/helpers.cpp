@@ -98,7 +98,7 @@ void BufferToBMPStyle(wxByte* mask, int w, int h, int bytespp)
 	wxByte* src = mask + ( realWidth * (h - 1) );
 
 	for (int y = 0; y < h; y++)
-	{ 
+	{
 		memcpy( dest, src, realWidth );
 		dest += realWidth;
 		src += step;
