@@ -470,42 +470,29 @@ void MainFrameImpl::UpdateMenuStates()
 	bool projectChanged = projectActive && mCurrentProject->IsChanged();
 
 	mMainToolBar->EnableTool( wxID_NEW_PROJECT, luaOk );
-	mFileMenu->Enable( wxID_NEW_PROJECT,  luaOk );
+	mFileMenu->Enable( wxID_NEW_PROJECT, luaOk );
 
 	mMainToolBar->EnableTool( wxID_OPEN_PROJECT, luaOk );
-	mFileMenu->Enable( wxID_OPEN_PROJECT,  luaOk );
+	mFileMenu->Enable( wxID_OPEN_PROJECT, luaOk );
 
 	mMainToolBar->EnableTool( wxID_SAVE_PROJECT, projectActive );
-	mFileMenu->Enable( wxID_SAVE_PROJECT,  projectActive );
-	mFileMenu->Enable( wxID_SAVE_PROJECT_AS,  projectActive );
+	mFileMenu->Enable( wxID_SAVE_PROJECT, projectActive );
+	mFileMenu->Enable( wxID_SAVE_PROJECT_AS, projectActive );
 
+#define UPDATE_STATE(id, iec, et) \
+	mMainToolBar->EnableTool( id, projectActive && mCurrentProject->IsAllowed(iec, et) ); \
+	mImportExportMenu->Enable( id,  projectActive && mCurrentProject->IsAllowed(iec, et) );
 
-
-	mMainToolBar->EnableTool( wxID_IMPORT_FONT, projectActive && mCurrentProject->IsAllowed(iecImport, etFont) );
-	mImportExportMenu->Enable( wxID_IMPORT_FONT,  projectActive && mCurrentProject->IsAllowed(iecImport, etFont) );
-
-	mMainToolBar->EnableTool( wxID_IMPORT_IMAGE, projectActive && mCurrentProject->IsAllowed(iecImport, etImage) );
-	mImportExportMenu->Enable( wxID_IMPORT_IMAGE,  projectActive && mCurrentProject->IsAllowed(iecImport, etImage) );
-
-	mMainToolBar->EnableTool( wxID_IMPORT_LIBRARY, projectActive && mCurrentProject->IsAllowed(iecImport, etLibrary) );
-	mImportExportMenu->Enable( wxID_IMPORT_LIBRARY,  projectActive && mCurrentProject->IsAllowed(iecImport, etLibrary) );
-
-	mMainToolBar->EnableTool( wxID_IMPORT_ANIMATION, projectActive && mCurrentProject->IsAllowed(iecImport, etAnimation) );
-	mImportExportMenu->Enable( wxID_IMPORT_ANIMATION,  projectActive && mCurrentProject->IsAllowed(iecImport, etAnimation) );
-
-
-
-	mMainToolBar->EnableTool( wxID_EXPORT_FONT, projectActive && mCurrentProject->IsAllowed(iecExport, etFont) );
-	mImportExportMenu->Enable( wxID_EXPORT_FONT,  projectActive && mCurrentProject->IsAllowed(iecExport, etFont) );
-
-	mMainToolBar->EnableTool( wxID_EXPORT_IMAGE, projectActive && mCurrentProject->IsAllowed(iecExport, etImage) );
-	mImportExportMenu->Enable( wxID_EXPORT_IMAGE,  projectActive && mCurrentProject->IsAllowed(iecExport, etImage) );
-
-	mMainToolBar->EnableTool( wxID_EXPORT_LIBRARY, projectActive && mCurrentProject->IsAllowed(iecExport, etLibrary) );
-	mImportExportMenu->Enable( wxID_EXPORT_LIBRARY,  projectActive && mCurrentProject->IsAllowed(iecExport, etLibrary) );
-
-	mMainToolBar->EnableTool( wxID_EXPORT_ANIMATION, projectActive && mCurrentProject->IsAllowed(iecExport, etAnimation) );
-	mImportExportMenu->Enable( wxID_EXPORT_ANIMATION,  projectActive && mCurrentProject->IsAllowed(iecExport, etAnimation) );
+	UPDATE_STATE( wxID_IMPORT_FONT, iecImport, etFont )
+	UPDATE_STATE( wxID_IMPORT_IMAGE, iecImport, etImage )
+	UPDATE_STATE( wxID_IMPORT_LIBRARY, iecImport, etLibrary )
+	UPDATE_STATE( wxID_IMPORT_ANIMATION, iecImport, etAnimation )
+	
+	UPDATE_STATE( wxID_EXPORT_FONT, iecExport, etFont )
+	UPDATE_STATE( wxID_EXPORT_IMAGE, iecExport, etImage )
+	UPDATE_STATE( wxID_EXPORT_LIBRARY, iecExport, etLibrary )
+	UPDATE_STATE( wxID_EXPORT_ANIMATION, iecExport, etAnimation )
+#undef UPDATE_STATE
 
 	mMainToolBar->Refresh();
 }

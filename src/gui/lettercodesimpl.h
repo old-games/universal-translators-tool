@@ -10,6 +10,7 @@
 #ifndef LETTERCODESIMPL_H_INCLUDED
 #define LETTERCODESIMPL_H_INCLUDED
 
+#include "uttdialogsgui.h"
 #include "types/fontinfo.h"
 
 class LetterCodesImpl :

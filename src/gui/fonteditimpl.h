@@ -9,6 +9,7 @@
 #ifndef FONTEDITIMPL_H_INCLUDED
 #define FONTEDITIMPL_H_INCLUDED
 
+#include "uttpanelsgui.h"
 #include "types/ieditor.h"
 
 class FontInfo;

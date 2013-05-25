@@ -9,6 +9,10 @@
 #ifndef EDITPANELIMPL_H_INCLUDED
 #define EDITPANELIMPL_H_INCLUDED
 
+
+#include "uttpanelsgui.h"
+#include "types/ieditor.h"
+
 class EditPanel;
 class ImageInfo;
 class PaletteHolderCtrl;

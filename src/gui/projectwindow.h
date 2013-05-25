@@ -10,6 +10,7 @@
 #define PROJECTWINDOW_H_INCLUDED
 
 #include "types/ieditor.h"
+#include "gui/simplegui.h"
 
 // forward declarations
 class Project;
@@ -23,6 +24,8 @@ class ProjectItemData: public wxClientData
 public:
 	IEditor*	mEditor;
 };
+
+
 
 class ProjectWindow: public ProjectWindowGui
 {

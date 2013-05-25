@@ -9,6 +9,9 @@
 #ifndef SELMODULEIMPL_H_INCLUDED
 #define SELMODULEIMPL_H_INCLUDED
 
+#include "uttdialogsgui.h"
+
+
 class SelectModuleImpl :
 	public SelectModuleGui
 {

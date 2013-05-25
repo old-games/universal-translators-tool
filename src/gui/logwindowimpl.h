@@ -9,7 +9,7 @@
 #ifndef LOGWINDOWIMPL_H_INCLUDED
 #define LOGWINDOWIMPL_H_INCLUDED
 
-#include "uttgui.h"
+#include "uttpanelsgui.h"
 
 class LogWindowImpl : public wxPanel
 {

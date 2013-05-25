@@ -42,6 +42,8 @@
 #include <wx/progdlg.h>
 #include <wx/busyinfo.h>
 #include <wx/stopwatch.h>
+#include <wx/treectrl.h>
+#include <wx/filename.h>
 
 // own written but wx compatible
 #include "types/customevents.h"
@@ -67,8 +69,8 @@
 #endif
 
 // project headers
-#include "gui/simplegui.h"
-#include "gui/uttgui.h"
+//#include "gui/simplegui.h"
+//#include "gui/uttgui.h"
 #include "types/uttypes.h"
 #include "types/defaultpals.h"
 #include "helpers.h"

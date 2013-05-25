@@ -9,11 +9,8 @@
 #ifndef LIBRARYPANEL_H_INCLUDED
 #define LIBRARYPANEL_H_INCLUDED
 
-#include "uttgui.h"
-
-
-
-
+#include "uttpanelsgui.h"
+#include "types/ieditor.h"
 
 
 //forward declarations

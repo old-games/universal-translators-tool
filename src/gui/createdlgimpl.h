@@ -9,7 +9,7 @@
 #ifndef CREATEDIALOGIMPL_H_INCLUDED
 #define CREATEDIALOGIMPL_H_INCLUDED
 
-#include "simplegui.h"
+#include "uttdialogsgui.h"
 
 class CreateProjectDlg : public CreateProjectGui
 {

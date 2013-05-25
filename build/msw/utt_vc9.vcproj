@@ -333,11 +333,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\gui\uttdialogsgui.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\uttdialogsgui.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\uttgui.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\gui\uttgui.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\uttpanelsgui.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\uttpanelsgui.h"
 				>
 			</File>
 			<Filter
@@ -397,11 +413,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\gui\uttdialogsgui.fbp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\uttgui.fbp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\docs\utthelp.hnd"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\uttpanelsgui.fbp"
 				>
 			</File>
 			<File

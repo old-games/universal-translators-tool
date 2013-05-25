@@ -9,6 +9,9 @@
 #ifndef PALHOLDERCTRL_H_INCLUDED
 #define PALHOLDERCTRL_H_INCLUDED
 
+#include "uttpanelsgui.h"
+
+
 class PaletteWindowImpl;
 
 class PaletteHolderCtrl: public PaletteHolderGui

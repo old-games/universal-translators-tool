@@ -10,6 +10,9 @@
 #ifndef MAINFRAMEIMPL_H_INCLUDED
 #define MAINFRAMEIMPL_H_INCLUDED
 
+
+#include "uttgui.h"
+
 class Project;
 
 
