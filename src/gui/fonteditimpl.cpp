@@ -77,18 +77,6 @@ void FontEditor::ClearFont( bool force /* false */ )
 
 
 
-/* virtual */ void FontEditor::SetInfo( IInfo* info )
-{
-	FontInfo* newFont = static_cast<FontInfo*>( info );
-	ClearFont();
-	mCurrentFont = newFont->Clone();
-	UpdateFont();
-	SetPaletteAsMain();
-	mSymbolEditor->Enable();
-}
-
-
-
 bool FontEditor::CreateFont()
 {
 	if ( mCurrentFont != NULL && !CheckChanged() )
@@ -245,6 +233,19 @@ void FontEditor::SetPaletteAsMain()
 {
 	return mCurrentFont ? mCurrentFont->GetOrigin() : NULL;
 }
+
+
+
+/* virtual */ void FontEditor::SetInfo( IInfo* info )
+{
+	FontInfo* newFont = static_cast<FontInfo*>( info );
+	ClearFont();
+	mCurrentFont = newFont->Clone();
+	UpdateFont();
+	SetPaletteAsMain();
+	mSymbolEditor->Enable();
+}
+
 
 
 /* virtual */ bool FontEditor::SaveEditor()

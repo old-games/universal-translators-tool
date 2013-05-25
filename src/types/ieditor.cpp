@@ -157,11 +157,7 @@ void IEditor::Changed( bool b /* true */)
 
 /* static */ IEditor* IEditor::CreateEditor( EditorType edType, bool createId /* true */ )
 {
-
-#ifndef RELEASE
-	wxStopWatch sw;
-#endif
-
+	STOPWATCH_BEGIN;
 	IEditor* result = NULL;
 
 	switch (edType)
@@ -171,7 +167,7 @@ void IEditor::Changed( bool b /* true */)
 			break;
 
 		case etImage:
-			result = static_cast<IEditor*> ( new ImageEditor( sParentWindow ) );
+			result = static_cast<IEditor*> ( new ImageEditor( sParentWindow, iemFullMode ) );
 			break;
 		
 		case etLibrary:
@@ -188,10 +184,7 @@ void IEditor::Changed( bool b /* true */)
 		result->CreateEditorId();
 	}
 
-#ifndef RELEASE
-	wxLogMessage("IEditor::CreateEditor %ldms", sw.Time());
-#endif
-
+	STOPWATCH_END("IEditor::CreateEditor");
 	return result;
 }
 

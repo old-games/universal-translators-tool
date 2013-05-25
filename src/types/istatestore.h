@@ -15,8 +15,14 @@
 class IStateStore
 {
 
+enum
+{
+	noFileHeader = -1
+};
+
 public:
 
+	IStateStore();
 	IStateStore( const wxString& myName, int version );
 	IStateStore( const IStateStore& other );
 	virtual ~IStateStore();
@@ -58,12 +64,14 @@ public:
 
 	static bool SaveData(wxOutputStream& output, const void* src, size_t size);
 	static bool LoadData(wxInputStream& input, void* dest, size_t size);
+	
+	static bool WriteLine(wxOutputStream& output, const wxString& txt);
 
 protected:
 
 	virtual bool SaveState( wxOutputStream& output ) = 0;
 	virtual bool LoadState( wxInputStream& input, int version ) = 0;
-
+	
 	wxString	mMyName;
 	wxInt32		mVersion;
 

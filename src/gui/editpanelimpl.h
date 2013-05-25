@@ -17,10 +17,16 @@ class EditPanel;
 class ImageInfo;
 class PaletteHolderCtrl;
 
+enum ImageEditorMode
+{
+	iemFullMode,
+	iemChildMode
+};
+
 class ImageEditor: public EditPanelGui, public IEditor
 {
 public:
-	ImageEditor( wxWindow* parent, wxWindowID eventsId = wxID_ANY);
+	ImageEditor( wxWindow* parent, ImageEditorMode mode, wxWindowID eventsId = wxID_ANY);
 	~ImageEditor(void);
 
 	void SetBitmap( wxBitmap* bitmap );
@@ -43,7 +49,6 @@ public:
 	virtual const Origin*	GetOrigin() const;
 	virtual void SetInfo( IInfo* info );
 
-
 protected:
 
 	virtual void OnCommandEvent( wxCommandEvent& event );
@@ -63,6 +68,7 @@ private:
 
 	EditPanel*			mEditPanel;
 	PaletteHolderCtrl*	mPalettePanel;
+	ImageEditorMode		mMode;
 };
 
 #endif

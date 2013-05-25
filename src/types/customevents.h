@@ -12,7 +12,7 @@
 #include "types/uttypes.h"
 #include "types/iinfo.h"
 
-class ModuleChangedEvent;
+class CommonEvent;
 class ColourPickEvent;
 class ChangeInfoEvent;
 //class ChangeImageEvent;
@@ -24,7 +24,7 @@ class IEditor;
 
 
 
-wxDECLARE_EVENT( uttEVT_MODULECHANGED, ModuleChangedEvent );
+wxDECLARE_EVENT( uttEVT_COMMON, CommonEvent );
 wxDECLARE_EVENT( uttEVT_COLOURPICK, ColourPickEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEINFO, ChangeInfoEvent );
 //wxDECLARE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
@@ -37,33 +37,64 @@ wxDECLARE_EVENT( uttEVT_ADDAUIWINDOW, AUIWindowEvent );
 
 
 
-class ModuleChangedEvent : public wxEvent
+class CommonEvent : public wxEvent
 {
 public:
 	
-    ModuleChangedEvent( )
-        : wxEvent(0, uttEVT_MODULECHANGED)
-	{}
+	enum CommoneEventOperation
+	{	
+		ceModuleChanged,
+		ceSetProjectName,
+		ceSetProjectPath,
+		ceSetProjectModule,
+	};
 	
-    ModuleChangedEvent(const ModuleChangedEvent& event)
-        : wxEvent(event)
-    {}
+	CommonEvent(): wxEvent(0, uttEVT_COMMON),
+		mAction(ceModuleChanged)
+	{}
 
-    virtual wxEvent *Clone() const { return new ModuleChangedEvent(*this); }
+	CommonEvent(CommoneEventOperation what): wxEvent(0, uttEVT_COMMON),
+		mAction(what)
+	{}
+
+	CommonEvent(const CommonEvent& event): wxEvent(event),
+		mAction(event.mAction),
+		mParams(event.mParams)
+	{}
+
+	virtual wxEvent *Clone() const { return new CommonEvent(*this); }
+
+	int GetAction()
+	{
+		return mAction;
+	}
+
+	void AddParam(const wxString& value)
+	{
+		mParams.Add(value);
+	}
+
+	const wxArrayString& GetParams() const
+	{
+		return mParams;
+	}
 
 private:
+	
+	CommoneEventOperation	mAction;
+	wxArrayString			mParams;
 
-    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ModuleChangedEvent)
+	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(CommonEvent)
 };
 
-typedef void (wxEvtHandler::*ModuleChangedEventFunction)(ModuleChangedEvent&);
+typedef void (wxEvtHandler::*CommonEventFunction)(CommonEvent&);
 
 
 
-#define ModuleChangedEventHandler(func) \
-    wxEVENT_HANDLER_CAST(ModuleChangedEventFunction, func)
+#define CommonEventHandler(func) \
+	wxEVENT_HANDLER_CAST(CommonEventFunction, func)
 
-#define EVT_MODULECHANGED(func) wx__DECLARE_EVT0(uttEVT_MODULECHANGED, ModuleChangedEventHandler(func))
+#define EVT_COMMON(func) wx__DECLARE_EVT0(uttEVT_COMMON, CommonEventHandler(func))
 
 
 
@@ -81,17 +112,16 @@ public:
 		cpeFindThisColour
 	};
 
-    ColourPickEvent( )
-        : wxEvent(0, uttEVT_COLOURPICK),
+	ColourPickEvent()
+		: wxEvent(0, uttEVT_COLOURPICK),
 			mColour( *wxBLACK ),
 			mButton( 0 ),
 			mAction( -1 )
-	{ 
-	
+	{
 	}
 	
-    ColourPickEvent( const UttColour& colour, int button, ColourOperation what )
-        : wxEvent(0, uttEVT_COLOURPICK),
+	ColourPickEvent(const UttColour& colour, int button, ColourOperation what)
+		: wxEvent(0, uttEVT_COLOURPICK),
 			mColour( colour ),
 			mButton( button ),
 			mAction( what )
@@ -99,31 +129,31 @@ public:
 	
 	}
 	
-    ColourPickEvent(const ColourPickEvent& event)
-        : wxEvent(event),
-   			mColour( event.mColour ),
+	ColourPickEvent(const ColourPickEvent& event)
+		: wxEvent(event),
+			mColour( event.mColour ),
 			mButton( event.mButton ),
 			mAction( event.mAction )
-    { 
-	
+	{ 
+
 	}
 
-    virtual wxEvent *Clone() const { return new ColourPickEvent(*this); }
-    
-    int GetButton()
-    {
+	virtual wxEvent *Clone() const { return new ColourPickEvent(*this); }
+
+	int GetButton()
+	{
 		return mButton;
-    }
+	}
 
 	int GetAction()
 	{
 		return mAction;
 	}
-    
-    const UttColour& GetColour()
-    {
+
+	const UttColour& GetColour()
+	{
 		return mColour;
-    }
+	}
 
 protected:
 	
@@ -132,7 +162,7 @@ private:
 	UttColour	mColour;
 	int			mButton;
 	int			mAction;
-    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ColourPickEvent)
+	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ColourPickEvent)
 };
 
 typedef void (wxEvtHandler::*ColourPickEventFunction)(ColourPickEvent&);
@@ -140,7 +170,7 @@ typedef void (wxEvtHandler::*ColourPickEventFunction)(ColourPickEvent&);
 
 
 #define ColourPickEventHandler(func) \
-    wxEVENT_HANDLER_CAST(ColourPickEventFunction, func)
+	wxEVENT_HANDLER_CAST(ColourPickEventFunction, func)
 
 #define EVT_COLOURPICK(func) wx__DECLARE_EVT0(uttEVT_COLOURPICK, ColourPickEventHandler(func))
 
@@ -154,25 +184,20 @@ class ChangeInfoEvent : public wxEvent
 public:
 	
 
-    ChangeInfoEvent()
-        : wxEvent(0, uttEVT_CHANGEINFO),
+	ChangeInfoEvent(): wxEvent(0, uttEVT_CHANGEINFO),
 		mInfo( NULL )
 	{ }
-	
-    ChangeInfoEvent( IInfo* info, int winId = 0 )
-        : wxEvent(winId, uttEVT_CHANGEINFO),
+
+	ChangeInfoEvent( IInfo* info, int winId = 0 ): wxEvent(winId, uttEVT_CHANGEINFO),
 		mInfo( info )
 	{ }
-	
-    ChangeInfoEvent(const ChangeInfoEvent& event)
-        : wxEvent(event),
+
+	ChangeInfoEvent(const ChangeInfoEvent& event): wxEvent(event),
 		mInfo( event.mInfo )
-    { }
+	{ }
 
-    virtual wxEvent *Clone() const { return new ChangeInfoEvent(*this); }
-    
-    IInfo*	GetInfo() { return mInfo; }
-
+	virtual wxEvent *Clone() const { return new ChangeInfoEvent(*this); }
+	IInfo*	GetInfo() { return mInfo; }
 
 protected:
 	
@@ -188,59 +213,10 @@ typedef void (wxEvtHandler::*ChangeInfoEventFunction)(ChangeInfoEvent&);
 
 
 #define ChangeInfoEventHandler(func) \
-    wxEVENT_HANDLER_CAST(ChangeInfoEventFunction, func)
+	wxEVENT_HANDLER_CAST(ChangeInfoEventFunction, func)
 
 #define EVT_CHANGEINFO(func) wx__DECLARE_EVT0(uttEVT_CHANGEINFO, ChangeInfoEventHandler(func))
 
-
-//////////////////////////////////////////////////////////////////////////
-
-//
-//class ImageInfo;
-//
-//class ChangeImageEvent : public wxEvent
-//{
-//public:
-//	
-//
-//    ChangeImageEvent( )
-//        : wxEvent(0, uttEVT_CHANGEIMAGE),
-//		mImageInfo( NULL )
-//	{ }
-//	
-//    ChangeImageEvent( ImageInfo* imageInfo )
-//        : wxEvent(0, uttEVT_CHANGEIMAGE),
-//		mImageInfo( imageInfo )
-//	{ }
-//	
-//    ChangeImageEvent(const ChangeImageEvent& event)
-//        : wxEvent(event),
-//		mImageInfo( event.mImageInfo )
-//    { }
-//
-//    virtual wxEvent *Clone() const { return new ChangeImageEvent(*this); }
-//    
-//    ImageInfo*	GetImageInfo()
-//	{
-//		return mImageInfo;
-//	}
-//
-//protected:
-//	
-//private:
-//
-//	ImageInfo*	mImageInfo;
-//
-//	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangeImageEvent)
-//};
-//
-//typedef void (wxEvtHandler::*ChangeImageEventFunction)(ChangeImageEvent&);
-//
-//#define ChangeImageEventHandler(func) \
-//    wxEVENT_HANDLER_CAST(ChangeImageEventFunction, func)
-//
-//#define EVT_CHANGEIMAGE(func) wx__DECLARE_EVT0(uttEVT_CHANGEIMAGE, ChangeImageEventHandler(func))
-//
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -254,31 +230,30 @@ class ChangePaletteEvent : public wxEvent
 public:
 	
 
-    ChangePaletteEvent( )
-        : wxEvent(0, uttEVT_CHANGEPALETTE),
+	ChangePaletteEvent():
+		wxEvent(0, uttEVT_CHANGEPALETTE),
 		mData( NULL ),
 		mRebuild( false )
-	{ 	
+	{
 	}
 	
 
 
-    ChangePaletteEvent( int winid, Palette* pal, bool rebuild )
-        : wxEvent(winid, uttEVT_CHANGEPALETTE),
+	ChangePaletteEvent( int winid, Palette* pal, bool rebuild ):
+		wxEvent(winid, uttEVT_CHANGEPALETTE),
 		mData( pal ),
 		mRebuild( rebuild )
 	{ 
 	}
 	
-    ChangePaletteEvent(const ChangePaletteEvent& event)
-        : wxEvent(event),
+	ChangePaletteEvent(const ChangePaletteEvent& event): wxEvent(event),
 		mData( event.mData ),
 		mRebuild( event.mRebuild )
-    { 
+	{
 	}
 
-    virtual wxEvent *Clone() const { return new ChangePaletteEvent(*this); }
-  
+	virtual wxEvent *Clone() const { return new ChangePaletteEvent(*this); }
+
 	Palette*	GetPalette() { return mData; }
 	bool		GetRebuild() { return mRebuild; }
 
@@ -312,28 +287,25 @@ class SymbolSelectionEvent : public wxEvent
 public:
 	
 
-    SymbolSelectionEvent( )
-        : wxEvent(0, uttEVT_SYMBOLSELECT),
+	SymbolSelectionEvent( ):
+		wxEvent(0, uttEVT_SYMBOLSELECT),
 		mKey( -1 )
-	{ 	
+	{
 	}
-	
 
-
-    SymbolSelectionEvent(int winid, int key )
-        : wxEvent(winid, uttEVT_SYMBOLSELECT),
+	SymbolSelectionEvent(int winid, int key ):
+		wxEvent(winid, uttEVT_SYMBOLSELECT),
 		mKey( key )
 	{ 
 	}
 	
-    SymbolSelectionEvent(const SymbolSelectionEvent& event)
-        : wxEvent(event),
+	SymbolSelectionEvent(const SymbolSelectionEvent& event):
+		wxEvent(event),
 		mKey( event.mKey )
-    { 
+	{
 	}
 
-    virtual wxEvent *Clone() const { return new SymbolSelectionEvent(*this); }
-  
+	virtual wxEvent *Clone() const { return new SymbolSelectionEvent(*this); }
 	int		GetKey() { return mKey; }
 
 protected:
@@ -350,7 +322,7 @@ typedef void (wxEvtHandler::*SymbolSelectionEventFunction)(SymbolSelectionEvent&
 
 
 #define SymbolSelectionEventHandler(func) \
-    wxEVENT_HANDLER_CAST(SymbolSelectionEventFunction, func)
+	wxEVENT_HANDLER_CAST(SymbolSelectionEventFunction, func)
 
 #define EVT_SYMBOLSELECT(func) wx__DECLARE_EVT0(uttEVT_SYMBOLSELECT, SymbolSelectionEventHandler(func))
 
@@ -448,8 +420,8 @@ public:
 		AUIEventNum
 	};
 
-	AUIWindowEvent( )
-		: wxEvent(0, uttEVT_ADDAUIWINDOW),
+	AUIWindowEvent():
+		wxEvent(0, uttEVT_ADDAUIWINDOW),
 		mCommand( AUIEventNum ),
 		mWindow( NULL ),
 		mUpdate( false ),
@@ -459,22 +431,23 @@ public:
 
 
 
-	AUIWindowEvent(int command, wxWindow* wnd = NULL, bool doUpdate = true, const wxString& name = wxEmptyString)
-		: wxEvent(0, uttEVT_ADDAUIWINDOW),
-		mCommand( command ),
-		mWindow( wnd ),
-		mUpdate( doUpdate || command == UpdateManager),
-		mName( name )
-	{ 
+	AUIWindowEvent(int command, wxWindow* wnd = NULL, bool doUpdate = true,
+		const wxString& name = wxEmptyString):
+			wxEvent(0, uttEVT_ADDAUIWINDOW),
+			mCommand( command ),
+			mWindow( wnd ),
+			mUpdate( doUpdate || command == UpdateManager),
+			mName( name )
+	{
 	}
 
-	AUIWindowEvent(const AUIWindowEvent& event)
-		: wxEvent(event),
-		mCommand( event.mCommand ),
-		mWindow( event.mWindow ),
-		mUpdate( event.mUpdate ),
-		mName( event.mName )
-	{ 
+	AUIWindowEvent(const AUIWindowEvent& event):
+			wxEvent(event),
+			mCommand( event.mCommand ),
+			mWindow( event.mWindow ),
+			mUpdate( event.mUpdate ),
+			mName( event.mName )
+	{
 	}
 
 	virtual wxEvent *Clone() const { return new AUIWindowEvent(*this); }

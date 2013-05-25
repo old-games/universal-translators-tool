@@ -130,6 +130,7 @@ void Buffer8bpp_to_Pixels(Pixel*dst, int dstWidth, int dstHeight, const wxByte* 
 
 
 bool PullTableOfStrings( wxArrayString& res, lua_State* L = NULL);
+void PullStringArguments( wxArrayString& res, lua_State* L = NULL);
 
 
 

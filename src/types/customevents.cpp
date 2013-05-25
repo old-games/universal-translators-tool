@@ -12,8 +12,8 @@
 
 
 
-wxDEFINE_EVENT( uttEVT_MODULECHANGED, ModuleChangedEvent );
-IMPLEMENT_DYNAMIC_CLASS(ModuleChangedEvent, wxEvent)
+wxDEFINE_EVENT( uttEVT_COMMON, CommonEvent );
+IMPLEMENT_DYNAMIC_CLASS(CommonEvent, wxEvent)
 
 
 

@@ -39,6 +39,7 @@ public:
 	bool CreateProject( const wxString& fullPath, const wxString& gamePath, const wxString& module, const wxString& version );
 	bool SaveProject( const wxString& saveAs = wxEmptyString );
 	bool LoadProject( const wxString& fullPath );
+	
 	void ReparentEditorWindows( wxWindow* wnd );
 
 
@@ -65,8 +66,9 @@ protected:
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
 
-	virtual void OnChangeInfoEvent( ChangeInfoEvent& event );
-	virtual void OnEditorRebuildDataEvent( EditorRebuildDataEvent& event );
+	void OnCommonEvent( CommonEvent& event );
+	void OnChangeInfoEvent( ChangeInfoEvent& event );
+	void OnEditorRebuildDataEvent( EditorRebuildDataEvent& event );
 	
 private:
 
@@ -82,6 +84,7 @@ private:
 	wxString		GetFunctionName( IECommands what, EditorType who );
 	bool			SaveEditors( wxOutputStream& output );
 	bool			LoadEditors( wxInputStream& input );
+	void			CheckPathDelimiters();
 
 	bool			mChanged;
 	wxString		mProjectName;

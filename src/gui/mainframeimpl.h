@@ -36,7 +36,7 @@ private:
 	void OnIdle( wxIdleEvent& event );
 	void OnShow( wxShowEvent& event );
 
-	void OnModuleChanged( ModuleChangedEvent& event );
+	void OnCommonEvent( CommonEvent& event );
 	void OnAUIWindowEvent( AUIWindowEvent& event );
 	void OnAUIManagerEvent( wxAuiManagerEvent& event );
 	virtual void OnPaneClose( wxAuiManagerEvent& event );

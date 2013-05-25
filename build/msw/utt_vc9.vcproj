@@ -444,6 +444,22 @@
 				RelativePath="..\..\bin\scripts\init.lua"
 				>
 			</File>
+			<File
+				RelativePath="..\..\bin\scripts\structs.lua"
+				>
+			</File>
+			<Filter
+				Name="xcom"
+				>
+				<File
+					RelativePath="..\..\bin\scripts\xcom\initmodule.lua"
+					>
+				</File>
+				<File
+					RelativePath="..\..\bin\scripts\xcom\xcom.lua"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="luaexports"

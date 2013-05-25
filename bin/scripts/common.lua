@@ -33,7 +33,7 @@ function logWrite(...)
 	local arg = {...}
 	if #arg == 0 then 
 		writeToLog( '\n' )
-		return 
+		return
 	end
 	local printResult = ''
 	for i,v in ipairs(arg) do

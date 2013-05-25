@@ -26,13 +26,9 @@ const wxString sCommandNames[iecNum] =
 };
 
 
-const wxString	PROJECTNAME = "Project";
-const int		PROJECTVERSION = 0x100;
-
-
 
 Project::Project():
-	IStateStore( PROJECTNAME, PROJECTVERSION ),
+	IStateStore(),
 	mChanged( false ),
 	mProjectName( wxEmptyString ),
 	mModuleName( wxEmptyString ),
@@ -49,7 +45,7 @@ Project::Project():
 
 	
 Project::Project( const Project& other ):
-	IStateStore( PROJECTNAME, PROJECTVERSION ),
+	IStateStore(),
 	mChanged( other.mChanged ),
 	mProjectName( other.mProjectName ),
 	mModuleName( other.mModuleName ),
@@ -66,6 +62,7 @@ Project::Project( const Project& other ):
 
 Project::~Project()
 {
+	wxTheApp->Unbind(uttEVT_COMMON, &Project::OnCommonEvent, this);
 	wxTheApp->Unbind(uttEVT_CHANGEINFO, &Project::OnChangeInfoEvent, this);
 	wxTheApp->Unbind(uttEVT_REBUILDDATA, &Project::OnEditorRebuildDataEvent, this);
 }
@@ -74,6 +71,7 @@ Project::~Project()
 
 void Project::BindEvents()
 {
+	wxTheApp->Bind(uttEVT_COMMON, &Project::OnCommonEvent, this);
 	wxTheApp->Bind(uttEVT_CHANGEINFO, &Project::OnChangeInfoEvent, this);
 	wxTheApp->Bind(uttEVT_REBUILDDATA, &Project::OnEditorRebuildDataEvent, this);
 }
@@ -133,9 +131,9 @@ bool Project::CreateProject( const wxString& fullPath, const wxString& gamePath,
 	mProjectName = name;
 	mProjectFileName = fullPath;
 	mGamePath = gamePath;
-	SetActiveModule( module, version );
 	mLastDir = vol + wxFileName::GetVolumeSeparator( wxPATH_NATIVE ) + path;
-
+	CheckPathDelimiters();
+	SetActiveModule( module, version );
 	return SaveProject();
 }
 
@@ -176,7 +174,7 @@ bool Project::SaveProject( const wxString& saveAs /* wxEmptyString */)
 		mProjectFileName = saveAs;
 	}
 
-	bool result = SaveToFile( mProjectFileName );
+	bool result = SaveToFile(mProjectFileName);
 
 	if (result)
 	{
@@ -194,16 +192,6 @@ bool Project::LoadProject( const wxString& fullPath )
 	if ( CheckChanged() )
 	{
 		result = LoadFromFile( fullPath );
-
-		for (EditorsIterator it = mEditors.begin(); it != mEditors.end(); ++it)
-		{
-			AddEditorWindow( *it, (*it)->CreateName(), false );
-		}
-
-		SendUpdateEvent();
-
-		mProjectFileName = fullPath;
-		SetActiveModule();
 		mChanged = false;
 	}
 
@@ -303,39 +291,23 @@ wxString Project::GetFunctionName( IECommands what, EditorType who )
 
 bool Project::SaveEditors( wxOutputStream& output )
 {
-	bool res = SaveSimpleType<wxUint32>(output, mEditors.size());
+	bool res = true;
 
 	for (EditorsIterator it = mEditors.begin(); it != mEditors.end() && res; ++it)
 	{
-		res = (*it)->SaveToStream( output );
-	}
-
-	return res;
-}
-
-
-
-bool Project::LoadEditors( wxInputStream& input )
-{
-	wxUint32 num = 0;
-	bool res = LoadSimpleType<wxUint32>(input, num);
-
-	for (size_t i = 0; i < num && res; ++i)
-	{
-		IEditor* editor = IEditor::CreateEditor( input );
+		IEditor* editor = *it;
+		const Origin* info = editor->GetOrigin();
+		wxASSERT(info);
+		wxString command = GetFunctionName(iecImport, editor->GetType());
+		wxString path = info->GetFullPath();
+		path.Replace("\\", "/");
+		
+		res = WriteLine(output, wxString::Format("doModuleCommand('%s', '%s')",
+			command, path) );
 			
-		if (editor)
+		if (!res)
 		{
-			res = editor->LoadFromStream( input );
-
-			if ( res )
-			{
-				mEditors.push_back( editor );
-			}
-		}
-		else
-		{
-			res = false;
+			break;
 		}
 	}
 
@@ -388,9 +360,6 @@ void Project::SendUpdateEvent()
 {
 	AUIWindowEvent* event = new AUIWindowEvent ( AUIWindowEvent::UpdateManager ); 
 	wxTheApp->QueueEvent( event );
-	//AUIWindowEvent event( AUIWindowEvent::UpdateManager ); 
-	//wxTheApp->ProcessEvent( event );
-
 }
 
 
@@ -409,17 +378,33 @@ IEditor* Project::FindEditor( wxWindow* wnd ) const
 
 
 
+void Project::CheckPathDelimiters()
+{
+	mProjectFileName.Replace("\\", "/");
+	mGamePath.Replace("\\", "/");
+	mLastDir.Replace("\\", "/");
+}
+
+
+
 /* virtual */ bool Project::SaveState( wxOutputStream& output )
 {
-	bool res = SaveString( output, mProjectName ) &&
-		SaveString( output, mProjectFileName ) &&
-		SaveString( output, mModuleName ) &&
-		SaveString( output, mModuleVersion ) &&
-		SaveString( output, mGamePath ) &&
-		SaveString( output, mLastDir ) &&
-		SaveString( output, mPerspective);
+	CheckPathDelimiters();
+	
+	bool res = WriteLine(output, "-- project's name, filename");
+	
+	res = WriteLine(output, wxString::Format("setProjectName('%s', '%s')\r", 
+		mProjectName, mProjectFileName));
+	
+	res = WriteLine(output, "-- path to game, last used directory in any kind of FileDialog");
+	res = WriteLine(output, wxString::Format("setProjectPath('%s', '%s')\r",
+		mGamePath, mLastDir));
 
-	res = SaveEditors( output );
+	res = WriteLine(output, "-- module name, module version");
+	res = WriteLine(output, wxString::Format("setProjectModule('%s', '%s')\r",
+		mModuleName, mModuleVersion));
+
+	res = SaveEditors(output);
 
 	return res;
 }
@@ -430,22 +415,57 @@ IEditor* Project::FindEditor( wxWindow* wnd ) const
 {
 	version;	// unused yet, must exist
 	
-	bool res = LoadString( input, mProjectName ) &&
-		LoadString( input, mProjectFileName ) &&
-		LoadString( input, mModuleName ) &&
-		LoadString( input, mModuleVersion ) &&
-		LoadString( input, mGamePath ) &&
-		LoadString( input, mLastDir ) &&
-		LoadString( input, mPerspective);
-
-	res = LoadEditors( input );
-
+	size_t size = input.GetSize();
+	char* buf = new char[size + 1];
+	memset(buf, 0, size + 1);
+	input.Read(buf, size);
+	bool res = Lua::Get().run_chunk(buf);
+	
+	if (!res)
+	{
+		Lua::ShowLastError();
+	}
+	
+	delete[] buf;
 	return res;
 }
 
 
 
-/* virtual */ void Project::OnChangeInfoEvent( ChangeInfoEvent& event )
+void Project::OnCommonEvent( CommonEvent& event )
+{
+	const wxArrayString& params = event.GetParams();
+	
+	switch(event.GetAction())
+	{
+		case CommonEvent::ceSetProjectName:
+			wxASSERT(params.size() == 2);
+			mProjectName = params[0];
+			mProjectFileName = params[1];
+		break;
+		
+		case CommonEvent::ceSetProjectPath:
+			wxASSERT(params.size() == 2);
+			mGamePath = params[0];
+			mLastDir = params[1];
+		break;
+		
+		case CommonEvent::ceSetProjectModule:
+			wxASSERT(params.size() == 2);
+			mModuleName = params[0];
+			mModuleVersion = params[1];
+			SetActiveModule();
+		break;
+		
+		default:
+			wxLogDebug("Project::OnCommonEvent: unknown event action %d", event.GetAction());
+	}
+	event.Skip();
+}
+
+
+
+void Project::OnChangeInfoEvent( ChangeInfoEvent& event )
 {
 	CreateEditorAndSetIt( event.GetInfo() );
 	SendUpdateEvent();
@@ -454,7 +474,7 @@ IEditor* Project::FindEditor( wxWindow* wnd ) const
 
 
 
-/* virtual */ void Project::OnEditorRebuildDataEvent( EditorRebuildDataEvent& event )
+void Project::OnEditorRebuildDataEvent( EditorRebuildDataEvent& event )
 {
 	switch (event.GetWhat())
 	{

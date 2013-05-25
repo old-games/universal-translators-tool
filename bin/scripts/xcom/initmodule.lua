@@ -57,11 +57,14 @@ end
 
 
 
-function Xcom.ImportFont()
-	local fileName = openFileDialog("Font file (BIGLETS.DAT)|biglets.dat|Font file (SMALLSET.DAT)|smallset.dat")
-	
-	if fileName ~= nil then
-		local font = LoadXcomFont( fileName )
+function Xcom.ImportFont(filename)
+	if not filename then
+		filename = openFileDialog("Font file (BIGLETS.DAT)|biglets.dat|Font file (SMALLSET.DAT)|smallset.dat")
+	end
+
+	if filename ~= nil then
+		local font = LoadXcomFont( filename )
+		
 		if font ~= nil then
 			editFont(font)
 		end
@@ -71,7 +74,7 @@ end
 
 
 
-local function imageTypeSelector( filename )
+local function imageTypeSelector(filename)
 	local path, name, ext = parseFileName( filename:lower() )
 	path = path..'/'
 
@@ -86,11 +89,13 @@ end
 
 
 
-function Xcom.ImportImage()
-	local fileName = openFileDialog("LBM Files (*.LBM)|*.lbm|Background files (*.SCR)|*.scr|DAT files (*.DAT)|*.dat")
+function Xcom.ImportImage(filename)
+	if not filename then
+		filename = openFileDialog("LBM Files (*.LBM)|*.lbm|Background files (*.SCR)|*.scr|DAT files (*.DAT)|*.dat")
+	end
 	
-	if fileName ~= nil then
-		local image = imageTypeSelector( fileName )
+	if filename ~= nil then
+		local image = imageTypeSelector( filename )
 		
 		if image then
 			editImage(image)

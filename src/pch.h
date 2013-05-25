@@ -96,4 +96,13 @@
 #define WXK_C		0x43
 #define WXK_V		0x56
 
+// STOPWATCH macros used to measure the time between BEGIN and END
+#ifdef RELEASE
+#define STOPWATCH_BEGIN
+#define STOPWATCH_END(x)
+#else
+#define STOPWATCH_BEGIN wxStopWatch sw;
+#define STOPWATCH_END(x) wxLogMessage("%s %ldms", x, sw.Time());
+#endif
+
 #endif // UTT_PCH_H_INCLUDED

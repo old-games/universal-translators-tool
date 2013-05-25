@@ -28,7 +28,7 @@
 #define MODULE_MENU_START	(wxID_HIGHEST + 1)
 #define MODULE_MENU_END		(MODULE_MENU_START + 32)
 
-const wxString PROJECT_EXTENSIONS = "UTT Project file (*.UTTPROJ)|*.uttproj";
+const wxString PROJECT_EXTENSIONS = "UTT Project file (*.uttproj)|*.uttproj";
 
 MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
@@ -69,7 +69,7 @@ MainFrameImpl::MainFrameImpl(void):
 	this->Bind( wxEVT_SHOW, &MainFrameImpl::OnShow, this );
 	this->Bind( wxEVT_AUI_PANE_ACTIVATED, &MainFrameImpl::OnAUIManagerEvent, this );
 
-	wxTheApp->Bind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
+	wxTheApp->Bind( uttEVT_COMMON, &MainFrameImpl::OnCommonEvent, this );
 	wxTheApp->Bind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAUIWindowEvent, this );
 	wxTheApp->Bind( uttEVT_REBUILDDATA, &MainFrameImpl::OnEditorRebuildDataEvent, this);
 
@@ -91,15 +91,18 @@ MainFrameImpl::~MainFrameImpl(void)
 	this->Unbind( wxEVT_AUI_PANE_ACTIVATED, &MainFrameImpl::OnAUIManagerEvent, this );
 
 	wxTheApp->Unbind( uttEVT_ADDAUIWINDOW, &MainFrameImpl::OnAUIWindowEvent, this );
-	wxTheApp->Unbind( uttEVT_MODULECHANGED, &MainFrameImpl::OnModuleChanged, this );
+	wxTheApp->Unbind( uttEVT_COMMON, &MainFrameImpl::OnCommonEvent, this );
 	wxTheApp->Unbind(uttEVT_REBUILDDATA, &MainFrameImpl::OnEditorRebuildDataEvent, this);
 }
 
 
 
-void MainFrameImpl::OnModuleChanged( ModuleChangedEvent& event )
+void MainFrameImpl::OnCommonEvent( CommonEvent& event )
 {
-	DoModuleChanged();
+	if (event.GetAction() == CommonEvent::ceModuleChanged)
+	{
+		DoModuleChanged();
+	}
 	event.Skip();
 }
 

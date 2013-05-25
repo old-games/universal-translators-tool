@@ -117,7 +117,7 @@ wxString CreateProjectDlg::GetGamePath() const
 	{
 		wxString path, name, ext;
 		wxFileName::SplitPath( mFileDlg->GetPath(), &path, &name, &ext );
-		mDirDlg->SetDirName( path );
+		mDirDlg->SetDirName( path.Append(wxFileName::GetPathSeparator( wxPATH_NATIVE )) );
 	}
 
 	event.Skip();

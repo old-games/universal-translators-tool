@@ -15,15 +15,23 @@
 
 
 const wxString TEMP_FILENAME = "__savestate_temp__";
+#define SET_TEMPORARY wxString::Format( "%s%X.utemp", TEMP_FILENAME, (unsigned int) this )
+
+
+IStateStore::IStateStore():
+	mMyName( wxEmptyString ),
+	mVersion( noFileHeader ),
+	mMyTemporary(SET_TEMPORARY)
+{
+}
 
 
 
 IStateStore::IStateStore(const wxString& myName, int version):
 	mMyName( myName ),
 	mVersion( version ),
-	mMyTemporary()
+	mMyTemporary(SET_TEMPORARY)
 {
-	mMyTemporary = wxString::Format( "%s%X.utemp", TEMP_FILENAME, (unsigned int) this );
 }
 
 
@@ -46,13 +54,14 @@ IStateStore::IStateStore( const IStateStore& other ):
 
 bool IStateStore::SaveToFile( const wxString& fileName )
 {
+	STOPWATCH_BEGIN;
+	
 	wxFileOutputStream stream( mMyTemporary );
 	bool res = false;
 
 	if (stream.IsOk())
 	{
-	    wxBusyInfo info("Saving, please wait...");
-
+		wxBusyInfo info("Saving, please wait...");
 		res = SaveToStream( stream );
 		stream.Close();
 
@@ -66,6 +75,7 @@ bool IStateStore::SaveToFile( const wxString& fileName )
 		wxLogError(wxString::Format("%s::SaveToFile: can't create temporary file (%s) to save data!", mMyName, mMyTemporary));
 	}
 
+	STOPWATCH_END(wxString("IStateStore::SaveToFile ").Append(fileName));
 	return res;
 }
 
@@ -73,12 +83,9 @@ bool IStateStore::SaveToFile( const wxString& fileName )
 
 bool IStateStore::LoadFromFile( const wxString& fileName, bool useMemory /* true */ )
 {
-#ifndef RELEASE
-	wxStopWatch sw;
-#endif
-
+	STOPWATCH_BEGIN;
+	
 	wxFileInputStream stream(fileName);
-
 	bool res = false;
 	void* block = NULL;
 	
@@ -109,9 +116,7 @@ bool IStateStore::LoadFromFile( const wxString& fileName, bool useMemory /* true
 		free(block);
 	}
 
-#ifndef RELEASE
-	wxLogMessage("IStateStore::LoadFromFile (%s) %ldms", fileName, sw.Time());
-#endif
+	STOPWATCH_END(wxString("IStateStore::LoadFromFile ").Append(fileName));
 	return res;
 }
 
@@ -123,7 +128,8 @@ bool IStateStore::SaveToStream( wxOutputStream& output)
 
 	bool res = false;
 
-	if ( SaveString( output, mMyName ) && SaveSimpleType<wxInt32>( output, mVersion ) )
+	if ( mVersion == noFileHeader || 
+		(SaveString( output, mMyName ) && SaveSimpleType<wxInt32>( output, mVersion )) )
 	{
 		res = SaveState( output );
 	}
@@ -142,10 +148,11 @@ bool IStateStore::LoadFromStream( wxInputStream& input )
 	wxBusyCursor busy;
 
 	wxString name = wxEmptyString;
-	wxInt32 version = 0;
+	wxInt32 version = noFileHeader;
 
 	// correct SkipHeader if the next line changing
-	bool res = LoadString( input, name ) && LoadSimpleType<wxInt32>( input, version );
+	bool res = mVersion == noFileHeader ? true :
+		LoadString( input, name ) && LoadSimpleType<wxInt32>( input, version );
 
 	if ( res )
 	{
@@ -202,36 +209,52 @@ bool IStateStore::RenameTemporary( const wxString& fileName )
 
 /* static */ bool IStateStore::SaveString(wxOutputStream& output, const wxString& txt)
 {
-    wxInt32 len = txt.Len();
+	wxInt32 len = txt.Len();
 
-    if ( SaveSimpleType<wxInt32>(output, len) )
-    {
-        len *= sizeof(wchar_t);
-        output.Write(txt.c_str().AsWChar(), len );
-        return CheckLastWrite(output, len);
-    }
-    return false;
+	if ( SaveSimpleType<wxInt32>(output, len) )
+	{
+		len *= sizeof(wchar_t);
+		output.Write(txt.c_str().AsWChar(), len );
+		return CheckLastWrite(output, len);
+	}
+	return false;
+}
+
+
+
+/* static */ bool IStateStore::WriteLine(wxOutputStream& output, const wxString& txt)
+{
+	wxInt32 len = txt.Len();
+	output.Write(txt.c_str(), len );
+	bool ret = CheckLastWrite(output, len);
+	
+	if (ret)
+	{
+		output.Write("\r", 1); 
+	}
+	
+	return ret;
 }
 
 
 
 /* static */ bool IStateStore::LoadString(wxInputStream& input, wxString& txt)
 {
-    wxInt32 len = 0;
-    bool ret = false;
+	wxInt32 len = 0;
+	bool ret = LoadSimpleType<wxInt32>(input, len);
 
-    if (LoadSimpleType<wxInt32>(input, len))
-    {
-        len *=  sizeof(wchar_t);
-        wchar_t* buf = (wchar_t*) malloc(len);
-        input.Read(buf, len);
-        if (CheckLastRead(input, len))
-        {
-            txt = wxString(buf, len / sizeof(wchar_t));
-            ret = true;
-        }
-        free(buf);
-    }
+	if (ret)
+	{
+		len *=  sizeof(wchar_t);
+		wchar_t* buf = (wchar_t*) malloc(len);
+		input.Read(buf, len);
+		if (CheckLastRead(input, len))
+		{
+			txt = wxString(buf, len / sizeof(wchar_t));
+			ret = true;
+		}
+		free(buf);
+	}
 
 	return ret;
 }

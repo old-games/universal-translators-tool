@@ -166,9 +166,44 @@ int saveFileDialog(lua_State *L)
 int setModuleReady(lua_State* L)
 {
 	L; // to remove warning of unused variable
-	ModuleChangedEvent event;
-	wxTheApp->QueueEvent( event.Clone() );	
+	CommonEvent event;
+	wxTheApp->QueueEvent( event.Clone() );
 	return 0;
+}
+
+
+
+int createCommonEvent(lua_State* L, CommonEvent::CommoneEventOperation op)
+{
+	CommonEvent event(op);
+	wxArrayString values;
+	Helpers::PullStringArguments(values, L);
+	wxASSERT(values.size() == 2);
+	event.AddParam(values[0]);
+	event.AddParam(values[1]);
+	wxTheApp->ProcessEvent(event);
+	return 0;
+}
+
+
+
+int setProjectName(lua_State* L)
+{
+	return createCommonEvent(L, CommonEvent::ceSetProjectName);
+}
+
+
+
+int setProjectPath(lua_State* L)
+{
+	return createCommonEvent(L, CommonEvent::ceSetProjectPath);
+}
+
+
+
+int setProjectModule(lua_State* L)
+{
+	return createCommonEvent(L, CommonEvent::ceSetProjectModule);
 }
 
 
@@ -185,7 +220,6 @@ int setModuleReady(lua_State* L)
 	int i = lua_tointeger(L, 2); \
 	lua_pop(L, 2); \
 	if (!buf) { return 0; }
-
 
 
 
@@ -345,7 +379,7 @@ int swapStringBytes(lua_State *L)
 // this function is to avoid it
 // extractBuffer( string, from, to = length of string )
 
-// upd: this is wrong, sub doing all right, TODO: delete it?
+// upd: this is wrong, sub is doing all right, TODO: delete it?
 
 //int extractBuffer(lua_State *L)
 //{
@@ -393,6 +427,7 @@ int swapStringBytes(lua_State *L)
 int messageBox(lua_State *L)
 {
 	std::string s;
+	
 	if (OOLUA::pull2cpp( L, s ))
 	{
 		wxMessageBox( s, "Module information" );
@@ -430,6 +465,11 @@ void CommonRegister()
 
 	// creates event about changed module
 	LUA_REG_C_FUNCTION( setModuleReady );
+	
+	// creates event to set project's parameters
+	LUA_REG_C_FUNCTION( setProjectName );
+	LUA_REG_C_FUNCTION( setProjectModule );
+	LUA_REG_C_FUNCTION( setProjectPath );
 
 	// returns buffer value at position, "getString(bytes, 3)" for example returns fourth value
 	// this function IS NOT SAFE

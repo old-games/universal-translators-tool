@@ -17,11 +17,12 @@
 
 const wxString	UUT_IMAGE_EXTENSIONS = "UTT Image files (*.uim)|*.uim";
 
-ImageEditor::ImageEditor(  wxWindow* parent, wxWindowID eventsId /* wxID_ANY */ ):
+ImageEditor::ImageEditor(  wxWindow* parent, ImageEditorMode mode, wxWindowID eventsId /* wxID_ANY */ ):
 	EditPanelGui( parent ),
 	IEditor( this, etImage, "Image editor" ),
 	mEditPanel( NULL ),
-	mPalettePanel( NULL )
+	mPalettePanel( NULL ),
+	mMode( mode )
 {
 	if (eventsId == wxID_ANY)
 	{
@@ -36,6 +37,9 @@ ImageEditor::ImageEditor(  wxWindow* parent, wxWindowID eventsId /* wxID_ANY */ 
 
 	//wxTheApp->Bind( uttEVT_CHANGEIMAGE, &ImageEditor::OnImageChangeEvent, this, eventsId );
 	wxTheApp->Bind( uttEVT_REBUILDDATA, &ImageEditor::OnRebuildDataEvent, this, eventsId );
+	
+	mSaveBtn->Show( mMode == iemFullMode );
+	mLoadBtn->Show( mMode == iemFullMode );
 }
 
 
@@ -63,16 +67,6 @@ void ImageEditor::ClearImage( bool force /* false */ )
 		return;
 	}
 	mEditPanel->DestroyBitmap();
-}
-
-
-/* virtual */ void ImageEditor::SetInfo( IInfo* info )
-{
-	ImageInfo* newImage = static_cast<ImageInfo*>( info );
-
-	ClearImage();
-	mEditPanel->SetIndexedBitmap(  newImage	);
-	SetPaletteAsMain();
 }
 
 
@@ -290,9 +284,20 @@ void ImageEditor::ChangeImagePalette( Palette* pal )
 
 
 
-/* virtual */ const Origin*	ImageEditor::GetOrigin() const
+/* virtual */ const Origin* ImageEditor::GetOrigin() const
 {
 	return mEditPanel->mImageInfo ? mEditPanel->mImageInfo->GetOrigin() : NULL;
+}
+
+
+
+/* virtual */ void ImageEditor::SetInfo( IInfo* info )
+{
+	ImageInfo* newImage = static_cast<ImageInfo*>( info );
+
+	ClearImage();
+	mEditPanel->SetIndexedBitmap(  newImage	);
+	SetPaletteAsMain();
 }
 
 

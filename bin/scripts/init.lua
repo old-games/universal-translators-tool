@@ -88,8 +88,8 @@ end
 
 
 
-function doModuleCommand( command )
-	CurrentModule[command]()
+function doModuleCommand( command, ... )
+	CurrentModule[command](...)
 end
 
 

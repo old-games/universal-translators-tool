@@ -137,4 +137,23 @@ bool PullTableOfStrings( wxArrayString& res, lua_State* L /* NULL */)
 	return true;
 }
 
+
+
+void PullStringArguments( wxArrayString& res, lua_State* L /* NULL */)
+{
+	res.Clear();
+
+	if ( L == NULL )
+	{
+		L = Lua::Get().get_ptr();
+	}
+	
+	std::string txt;
+	
+	while(OOLUA::pull2cpp(L, txt))
+	{
+		res.Insert(txt, 0);
+	}
+}
+
 } // namespace Helpers
