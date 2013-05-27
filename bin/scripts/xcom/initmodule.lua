@@ -114,7 +114,7 @@ CATStruct[2] =	{ SIZE 		= "DWORD" 	}
 
 function loadCAT( filename )
 	local path, name, ext = parseFileName( filename )
-	local origin = Origin:new(Origin.FromFile, filename)
+	local origin = Origin:new(filename)
 	
 	if ext == "lbm" then
 		local iff = IFFLib:new()

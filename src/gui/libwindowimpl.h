@@ -16,6 +16,7 @@
 //forward declarations
 class LibTree;
 class LibItem;
+class wxLibTreeData;
 
 
 
@@ -40,14 +41,28 @@ public:
 
 protected:
 
+	void OnTreeItemMenu( wxTreeListEvent& event );
+	void OnItemExpanded( wxTreeListEvent& event );
 
 private:
 
-	void FillLibTree( wxTreeItemId treeId, LibItem* libItem );
+	void InitImageList();
+	void InitTree();
+	void SetColumnsWidth();
+	wxLibTreeData* GetItemData( const wxTreeListItem& treeId );
+	LibItem* GetLibItem( const wxTreeListItem& treeId );
+	bool ExcludeChildrenFromArray( wxTreeListItems& items, const wxTreeListItem& treeId );
+	void FillLibTree( const wxTreeListItem& treeId, LibItem* libItem );
+	void DoContextMenu();
+	wxMenu* GetItemActions( wxTreeListItems& selection );
+	void AddActionToMenu( wxMenu*& menu, int action );
+	
 	void UpdateLibTree();
 	void ClearLibrary();
 
-	LibTree*	mLibInfo;
+	LibTree*		mLibInfo;
+	wxImageList*	mImageList;
+	wxTreeListItem	mRoot;
 };
 
 

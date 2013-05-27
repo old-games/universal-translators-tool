@@ -84,12 +84,12 @@ function LoadStarwarsFont( filename )
 	end
 	
 	fh:close()
-	
-	local origin = Origin:new(Origin.FromFile, filename)
-	font:SetOrigin( origin )
+	font:SetOrigin( Origin:new(filename) )
 	
 	return font
 end
+
+
 
 function LoadStarwarsImage()
 end
@@ -114,11 +114,11 @@ function LoadLFD( filename )
 	local done = false
 	local size = fileSize( filename )
 	local items = {}
-	local origin = Origin:new(Origin.FromFile, filename)
+	local origin = Origin:new(filename)
 
 	local rmap = readData( fh, LFDStruct )
+	local itemSize = getDataSize(LFDStruct)
 
-	
 	while not done do
 		local data = readData( fh, LFDStruct )
 		
@@ -129,8 +129,8 @@ function LoadLFD( filename )
 		table.insert(items, data)
 		done = fh:seek() > rmap.SIZE
 	end
-	local startOffset = fh:seek()
 	
+	local startOffset = fh:seek()
 	fh:close()
 	
 	if not done then 
@@ -139,22 +139,56 @@ function LoadLFD( filename )
 	
 	local lib = LibTree:new()
 	local root = lib:GetRoot()
+	root:SetText(name.."_"..ext)
 	
 	for i, current in ipairs(items) do
-		
 		local item = lib:AddItem( root )
 		local data = LibItemData:new()
 		
-		data.mLibDataOffset = startOffset
-		startOffset = startOffset + current.SIZE
+		data:set_mLibFileOffset(startOffset)
+		data:set_mLibDataSize(current.SIZE + itemSize)
 		
-		item:SetText( current.ID.." "..current.NAME )
-		item:SetData( data )
+		startOffset = startOffset + current.SIZE + itemSize
+		name = cropZeroes(current.NAME).."."..current.ID
+
+		item:SetText(name)
+		item:SetData(data)
 	end
 	
-	
-	lib:SetOrigin( origin )
-	
+	lib:SetOrigin(origin)
 	return lib
+end
+
+
+
+function UnpackFullLFD(lib)
+	local origin = lib:GetOrigin()
+	local fh = assert(io.open(origin:GetFullPath(), "rb"))
 	
+	if not fh then
+		return
+	end
+	
+	local root = lib:GetRoot()
+	local num = root:GetChildrenCount()
+	
+	for i = 0, num - 1 do
+		item = root:GetChild(i)
+		
+		if item then
+			UnpackItemLFD(fh, 'D:/Test', item)
+		end
+	end
+end
+
+
+
+function UnpackItemLFD(fh, outPath, item)
+	local newName = outPath..'/'..item:GetText()
+	local outFile = assert(io.open(newName, "w+b"))
+	local data = item:GetData()
+	fh:seek("set", data:get_mLibFileOffset())
+	--print (data.mLibDataOffset)
+	extractFromFileToFile(fh, outFile, data:get_mLibDataSize())
+	outFile:close()
 end

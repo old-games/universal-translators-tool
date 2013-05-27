@@ -156,4 +156,20 @@ void PullStringArguments( wxArrayString& res, lua_State* L /* NULL */)
 	}
 }
 
+
+
+bool HasModuleFunction(const wxString& func)
+{
+	bool result = false;
+	
+	if ( !Lua::Get().call( "hasModuleCommand", func.ToStdString() ) || 
+		!OOLUA::pull2cpp( Lua::Get(), result ) )
+	{
+		wxLogError("HasModuleFunction: error occured");
+		Lua::ShowLastError();
+	}
+	
+	return result;
+}
+
 } // namespace Helpers

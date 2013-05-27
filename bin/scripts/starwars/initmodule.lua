@@ -3,7 +3,7 @@ require 'starwars/tie'
 local ModuleName = 'starwars'
 local Starwars = {}
 
-local gameVersions = { "X-Wing'95", "TIE Fighter'95" }
+local gameVersions = { "X-Wing-95", "TIE Fighter-95" }
 
 local MenuCommands = { ["Change palette"] = ChangePalette }
 
@@ -57,10 +57,12 @@ end
 
 
 
-function Starwars.ImportFont()
-	local fileName = openFileDialog("Font file (*.FNT)|*.fnt")
+function Starwars.ImportFont(fileName)
+	if not fileName then
+		fileName = openFileDialog("Font file (*.FNT)|*.fnt")
+	end
 	
-	if fileName ~= nil then
+	if fileName then
 		local font = LoadStarwarsFont( fileName )
 		if font ~= nil then
 			editFont(font)
@@ -70,10 +72,12 @@ end
 
 
 
-function Starwars.ImportImage()
-	local fileName = openFileDialog("Image Files (*.IMG)|*.img")
+function Starwars.ImportImage(fileName)
+	if not fileName then
+		fileName = openFileDialog("Image Files (*.IMG)|*.img")
+	end	
 	
-	if fileName ~= nil then
+	if fileName then
 		local image = LoadStarwarsImage( fileName )
 		
 		if image then
@@ -84,10 +88,12 @@ end
 
 
 
-function Starwars.ImportLibrary()
-	local fileName = openFileDialog("LFD Files (*.LFD)|*.lfd")
+function Starwars.ImportLibrary(fileName)
+	if not fileName then
+		fileName = openFileDialog("LFD Files (*.LFD)|*.lfd")
+	end
 	
-	if fileName ~= nil then
+	if fileName then
 		local lib = LoadLFD( fileName )
 		
 		if lib then
@@ -104,6 +110,32 @@ function Starwars.executeModuleMenuCommand( command, editorId )
 end
 
 
+
+function Starwars.libExtractFolders(lib, items)
+	local root = lib:GetRoot()
+	local origin = lib:GetOrigin()
+	
+	for i = 1, #items do
+	
+		if items[i] == root then
+			UnpackFullLFD(lib)
+		end
+	end
+end
+
+
+
+function Starwars.libReplaceFolder(lib, items)
+end
+
+function Starwars.libExtractFiles(lib, items)
+end
+
+function Starwars.libReplaceFiles(lib, items)
+end
+
+function Starwars.libItemRuntimeEdit(lib, items)
+end
 
 
 print "Starwars module loaded"

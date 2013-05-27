@@ -108,7 +108,36 @@ end
 
 
 
+function extractFromFileToFile(srcFile, outFile, size)
+	while size > 0 do
+		local bufSize = 64000
+		
+		if bufSize > size then
+			bufSize = size
+		end
+		
+		local data = srcFile:read( bufSize )
+		outFile:write(data)
+		size = size - bufSize
+	end
+end
+
+
+
 --- functions to read strict data structures
+
+
+
+-- this funtion returns string without terminating nulls
+function cropZeroes(txt)
+	local zeroPos = string.find(txt, '\0')
+
+	if zeroPos then
+		return string.sub(txt, 1, zeroPos - 1)
+	end
+	
+	return txt
+end
 
 
 
@@ -249,8 +278,5 @@ function getDataSize( dataTable )
 end
 
 
-
-function createSolidData( file, dataTable )
-end
 
 

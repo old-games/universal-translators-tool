@@ -50,6 +50,11 @@ const Origin* IInfo::GetOrigin() const
 
 
 
+EditorType IInfo::GetEditorType() const
+{
+	return mEdType;
+}
+
 
 
 /* virtual */ bool IInfo::SaveState( wxOutputStream& output )

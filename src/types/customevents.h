@@ -15,7 +15,6 @@
 class CommonEvent;
 class ColourPickEvent;
 class ChangeInfoEvent;
-//class ChangeImageEvent;
 class ChangePaletteEvent;
 class SymbolSelectionEvent;
 class EditorRebuildDataEvent;
@@ -27,11 +26,12 @@ class IEditor;
 wxDECLARE_EVENT( uttEVT_COMMON, CommonEvent );
 wxDECLARE_EVENT( uttEVT_COLOURPICK, ColourPickEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEINFO, ChangeInfoEvent );
-//wxDECLARE_EVENT( uttEVT_CHANGEIMAGE, ChangeImageEvent );
 wxDECLARE_EVENT( uttEVT_CHANGEPALETTE, ChangePaletteEvent );
 wxDECLARE_EVENT( uttEVT_SYMBOLSELECT, SymbolSelectionEvent );
 wxDECLARE_EVENT( uttEVT_REBUILDDATA, EditorRebuildDataEvent );
 wxDECLARE_EVENT( uttEVT_ADDAUIWINDOW, AUIWindowEvent );
+
+
 
 //////////////////////////////////////////////////////////////////////////
 

@@ -26,8 +26,8 @@ typedef LibItemsMap::iterator ItemsMapIterator;
 typedef LibItemsMap::const_iterator ConstItemsMapItr;
 
 
-// this class to hold item id in wxTreeCtrl
-class wxLibTreeData: public wxTreeItemData
+// this class to hold item id in wxTreeListCtrl
+class wxLibTreeData: public wxClientData
 {
 public:
 	wxLibTreeData(): mLibId( LIBITEM_BADID ) {}
@@ -68,8 +68,17 @@ public:
 
 	bool			IsOk() const { return mIsOk; }
 	LibItemId		GetId() const { return mID; }
-	wxString		GetText() const { return mText; }
+	const wxString&	GetText() const { return mText; }
+	std::string		LuaGetText() const { return mText.ToStdString(); }
 	LibItemData*	GetData() const { return mData; }
+	size_t			GetChildrenCount() const { return mChildren.size(); }
+	bool			HasChildren() const { return mChildren.size() > 0; }
+	
+	LibItem*		GetChild(size_t n) const 
+	{
+		return n < mChildren.size() ? mChildren[n] : NULL;
+	}
+	
 	inline ItemsArrayIterator	GetChildrenBegin() { return mChildren.begin(); }
 	inline ItemsArrayIterator	GetChildrenEnd() { return mChildren.end(); }
 	

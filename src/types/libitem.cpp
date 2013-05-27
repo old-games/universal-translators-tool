@@ -134,11 +134,8 @@ LibItem* LibItem::AddChild()
 
 void LibItem::ClearData()
 {
-	if (mData)
-	{
-		delete mData;
-		mData = NULL;
-	}
+	delete mData;
+	mData = NULL;
 }
 
 
@@ -147,6 +144,7 @@ void LibItem::SetData( LibItemData* data )
 {
 	ClearData();
 	mData = data;
+	mData->mDataOwner = mID;
 }
 
 

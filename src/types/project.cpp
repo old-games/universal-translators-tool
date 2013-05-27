@@ -43,7 +43,7 @@ Project::Project():
 }
 
 
-	
+
 Project::Project( const Project& other ):
 	IStateStore(),
 	mChanged( other.mChanged ),
@@ -250,17 +250,7 @@ void Project::RemoveEditor( IEditor* editor )
 bool Project::IsAllowed( IECommands what, EditorType who )
 {
 	wxString command = GetFunctionName(what, who);
-
-	bool result = false;
-
-	if ( !Lua::Get().call( "hasModuleCommand", command.ToStdString() ) || 
-		!OOLUA::pull2cpp( Lua::Get(), result ) )
-	{
-		wxLogError("Project::IsAllowed: error occured");
-		Lua::ShowLastError();
-	}
-
-	return result;
+	return Helpers::HasModuleFunction(command);
 }
 
 

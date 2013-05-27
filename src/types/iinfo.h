@@ -25,7 +25,7 @@ public:
 	void SetOrigin( const Origin* origin );
 	const Origin* GetOrigin() const;
 
-	EditorType GetEditorType() const { return mEdType; }
+	EditorType GetEditorType() const;
 protected:
 
 	virtual bool SaveState( wxOutputStream& output );

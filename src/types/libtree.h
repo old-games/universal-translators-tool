@@ -25,13 +25,13 @@ public:
 	LibTree* Clone() { return new LibTree(*this); }
 	void DeleteItems();
 
-	LibItem*		AddItem( LibItem* parent = NULL );
-	LibItemId		AddItem( LibItemId parentId = LIBITEM_ROOTID );
+	LibItem*	AddItem( LibItem* parent = NULL );
+	LibItemId	AddItem( LibItemId parentId = LIBITEM_ROOTID );
 	
-	LibItem*		FindItem( LibItemId itemId ) const;
-	LibItem*		GetRoot() const { return mRoot; }
+	LibItem*	FindItem( LibItemId itemId ) const;
+	LibItem*	GetRoot() const { return mRoot; }
 
-	void			AssignTreeCtrl( wxTreeCtrl* tree );
+	void		AssignTreeCtrl( wxTreeCtrl* tree );
 
 protected:
 
@@ -40,9 +40,9 @@ protected:
 
 private:
 
-	LibItem*			mRoot;
-	LibItemsMap			mAllItems;
-	wxTreeCtrl*			mAssignedTree;
+	LibItem*		mRoot;
+	LibItemsMap		mAllItems;
+	wxTreeCtrl*		mAssignedTree;
 };
 
 #endif // LIBTREE_H_INCLUDED

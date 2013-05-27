@@ -15,8 +15,7 @@
 
 #include "gui/selmoduleimpl.h"
 
-
-int reboot( lua_State* )
+/** Lua Only * Включает флаг перезагрузки виртуальной машины Lua */int reboot( lua_State* )
 {
 	Lua::SetRebootFlag();
 	return 0;
@@ -88,7 +87,7 @@ int selectSomething(lua_State *L, const wxString& title = wxEmptyString)
 	}
 
 	SelectModuleImpl dlg(NULL);
-	
+
 	if (!title.IsEmpty())
 	{
 		dlg.SetTitle( title );
@@ -170,10 +169,7 @@ int setModuleReady(lua_State* L)
 	wxTheApp->QueueEvent( event.Clone() );
 	return 0;
 }
-
-
-
-int createCommonEvent(lua_State* L, CommonEvent::CommoneEventOperation op)
+/// Внутренняя функция, используется при изменении параметров проекта.int createCommonEvent(lua_State* L, CommonEvent::CommoneEventOperation op)
 {
 	CommonEvent event(op);
 	wxArrayString values;
@@ -185,22 +181,22 @@ int createCommonEvent(lua_State* L, CommonEvent::CommoneEventOperation op)
 	return 0;
 }
 
-
-
+
+/**\brief From LuaVM: setProjectName(string, string)Создаёт событие, об изменении имени и рабочего пути проекта.\param string - имя проекта\param string - каталог проекта\return nil*/
 int setProjectName(lua_State* L)
 {
 	return createCommonEvent(L, CommonEvent::ceSetProjectName);
 }
 
-
-
+
+/**\brief From LuaVM: setProjectPath(string, string)Создаёт событие, об изменении пути к игре и последнего активного каталога в каком-либо диалоге.\param string - путь к игре\param string - путь, который будет использоваться каким-либо диалогом.\return nil*/
 int setProjectPath(lua_State* L)
 {
 	return createCommonEvent(L, CommonEvent::ceSetProjectPath);
 }
 
-
-
+
+/**\brief From LuaVM: setProjectModule(string, string)Создаёт событие, об изменении модуля и версии модуля.\param string - имя модуля (определено в initmodule.lua: local ModuleName)\param string - версия игры\return nil*/
 int setProjectModule(lua_State* L)
 {
 	return createCommonEvent(L, CommonEvent::ceSetProjectModule);
@@ -253,7 +249,7 @@ int getStrChar(lua_State *L)
 		{ \
 			wxLogError(#x": function need a buffer as argument"); \
 			return 0;	\
-		} 
+		}
 #else
 	#define CHECK_STR_TO_(x)
 #endif
@@ -334,7 +330,7 @@ int swap64(lua_State *L)
 //////////////////////////////////////////////////////////////////////////
 
 
-//	on entry:	buffer source, first position, second position, quantity of bytes 
+//	on entry:	buffer source, first position, second position, quantity of bytes
 //				to swap
 int swapStringBytes(lua_State *L)
 {
@@ -342,7 +338,7 @@ int swapStringBytes(lua_State *L)
 	int pos1 = 0;
 	int pos2 = 0;
 	int quantity = 0;
-	
+
 	if (!OOLUA::pull2cpp( L, quantity ) ||
 		!OOLUA::pull2cpp( L, pos2 ) ||
 		!OOLUA::pull2cpp( L, pos1 ) ||
@@ -351,12 +347,12 @@ int swapStringBytes(lua_State *L)
 		wxLogError("swapStringBytes: function need arguments (string, position 1, position 2, quantity");
 		return 0;
 	}
-	
+
 	std::string result( src.c_str(), src.length() );
-	
+
 	int pos1count = pos1;
 	int pos2count = pos2;
-	
+
 	for (int i = 0; i < quantity; ++i)
 	{
 		result[pos1count] = src[pos2count];
@@ -375,7 +371,7 @@ int swapStringBytes(lua_State *L)
 
 
 
-// Lua's string.sub can't iterate through buffer with zero character 
+// Lua's string.sub can't iterate through buffer with zero character
 // this function is to avoid it
 // extractBuffer( string, from, to = length of string )
 
@@ -427,7 +423,7 @@ int swapStringBytes(lua_State *L)
 int messageBox(lua_State *L)
 {
 	std::string s;
-	
+
 	if (OOLUA::pull2cpp( L, s ))
 	{
 		wxMessageBox( s, "Module information" );
@@ -465,7 +461,7 @@ void CommonRegister()
 
 	// creates event about changed module
 	LUA_REG_C_FUNCTION( setModuleReady );
-	
+
 	// creates event to set project's parameters
 	LUA_REG_C_FUNCTION( setProjectName );
 	LUA_REG_C_FUNCTION( setProjectModule );
@@ -489,16 +485,16 @@ void CommonRegister()
 	LUA_REG_C_FUNCTION( swap16 );
 	LUA_REG_C_FUNCTION( swap32 );
 	LUA_REG_C_FUNCTION( swap64 );
-	
+
 	// swap bytes in buffer
 	LUA_REG_C_FUNCTION( swapStringBytes );
 
 	//LUA_REG_C_FUNCTION( extractBuffer );
-	
+
 	// calls MessageBox to show important messages to user
 	LUA_REG_C_FUNCTION( messageBox );
 
-	// calls wxFileDialog 
+	// calls wxFileDialog
 	LUA_REG_C_FUNCTION( openFileDialog );
 	LUA_REG_C_FUNCTION( saveFileDialog );
 
@@ -513,4 +509,4 @@ void CommonRegister()
 
 
 
-EXPORT_OOLUA_NO_FUNCTIONS( BusyCursor )
+EXPORT_OOLUA_NO_FUNCTIONS( BusyCursor )

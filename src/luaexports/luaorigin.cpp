@@ -21,7 +21,7 @@ namespace Lua
 		LUA_REG_CLASS(Origin);
 	}
 
-}   // namespace Lua
+}	// namespace Lua
 
 
 
@@ -31,6 +31,6 @@ namespace Lua
 ///
 EXPORT_OOLUA_FUNCTIONS_0_NON_CONST( Origin )
 
-EXPORT_OOLUA_FUNCTIONS_0_CONST( Origin )
+EXPORT_OOLUA_FUNCTIONS_1_CONST( Origin, GetFullPath )
 
 

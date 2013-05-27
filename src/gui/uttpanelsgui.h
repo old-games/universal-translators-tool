@@ -25,7 +25,7 @@
 #include <wx/checkbox.h>
 #include <wx/stattext.h>
 #include <wx/choice.h>
-#include <wx/treectrl.h>
+#include <wx/treelist.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -114,11 +114,7 @@ class LibraryGui : public wxPanel
 	
 	protected:
 		wxScrolledWindow* mLibScrolledBack;
-		wxTreeCtrl* mLibTree;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void OnTreeItemMenu( wxTreeEvent& event ) { event.Skip(); }
-		
+		wxTreeListCtrl* mLibTree;
 	
 	public:
 		

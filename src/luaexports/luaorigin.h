@@ -23,7 +23,8 @@ namespace Lua
 OOLUA_CLASS_NO_BASES( Origin )
 //	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
 	OOLUA_CONSTRUCTORS_BEGIN 
-	OOLUA_CONSTRUCTOR(Origin::OriginEnum, const char*)
+	OOLUA_CONSTRUCTOR(const char*)
+	OOLUA_CONSTRUCTOR(Origin*, wxFileOffset, wxFileOffset)
 	OOLUA_CONSTRUCTORS_END
 
 	OOLUA_TYPEDEFS Register_class_enums OOLUA_END_TYPES
@@ -35,6 +36,9 @@ OOLUA_CLASS_NO_BASES( Origin )
 		OOLUA_ENUM_ENTRY(FromLibrary)
 		OOLUA_ENUM_ENTRY(MaxOrigins)
 	OOLUA_ENUMS_END
+	
+	// const std::string& GetFullPath()
+	OOLUA_MEM_FUNC_0_CONST_RENAME( GetFullPath, std::string, LuaGetFullPath )
 
 
 OOLUA_CLASS_END

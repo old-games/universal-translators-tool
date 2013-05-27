@@ -62,7 +62,7 @@ LibItem* LibTree::AddItem( LibItem* parent /* NULL */ )
 	{
 		parent = mRoot;
 	}
-	
+
 	LibItem* result = parent->AddChild();
 
 	if (result)

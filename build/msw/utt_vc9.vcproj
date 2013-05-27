@@ -460,6 +460,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="starwars"
+				>
+				<File
+					RelativePath="..\..\bin\scripts\starwars\initmodule.lua"
+					>
+				</File>
+				<File
+					RelativePath="..\..\bin\scripts\starwars\tie.lua"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="luaexports"

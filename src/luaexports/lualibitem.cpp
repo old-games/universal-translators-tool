@@ -50,5 +50,6 @@ EXPORT_OOLUA_FUNCTIONS_3_CONST(LibItemData,
 ///
 EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( LibItem, SetData, SetText )
 
-EXPORT_OOLUA_FUNCTIONS_1_CONST( LibItem, IsOk )
+EXPORT_OOLUA_FUNCTIONS_6_CONST( LibItem, IsOk, GetId, GetData, GetText,
+	GetChildrenCount, GetChild )
 
