@@ -15,7 +15,14 @@
 
 #include "gui/selmoduleimpl.h"
 
-/** Lua Only * Включает флаг перезагрузки виртуальной машины Lua */int reboot( lua_State* )
+
+
+/**
+\brief From LuaVM: reboot()
+Включает флаг перезагрузки виртуальной машины Lua::SetRebootFlag()
+\return nil
+*/
+int reboot( lua_State* )
 {
 	Lua::SetRebootFlag();
 	return 0;
@@ -23,6 +30,12 @@
 
 
 
+/**
+\brief From LuaVM: writeToStdCout(...)
+Запись строк в std::cout.
+\param string, string, string ... строки в любом количестве
+\return nil
+*/
 int writeToStdCout(lua_State *L)
 {
 	int n = lua_gettop(L);
@@ -35,6 +48,12 @@ int writeToStdCout(lua_State *L)
 
 
 
+/**
+\brief From LuaVM: writeToLog(...)
+Запись строк в лог.
+\param string, string, string ... строки в любом количестве
+\return nil
+*/
 int writeToLog(lua_State *L)
 {
 	int n = lua_gettop(L);
@@ -47,6 +66,12 @@ int writeToLog(lua_State *L)
 
 
 
+/**
+\brief From LuaVM: parseFileName(string)
+Функция разделяет имя файла на составные части.
+\param string - полное имя файла
+\return string, string, string - путь, имя, расширение
+*/
 int parseFileName(lua_State *L)
 {
 	int n = lua_gettop(L);
@@ -70,6 +95,7 @@ int parseFileName(lua_State *L)
 
 
 
+/// \brief Внутренняя функция, считывает из стека LuaVM массив строк и предлагает выбрать одну из них.
 int selectSomething(lua_State *L, const wxString& title = wxEmptyString)
 {
 	if (lua_gettop(L) != 1)
@@ -107,6 +133,12 @@ int selectSomething(lua_State *L, const wxString& title = wxEmptyString)
 
 
 
+/**
+\brief From LuaVM: selectModuleDialog(string[])
+Открывает диалог выбора модуля игры.
+\param string[] - массив строк - названий модулей
+\return string - выбранный модуль или пустую строку, если пользователь отменил действие.
+*/
 int selectModuleDialog(lua_State *L)
 {
 	return selectSomething( L );
@@ -114,6 +146,12 @@ int selectModuleDialog(lua_State *L)
 
 
 
+/**
+\brief From LuaVM: selectVersionDialog(string[])
+Открывает диалог выбора версии игры.
+\param string[] - массив строк - версий игры
+\return string - выбранную версию или пустую строку, если пользователь отменил действие.
+*/
 int selectVersionDialog(lua_State *L)
 {
 	return selectSomething( L, "Select game version" );
@@ -121,10 +159,17 @@ int selectVersionDialog(lua_State *L)
 
 
 
+/**
+\brief From LuaVM: saveFileDialog(string = "Any file (*.*)|*.*")
+Открывает диалог выбора файла для записи.
+\param string - список расширений формата
+\return string - полный путь к файлу или nil, если пользователь отменил действие
+*/
 int selectFromList(lua_State *L)
 {
 	return selectSomething( L, "Select" );
 }
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -142,6 +187,13 @@ int selectFromList(lua_State *L)
 	return 1;\
 
 
+
+/**
+\brief From LuaVM: openFileDialog(string = "Any file (*.*)|*.*")
+Открывает диалог выбора файла для чтения.
+\param string - список расширений формата
+\return string - полный путь к файлу или nil, если пользователь отменил действие
+*/
 int openFileDialog(lua_State *L)
 {
 	FILEDIALOG_BODY("Open file...", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
@@ -149,6 +201,12 @@ int openFileDialog(lua_State *L)
 
 
 
+/**
+\brief From LuaVM: saveFileDialog(string = "Any file (*.*)|*.*")
+Открывает диалог выбора файла для записи.
+\param string - список расширений формата
+\return string - полный путь к файлу или nil, если пользователь отменил действие
+*/
 int saveFileDialog(lua_State *L)
 {
 	FILEDIALOG_BODY("Save file...", wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
@@ -162,6 +220,11 @@ int saveFileDialog(lua_State *L)
 
 
 
+/**
+\brief From LuaVM: setModuleReady()
+Создаёт событие, об завершении инициации модуля.
+\return nil
+*/
 int setModuleReady(lua_State* L)
 {
 	L; // to remove warning of unused variable
@@ -169,7 +232,10 @@ int setModuleReady(lua_State* L)
 	wxTheApp->QueueEvent( event.Clone() );
 	return 0;
 }
-/// Внутренняя функция, используется при изменении параметров проекта.int createCommonEvent(lua_State* L, CommonEvent::CommoneEventOperation op)
+
+
+/// Внутренняя функция, используется при изменении параметров проекта.
+int createCommonEvent(lua_State* L, CommonEvent::CommoneEventOperation op)
 {
 	CommonEvent event(op);
 	wxArrayString values;
@@ -181,22 +247,43 @@ int setModuleReady(lua_State* L)
 	return 0;
 }
 
-
-/**\brief From LuaVM: setProjectName(string, string)Создаёт событие, об изменении имени и рабочего пути проекта.\param string - имя проекта\param string - каталог проекта\return nil*/
+
+
+/**
+\brief From LuaVM: setProjectName(string, string)
+Создаёт событие, об изменении имени и рабочего пути проекта.
+\param string - имя проекта
+\param string - каталог проекта
+\return nil
+*/
 int setProjectName(lua_State* L)
 {
 	return createCommonEvent(L, CommonEvent::ceSetProjectName);
 }
 
-
-/**\brief From LuaVM: setProjectPath(string, string)Создаёт событие, об изменении пути к игре и последнего активного каталога в каком-либо диалоге.\param string - путь к игре\param string - путь, который будет использоваться каким-либо диалогом.\return nil*/
+
+
+/**
+\brief From LuaVM: setProjectPath(string, string)
+Создаёт событие, об изменении пути к игре и последнего активного каталога в каком-либо диалоге.
+\param string - путь к игре
+\param string - путь, который будет использоваться каким-либо диалогом.
+\return nil
+*/
 int setProjectPath(lua_State* L)
 {
 	return createCommonEvent(L, CommonEvent::ceSetProjectPath);
 }
 
-
-/**\brief From LuaVM: setProjectModule(string, string)Создаёт событие, об изменении модуля и версии модуля.\param string - имя модуля (определено в initmodule.lua: local ModuleName)\param string - версия игры\return nil*/
+
+
+/**
+\brief From LuaVM: setProjectModule(string, string)
+Создаёт событие, об изменении модуля и версии модуля.
+\param string - имя модуля (определено в initmodule.lua: local ModuleName)
+\param string - версия игры
+\return nil
+*/
 int setProjectModule(lua_State* L)
 {
 	return createCommonEvent(L, CommonEvent::ceSetProjectModule);
@@ -219,6 +306,13 @@ int setProjectModule(lua_State* L)
 
 
 
+/**
+\brief From LuaVM: getStrInt(string, int)
+Функция возвращает байт строки.
+\param string - строка(буфер)
+\param int - смещение [0..#string) (C style)
+\return unsigned char (Lua's int)
+*/
 int getStrInt(lua_State *L)
 {
 	GET_BUFNINDEX(getStrInt)
@@ -228,6 +322,13 @@ int getStrInt(lua_State *L)
 
 
 
+/**
+\brief From LuaVM: getStrChar(string, int)
+Функция возвращает символ строки.
+\param string - строка(буфер)
+\param int - смещение [0..#string) (C style)
+\return string
+*/
 int getStrChar(lua_State *L)
 {
 	GET_BUFNINDEX(getStrChar)
@@ -260,6 +361,15 @@ int getStrChar(lua_State *L)
 	lua_pop(L, 1); \
 	if (!buf) { return 0; }
 
+
+
+/**
+\brief From LuaVM: strToChar(string), strToShort(string), strToInt(string)
+Функция возвращает целочисленное значение со знаком из буфера.
+Для ускорения выполнения функция делает минимальную проверку на корректность буфера.
+\param string - строка - буфер двоичных данных
+\return int, но не более стандартных размеров для char, short и int
+*/
 template<typename T>
 int strToSigned(lua_State *L)
 {
@@ -269,6 +379,14 @@ int strToSigned(lua_State *L)
 }
 
 
+
+/**
+\brief From LuaVM: strToByte(string), strToWord(string), strToUint(string)
+Функция возвращает целочисленное значение без знака из буфера.
+Для ускорения выполнения функция делает минимальную проверку на корректность буфера.
+\param string - строка - буфер двоичных данных
+\return int, но не более стандартных размеров для unsigned: char, short и int
+*/
 template<typename T>
 int strToUnsigned(lua_State *L)
 {
@@ -286,6 +404,12 @@ int strToUnsigned(lua_State *L)
 
 
 
+/**
+\brief From LuaVM: swap16(int)
+Функция меняет порядок байтов в shortint
+\param int - целое число 16bit
+\return int
+*/
 int swap16(lua_State *L)
 {
 	wxUint16 value;
@@ -300,6 +424,13 @@ int swap16(lua_State *L)
 
 
 
+
+/**
+\brief From LuaVM: swap32(int)
+Функция меняет порядок байтов в int
+\param int - целое число 32bit
+\return int
+*/
 int swap32(lua_State *L)
 {
 	wxUint32 value;
@@ -313,6 +444,13 @@ int swap32(lua_State *L)
 }
 
 
+
+/**
+\brief From LuaVM: swap64(int)
+Функция меняет порядок байтов в shortint
+\param int - целое число 64bit
+\return int
+*/
 int swap64(lua_State *L)
 {
 	wxUint64 value;
@@ -330,8 +468,17 @@ int swap64(lua_State *L)
 //////////////////////////////////////////////////////////////////////////
 
 
-//	on entry:	buffer source, first position, second position, quantity of bytes
-//				to swap
+
+/**
+\brief From LuaVM: swapStringBytes(string srcBuffer, int position1, int position2, int quantity)
+Функция меняет местами байты в буфере
+Пример использования можно видеть в tie.lua - LoadStarwarsFont
+\param string - входящий буфер (не изменяется в процессе выполнения)
+\param int - первая позиция в буфере
+\param int - вторая позиция в буфере
+\param int - количество байт для изменения
+\return string - изменённый буфер
+*/
 int swapStringBytes(lua_State *L)
 {
 	std::string	src;
@@ -419,7 +566,12 @@ int swapStringBytes(lua_State *L)
 
 
 
-
+/**
+\brief From LuaVM: messageBox(string)
+Функция вызывает wxMessageBox, показывает любое сообщение пользователю.
+\param string - информация для пользователя
+\return nil
+*/
 int messageBox(lua_State *L)
 {
 	std::string s;
@@ -509,4 +661,4 @@ void CommonRegister()
 
 
 
-EXPORT_OOLUA_NO_FUNCTIONS( BusyCursor )
+EXPORT_OOLUA_NO_FUNCTIONS( BusyCursor )

@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.4"/>
+<title>Universal Translators&#39; Tool: Исходный файл src/types/project.h</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Universal Translators&#39; Tool
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.4 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="../../namespaces.html"><span>Пространства&#160;имен</span></a></li>
+      <li><a href="../../annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>Файлы</span></a></li>
+      <li><a href="../../globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_0c0c9fa8a58db41e576adc3ce68c5ee9.html">types</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">project.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dc/d8d/project_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/***************************************************************</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Name:      project.h</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Purpose:   declaration of Project container class</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Created:   2012-12-12</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * Copyright: Pavlovets Ilia</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * License:</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> **************************************************************/</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef PROJECT_H_INCLUDED</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define PROJECT_H_INCLUDED</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d5/ded/istatestore_8h.html">istatestore.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/d7b/ieditor_8h.html">types/ieditor.h</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19">   17</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19">IECommands</a></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19aeebaa6d10178d55da9a27472c83de25b">   19</a></span>&#160;    <a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19aeebaa6d10178d55da9a27472c83de25b">iecImport</a>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19ac32b9ae2adacd91a16ab66d10c248930">   20</a></span>&#160;    <a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19ac32b9ae2adacd91a16ab66d10c248930">iecExport</a>,</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19acc993776316fdfd3171fcb754c1e6386">   21</a></span>&#160;    <a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19acc993776316fdfd3171fcb754c1e6386">iecNum</a></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;};</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> wxString <a class="code" href="../../df/d18/project_8cpp.html#a9a4922112fe3a29a26efe742ba5dc796">sCommandNames</a>[<a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19acc993776316fdfd3171fcb754c1e6386">iecNum</a>];</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="code" href="../../d9/d6e/class_project.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d6e/class_project.html">Project</a>: <span class="keyword">public</span> <a class="code" href="../../df/dfd/class_i_state_store.html">IStateStore</a></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="../../d9/d6e/class_project.html#aa007ecd17d5bc800e7a956cf666eea21">Project</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="../../d9/d6e/class_project.html#aa007ecd17d5bc800e7a956cf666eea21">Project::Project</a>( <span class="keyword">const</span> <a class="code" href="../../d9/d6e/class_project.html">Project</a>&amp; other );</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="../../d9/d6e/class_project.html#ad165d61b76ee86ee9c27fd987a2a7b9e">~Project</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="../../d9/d6e/class_project.html#a5e83c9682f4d12b42aca050c019bc62c">   36</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#a5e83c9682f4d12b42aca050c019bc62c">IsChanged</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mChanged; }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#a86d0f4039a140f334c262c7e136fe70b">CheckChanged</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#a8feffb913d5c64f2adf521eaac469caa">CreateProject</a>( <span class="keyword">const</span> wxString&amp; fullPath, <span class="keyword">const</span> wxString&amp; gamePath, <span class="keyword">const</span> wxString&amp; module, <span class="keyword">const</span> wxString&amp; version );</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#acd59e27d712bf5948ef61235620977e6">SaveProject</a>( <span class="keyword">const</span> wxString&amp; saveAs = wxEmptyString );</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#a627f33d42e01798f73e4903ac749a401">LoadProject</a>( <span class="keyword">const</span> wxString&amp; fullPath );</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d9/d6e/class_project.html#a4da7e1c72f7fa63590699b0e4db209dc">ReparentEditorWindows</a>( wxWindow* wnd );</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d9/d6e/class_project.html#a1546712cf26697c77bdb8b93f956761c">CloseProject</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d9/d6e/class_project.html#a4e77a3f0c3b9fd55bc84b32fcf0ba332">RemoveEditor</a>( <a class="code" href="../../d0/dac/class_i_editor.html">IEditor</a>* editor );</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="code" href="../../d9/d6e/class_project.html#a2037dc1cf4b0bce1f871501a5031e967">   49</a></span>&#160;    <span class="keyword">const</span> wxString&amp; <a class="code" href="../../d9/d6e/class_project.html#a2037dc1cf4b0bce1f871501a5031e967">GetProjectFileName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mProjectFileName; }</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="code" href="../../d9/d6e/class_project.html#a82be88cf3836a29daecb41e8ccec1587">   50</a></span>&#160;    <span class="keyword">const</span> wxString&amp; <a class="code" href="../../d9/d6e/class_project.html#a82be88cf3836a29daecb41e8ccec1587">GetName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mProjectName; }</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="../../d9/d6e/class_project.html#a9cc739828a7fc130dc9055565f186195">   51</a></span>&#160;    <span class="keyword">const</span> wxString&amp; <a class="code" href="../../d9/d6e/class_project.html#a9cc739828a7fc130dc9055565f186195">GetPerspective</a>( )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mPerspective; }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#a935e9b83ff4400fc6fa76ce06ce91bd4">SetActiveModule</a>();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#a935e9b83ff4400fc6fa76ce06ce91bd4">SetActiveModule</a>( <span class="keyword">const</span> wxString&amp; module, <span class="keyword">const</span> wxString&amp; version );</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="../../d9/d6e/class_project.html#a5484627408167627ead75ac8d0b4f5d4">   55</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d9/d6e/class_project.html#a5484627408167627ead75ac8d0b4f5d4">SetPerspective</a>( <span class="keyword">const</span> wxString&amp; perspective ) { mPerspective = perspective; }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#ab4d564e5aa8d2680aeba52f71a09a9dc">IsAllowed</a>( <a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19">IECommands</a> what, <a class="code" href="../../df/d68/uttypes_8h.html#a73cc7416abdce947608adf880c7900af">EditorType</a> who );</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#a6b95f1f1c9274c0f5edf59b487dd9cea">Do</a>( <a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19">IECommands</a> what, <a class="code" href="../../df/d68/uttypes_8h.html#a73cc7416abdce947608adf880c7900af">EditorType</a> who );</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="../../d9/d6e/class_project.html#ab03a51a69798096c152f2118041e4354">   60</a></span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d6e/class_project.html#ab03a51a69798096c152f2118041e4354">GetEditorsNum</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mEditors.GetCount(); }</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="../../d9/d6e/class_project.html#a967ec273e33e90fcc3029e970eb99fa9">   61</a></span>&#160;    <a class="code" href="../../d0/dac/class_i_editor.html">IEditor</a>* <a class="code" href="../../d9/d6e/class_project.html#a967ec273e33e90fcc3029e970eb99fa9">GetEditor</a>( <span class="keywordtype">size_t</span> n )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mEditors[n]; }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../d0/dac/class_i_editor.html">IEditor</a>* <a class="code" href="../../d9/d6e/class_project.html#a1999aaf5562d760c46e1095643a39b93">FindEditor</a>( wxWindow* wnd ) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#a79449eff1c6577e3075f206388677887">SaveState</a>( wxOutputStream&amp; output );</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6e/class_project.html#ae39b9bdc267ca8032b7270d5169b131e">LoadState</a>( wxInputStream&amp; input, <span class="keywordtype">int</span> version );</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d9/d6e/class_project.html#a6e13e2a10de502101b25ab1ca1ce92e2">OnCommonEvent</a>( <a class="code" href="../../dd/dd5/class_common_event.html">CommonEvent</a>&amp; event );</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d9/d6e/class_project.html#a1ae84284bc227960d9cb8ca8735a65bd">OnChangeInfoEvent</a>( <a class="code" href="../../da/dd1/class_change_info_event.html">ChangeInfoEvent</a>&amp; event );</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d9/d6e/class_project.html#ac6ef2e7836916dbc730818bb4c6ec625">OnEditorRebuildDataEvent</a>( <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html">EditorRebuildDataEvent</a>&amp; event );</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">void</span>            BindEvents();</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span>            CreateEditorAndSetIt( <a class="code" href="../../d6/de4/class_i_info.html">IInfo</a>* info );</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span>            CloseEditor( <a class="code" href="../../d0/dac/class_i_editor.html">IEditor</a>* editor, <span class="keywordtype">bool</span> update );</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span>            AddEditorWindow( <a class="code" href="../../d0/dac/class_i_editor.html">IEditor</a>* editor, <span class="keyword">const</span> wxString&amp; wndName, <span class="keywordtype">bool</span> update );</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span>            SendUpdateEvent();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span>            SendSetCaptionEvent( <a class="code" href="../../d0/dac/class_i_editor.html">IEditor</a>* editor );</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    wxString        GetFunctionName( <a class="code" href="../../dc/d8d/project_8h.html#a04ff2f5a47c7c1858aebf636b23e5f19">IECommands</a> what, <a class="code" href="../../df/d68/uttypes_8h.html#a73cc7416abdce947608adf880c7900af">EditorType</a> who );</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">bool</span>            SaveEditors( wxOutputStream&amp; output );</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span>            LoadEditors( wxInputStream&amp; input );</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span>            CheckPathDelimiters();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">bool</span>            mChanged;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    wxString        mProjectName;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    wxString        mModuleName;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    wxString        mModuleVersion;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    wxString        mLastDir;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    wxString        mGamePath;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    wxString        mProjectFileName;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    wxString        mPerspective;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    EditorsArray    mEditors;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">#endif // PROJECT_H_INCLUDED</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по Universal Translators' Tool. Последние изменения: Вт 28 Май 2013 22:52:56. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="../../doxygen.png" alt="doxygen"/>
+</a> 1.8.4
+</small></address>
+</body>
+</html>

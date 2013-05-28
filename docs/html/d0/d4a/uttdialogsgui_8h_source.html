@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.4"/>
+<title>Universal Translators&#39; Tool: Исходный файл src/gui/uttdialogsgui.h</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Universal Translators&#39; Tool
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.4 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="../../namespaces.html"><span>Пространства&#160;имен</span></a></li>
+      <li><a href="../../annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>Файлы</span></a></li>
+      <li><a href="../../globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_99d0482cf009f9d97a0877749b817f19.html">gui</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">uttdialogsgui.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d0/d4a/uttdialogsgui_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// C++ code generated with wxFormBuilder (version Oct  8 2012)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// http://www.wxformbuilder.org/</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// PLEASE DO &quot;NOT&quot; EDIT THIS FILE!</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifndef __UTTDIALOGSGUI_H__</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define __UTTDIALOGSGUI_H__</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;wx/artprov.h&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;wx/xrc/xmlres.h&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;wx/string.h&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;wx/stattext.h&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;wx/gdicmn.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;wx/font.h&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;wx/colour.h&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;wx/settings.h&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;wx/spinctrl.h&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;wx/button.h&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;wx/sizer.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;wx/scrolwin.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;wx/dialog.h&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;wx/textctrl.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;wx/statbox.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;wx/grid.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;wx/panel.h&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;wx/combobox.h&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;wx/filepicker.h&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a5cf07b22291f4ac523a876bf3fe9ff78">   33</a></span>&#160;<span class="preprocessor">#define wxID_FONT_SETTINGS_ID 1000</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#afc1eb22ee977ba52e5fe1b66c8906ad6">   34</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_NUM_SPIN_CTRL 1001</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#aec275b9bfb0065d2bbf27f312838fc91">   35</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_SET_CODES_BTN 1002</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a9a1967da57dc973da6de741493feb054">   36</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_MAX_WIDTH_SPIN 1003</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a60d53147ee9927f73b98a083c0b2506a">   37</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_MAX_HEIGHT_SPIN 1004</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a9662acc5723588cab1aacc734e15b77b">   38</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_MIN_WIDTH_SPIN 1005</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#af986100c7f7f47e96bfffc666b70659a">   39</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_MIN_HEIGHT_SPIN 1006</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#af68bf5871b109a39e3cce1be3322003f">   40</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_BASE_LINE_SPIN 1007</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a0c412d37cac74140f8e42f44de0e5050">   41</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_CAP_LINE_SPIN 1008</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a4c6be7b63b3d575afcff211e7f528697">   42</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_LOW_LINE_SPIN 1009</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#ab8bb939560c2a4e5826d6801469c6e02">   43</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_LETTER_CODES_ID 1010</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#aead5a220003da210dd82fb7df3f242fc">   44</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_GENERATE_CODES_BTN 1011</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#ac97f54a8a1e0a61601a2775b38d736b5">   45</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_GET_ENCODING_BTN 1012</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a898d836060c3b00244f41ea559873002">   46</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_CODES_GRID 1013</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a76547da8fbf92ec29a146469a140f1fd">   47</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_SELECT_MODULE_ID 1014</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#ada679a995c5304838cf32b657ab712c1">   48</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_CREATE_PROJECT_DLG 1015</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html">   53</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/d8b/class_font_settings_gui.html" title="Class FontSettingsGui. ">FontSettingsGui</a> : <span class="keyword">public</span> wxDialog </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#ae2709f68d9507faec67de71383d52574">   58</a></span>&#160;        wxScrolledWindow* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#ae2709f68d9507faec67de71383d52574">m_scrolledWindow1</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a1944e14f5baa813f0d2f6ff044f2c73b">   59</a></span>&#160;        wxStaticText* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a1944e14f5baa813f0d2f6ff044f2c73b">m_staticText1</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a4ffd68e9bb7013f4f09dfd455b21b2c5">   60</a></span>&#160;        wxSpinCtrl* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a4ffd68e9bb7013f4f09dfd455b21b2c5">mNumSpinCtrl</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#af2bc840259beb03e39cccf60148bfc4c">   61</a></span>&#160;        wxStaticText* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#af2bc840259beb03e39cccf60148bfc4c">m_staticText2</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#aa6926dc8acc0ba6f233be5758c422072">   62</a></span>&#160;        wxButton* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#aa6926dc8acc0ba6f233be5758c422072">mSetCodesBtn</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#ade1d06fe6e91a11fd392d876ea57f5ef">   63</a></span>&#160;        wxStaticText* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#ade1d06fe6e91a11fd392d876ea57f5ef">m_staticText5</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a643eced79ae30306df36937ab8106407">   64</a></span>&#160;        wxSpinCtrl* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a643eced79ae30306df36937ab8106407">mMaxWidthSpinCtrl</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a30b9c841aa3c64facfb76b1493b6a32c">   65</a></span>&#160;        wxStaticText* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a30b9c841aa3c64facfb76b1493b6a32c">m_staticText3</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#ad1df9c84b3c94c350d81b06354ca0c1b">   66</a></span>&#160;        wxSpinCtrl* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#ad1df9c84b3c94c350d81b06354ca0c1b">mMaxHeightSpinCtrl</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a433247c2f6bd2f3893faaa93c7cba778">   67</a></span>&#160;        wxStaticText* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a433247c2f6bd2f3893faaa93c7cba778">m_staticText6</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a5f18159eec6b036149a8981c4f6b7e91">   68</a></span>&#160;        wxSpinCtrl* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a5f18159eec6b036149a8981c4f6b7e91">mMinWidthSpinCtrl</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a0091441e72b8524bc702f2ed8a16568a">   69</a></span>&#160;        wxStaticText* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a0091441e72b8524bc702f2ed8a16568a">m_staticText4</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#ad1c7251cb1c9c10a95b495e194420886">   70</a></span>&#160;        wxSpinCtrl* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#ad1c7251cb1c9c10a95b495e194420886">mMinHeightSpinCtrl</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a8eaaca762625bedda68dda6f3a5c3f09">   71</a></span>&#160;        wxStaticText* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a8eaaca762625bedda68dda6f3a5c3f09">m_staticText8</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#ac0fb6ae0f9e9db1fd0c41a67750442d5">   72</a></span>&#160;        wxSpinCtrl* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#ac0fb6ae0f9e9db1fd0c41a67750442d5">mBaseLineSpinCtrl</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a90388fe529e8860dfa87cb26e0cd8814">   73</a></span>&#160;        wxStaticText* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a90388fe529e8860dfa87cb26e0cd8814">m_staticText9</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a1a172a526ca493ff1397ac5488eed6d7">   74</a></span>&#160;        wxSpinCtrl* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a1a172a526ca493ff1397ac5488eed6d7">mCapLineSpinCtrl</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a353d4a8abc60c28f65465bd4b7c22b18">   75</a></span>&#160;        wxStaticText* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a353d4a8abc60c28f65465bd4b7c22b18">m_staticText10</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a9a3390db278063e78d06de5df522cfce">   76</a></span>&#160;        wxSpinCtrl* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a9a3390db278063e78d06de5df522cfce">mLowLineSpinCtrl</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a228e75d1b962c91cbb77e0a477a5517a">   77</a></span>&#160;        wxButton* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a228e75d1b962c91cbb77e0a477a5517a">mOkBtn</a>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a5bcb584725683ceb50809645536a4873">   78</a></span>&#160;        wxButton* <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a5bcb584725683ceb50809645536a4873">mCancelBtn</a>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="comment">// Virtual event handlers, overide them in your derived class</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a456b19b7336eadf2d2964cc4222511a4">   81</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a456b19b7336eadf2d2964cc4222511a4">OnSpinCtrl</a>( wxSpinEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="code" href="../../d6/d8b/class_font_settings_gui.html#a8500fcf4b82621d5617189bcedb14503">   82</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a8500fcf4b82621d5617189bcedb14503">OnBtnClick</a>( wxCommandEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="../../d6/d8b/class_font_settings_gui.html#a4ba7907e3b203a497a4570390d95eaf2">FontSettingsGui</a>( wxWindow* parent, wxWindowID <span class="keywordtype">id</span> = <a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a5cf07b22291f4ac523a876bf3fe9ff78">wxID_FONT_SETTINGS_ID</a>, <span class="keyword">const</span> wxString&amp; title = wxT(<span class="stringliteral">&quot;Font settings&quot;</span>), <span class="keyword">const</span> wxPoint&amp; pos = wxDefaultPosition, <span class="keyword">const</span> wxSize&amp; size = wxSize( 290,363 ), <span class="keywordtype">long</span> style = wxCAPTION|wxCLOSE_BOX|wxSTAY_ON_TOP|wxSYSTEM_MENU ); </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="../../d6/d8b/class_font_settings_gui.html#ac13d959cf4f1a177fe70283212ac9e6e">~FontSettingsGui</a>();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html">   95</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/df9/class_letter_codes_gui.html" title="Class LetterCodesGui. ">LetterCodesGui</a> : <span class="keyword">public</span> wxDialog </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;{</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#a9b21515a124c3b961062637d328220f4">  100</a></span>&#160;        wxScrolledWindow* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#a9b21515a124c3b961062637d328220f4">m_scrolledWindow2</a>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#aa5acacd028012bbe83d4d5836a7253c8">  101</a></span>&#160;        wxStaticBoxSizer* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#aa5acacd028012bbe83d4d5836a7253c8">mAutoSizer</a>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#a3ca695ec5705baedd698e7c89fd1b9ae">  102</a></span>&#160;        wxStaticText* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#a3ca695ec5705baedd698e7c89fd1b9ae">m_staticText11</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#a1fee85fe8cb347bfff6cf1583444574b">  103</a></span>&#160;        wxSpinCtrl* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#a1fee85fe8cb347bfff6cf1583444574b">mInitialSpinCtrl</a>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#a96b3bc1cb757dd4eb30fe593e56db1b5">  104</a></span>&#160;        wxButton* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#a96b3bc1cb757dd4eb30fe593e56db1b5">mGenerateBtn</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#ac435c64e6fd929e8b43a783903eda322">  105</a></span>&#160;        wxStaticText* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#ac435c64e6fd929e8b43a783903eda322">m_staticText111</a>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#ad798dc6a2260257e63bd97fec9d12304">  106</a></span>&#160;        wxTextCtrl* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#ad798dc6a2260257e63bd97fec9d12304">mCodeTxt</a>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#ad3fb039693c02055c22877f1b148a2aa">  107</a></span>&#160;        wxButton* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#ad3fb039693c02055c22877f1b148a2aa">mGetEncodingBtn</a>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#ae54e5a640f4b6cb39a038b3575ecd785">  108</a></span>&#160;        wxStaticBoxSizer* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#ae54e5a640f4b6cb39a038b3575ecd785">mBtnsSizer</a>;</div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#afe992048dcc1a7a5605ecdb611ee0d90">  109</a></span>&#160;        wxButton* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#afe992048dcc1a7a5605ecdb611ee0d90">mOkBtn</a>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#aa64fbf375891a9baf70524890cd216f4">  110</a></span>&#160;        wxButton* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#aa64fbf375891a9baf70524890cd216f4">mCancelBtn</a>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#a78cd48d11a5d1ba3b9b1ecd7a044b7a1">  111</a></span>&#160;        wxStaticBoxSizer* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#a78cd48d11a5d1ba3b9b1ecd7a044b7a1">mGridSizer</a>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#a17f9745013441bbebf20f9bce4fe5606">  112</a></span>&#160;        wxGrid* <a class="code" href="../../d9/df9/class_letter_codes_gui.html#a17f9745013441bbebf20f9bce4fe5606">mCodesGrid</a>;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="comment">// Virtual event handlers, overide them in your derived class</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#afa5447796d71b1023e0474a91499b51d">  115</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/df9/class_letter_codes_gui.html#afa5447796d71b1023e0474a91499b51d">OnSize</a>( wxSizeEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="code" href="../../d9/df9/class_letter_codes_gui.html#afbd91e7b03ed288e6dbe3dbb472bdd1b">  116</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/df9/class_letter_codes_gui.html#afbd91e7b03ed288e6dbe3dbb472bdd1b">OnBtnClick</a>( wxCommandEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <a class="code" href="../../d9/df9/class_letter_codes_gui.html#aace3348f7227ef51e66c80d27b2fd2a0">LetterCodesGui</a>( wxWindow* parent, wxWindowID <span class="keywordtype">id</span> = <a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#ab8bb939560c2a4e5826d6801469c6e02">wxID_LETTER_CODES_ID</a>, <span class="keyword">const</span> wxString&amp; title = wxEmptyString, <span class="keyword">const</span> wxPoint&amp; pos = wxDefaultPosition, <span class="keyword">const</span> wxSize&amp; size = wxSize( 500,500 ), <span class="keywordtype">long</span> style = wxCAPTION|wxCLOSE_BOX|wxRESIZE_BORDER|wxSTAY_ON_TOP|wxSYSTEM_MENU ); </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <a class="code" href="../../d9/df9/class_letter_codes_gui.html#a1a3b0abdb149d8dde2057f928fea0a8c">~LetterCodesGui</a>();</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;};</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno"><a class="code" href="../../d1/d1a/class_about_box_gui.html">  129</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/d1a/class_about_box_gui.html" title="Class AboutBoxGui. ">AboutBoxGui</a> : <span class="keyword">public</span> wxDialog </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;{</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="code" href="../../d1/d1a/class_about_box_gui.html#ac7c1a92baee8abbca4c4db4560579294">  134</a></span>&#160;        wxPanel* <a class="code" href="../../d1/d1a/class_about_box_gui.html#ac7c1a92baee8abbca4c4db4560579294">m_panel3</a>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="code" href="../../d1/d1a/class_about_box_gui.html#a3d1978cabf61892d4641dac4399f1037">  135</a></span>&#160;        wxButton* <a class="code" href="../../d1/d1a/class_about_box_gui.html#a3d1978cabf61892d4641dac4399f1037">mCloseButton</a>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <a class="code" href="../../d1/d1a/class_about_box_gui.html#af5b8d445b2e136b930589e6695be90f3">AboutBoxGui</a>( wxWindow* parent, wxWindowID <span class="keywordtype">id</span> = wxID_ANY, <span class="keyword">const</span> wxString&amp; title = wxEmptyString, <span class="keyword">const</span> wxPoint&amp; pos = wxDefaultPosition, <span class="keyword">const</span> wxSize&amp; size = wxSize( 505,371 ), <span class="keywordtype">long</span> style = wxDIALOG_NO_PARENT ); </div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <a class="code" href="../../d1/d1a/class_about_box_gui.html#a49b7461fc870679b856b748badb53198">~AboutBoxGui</a>();</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    </div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;};</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno"><a class="code" href="../../dd/d9e/class_select_module_gui.html">  147</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dd/d9e/class_select_module_gui.html" title="Class SelectModuleGui. ">SelectModuleGui</a> : <span class="keyword">public</span> wxDialog </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;{</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    </div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00152"></a><span class="lineno"><a class="code" href="../../dd/d9e/class_select_module_gui.html#ac43026a9f775aaf489e13f1ff2520a72">  152</a></span>&#160;        wxComboBox* <a class="code" href="../../dd/d9e/class_select_module_gui.html#ac43026a9f775aaf489e13f1ff2520a72">mModulesChoice</a>;</div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="code" href="../../dd/d9e/class_select_module_gui.html#a4216b208fab9aaa2596c316320bb92ca">  153</a></span>&#160;        wxButton* <a class="code" href="../../dd/d9e/class_select_module_gui.html#a4216b208fab9aaa2596c316320bb92ca">mOkBtn</a>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="code" href="../../dd/d9e/class_select_module_gui.html#ad3920cd69dadff93f354335434990cba">  154</a></span>&#160;        wxButton* <a class="code" href="../../dd/d9e/class_select_module_gui.html#ad3920cd69dadff93f354335434990cba">mCancelBtn</a>;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="comment">// Virtual event handlers, overide them in your derived class</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno"><a class="code" href="../../dd/d9e/class_select_module_gui.html#aaffbb3331016f2af3c6ea17a6526861b">  157</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/d9e/class_select_module_gui.html#aaffbb3331016f2af3c6ea17a6526861b">OnBtnClick</a>( wxCommandEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <a class="code" href="../../dd/d9e/class_select_module_gui.html#ada7c07a7bb07b71d4b7e8d23aa81ed7c">SelectModuleGui</a>( wxWindow* parent, wxWindowID <span class="keywordtype">id</span> = <a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#a76547da8fbf92ec29a146469a140f1fd">wxID_SELECT_MODULE_ID</a>, <span class="keyword">const</span> wxString&amp; title = wxT(<span class="stringliteral">&quot;Select Lua module:&quot;</span>), <span class="keyword">const</span> wxPoint&amp; pos = wxDefaultPosition, <span class="keyword">const</span> wxSize&amp; size = wxSize( 307,106 ), <span class="keywordtype">long</span> style = wxCAPTION|wxCLOSE_BOX|wxSYSTEM_MENU ); </div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <a class="code" href="../../dd/d9e/class_select_module_gui.html#a006d05a788cb0aeec6546be612fc66fe">~SelectModuleGui</a>();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;};</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html">  170</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/dd2/class_create_project_gui.html" title="Class CreateProjectGui. ">CreateProjectGui</a> : <span class="keyword">public</span> wxDialog </div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;{</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#ac790536971f73db0ff247370ab2a715f">  175</a></span>&#160;        wxStaticText* <a class="code" href="../../d8/dd2/class_create_project_gui.html#ac790536971f73db0ff247370ab2a715f">m_staticText1</a>;</div>
+<div class="line"><a name="l00176"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#a855f1b505208f0c72f5dba894e4e38f8">  176</a></span>&#160;        wxFilePickerCtrl* <a class="code" href="../../d8/dd2/class_create_project_gui.html#a855f1b505208f0c72f5dba894e4e38f8">mFileDlg</a>;</div>
+<div class="line"><a name="l00177"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#ae6cc9130db9cc05c2fb1c69714ea5bb6">  177</a></span>&#160;        wxStaticText* <a class="code" href="../../d8/dd2/class_create_project_gui.html#ae6cc9130db9cc05c2fb1c69714ea5bb6">m_staticText11</a>;</div>
+<div class="line"><a name="l00178"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#aaa0cedbf56c300a3891ab378c4a4788f">  178</a></span>&#160;        wxDirPickerCtrl* <a class="code" href="../../d8/dd2/class_create_project_gui.html#aaa0cedbf56c300a3891ab378c4a4788f">mDirDlg</a>;</div>
+<div class="line"><a name="l00179"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#a28fe50b07863d6c6ecf8a84e4e49d94b">  179</a></span>&#160;        wxStaticText* <a class="code" href="../../d8/dd2/class_create_project_gui.html#a28fe50b07863d6c6ecf8a84e4e49d94b">m_staticText2</a>;</div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#a41db64062bb8c7baa9eb8921686743ee">  180</a></span>&#160;        wxComboBox* <a class="code" href="../../d8/dd2/class_create_project_gui.html#a41db64062bb8c7baa9eb8921686743ee">mModulesCombo</a>;</div>
+<div class="line"><a name="l00181"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#a01129a6c9220a235e3b4970744a1dd5f">  181</a></span>&#160;        wxStaticText* <a class="code" href="../../d8/dd2/class_create_project_gui.html#a01129a6c9220a235e3b4970744a1dd5f">m_staticText3</a>;</div>
+<div class="line"><a name="l00182"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#a538d9855f9bc2b552d8b80a6b15a2642">  182</a></span>&#160;        wxComboBox* <a class="code" href="../../d8/dd2/class_create_project_gui.html#a538d9855f9bc2b552d8b80a6b15a2642">mVersionsCombo</a>;</div>
+<div class="line"><a name="l00183"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#a6e35e0c1cc1c9615d31290d58148f4ec">  183</a></span>&#160;        wxStdDialogButtonSizer* <a class="code" href="../../d8/dd2/class_create_project_gui.html#a6e35e0c1cc1c9615d31290d58148f4ec">m_sdbSizer1</a>;</div>
+<div class="line"><a name="l00184"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#a6c3b0800556b07c74c821c405e1f8d82">  184</a></span>&#160;        wxButton* <a class="code" href="../../d8/dd2/class_create_project_gui.html#a6c3b0800556b07c74c821c405e1f8d82">m_sdbSizer1OK</a>;</div>
+<div class="line"><a name="l00185"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#ae79b9ba272bf37e8b16d0ba8e13a6ff9">  185</a></span>&#160;        wxButton* <a class="code" href="../../d8/dd2/class_create_project_gui.html#ae79b9ba272bf37e8b16d0ba8e13a6ff9">m_sdbSizer1Cancel</a>;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        </div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="comment">// Virtual event handlers, overide them in your derived class</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#a30845f4742086132f99c2e020dcaa768">  188</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d8/dd2/class_create_project_gui.html#a30845f4742086132f99c2e020dcaa768">OnProjectFileNameChanged</a>( wxFileDirPickerEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00189"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#a2f9be63dc9d94cb9bfc610dadc733c2e">  189</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d8/dd2/class_create_project_gui.html#a2f9be63dc9d94cb9bfc610dadc733c2e">OnModuleChanged</a>( wxCommandEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00190"></a><span class="lineno"><a class="code" href="../../d8/dd2/class_create_project_gui.html#ab8c7b2b80bedd103c586f9e73bf2fef0">  190</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d8/dd2/class_create_project_gui.html#ab8c7b2b80bedd103c586f9e73bf2fef0">OnOKButtonClick</a>( wxCommandEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        </div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        </div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        <a class="code" href="../../d8/dd2/class_create_project_gui.html#ad0afbcb8b836c06e8b139267b8751e9c">CreateProjectGui</a>( wxWindow* parent, wxWindowID <span class="keywordtype">id</span> = <a class="code" href="../../d0/d4a/uttdialogsgui_8h.html#ada679a995c5304838cf32b657ab712c1">wxID_CREATE_PROJECT_DLG</a>, <span class="keyword">const</span> wxString&amp; title = wxT(<span class="stringliteral">&quot;Create new project&quot;</span>), <span class="keyword">const</span> wxPoint&amp; pos = wxDefaultPosition, <span class="keyword">const</span> wxSize&amp; size = wxSize( 465,261 ), <span class="keywordtype">long</span> style = wxCAPTION|wxCLOSE_BOX|wxRESIZE_BORDER|wxSYSTEM_MENU ); </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <a class="code" href="../../d8/dd2/class_create_project_gui.html#a45b8984e60f9043ada57303e925807ba">~CreateProjectGui</a>();</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;};</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="preprocessor">#endif //__UTTDIALOGSGUI_H__</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по Universal Translators' Tool. Последние изменения: Вт 28 Май 2013 22:52:55. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="../../doxygen.png" alt="doxygen"/>
+</a> 1.8.4
+</small></address>
+</body>
+</html>

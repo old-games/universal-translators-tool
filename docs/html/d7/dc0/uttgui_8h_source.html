@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.4"/>
+<title>Universal Translators&#39; Tool: Исходный файл src/gui/uttgui.h</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Universal Translators&#39; Tool
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.4 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="../../namespaces.html"><span>Пространства&#160;имен</span></a></li>
+      <li><a href="../../annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>Файлы</span></a></li>
+      <li><a href="../../globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_99d0482cf009f9d97a0877749b817f19.html">gui</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">uttgui.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d7/dc0/uttgui_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// C++ code generated with wxFormBuilder (version Oct  8 2012)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// http://www.wxformbuilder.org/</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// PLEASE DO &quot;NOT&quot; EDIT THIS FILE!</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifndef __UTTGUI_H__</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define __UTTGUI_H__</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;wx/artprov.h&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;wx/xrc/xmlres.h&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;wx/string.h&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;wx/bitmap.h&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;wx/image.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;wx/icon.h&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;wx/menu.h&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;wx/gdicmn.h&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;wx/font.h&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;wx/colour.h&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;wx/settings.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;wx/aui/aui.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;wx/aui/auibar.h&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/db5/projectwindow_8h.html">projectwindow.h</a>&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../da/d20/logwindowimpl_8h.html">logwindowimpl.h</a>&quot;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;wx/statusbr.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;wx/frame.h&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a12af05d2311b12410c4964ee47ca441c">   31</a></span>&#160;<span class="preprocessor">#define wxID_MAIN_FRAME 1000</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a3137a74de11521e6ccbc0dac561d0407">   32</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_NEW_PROJECT 1001</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#aa68c36d1f2fbf16f25e4f5af1ccf1443">   33</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_OPEN_PROJECT 1002</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#ad6e2b396072469cee2ff438cad5230f2">   34</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_SAVE_PROJECT 1003</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a8ed65a6bb68c5f1d53d52bd4b7801f5d">   35</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_SAVE_PROJECT_AS 1004</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a3ceb3981049af7c98bbd23229820c11b">   36</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_CLOSE_PROJECT 1005</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#ada01ac18f6139c96b04a55e7af4cf7f3">   37</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_FILE_QUIT 1006</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a035cf77422ab9006bbac3e0660f0acb1">   38</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_IMPORT_FONT 1007</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#ad5b833d119fdf58ce0cc3682747210b8">   39</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_IMPORT_IMAGE 1008</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#aa1617af0c03734064c98feaab1e6a82c">   40</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_IMPORT_LIBRARY 1009</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a325367a5ec3f681b5b094876cab8f3d6">   41</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_IMPORT_ANIMATION 1010</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a5f57fd4911924ac91641dfbb5f42e58f">   42</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_EXPORT_FONT 1011</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a898484e0f3e227055753dc17261b23c7">   43</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_EXPORT_IMAGE 1012</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a04e1b77efeb6be92a443f0b85e8d06d1">   44</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_EXPORT_LIBRARY 1013</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#aaf8fa9f87b11b1296c4b7876ec230e59">   45</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_EXPORT_ANIMATION 1014</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a5d12ca53b2a3bc8a090a0cd50899f66f">   46</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_VIEW_TOOLBAR 1015</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a16e8bda92c451bb57c11b5c0eb4bbd97">   47</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_VIEW_PROJECT 1016</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#add89257f5fc231c448c9a532150ad1aa">   48</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_VIEW_LOG 1017</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a5d6e02a4a9dd94d45729a01e664a0f70">   49</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_LUA_SELECT 1018</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a7016ad5b9642585fc434842d126ec1ef">   50</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_LUA_VERSION 1019</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#abe37f6e9dc78959cac0c338643849e88">   51</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_LUA_REBOOT 1020</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a462d71188b614d9bc9c2b1bd56f62f49">   52</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_HELP_HELP 1021</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="../../d7/dc0/uttgui_8h.html#a8da3cd11787f2fe937ddbc8a6dd739af">   53</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define wxID_HELP_ABOUT 1022</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html">   58</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/da2/class_utt_main_frame.html" title="Class UttMainFrame. ">UttMainFrame</a> : <span class="keyword">public</span> wxFrame </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#ab1ce123d6c80891b02a8f444cee51c35">   63</a></span>&#160;        wxMenuBar* <a class="code" href="../../d4/da2/class_utt_main_frame.html#ab1ce123d6c80891b02a8f444cee51c35">mMainMenu</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#aab4d59efbce13b34bf4bf5e616285db4">   64</a></span>&#160;        wxMenu* <a class="code" href="../../d4/da2/class_utt_main_frame.html#aab4d59efbce13b34bf4bf5e616285db4">mFileMenu</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a4f57a1c4d68575595d53c5d42713e5bf">   65</a></span>&#160;        wxMenu* <a class="code" href="../../d4/da2/class_utt_main_frame.html#a4f57a1c4d68575595d53c5d42713e5bf">mImportExportMenu</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#aecaca579d675fc993b3e6b731edf36f7">   66</a></span>&#160;        wxMenu* <a class="code" href="../../d4/da2/class_utt_main_frame.html#aecaca579d675fc993b3e6b731edf36f7">mEditMenu</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a3f23b28a5e4ba7402866fe97f3b207a3">   67</a></span>&#160;        wxMenu* <a class="code" href="../../d4/da2/class_utt_main_frame.html#a3f23b28a5e4ba7402866fe97f3b207a3">mViewMenu</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#ac41097ef12eea49b04450885a019f7b6">   68</a></span>&#160;        wxMenu* <a class="code" href="../../d4/da2/class_utt_main_frame.html#ac41097ef12eea49b04450885a019f7b6">mLuaMenu</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a115ac984cadc476722d1d9533ac8418a">   69</a></span>&#160;        wxMenu* <a class="code" href="../../d4/da2/class_utt_main_frame.html#a115ac984cadc476722d1d9533ac8418a">mModuleMenu</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a3c7934992d26ef3da1da3366408b2898">   70</a></span>&#160;        wxMenu* <a class="code" href="../../d4/da2/class_utt_main_frame.html#a3c7934992d26ef3da1da3366408b2898">mHelpMenu</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a91d610f641c08cf1e2e3dbb1e50bbde1">   71</a></span>&#160;        wxAuiToolBar* <a class="code" href="../../d4/da2/class_utt_main_frame.html#a91d610f641c08cf1e2e3dbb1e50bbde1">mMainToolBar</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a16bf0339182b4a20f32b8391bff12749">   72</a></span>&#160;        <a class="code" href="../../d9/da0/class_project_window.html">ProjectWindow</a>* <a class="code" href="../../d4/da2/class_utt_main_frame.html#a16bf0339182b4a20f32b8391bff12749">mProjectWindow</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#adad83348ec39af38fdc36d663e2e7394">   73</a></span>&#160;        <a class="code" href="../../da/d20/class_log_window_impl.html">LogWindowImpl</a>* <a class="code" href="../../d4/da2/class_utt_main_frame.html#adad83348ec39af38fdc36d663e2e7394">mLogWindow</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a013ef5b9565a0bbe61bcfee78eabf4c4">   74</a></span>&#160;        wxStatusBar* <a class="code" href="../../d4/da2/class_utt_main_frame.html#a013ef5b9565a0bbe61bcfee78eabf4c4">mStatusBar</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">// Virtual event handlers, overide them in your derived class</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a7c6f2f233e76fe2b08f634aa70c37b9e">   77</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/da2/class_utt_main_frame.html#a7c6f2f233e76fe2b08f634aa70c37b9e">OnPaneClose</a>( wxAuiManagerEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a3772ef61fd380ca020d8ed186b365d77">   78</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/da2/class_utt_main_frame.html#a3772ef61fd380ca020d8ed186b365d77">OnClose</a>( wxCloseEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#a5700baa326ffcf9d99971b36d9492521">   79</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/da2/class_utt_main_frame.html#a5700baa326ffcf9d99971b36d9492521">OnMenuSelect</a>( wxCommandEvent&amp; event ) { <span class="keyword">event</span>.Skip(); }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <a class="code" href="../../d4/da2/class_utt_main_frame.html#a3b9cf024c58993f143f32cf3baf3118b">UttMainFrame</a>( wxWindow* parent, wxWindowID <span class="keywordtype">id</span> = <a class="code" href="../../d7/dc0/uttgui_8h.html#a12af05d2311b12410c4964ee47ca441c">wxID_MAIN_FRAME</a>, <span class="keyword">const</span> wxString&amp; title = wxT(<span class="stringliteral">&quot;UTT&quot;</span>), <span class="keyword">const</span> wxPoint&amp; pos = wxDefaultPosition, <span class="keyword">const</span> wxSize&amp; size = wxSize( 1024,600 ), <span class="keywordtype">long</span> style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="code" href="../../d4/da2/class_utt_main_frame.html#ab2802fd31e7eb54d47d7ea6265cfec7a">   85</a></span>&#160;        wxAuiManager <a class="code" href="../../d4/da2/class_utt_main_frame.html#ab2802fd31e7eb54d47d7ea6265cfec7a">m_mgr</a>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="../../d4/da2/class_utt_main_frame.html#ad95b05ea4bc6be628fdd678c1abada91">~UttMainFrame</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;};</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif //__UTTGUI_H__</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по Universal Translators' Tool. Последние изменения: Вт 28 Май 2013 22:52:55. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="../../doxygen.png" alt="doxygen"/>
+</a> 1.8.4
+</small></address>
+</body>
+</html>

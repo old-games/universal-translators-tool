@@ -1,0 +1,541 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.4"/>
+<title>Universal Translators&#39; Tool: Исходный файл src/types/customevents.h</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Universal Translators&#39; Tool
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.4 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="../../namespaces.html"><span>Пространства&#160;имен</span></a></li>
+      <li><a href="../../annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>Файлы</span></a></li>
+      <li><a href="../../globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_0c0c9fa8a58db41e576adc3ce68c5ee9.html">types</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">customevents.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/d02/customevents_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/***************************************************************</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Name:      custumevents.h</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Purpose:   custom events for internal use</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Created:   2012-03-12</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * Copyright: Pavlovets Ilia</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * License:</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> **************************************************************/</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef CUSTOMEVENTS_H_INCLUDED</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define CUSTOMEVENTS_H_INCLUDED</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../df/d68/uttypes_8h.html">types/uttypes.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/d99/iinfo_8h.html">types/iinfo.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">class </span><a class="code" href="../../dd/dd5/class_common_event.html">CommonEvent</a>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/dd9/class_colour_pick_event.html">ColourPickEvent</a>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span><a class="code" href="../../da/dd1/class_change_info_event.html">ChangeInfoEvent</a>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d0e/class_change_palette_event.html">ChangePaletteEvent</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/dd7/class_symbol_selection_event.html">SymbolSelectionEvent</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html">EditorRebuildDataEvent</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d2e/class_a_u_i_window_event.html">AUIWindowEvent</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/dac/class_i_editor.html">IEditor</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<a class="code" href="../../de/d02/customevents_8h.html#a0fae6781e87d202839069fd0cee7b716">wxDECLARE_EVENT</a>( uttEVT_COMMON, <a class="code" href="../../dd/dd5/class_common_event.html">CommonEvent</a> );</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<a class="code" href="../../de/d02/customevents_8h.html#a0fae6781e87d202839069fd0cee7b716">wxDECLARE_EVENT</a>( uttEVT_COLOURPICK, <a class="code" href="../../d7/dd9/class_colour_pick_event.html">ColourPickEvent</a> );</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<a class="code" href="../../de/d02/customevents_8h.html#a0fae6781e87d202839069fd0cee7b716">wxDECLARE_EVENT</a>( uttEVT_CHANGEINFO, <a class="code" href="../../da/dd1/class_change_info_event.html">ChangeInfoEvent</a> );</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<a class="code" href="../../de/d02/customevents_8h.html#a0fae6781e87d202839069fd0cee7b716">wxDECLARE_EVENT</a>( uttEVT_CHANGEPALETTE, <a class="code" href="../../d2/d0e/class_change_palette_event.html">ChangePaletteEvent</a> );</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<a class="code" href="../../de/d02/customevents_8h.html#a0fae6781e87d202839069fd0cee7b716">wxDECLARE_EVENT</a>( uttEVT_SYMBOLSELECT, <a class="code" href="../../dc/dd7/class_symbol_selection_event.html">SymbolSelectionEvent</a> );</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<a class="code" href="../../de/d02/customevents_8h.html#a0fae6781e87d202839069fd0cee7b716">wxDECLARE_EVENT</a>( uttEVT_REBUILDDATA, <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html">EditorRebuildDataEvent</a> );</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<a class="code" href="../../de/d02/customevents_8h.html#a0fae6781e87d202839069fd0cee7b716">wxDECLARE_EVENT</a>( uttEVT_ADDAUIWINDOW, <a class="code" href="../../da/d2e/class_a_u_i_window_event.html">AUIWindowEvent</a> );</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html">   40</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dd/dd5/class_common_event.html">CommonEvent</a> : <span class="keyword">public</span> wxEvent</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9">   44</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9">CommoneEventOperation</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {   </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9afcb304501b6d36254b223fc0ca60880c">   46</a></span>&#160;        <a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9afcb304501b6d36254b223fc0ca60880c">ceModuleChanged</a>,</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9a256dda0e8912ab2ca0c01401602488af">   47</a></span>&#160;        <a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9a256dda0e8912ab2ca0c01401602488af">ceSetProjectName</a>,</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9a797ac3cd6cffe64eb3b67db5cc8ed6fc">   48</a></span>&#160;        <a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9a797ac3cd6cffe64eb3b67db5cc8ed6fc">ceSetProjectPath</a>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9a54337ead8c678dd0dbc472abcb359b39">   49</a></span>&#160;        <a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9a54337ead8c678dd0dbc472abcb359b39">ceSetProjectModule</a>,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    };</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#ab148268b3f8e5d45824aa561bb6fa22a">   52</a></span>&#160;    <a class="code" href="../../dd/dd5/class_common_event.html#ab148268b3f8e5d45824aa561bb6fa22a">CommonEvent</a>(): wxEvent(0, uttEVT_COMMON),</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        mAction(<a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9afcb304501b6d36254b223fc0ca60880c">ceModuleChanged</a>)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a7dbd6576ca5de8ebe4a2cb4d076994d8">   56</a></span>&#160;    <a class="code" href="../../dd/dd5/class_common_event.html#a7dbd6576ca5de8ebe4a2cb4d076994d8">CommonEvent</a>(<a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9">CommoneEventOperation</a> what): wxEvent(0, uttEVT_COMMON),</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        mAction(what)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a67e17d9ac9371919c6af7a2d685a6327">   60</a></span>&#160;    <a class="code" href="../../dd/dd5/class_common_event.html#a67e17d9ac9371919c6af7a2d685a6327">CommonEvent</a>(<span class="keyword">const</span> <a class="code" href="../../dd/dd5/class_common_event.html">CommonEvent</a>&amp; event): wxEvent(event),</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        mAction(event.mAction),</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        mParams(event.mParams)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {}</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a562ebb3975a5c9968ffe59c9fa087bde">   65</a></span>&#160;    <span class="keyword">virtual</span> wxEvent *<a class="code" href="../../dd/dd5/class_common_event.html#a562ebb3975a5c9968ffe59c9fa087bde">Clone</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../dd/dd5/class_common_event.html#ab148268b3f8e5d45824aa561bb6fa22a">CommonEvent</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a0884ecdbda84ea1372ace301cb03ce16">   67</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dd/dd5/class_common_event.html#a0884ecdbda84ea1372ace301cb03ce16">GetAction</a>()</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">return</span> mAction;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#a73e762c9d76c226fdc26102e52852f34">   72</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../dd/dd5/class_common_event.html#a73e762c9d76c226fdc26102e52852f34">AddParam</a>(<span class="keyword">const</span> wxString&amp; value)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        mParams.Add(value);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="code" href="../../dd/dd5/class_common_event.html#af6c596ec0730583cc7f95fc237cb118a">   77</a></span>&#160;    <span class="keyword">const</span> wxArrayString&amp; <a class="code" href="../../dd/dd5/class_common_event.html#af6c596ec0730583cc7f95fc237cb118a">GetParams</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> mParams;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="../../dd/dd5/class_common_event.html#a53cc94cfcc696bfa8dc228cb32c63af9">CommoneEventOperation</a>   mAction;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    wxArrayString           mParams;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(<a class="code" href="../../dd/dd5/class_common_event.html">CommonEvent</a>)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a573de09950f8dff94544b3ca77fcec73">   90</a></span>&#160;<span class="keyword">typedef</span> void (wxEvtHandler::*<a class="code" href="../../de/d02/customevents_8h.html#a573de09950f8dff94544b3ca77fcec73">CommonEventFunction</a>)(<a class="code" href="../../dd/dd5/class_common_event.html">CommonEvent</a>&amp;);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#ab0245ca9956a30d2dfbfe9a53410243e">   94</a></span>&#160;<span class="preprocessor">#define CommonEventHandler(func) \</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">    wxEVENT_HANDLER_CAST(CommonEventFunction, func)</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a7378ff4d156793f68d8b119ba42d08ab">   97</a></span>&#160;<span class="preprocessor">#define EVT_COMMON(func) wx__DECLARE_EVT0(uttEVT_COMMON, CommonEventHandler(func))</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html">  105</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/dd9/class_colour_pick_event.html">ColourPickEvent</a> : <span class="keyword">public</span> wxEvent</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;{</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    </div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#a948e9dedd0ef64a2b658f2e293283d96">  109</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../d7/dd9/class_colour_pick_event.html#a948e9dedd0ef64a2b658f2e293283d96">ColourOperation</a></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    {   </div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#a948e9dedd0ef64a2b658f2e293283d96a3d396ede1c073be7bd84568130ac5301">  111</a></span>&#160;        <a class="code" href="../../d7/dd9/class_colour_pick_event.html#a948e9dedd0ef64a2b658f2e293283d96a3d396ede1c073be7bd84568130ac5301">cpeSetThisColour</a>,</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#a948e9dedd0ef64a2b658f2e293283d96a05056f4fcd096924e2f6cec66a52bfb0">  112</a></span>&#160;        <a class="code" href="../../d7/dd9/class_colour_pick_event.html#a948e9dedd0ef64a2b658f2e293283d96a05056f4fcd096924e2f6cec66a52bfb0">cpeFindThisColour</a></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    };</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#ad22b41a81b067d07c52b10929a4c2f13">  115</a></span>&#160;    <a class="code" href="../../d7/dd9/class_colour_pick_event.html#ad22b41a81b067d07c52b10929a4c2f13">ColourPickEvent</a>()</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        : wxEvent(0, uttEVT_COLOURPICK),</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            mColour( *wxBLACK ),</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            mButton( 0 ),</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            mAction( -1 )</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    </div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#a8829fe9fd1b702f445a1fe29af090c0c">  123</a></span>&#160;    <a class="code" href="../../d7/dd9/class_colour_pick_event.html#a8829fe9fd1b702f445a1fe29af090c0c">ColourPickEvent</a>(<span class="keyword">const</span> <a class="code" href="../../d0/dc1/class_utt_colour.html">UttColour</a>&amp; colour, <span class="keywordtype">int</span> button, <a class="code" href="../../d7/dd9/class_colour_pick_event.html#a948e9dedd0ef64a2b658f2e293283d96">ColourOperation</a> what)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        : wxEvent(0, uttEVT_COLOURPICK),</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            mColour( colour ),</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            mButton( button ),</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            mAction( what )</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    { </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    </div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#ae4dd6233ccd956bc18088f8c0944f011">  132</a></span>&#160;    <a class="code" href="../../d7/dd9/class_colour_pick_event.html#ae4dd6233ccd956bc18088f8c0944f011">ColourPickEvent</a>(<span class="keyword">const</span> <a class="code" href="../../d7/dd9/class_colour_pick_event.html">ColourPickEvent</a>&amp; event)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        : wxEvent(event),</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            mColour( event.mColour ),</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            mButton( event.mButton ),</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            mAction( event.mAction )</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    { </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#acef270e94d095fa6490e0d93bd923f6c">  141</a></span>&#160;    <span class="keyword">virtual</span> wxEvent *<a class="code" href="../../d7/dd9/class_colour_pick_event.html#acef270e94d095fa6490e0d93bd923f6c">Clone</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/dd9/class_colour_pick_event.html#ad22b41a81b067d07c52b10929a4c2f13">ColourPickEvent</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#a6bb222a4a8abd3e7019351d71ab277ea">  143</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d7/dd9/class_colour_pick_event.html#a6bb222a4a8abd3e7019351d71ab277ea">GetButton</a>()</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordflow">return</span> mButton;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    }</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#aba58fbf10bc86e43fc4b884346d14629">  148</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d7/dd9/class_colour_pick_event.html#aba58fbf10bc86e43fc4b884346d14629">GetAction</a>()</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">return</span> mAction;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    }</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="code" href="../../d7/dd9/class_colour_pick_event.html#a3b63b5c3e22d0ac7055da0ed74af0e17">  153</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d0/dc1/class_utt_colour.html">UttColour</a>&amp; <a class="code" href="../../d7/dd9/class_colour_pick_event.html#a3b63b5c3e22d0ac7055da0ed74af0e17">GetColour</a>()</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">return</span> mColour;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    }</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <a class="code" href="../../d0/dc1/class_utt_colour.html">UttColour</a>   mColour;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordtype">int</span>         mButton;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">int</span>         mAction;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(<a class="code" href="../../d7/dd9/class_colour_pick_event.html">ColourPickEvent</a>)</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;};</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a254a9b04b998e72214dfdcec9888cd36">  168</a></span>&#160;<span class="keyword">typedef</span> void (wxEvtHandler::*<a class="code" href="../../de/d02/customevents_8h.html#a254a9b04b998e72214dfdcec9888cd36">ColourPickEventFunction</a>)(<a class="code" href="../../d7/dd9/class_colour_pick_event.html">ColourPickEvent</a>&amp;);</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
+<div class="line"><a name="l00172"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a27cf1748a038ebce14fc95331c0f1335">  172</a></span>&#160;<span class="preprocessor">#define ColourPickEventHandler(func) \</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">    wxEVENT_HANDLER_CAST(ColourPickEventFunction, func)</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#ab19ff65ae8053b500f8f2d1565381c2e">  175</a></span>&#160;<span class="preprocessor">#define EVT_COLOURPICK(func) wx__DECLARE_EVT0(uttEVT_COLOURPICK, ColourPickEventHandler(func))</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno"><a class="code" href="../../da/dd1/class_change_info_event.html">  182</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/dd1/class_change_info_event.html">ChangeInfoEvent</a> : <span class="keyword">public</span> wxEvent</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;{</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    </div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno"><a class="code" href="../../da/dd1/class_change_info_event.html#ad0d170451d26aca2a5f6f4325eb72385">  187</a></span>&#160;    <a class="code" href="../../da/dd1/class_change_info_event.html#ad0d170451d26aca2a5f6f4325eb72385">ChangeInfoEvent</a>(): wxEvent(0, uttEVT_CHANGEINFO),</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        mInfo( NULL )</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    { }</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
+<div class="line"><a name="l00191"></a><span class="lineno"><a class="code" href="../../da/dd1/class_change_info_event.html#a4c75d004230982a6f4095476b40f1ca3">  191</a></span>&#160;    <a class="code" href="../../da/dd1/class_change_info_event.html#a4c75d004230982a6f4095476b40f1ca3">ChangeInfoEvent</a>( <a class="code" href="../../d6/de4/class_i_info.html">IInfo</a>* info, <span class="keywordtype">int</span> winId = 0 ): wxEvent(winId, uttEVT_CHANGEINFO),</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        mInfo( info )</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    { }</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00195"></a><span class="lineno"><a class="code" href="../../da/dd1/class_change_info_event.html#aa45db4ceca4277bf48374e6562a04ae2">  195</a></span>&#160;    <a class="code" href="../../da/dd1/class_change_info_event.html#aa45db4ceca4277bf48374e6562a04ae2">ChangeInfoEvent</a>(<span class="keyword">const</span> <a class="code" href="../../da/dd1/class_change_info_event.html">ChangeInfoEvent</a>&amp; event): wxEvent(event),</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        mInfo( event.mInfo )</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    { }</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
+<div class="line"><a name="l00199"></a><span class="lineno"><a class="code" href="../../da/dd1/class_change_info_event.html#a606b15fdffd726ee805b616d7d87bfb2">  199</a></span>&#160;    <span class="keyword">virtual</span> wxEvent *<a class="code" href="../../da/dd1/class_change_info_event.html#a606b15fdffd726ee805b616d7d87bfb2">Clone</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../da/dd1/class_change_info_event.html#ad0d170451d26aca2a5f6f4325eb72385">ChangeInfoEvent</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="code" href="../../da/dd1/class_change_info_event.html#ab6c1342fcb3a44140ea54c149f62689c">  200</a></span>&#160;    <a class="code" href="../../d6/de4/class_i_info.html">IInfo</a>*  <a class="code" href="../../da/dd1/class_change_info_event.html#ab6c1342fcb3a44140ea54c149f62689c">GetInfo</a>() { <span class="keywordflow">return</span> mInfo; }</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    </div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <a class="code" href="../../d6/de4/class_i_info.html">IInfo</a>*      mInfo;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(<a class="code" href="../../da/dd1/class_change_info_event.html">ChangeInfoEvent</a>)</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;};</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
+<div class="line"><a name="l00211"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#afea378f747b3966518a5537a9001a60d">  211</a></span>&#160;<span class="keyword">typedef</span> void (wxEvtHandler::*<a class="code" href="../../de/d02/customevents_8h.html#afea378f747b3966518a5537a9001a60d">ChangeInfoEventFunction</a>)(<a class="code" href="../../da/dd1/class_change_info_event.html">ChangeInfoEvent</a>&amp;);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
+<div class="line"><a name="l00215"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#af4eb9b6c04b837f725deff1f8c176ca2">  215</a></span>&#160;<span class="preprocessor">#define ChangeInfoEventHandler(func) \</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="preprocessor">    wxEVENT_HANDLER_CAST(ChangeInfoEventFunction, func)</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00218"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a40ea3e0cbb6a83b19a6801a7d0f9e427">  218</a></span>&#160;<span class="preprocessor">#define EVT_CHANGEINFO(func) wx__DECLARE_EVT0(uttEVT_CHANGEINFO, ChangeInfoEventHandler(func))</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/da7/class_palette.html">Palette</a>;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
+<div class="line"><a name="l00228"></a><span class="lineno"><a class="code" href="../../d2/d0e/class_change_palette_event.html">  228</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d0e/class_change_palette_event.html">ChangePaletteEvent</a> : <span class="keyword">public</span> wxEvent</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;{</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    </div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div>
+<div class="line"><a name="l00233"></a><span class="lineno"><a class="code" href="../../d2/d0e/class_change_palette_event.html#adc81c2bac6a79501cfdc9f3fb8d562d2">  233</a></span>&#160;    <a class="code" href="../../d2/d0e/class_change_palette_event.html#adc81c2bac6a79501cfdc9f3fb8d562d2">ChangePaletteEvent</a>():</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        wxEvent(0, uttEVT_CHANGEPALETTE),</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        mData( NULL ),</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        mRebuild( false )</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    {</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    }</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    </div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
+<div class="line"><a name="l00242"></a><span class="lineno"><a class="code" href="../../d2/d0e/class_change_palette_event.html#a927cd4e781251d19e87de4b077d2ed37">  242</a></span>&#160;    <a class="code" href="../../d2/d0e/class_change_palette_event.html#a927cd4e781251d19e87de4b077d2ed37">ChangePaletteEvent</a>( <span class="keywordtype">int</span> winid, <a class="code" href="../../d9/da7/class_palette.html">Palette</a>* pal, <span class="keywordtype">bool</span> rebuild ):</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        wxEvent(winid, uttEVT_CHANGEPALETTE),</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        mData( pal ),</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        mRebuild( rebuild )</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    { </div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    }</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    </div>
+<div class="line"><a name="l00249"></a><span class="lineno"><a class="code" href="../../d2/d0e/class_change_palette_event.html#a430ef0ee4cca7528a5b76854af4c7755">  249</a></span>&#160;    <a class="code" href="../../d2/d0e/class_change_palette_event.html#a430ef0ee4cca7528a5b76854af4c7755">ChangePaletteEvent</a>(<span class="keyword">const</span> <a class="code" href="../../d2/d0e/class_change_palette_event.html">ChangePaletteEvent</a>&amp; event): wxEvent(event),</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        mData( event.mData ),</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        mRebuild( event.mRebuild )</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    {</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    }</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;</div>
+<div class="line"><a name="l00255"></a><span class="lineno"><a class="code" href="../../d2/d0e/class_change_palette_event.html#af7e5815d31361f3b05ecab502929c8a3">  255</a></span>&#160;    <span class="keyword">virtual</span> wxEvent *<a class="code" href="../../d2/d0e/class_change_palette_event.html#af7e5815d31361f3b05ecab502929c8a3">Clone</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d2/d0e/class_change_palette_event.html#adc81c2bac6a79501cfdc9f3fb8d562d2">ChangePaletteEvent</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
+<div class="line"><a name="l00257"></a><span class="lineno"><a class="code" href="../../d2/d0e/class_change_palette_event.html#a0fe1e807f965f19196e90cc49054c0be">  257</a></span>&#160;    <a class="code" href="../../d9/da7/class_palette.html">Palette</a>*    <a class="code" href="../../d2/d0e/class_change_palette_event.html#a0fe1e807f965f19196e90cc49054c0be">GetPalette</a>() { <span class="keywordflow">return</span> mData; }</div>
+<div class="line"><a name="l00258"></a><span class="lineno"><a class="code" href="../../d2/d0e/class_change_palette_event.html#a1c3c9c5f778bbe8a6ec139f3b5d91fec">  258</a></span>&#160;    <span class="keywordtype">bool</span>        <a class="code" href="../../d2/d0e/class_change_palette_event.html#a1c3c9c5f778bbe8a6ec139f3b5d91fec">GetRebuild</a>() { <span class="keywordflow">return</span> mRebuild; }</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    </div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <a class="code" href="../../d9/da7/class_palette.html">Palette</a>*    mData;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordtype">bool</span>        mRebuild;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(<a class="code" href="../../d2/d0e/class_change_palette_event.html">ChangePaletteEvent</a>)</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;};</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
+<div class="line"><a name="l00270"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a72a6b903d4b57f226e7e15c81ddddec2">  270</a></span>&#160;<span class="keyword">typedef</span> void (wxEvtHandler::*<a class="code" href="../../de/d02/customevents_8h.html#a72a6b903d4b57f226e7e15c81ddddec2">ChangePaletteEventFunction</a>)(<a class="code" href="../../d2/d0e/class_change_palette_event.html">ChangePaletteEvent</a>&amp;);</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;</div>
+<div class="line"><a name="l00274"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#ac9425e75a5e263f360f4607a3a09f6e8">  274</a></span>&#160;<span class="preprocessor">#define ChangePaletteEventHandler(func) \</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="preprocessor">    wxEVENT_HANDLER_CAST(ChangePaletteEventFunction, func)</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00277"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a65575cce35af0f5b21cadef06f516119">  277</a></span>&#160;<span class="preprocessor">#define EVT_CHANGEPALETTE(func) wx__DECLARE_EVT0(uttEVT_CHANGEPALETTE, ChangePaletteEventHandler(func))</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;</div>
+<div class="line"><a name="l00285"></a><span class="lineno"><a class="code" href="../../dc/dd7/class_symbol_selection_event.html">  285</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/dd7/class_symbol_selection_event.html">SymbolSelectionEvent</a> : <span class="keyword">public</span> wxEvent</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;{</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    </div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div>
+<div class="line"><a name="l00290"></a><span class="lineno"><a class="code" href="../../dc/dd7/class_symbol_selection_event.html#afddf842f6ba3881a65f05360e3eb21bb">  290</a></span>&#160;    <a class="code" href="../../dc/dd7/class_symbol_selection_event.html#afddf842f6ba3881a65f05360e3eb21bb">SymbolSelectionEvent</a>( ):</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        wxEvent(0, uttEVT_SYMBOLSELECT),</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        mKey( -1 )</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    {</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    }</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;</div>
+<div class="line"><a name="l00296"></a><span class="lineno"><a class="code" href="../../dc/dd7/class_symbol_selection_event.html#a33e15a4cb2ec94a6bc14958503cc6386">  296</a></span>&#160;    <a class="code" href="../../dc/dd7/class_symbol_selection_event.html#a33e15a4cb2ec94a6bc14958503cc6386">SymbolSelectionEvent</a>(<span class="keywordtype">int</span> winid, <span class="keywordtype">int</span> key ):</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        wxEvent(winid, uttEVT_SYMBOLSELECT),</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        mKey( key )</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    { </div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    }</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    </div>
+<div class="line"><a name="l00302"></a><span class="lineno"><a class="code" href="../../dc/dd7/class_symbol_selection_event.html#ab4dab9bb401320b0f64922425ae0c313">  302</a></span>&#160;    <a class="code" href="../../dc/dd7/class_symbol_selection_event.html#ab4dab9bb401320b0f64922425ae0c313">SymbolSelectionEvent</a>(<span class="keyword">const</span> <a class="code" href="../../dc/dd7/class_symbol_selection_event.html">SymbolSelectionEvent</a>&amp; event):</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        wxEvent(event),</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        mKey( event.mKey )</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    {</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    }</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;</div>
+<div class="line"><a name="l00308"></a><span class="lineno"><a class="code" href="../../dc/dd7/class_symbol_selection_event.html#a0502c6586e2218f31d9612ff2ab08199">  308</a></span>&#160;    <span class="keyword">virtual</span> wxEvent *<a class="code" href="../../dc/dd7/class_symbol_selection_event.html#a0502c6586e2218f31d9612ff2ab08199">Clone</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../dc/dd7/class_symbol_selection_event.html#afddf842f6ba3881a65f05360e3eb21bb">SymbolSelectionEvent</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00309"></a><span class="lineno"><a class="code" href="../../dc/dd7/class_symbol_selection_event.html#a3ad549d51dc36e9f1915a23450639d8e">  309</a></span>&#160;    <span class="keywordtype">int</span>     <a class="code" href="../../dc/dd7/class_symbol_selection_event.html#a3ad549d51dc36e9f1915a23450639d8e">GetKey</a>() { <span class="keywordflow">return</span> mKey; }</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    </div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keywordtype">int</span>     mKey;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(<a class="code" href="../../dc/dd7/class_symbol_selection_event.html">SymbolSelectionEvent</a>)</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;};</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;</div>
+<div class="line"><a name="l00320"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a82c2099c38170cfc9a5b6988f06f107d">  320</a></span>&#160;<span class="keyword">typedef</span> void (wxEvtHandler::*<a class="code" href="../../de/d02/customevents_8h.html#a82c2099c38170cfc9a5b6988f06f107d">SymbolSelectionEventFunction</a>)(<a class="code" href="../../dc/dd7/class_symbol_selection_event.html">SymbolSelectionEvent</a>&amp;);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;</div>
+<div class="line"><a name="l00324"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a8101000404add2f854d441e671a6aefb">  324</a></span>&#160;<span class="preprocessor">#define SymbolSelectionEventHandler(func) \</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="preprocessor">    wxEVENT_HANDLER_CAST(SymbolSelectionEventFunction, func)</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00327"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#adc384a4cb0c81e6adf70bc8480922958">  327</a></span>&#160;<span class="preprocessor">#define EVT_SYMBOLSELECT(func) wx__DECLARE_EVT0(uttEVT_SYMBOLSELECT, SymbolSelectionEventHandler(func))</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;</div>
+<div class="line"><a name="l00335"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html">  335</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html">EditorRebuildDataEvent</a> : <span class="keyword">public</span> wxEvent</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;{</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00338"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067">  338</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067">WhatHappend</a></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    {</div>
+<div class="line"><a name="l00340"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067ae7c37977a9ab6b82af7195b1ce251cb8">  340</a></span>&#160;        <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067ae7c37977a9ab6b82af7195b1ce251cb8">whEditColourChanged</a>,</div>
+<div class="line"><a name="l00341"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067af734ff62c61e366b643f2ccd75ff5ef3">  341</a></span>&#160;        <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067af734ff62c61e366b643f2ccd75ff5ef3">whPaletteChanged</a>,</div>
+<div class="line"><a name="l00342"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067ac7041bfd133268c67dd68402174d97ed">  342</a></span>&#160;        <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067ac7041bfd133268c67dd68402174d97ed">whIndexMaskChanged</a>,</div>
+<div class="line"><a name="l00343"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067afd936491e4a59d734060fc591697b280">  343</a></span>&#160;        <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067afd936491e4a59d734060fc591697b280">whEditorStateChanged</a>,</div>
+<div class="line"><a name="l00344"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067ac9a124c4ef6433fe7f5da6c7d06eed59">  344</a></span>&#160;        <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067ac9a124c4ef6433fe7f5da6c7d06eed59">whNum</a></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    };</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;</div>
+<div class="line"><a name="l00347"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a1a0bf74997f0f3624f38f7ff2365213f">  347</a></span>&#160;    <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a1a0bf74997f0f3624f38f7ff2365213f">EditorRebuildDataEvent</a>( )</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        : wxEvent(0, uttEVT_REBUILDDATA),</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        mWhat( <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067ac9a124c4ef6433fe7f5da6c7d06eed59">whNum</a> ),</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        mData( NULL ),</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        mBool( false )</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    {   </div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    }</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    </div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;</div>
+<div class="line"><a name="l00357"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a5644cdf3ace654d2e40da487fd20ef1f">  357</a></span>&#160;    <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a5644cdf3ace654d2e40da487fd20ef1f">EditorRebuildDataEvent</a>( <span class="keywordtype">int</span> winid, <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067">WhatHappend</a> what, <span class="keywordtype">void</span>* data = NULL, <span class="keywordtype">bool</span> additional = <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        : wxEvent(winid, uttEVT_REBUILDDATA),</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        mWhat( what ),</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        mData( data ),</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        mBool( additional )</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    { </div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    }</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    </div>
+<div class="line"><a name="l00365"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#ae0d247f70d2ac6c59fae1eaceb136ee3">  365</a></span>&#160;    <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#ae0d247f70d2ac6c59fae1eaceb136ee3">EditorRebuildDataEvent</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html">EditorRebuildDataEvent</a>&amp; event)</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        : wxEvent(event),</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        mWhat( event.mWhat ),</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        mData( event.mData ),</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        mBool(  event.mBool )</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    { </div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    }</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;</div>
+<div class="line"><a name="l00373"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a542d6a5f3bc3743a255559a40c91ad85">  373</a></span>&#160;    <span class="keyword">virtual</span> wxEvent *<a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a542d6a5f3bc3743a255559a40c91ad85">Clone</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a1a0bf74997f0f3624f38f7ff2365213f">EditorRebuildDataEvent</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  </div>
+<div class="line"><a name="l00375"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a940dc46d94ac6d06fd8231390fb18fd8">  375</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a940dc46d94ac6d06fd8231390fb18fd8">GetWhat</a>() { <span class="keywordflow">return</span> mWhat; }</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <a class="code" href="../../d9/da7/class_palette.html">Palette</a>*    <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a744a6a68f5785be30142325701a7dceb">GetPalette</a>();</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <a class="code" href="../../d0/dc1/class_utt_colour.html">UttColour</a>*  <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#ac64606ebce58c22589c5e72346ccb7e2">GetColour</a>();</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <a class="code" href="../../d0/dac/class_i_editor.html">IEditor</a>*    <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#ae9767c199c81f49645e2a1309df172f8">GetEditor</a>();</div>
+<div class="line"><a name="l00379"></a><span class="lineno"><a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a6a6946f004dbd6cd9bf8a696098cda44">  379</a></span>&#160;    <span class="keywordtype">bool</span>        <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#a6a6946f004dbd6cd9bf8a696098cda44">GetBool</a>() { <span class="keywordflow">return</span> mBool; }</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    </div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html#adc88d40420766b79a8aa2cba83e8a067">WhatHappend</a>     mWhat;</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keywordtype">void</span>*           mData;</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="keywordtype">bool</span>            mBool;</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(<a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html">EditorRebuildDataEvent</a>)</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;};</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;</div>
+<div class="line"><a name="l00392"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#aae219b44031995dfb6ea9921c111e8b5">  392</a></span>&#160;<span class="keyword">typedef</span> void (wxEvtHandler::*<a class="code" href="../../de/d02/customevents_8h.html#aae219b44031995dfb6ea9921c111e8b5">EditorRebuildDataEventFunction</a>)(<a class="code" href="../../d7/d1a/class_editor_rebuild_data_event.html">EditorRebuildDataEvent</a>&amp;);</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;</div>
+<div class="line"><a name="l00396"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#ad2821c20a39e43998d02106a0787f652">  396</a></span>&#160;<span class="preprocessor">#define EditorRebuildDataEventHandler(func) \</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="preprocessor">    wxEVENT_HANDLER_CAST(EditorRebuildDataEventFunction, func)</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00399"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a0266e9178dcd54d83f8206d86f7bbee3">  399</a></span>&#160;<span class="preprocessor">#define EVT_REBUILDDATA(func) wx__DECLARE_EVT0(uttEVT_REBUILDDATA, EditorRebuildDataEventHandler(func))</span></div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;</div>
+<div class="line"><a name="l00407"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html">  407</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d2e/class_a_u_i_window_event.html">AUIWindowEvent</a> : <span class="keyword">public</span> wxEvent</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;{</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;    </div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    <span class="keyword">enum</span></div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    {</div>
+<div class="line"><a name="l00413"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa8c707ac6ae287e1f808a5d74534ba879">  413</a></span>&#160;        <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa8c707ac6ae287e1f808a5d74534ba879">AddWindow</a>,</div>
+<div class="line"><a name="l00414"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa471d656ee166e4209a5d5b4d5267a82c">  414</a></span>&#160;        <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa471d656ee166e4209a5d5b4d5267a82c">RemoveWindow</a>,</div>
+<div class="line"><a name="l00415"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa8183269a7bb417502a3b1ae2d30533c9">  415</a></span>&#160;        <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa8183269a7bb417502a3b1ae2d30533c9">RenameWindow</a>,</div>
+<div class="line"><a name="l00416"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa90144602277c2f04bede09189358b67d">  416</a></span>&#160;        <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa90144602277c2f04bede09189358b67d">UpdateManager</a>,</div>
+<div class="line"><a name="l00417"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa5e2c62bb400e43baa8fdb944b3443e9c">  417</a></span>&#160;        <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa5e2c62bb400e43baa8fdb944b3443e9c">ShowWindow</a>,</div>
+<div class="line"><a name="l00418"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa8b16982d704782488cfbaf1ee7cd1d5d">  418</a></span>&#160;        <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa8b16982d704782488cfbaf1ee7cd1d5d">HideWindow</a>,</div>
+<div class="line"><a name="l00419"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5faf0f17aa2a9b6c35d7247b32168b08a26">  419</a></span>&#160;        <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5faf0f17aa2a9b6c35d7247b32168b08a26">SetActive</a>,</div>
+<div class="line"><a name="l00420"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa9f34fae996f095143cfcd5e387e401dc">  420</a></span>&#160;        <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa9f34fae996f095143cfcd5e387e401dc">AUIEventNum</a></div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    };</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;</div>
+<div class="line"><a name="l00423"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab46a373578f7af2a18c096132d01cf10">  423</a></span>&#160;    <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab46a373578f7af2a18c096132d01cf10">AUIWindowEvent</a>():</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        wxEvent(0, uttEVT_ADDAUIWINDOW),</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        mCommand( <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa9f34fae996f095143cfcd5e387e401dc">AUIEventNum</a> ),</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;        mWindow( NULL ),</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;        mUpdate( false ),</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;        mName( wxEmptyString )</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    {   </div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    }</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;</div>
+<div class="line"><a name="l00434"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#a83878d3fe52afc8c1ac12ef21126b351">  434</a></span>&#160;    <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#a83878d3fe52afc8c1ac12ef21126b351">AUIWindowEvent</a>(<span class="keywordtype">int</span> command, wxWindow* wnd = NULL, <span class="keywordtype">bool</span> doUpdate = <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;        <span class="keyword">const</span> wxString&amp; name = wxEmptyString):</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            wxEvent(0, uttEVT_ADDAUIWINDOW),</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            mCommand( command ),</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            mWindow( wnd ),</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;            mUpdate( doUpdate || command == <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab82dd95c6e870faa8c9ea12488f2ff5fa90144602277c2f04bede09189358b67d">UpdateManager</a>),</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;            mName( name )</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;    {</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;    }</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;</div>
+<div class="line"><a name="l00444"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#a3dadf09146bc0234238e1ad4f5e2ea36">  444</a></span>&#160;    <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#a3dadf09146bc0234238e1ad4f5e2ea36">AUIWindowEvent</a>(<span class="keyword">const</span> <a class="code" href="../../da/d2e/class_a_u_i_window_event.html">AUIWindowEvent</a>&amp; event):</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            wxEvent(event),</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            mCommand( event.mCommand ),</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            mWindow( event.mWindow ),</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;            mUpdate( event.mUpdate ),</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            mName( event.mName )</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    {</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    }</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;</div>
+<div class="line"><a name="l00453"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#a54cf7f5229a04ff1b05b69b8473bbddd">  453</a></span>&#160;    <span class="keyword">virtual</span> wxEvent *<a class="code" href="../../da/d2e/class_a_u_i_window_event.html#a54cf7f5229a04ff1b05b69b8473bbddd">Clone</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab46a373578f7af2a18c096132d01cf10">AUIWindowEvent</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;</div>
+<div class="line"><a name="l00455"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#acd56c2b280865e7e06b58ac9b8f56ade">  455</a></span>&#160;    <span class="keywordtype">int</span>             <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#acd56c2b280865e7e06b58ac9b8f56ade">GetCommand</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mCommand; }</div>
+<div class="line"><a name="l00456"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#a36470068bf4875265dbf4e7240038507">  456</a></span>&#160;    wxWindow*       <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#a36470068bf4875265dbf4e7240038507">GetWindow</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mWindow; }</div>
+<div class="line"><a name="l00457"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab4ba8510abe4ca772af8a3a6700af96d">  457</a></span>&#160;    <span class="keyword">const</span> wxString&amp; <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#ab4ba8510abe4ca772af8a3a6700af96d">GetName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mName; }</div>
+<div class="line"><a name="l00458"></a><span class="lineno"><a class="code" href="../../da/d2e/class_a_u_i_window_event.html#af5d3c655d08c5f1dd6b91f5ca5d1466e">  458</a></span>&#160;    <span class="keywordtype">bool</span>            <a class="code" href="../../da/d2e/class_a_u_i_window_event.html#af5d3c655d08c5f1dd6b91f5ca5d1466e">DoUpdate</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mUpdate; }</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;    <span class="keywordtype">int</span>         mCommand;</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;    wxWindow*   mWindow;</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    <span class="keywordtype">bool</span>        mUpdate;</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    wxString    mName;</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    DECLARE_DYNAMIC_CLASS_NO_ASSIGN(<a class="code" href="../../da/d2e/class_a_u_i_window_event.html">AUIWindowEvent</a>)</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;};</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;</div>
+<div class="line"><a name="l00472"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a9a998758763c0e9dcff20c816c010fee">  472</a></span>&#160;<span class="keyword">typedef</span> void (wxEvtHandler::*<a class="code" href="../../de/d02/customevents_8h.html#a9a998758763c0e9dcff20c816c010fee">AddAUIWindowEventFunction</a>)(<a class="code" href="../../da/d2e/class_a_u_i_window_event.html">AUIWindowEvent</a>&amp;);</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;</div>
+<div class="line"><a name="l00476"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a1aba361d06f348141da523395c1eb247">  476</a></span>&#160;<span class="preprocessor">#define AddAUIWindowEventHandler(func) \</span></div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;<span class="preprocessor">    wxEVENT_HANDLER_CAST(AddAUIWindowEventFunction, func)</span></div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00479"></a><span class="lineno"><a class="code" href="../../de/d02/customevents_8h.html#a7d0b35ba8361236a8712f1631e678ea5">  479</a></span>&#160;<span class="preprocessor">#define EVT_ADDAUIWINDOW(func) wx__DECLARE_EVT0(uttEVT_ADDAUIWINDOW, AddAUIWindowEventHandler(func))</span></div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;</div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;<span class="preprocessor">#endif  // CUSTOMEVENTS_H_INCLUDED</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по Universal Translators' Tool. Последние изменения: Вт 28 Май 2013 22:52:55. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="../../doxygen.png" alt="doxygen"/>
+</a> 1.8.4
+</small></address>
+</body>
+</html>

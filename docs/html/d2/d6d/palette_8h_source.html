@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.4"/>
+<title>Universal Translators&#39; Tool: Исходный файл src/types/palette.h</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Universal Translators&#39; Tool
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.4 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="../../namespaces.html"><span>Пространства&#160;имен</span></a></li>
+      <li><a href="../../annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>Файлы</span></a></li>
+      <li><a href="../../globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_0c0c9fa8a58db41e576adc3ce68c5ee9.html">types</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">palette.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d2/d6d/palette_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/***************************************************************</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Name:      palette.h</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Purpose:   Palette container declaration</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Created:   2012-11-14</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * Copyright: Pavlovets Ilia</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * License:</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> **************************************************************/</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef PALETTE_H_INCLUDED</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define PALETTE_H_INCLUDED</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d5/ded/istatestore_8h.html">istatestore.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/da7/class_palette.html">Palette</a>: <span class="keyword">public</span> <a class="code" href="../../df/dfd/class_i_state_store.html">IStateStore</a></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264">   19</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264">BPP</a></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    {</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264ac66176303ec79c31d7f0ab7c53f1b1e6">   21</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264ac66176303ec79c31d7f0ab7c53f1b1e6">bppMono</a>,</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264acc01c9461a18e28996a0724eba930df8">   22</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264acc01c9461a18e28996a0724eba930df8">bpp2</a>,</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264acdb60c53ead58368f5579f27f93aa5fb">   23</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264acdb60c53ead58368f5579f27f93aa5fb">bpp4</a>,</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a28f5718f86900c7da6378a05c444771a">   24</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a28f5718f86900c7da6378a05c444771a">bpp8</a>,</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a02cc960eefcc61be4d826c9b2241feb4">   25</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a02cc960eefcc61be4d826c9b2241feb4">bpp15</a>,  <span class="comment">// http://en.wikipedia.org/wiki/High_color</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a17fbcea7cba4de77e6cbba272365aa02">   26</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a17fbcea7cba4de77e6cbba272365aa02">bpp16</a>,  <span class="comment">//</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a16185938f8ecf59d94e647bd4f1c0c59">   27</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a16185938f8ecf59d94e647bd4f1c0c59">bpp24</a>,</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264af263234cf53d45fdc98d6a94296be746">   28</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264af263234cf53d45fdc98d6a94296be746">bpp32</a>,</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a9c4dc755acd42e899e6df1f0b2eff6ec">   29</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a9c4dc755acd42e899e6df1f0b2eff6ec">bppNum</a></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    };</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    </div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3">   32</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3">SourceFormat</a></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    {</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3a452b59e2ccee5b702036774d6c04668a">   34</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3a452b59e2ccee5b702036774d6c04668a">sfNone</a>,</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3ab7b903db673727d704745479e56853af">   35</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3ab7b903db673727d704745479e56853af">sfPlain</a>,</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3a03b7d41b7d0efc9555a77011f9d6cfbd">   36</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3a03b7d41b7d0efc9555a77011f9d6cfbd">sfBMP</a>,</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3a7c5532ad576f5744605f2fff8dbd1ed4">   37</a></span>&#160;        <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3a7c5532ad576f5744605f2fff8dbd1ed4">sfNum</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    };</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="../../d9/da7/class_palette.html#a6eb6cac583a840b5251897e3403eac5a">Palette</a>();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="../../d9/da7/class_palette.html#a6eb6cac583a840b5251897e3403eac5a">Palette</a>( <span class="keyword">const</span> <a class="code" href="../../d9/da7/class_palette.html">Palette</a>&amp; other );</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../d9/da7/class_palette.html#a393b22e84156e4f62694589e02e5597d">~Palette</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a94e248102114af19f9a8a522f66261bf">   43</a></span>&#160;    <a class="code" href="../../d9/da7/class_palette.html">Palette</a>* <a class="code" href="../../d9/da7/class_palette.html#a94e248102114af19f9a8a522f66261bf">Clone</a>() { <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d9/da7/class_palette.html#a6eb6cac583a840b5251897e3403eac5a">Palette</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">// bpp - required parameter</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// src - pointer to paletter buffer or NULL to use default</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">// fmt - format of data stored in src</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// shift - some palettes need to shit each RGB value to left by 2</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span>        <a class="code" href="../../d9/da7/class_palette.html#a3bb0ac8d289f327fbfaf9d53269b4c05">Initiate</a>( <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264">BPP</a> bpp, <span class="keywordtype">char</span>* src = NULL, <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3">SourceFormat</a> fmt = <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3ab7b903db673727d704745479e56853af">sfPlain</a>, <span class="keywordtype">bool</span> shift = <span class="keyword">false</span> );</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span>        <a class="code" href="../../d9/da7/class_palette.html#a3bb0ac8d289f327fbfaf9d53269b4c05">Initiate</a>( <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264">BPP</a> bpp, wxByte* src = NULL, <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3">SourceFormat</a> fmt = <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3ab7b903db673727d704745479e56853af">sfPlain</a>, <span class="keywordtype">bool</span> shift = <span class="keyword">false</span> );</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">bool</span>        <a class="code" href="../../d9/da7/class_palette.html#acdcb82e0f11cc3d58080c20968125fd0">ChangeBPP</a>(<a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264">BPP</a> bpp);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span>        <a class="code" href="../../d9/da7/class_palette.html#a3f30822ac7c245a09ab9c4d319b5bd46">SetCGAType</a>( <span class="keywordtype">int</span> cga, <span class="keywordtype">bool</span> intensity );</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">bool</span>     <a class="code" href="../../d9/da7/class_palette.html#a60e4d1afe0ee2d95e2771a6ef05f8dbe">IsOk</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">bool</span>     <a class="code" href="../../d9/da7/class_palette.html#a7134a6b046f89c72256a1f3d0c0ccaee">IsIndexed</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a339afa35cc1473588e8ddf2b1c5a0a2e">   57</a></span>&#160;    <span class="keywordtype">int</span>             <a class="code" href="../../d9/da7/class_palette.html#a339afa35cc1473588e8ddf2b1c5a0a2e">GetPalType</a>() { <span class="keywordflow">return</span> mBPP; }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    wxBitmap*       <a class="code" href="../../d9/da7/class_palette.html#aa8ba230e55b0e322e38afa9d534cda78">GeneratePalBitmap</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span>            <a class="code" href="../../d9/da7/class_palette.html#a13fbe3f3d325150328123e3e28f21a3f">GetColourByIndex</a>( <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> n, wxByte&amp; r, wxByte&amp; g, wxByte&amp; b ) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="../../d0/dc1/class_utt_colour.html">UttColour</a>       <a class="code" href="../../d9/da7/class_palette.html#a13fbe3f3d325150328123e3e28f21a3f">GetColourByIndex</a>( <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> n );</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="../../d0/dc1/class_utt_colour.html">UttColour</a>       <a class="code" href="../../d9/da7/class_palette.html#a285e7552fad357a6b3c5dc0cd7f07e07">GetColourByCoordinates</a>( <span class="keyword">const</span> wxPoint&amp; pos);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    wxPoint         <a class="code" href="../../d9/da7/class_palette.html#adb653c364cfcb220feb95251de0495e3">GetIndexCoordinates</a>( <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> n );</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a5cc09eb315c2a674180e1c4c5767d763">   63</a></span>&#160;    <span class="keywordtype">int</span>             <a class="code" href="../../d9/da7/class_palette.html#a5cc09eb315c2a674180e1c4c5767d763">GetCGAType</a>() { <span class="keywordflow">return</span> mCurrentCGAPal; }</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#ab250ce35316a0a703f1d48825db35522">   64</a></span>&#160;    <span class="keywordtype">bool</span>            <a class="code" href="../../d9/da7/class_palette.html#ab250ce35316a0a703f1d48825db35522">GetIntensity</a>() { <span class="keywordflow">return</span> mCGAIntensity; }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    <a class="code" href="../../d9/da7/class_palette.html#a7c39e49aeb9fb44067efc47b717f95c3">GetCorrectImageSize</a>( <span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height, <span class="keywordtype">bool</span> forIndexMask = <span class="keyword">false</span> );</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    <a class="code" href="../../d9/da7/class_palette.html#a0203a358ae9bd5452786b7aa940ea637">GetPaletteSize</a>( <a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264">BPP</a> bits, <a class="code" href="../../d9/da7/class_palette.html#a1162a4e7323161869096ccb0c4a74ab3">SourceFormat</a> fmt );</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">// available static constants</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a1056f8f545e39e322b49b7069ee4746f">   70</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span>        <a class="code" href="../../d9/da7/class_palette.html#a1056f8f545e39e322b49b7069ee4746f">ColourNumber</a>[<a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a9c4dc755acd42e899e6df1f0b2eff6ec">bppNum</a>];</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a5500bb44a7ef9b4203b51749cf0179da">   71</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span>        <a class="code" href="../../d9/da7/class_palette.html#a5500bb44a7ef9b4203b51749cf0179da">Bits</a>[<a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a9c4dc755acd42e899e6df1f0b2eff6ec">bppNum</a>];</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a9655df207892898443cd6e6b8963ac3e">   72</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> wxString   <a class="code" href="../../d9/da7/class_palette.html#a9655df207892898443cd6e6b8963ac3e">Names</a>[<a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a9c4dc755acd42e899e6df1f0b2eff6ec">bppNum</a>];</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#af254f97d39dc1ffe2d8bf6362fcafdaf">   73</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> wxSize     <a class="code" href="../../d9/da7/class_palette.html#af254f97d39dc1ffe2d8bf6362fcafdaf">BitmapSize</a>[<a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a9c4dc755acd42e899e6df1f0b2eff6ec">bppNum</a>];</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="code" href="../../d9/da7/class_palette.html#a30f48cb9c0330213bb775c7ec18818c6">   74</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> wxDouble   <a class="code" href="../../d9/da7/class_palette.html#a30f48cb9c0330213bb775c7ec18818c6">BitmapScale</a>[<a class="code" href="../../d9/da7/class_palette.html#a79fba7226cb46166fc808bfe47a81264a9c4dc755acd42e899e6df1f0b2eff6ec">bppNum</a>];</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">size_t</span> <a class="code" href="../../d9/da7/class_palette.html#a8396ee8b1779e8a42671e7c7e86ae5b9">PaletteSize</a>( <span class="keywordtype">int</span> n );</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/da7/class_palette.html#a853372c986369b469e435c6cdd40d47f">SaveState</a>( wxOutputStream&amp; output );</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/da7/class_palette.html#adbef6bcd10fbf09586a9abb129776c42">LoadState</a>( wxInputStream&amp; input, <span class="keywordtype">int</span> version );</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span> ShiftPalette();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">void</span> CopyPalette( <span class="keywordtype">void</span>* dest, <span class="keywordtype">void</span>* src, <span class="keywordtype">bool</span> skipFourth = <span class="keyword">false</span> );</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span> AllocateDatas();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> ClearDatas();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> ConvertHighColour2RGB( <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> i, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; r, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; g, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; b );</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    wxInt32     mBPP;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    wxUint32    mSize;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">bool</span>        mShifted;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">bool</span>        mInitiated;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">bool</span>        mCGAIntensity;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    wxByte      mCurrentCGAPal;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span>*   mData;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">void</span>*   mCurrent;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;};</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#endif  // PALETTE_H_INCLUDED</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по Universal Translators' Tool. Последние изменения: Вт 28 Май 2013 22:52:55. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="../../doxygen.png" alt="doxygen"/>
+</a> 1.8.4
+</small></address>
+</body>
+</html>

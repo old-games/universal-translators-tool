@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.4"/>
+<title>Universal Translators&#39; Tool: Исходный файл src/types/solidstruct.h</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Universal Translators&#39; Tool
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.4 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="../../namespaces.html"><span>Пространства&#160;имен</span></a></li>
+      <li><a href="../../annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>Файлы</span></a></li>
+      <li><a href="../../globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_0c0c9fa8a58db41e576adc3ce68c5ee9.html">types</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">solidstruct.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../db/d47/solidstruct_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/***************************************************************</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Name:      solidstruct.h</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Purpose:   class to hold Lua defined structure</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Created:   2013-01-01</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * Copyright: Pavlovets Ilia</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * License:</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> **************************************************************/</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef SOLIDSTRUCT_H_INCLUDED</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SOLIDSTRUCT_H_INCLUDED</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="code" href="../../db/d47/solidstruct_8h.html#a386b1343c627cba36e6cb8b668d0c0f3">   13</a></span>&#160;<span class="preprocessor">#define MAXIMUM_SOLID_ITEMS     128</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d9d/class_struct_item.html">StructItem</a></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aae">   21</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aae">StructItemType</a></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    {</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea27bea3e2b498ce5aa59ced75745bfeaa">   23</a></span>&#160;        <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea27bea3e2b498ce5aa59ced75745bfeaa">siChar</a>,</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaead6c92426a9e2514d4b7f9010a2adc063">   24</a></span>&#160;        <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaead6c92426a9e2514d4b7f9010a2adc063">siByte</a>,</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea20a55478ac525fc67076164ceabbc764">   25</a></span>&#160;        <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea20a55478ac525fc67076164ceabbc764">siShort</a>,</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea68dd3114f1a858d9c6d47b6b184486d8">   26</a></span>&#160;        <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea68dd3114f1a858d9c6d47b6b184486d8">siWord</a>,</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaeac6b5f0d3780765cda757873471251065">   27</a></span>&#160;        <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaeac6b5f0d3780765cda757873471251065">siLong</a>,</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaeadc59afc4d4e9dfd1d5ac46e4179fb8fe">   28</a></span>&#160;        <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaeadc59afc4d4e9dfd1d5ac46e4179fb8fe">siDWord</a>,</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaeae4d23e876495da6604adbbc39caab525">   29</a></span>&#160;        <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaeae4d23e876495da6604adbbc39caab525">siString</a>,</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea6d8bea484d458042e57c5b982524734c">   30</a></span>&#160;        <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea6d8bea484d458042e57c5b982524734c">siData</a>,</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea6c9650825372b1cb1d4786aa0e3ddd2e">   31</a></span>&#160;        <a class="code" href="../../d9/d9d/class_struct_item.html#a6e3a7c5718587a434bcf12683c4d7aaea6c9650825372b1cb1d4786aa0e3ddd2e">siUnknown</a></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    };</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="../../d9/d9d/class_struct_item.html#a0c29860d340d6c914f7a428c25f1cec3">StructItem</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="../../d9/d9d/class_struct_item.html#a0c29860d340d6c914f7a428c25f1cec3">StructItem</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d9d/class_struct_item.html">StructItem</a>&amp; other);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d9/d9d/class_struct_item.html#aefe50e7d2c0a477cecf9b84186ac023c">SetValue</a>(<span class="keyword">const</span> wxString&amp; name, <span class="keywordtype">size_t</span> size, <span class="keywordtype">void</span>* src );</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a46cebe9caa436fd00dcf1bc624bf6bc9">   40</a></span>&#160;    T <a class="code" href="../../d9/d9d/class_struct_item.html#a46cebe9caa436fd00dcf1bc624bf6bc9">GetAs</a>()</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>( *mValue );</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }   </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="../../d9/d9d/class_struct_item.html#a79d0573048a53f63c934eaca34573705">   45</a></span>&#160;    std::string <a class="code" href="../../d9/d9d/class_struct_item.html#a79d0573048a53f63c934eaca34573705">GetAs</a>()</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">return</span> std::string( (<span class="keywordtype">char</span>*) mValue, mSize );</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    wxString    mName;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">size_t</span>      mSize;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span>*       mValue;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="../../df/d50/class_solid_struct.html">   60</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d50/class_solid_struct.html">SolidStruct</a></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="../../df/d50/class_solid_struct.html#a5c54801563fbd6950432f7fe9827ee0d">SolidStruct</a>();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    </div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="code" href="../../df/d50/class_solid_struct.html#a22a867b845564728095db8de017af758">   66</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../df/d50/class_solid_struct.html#a22a867b845564728095db8de017af758">IsOk</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mData != NULL; }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/d50/class_solid_struct.html#a0156e258a40212314ebf3ebb80afe9bb">Init</a>( <span class="keyword">const</span> <span class="keywordtype">char</span>* srcBuf, <span class="keywordtype">size_t</span> srcSize, <span class="keywordtype">size_t</span> num );</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">//void SetValue( const char* varName, )</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span>*           mData;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">size_t</span>          mNum;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="../../d9/d9d/class_struct_item.html">StructItem</a>      mValues[<a class="code" href="../../db/d47/solidstruct_8h.html#a386b1343c627cba36e6cb8b668d0c0f3">MAXIMUM_SOLID_ITEMS</a>];</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#endif // SOLIDSTRUCT_H_INCLUDED</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по Universal Translators' Tool. Последние изменения: Вт 28 Май 2013 22:52:56. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="../../doxygen.png" alt="doxygen"/>
+</a> 1.8.4
+</small></address>
+</body>
+</html>

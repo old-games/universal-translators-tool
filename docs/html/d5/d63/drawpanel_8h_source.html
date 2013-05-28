@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.4"/>
+<title>Universal Translators&#39; Tool: Исходный файл src/panels/drawpanel.h</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Universal Translators&#39; Tool
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.4 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="../../namespaces.html"><span>Пространства&#160;имен</span></a></li>
+      <li><a href="../../annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>Файлы</span></a></li>
+      <li><a href="../../globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_99a4f1204c936485e0d7b28039c96b73.html">panels</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">drawpanel.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d5/d63/drawpanel_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/***************************************************************</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Name:      drawpanel.h</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Purpose:   DrawPanel class declaration</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Created:   2012-02-02</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * Copyright: Pavlovets Ilia</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * License:</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> **************************************************************/</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef DRAWPANEL_H_INCLUDED</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DRAWPANEL_H_INCLUDED</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d5/df1/selectrect_8h.html">selectrect.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// forward declaratinos</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">class </span>Palete;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/d14/class_index_mask.html">IndexMask</a>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d7d/class_image_info.html">ImageInfo</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91b">   21</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91b">UTTDrawParams</a></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba9f1268ac9f161b79ab45117951b00dcf">   23</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba9f1268ac9f161b79ab45117951b00dcf">utdNone</a>     = 0x0000,</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91badae070813b6751baab34f1c713ce3212">   24</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91badae070813b6751baab34f1c713ce3212">utdReserve</a>  = 0x0001,</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba3d537ca2164daaa872af957b4790ab9f">   25</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba3d537ca2164daaa872af957b4790ab9f">utdLeft</a>     = 0x0002,</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba87d6ac5b1fc9a4a48e078bf4d34abc70">   26</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba87d6ac5b1fc9a4a48e078bf4d34abc70">utdHCenter</a>  = 0x0004,</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bab06cf6b6884cdfda8706e5c3a037df4d">   27</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bab06cf6b6884cdfda8706e5c3a037df4d">utdVCenter</a>  = 0x0008,</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bad3a0baffcb1a6a231ab11fe74bd96a87">   28</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bad3a0baffcb1a6a231ab11fe74bd96a87">utdRight</a>    = 0x0010,</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bab55454a2e9d17711398ef5a35928a420">   29</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bab55454a2e9d17711398ef5a35928a420">utdUp</a>       = 0x0020,</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba349612262104664bb5c277a408ac745f">   30</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba349612262104664bb5c277a408ac745f">utdDown</a>     = 0x0040,</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba8149146f612e449a2aa92e1f6596238e">   31</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91ba8149146f612e449a2aa92e1f6596238e">utdExpand</a>   = 0x0080,</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bafe3fec7b4acb4ea3a653a1a97bec895f">   32</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bafe3fec7b4acb4ea3a653a1a97bec895f">utdExactFit</a> = 0x0100,</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bad0ae8ccd4e6d7b7f814708d24097638a">   33</a></span>&#160;    <a class="code" href="../../d5/d63/drawpanel_8h.html#afa07cb9b761ceba36ca99de1bce0c91bad0ae8ccd4e6d7b7f814708d24097638a">utdStretch</a>  = 0x0200</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d5a/class_draw_panel.html">DrawPanel</a> :</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">public</span> wxScrolledWindow, <span class="keyword">public</span> <a class="code" href="../../d4/d27/class_selection_rectangle.html">SelectionRectangle</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#afcb51416ace93aab00a3ebbeb12d86af">DrawPanel</a>( wxWindow* parent );</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a5cc81ab06b4ce02ca7f5be2ea6e887be">~DrawPanel</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ac1ac6107be045aa59e9f1c8649cd855f">SetIndexedBitmap</a>( <a class="code" href="../../de/d7d/class_image_info.html">ImageInfo</a>* info, <span class="keywordtype">bool</span> cloneInfo = <span class="keyword">true</span> );</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#af1eec370d76f9a942eed4764769b1a10">ResetIndexedBitmap</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#add2443bf58fa9d461deb5d6a2baaddc9">SetBitmap</a>( wxBitmap* bitmap );</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#add2443bf58fa9d461deb5d6a2baaddc9">SetBitmap</a>(<a class="code" href="../../df/d68/uttypes_8h.html#a2964b891cfb5be1525466cf1ebcc62ad">Pixel</a>* buffer, <span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a523573168c5cca9add5afcecf449e4e9">SetBuffer</a>( <a class="code" href="../../df/d68/uttypes_8h.html#a2964b891cfb5be1525466cf1ebcc62ad">Pixel</a>* buffer );</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a52d35d5f8768291685c705896fb09ceb">SetBitmapScale</a>( wxDouble scale );</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a070c3c51ab5c3d9a57e1b822d0d14574">SetScaleRange</a>( wxDouble min, wxDouble max );</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a54b9bf3d795e1ce0114c03c57f8e5af5">SetAlign</a>( <span class="keywordtype">int</span> align );</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a811970e7b2ed9de60fdfd43aeaa1dc2c">SetAllowScaling</a>( <span class="keywordtype">bool</span> b = <span class="keyword">true</span> );</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a4f76a41bc5a99b4b6ee1acddb9e0d0fc">SetDrawFocus</a>( <span class="keywordtype">bool</span> b = <span class="keyword">true</span> );</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a10ffe57cee0cfe52a33693daae30b612">RefCheck</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#ac9f30ec84f9d61afb6d668e43ac1ce0c">   58</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ac9f30ec84f9d61afb6d668e43ac1ce0c">GetRealWidth</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ae39329287b0ae42559be81c41c38ac82">mShowWidth</a>; }</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a2a219ac6e2bd26240754967f23e2e66d">   59</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a2a219ac6e2bd26240754967f23e2e66d">GetRealHeight</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ac57284983b7e4a2d92572c1a310b9638">mShowHeight</a>; }</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a3a25e26814999c2b280d68aa1d67537d">   60</a></span>&#160;    <span class="keyword">inline</span> <a class="code" href="../../de/d7d/class_image_info.html">ImageInfo</a>* <a class="code" href="../../d2/d5a/class_draw_panel.html#a3a25e26814999c2b280d68aa1d67537d">GetImageInfo</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a29b5335bed9efeccb4d7acbace75c5d6">mImageInfo</a>; }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#ae295d44439ee29d33765dd21b68b9868">   62</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ae295d44439ee29d33765dd21b68b9868">IsOk</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a8e5dbf204b63227093a4ef58c199b3fd">mBitmap</a> &amp;&amp; <a class="code" href="../../d2/d5a/class_draw_panel.html#a8e5dbf204b63227093a4ef58c199b3fd">mBitmap</a>-&gt;IsOk(); }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a4da6434c1fa08c35a8674b3561fc8052">OnMouseWheel</a>( wxMouseEvent &amp;event );</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#afb692290d85cb2300a616352850adb0a">OnBtnDown</a>( wxMouseEvent&amp; event );</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a800d59b69cf92463b62e750cef80d5b2">OnMotion</a>( wxMouseEvent&amp; event );</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a8e7c73b4466f5b6fd7e169a927d11c78">OnBtnUp</a>( wxMouseEvent&amp; event );</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#aa050602b1b714fc2bb40b2fc86b3f338">OnKeyDown</a>( wxKeyEvent&amp; event );</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a72de06e82f1e13867a6eeefb83ea63b3">OnKeyUp</a>( wxKeyEvent&amp; event );</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a8c8cc4599e3c7ae21141f31218913a64">OnPaint</a>(wxPaintEvent&amp; event);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ae7cd34fdf033574e9b062e33e22f0103">OnSize</a>(wxSizeEvent&amp; event);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a645410ab9e6960535d91a97d8031b358">Render</a>(wxDC&amp; dc);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">//  virtual void Render2(wxGCDC&amp; dc);</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a8e8be37858fa253bbf64dbc4fd96e2a9">OnEnterWindow</a>( wxMouseEvent&amp; event );</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a82a0324ad547975cb1261892b3063f7a">OnLeaveWindow</a>( wxMouseEvent&amp; event );</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a73c6cdaebffc1271da6be7ef7e107e8c">OnFocusSet</a>( wxFocusEvent&amp; event );</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a5df2f360971e7f455900c00eb277d595">OnFocusLost</a>( wxFocusEvent&amp; event );</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a5baadd43292f313286dadfac151cd499">MouseButton</a>( <span class="keywordtype">int</span> btn, <span class="keywordtype">bool</span> up );</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ab00414b9a5d2470f8206ae3cd4a7a5ea">MouseModifiersButton</a>( <span class="keywordtype">int</span> modifier, <span class="keywordtype">int</span> btn, <span class="keywordtype">bool</span> up );</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a8cca8f31f1aceffdf3477227e5b62c70">MouseMoving</a>( <span class="keywordtype">int</span> modifier, <span class="keywordtype">int</span> btn );</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ac4fd86c0d6a0bf2b0482cd362060abe4">MouseWheel</a>( <span class="keywordtype">int</span> modifier, <span class="keywordtype">int</span> delta );</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a822efa2d68bb65b2dce0f5800801f866">KeyDown</a>( <span class="keywordtype">int</span> modifier, <span class="keywordtype">int</span> keyCode );</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ae6dbdd2207bcc70c1af55abdcee037cb">KeyUp</a>( <span class="keywordtype">int</span> modifier, <span class="keywordtype">int</span> keyCode );</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#acda817444841fea66422fa6b617f25c1">PlusMinusPressed</a>( <span class="keywordtype">bool</span> plus );</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a7782485ecfe6a8b4227ed3c1a8b6efce">SetShowParams</a>();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a19af8e381dfba45bb534391bdd6448f1">PaintNow</a>();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#af6c09390c3a13c9335cd2b14b64c4fd7">DestroyBitmap</a>( <span class="keywordtype">bool</span> leaveInfo = <span class="keyword">false</span> );</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#ac8d52b19dc8af0993b0fc2a82adbd9c5">ApplyBitmap</a>();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a8d58857fb4fe84a2b3cb744101b2493f">IsExpand</a>();</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a72f1ee84d3a4be77ed99988b85d08c36">   99</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a72f1ee84d3a4be77ed99988b85d08c36">IsMousePointOk</a>()</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../d4/d27/class_selection_rectangle.html#a0f56f0d7cb3d437e1e58f3fe638326a5">mMousePoint</a>.x != -1 &amp;&amp; <a class="code" href="../../d4/d27/class_selection_rectangle.html#a0f56f0d7cb3d437e1e58f3fe638326a5">mMousePoint</a>.y != -1;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d5a/class_draw_panel.html#a115fd6ae6fd72251710a1f8d72c5f521">DrawRectAround</a>( wxDC&amp; dc, <span class="keyword">const</span> wxColour&amp; colour );</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    wxRect <a class="code" href="../../d2/d5a/class_draw_panel.html#a7dd40f70605fc17eee738230be7a94d0">GetRealSelectionRect</a>();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a9548bbdd5c2f6d2b9116e68d94a9dc52">  109</a></span>&#160;    <span class="keywordtype">bool</span>        <a class="code" href="../../d2/d5a/class_draw_panel.html#a9548bbdd5c2f6d2b9116e68d94a9dc52">mDrawFocus</a>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#ac276ebf027f13c30c68495a123b382cd">  110</a></span>&#160;    wxDouble    <a class="code" href="../../d2/d5a/class_draw_panel.html#ac276ebf027f13c30c68495a123b382cd">mXAspectRatio</a>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a2eadd96a512aea80fe1610debe6d870c">  111</a></span>&#160;    wxDouble    <a class="code" href="../../d2/d5a/class_draw_panel.html#a2eadd96a512aea80fe1610debe6d870c">mYAspectRatio</a>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#ae39329287b0ae42559be81c41c38ac82">  112</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="../../d2/d5a/class_draw_panel.html#ae39329287b0ae42559be81c41c38ac82">mShowWidth</a>;             <span class="comment">// ширина картинки для отображения</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#ac57284983b7e4a2d92572c1a310b9638">  113</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="../../d2/d5a/class_draw_panel.html#ac57284983b7e4a2d92572c1a310b9638">mShowHeight</a>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a6db99b943f4ad9c13224364b4c53b395">  114</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="../../d2/d5a/class_draw_panel.html#a6db99b943f4ad9c13224364b4c53b395">mPosX</a>;                  <span class="comment">// стартовая позиция для отображения</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#aab0b81b24de1f5154b860a013bd0d98d">  115</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="../../d2/d5a/class_draw_panel.html#aab0b81b24de1f5154b860a013bd0d98d">mPosY</a>;</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a473241386184051cfeaf4b3b4bf05961">  116</a></span>&#160;    wxDouble    <a class="code" href="../../d2/d5a/class_draw_panel.html#a473241386184051cfeaf4b3b4bf05961">mScale</a>;</div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a5ea90711ab91f87bea56a71ef4db662e">  117</a></span>&#160;    <span class="keywordtype">float</span>       <a class="code" href="../../d2/d5a/class_draw_panel.html#a5ea90711ab91f87bea56a71ef4db662e">mRealScale</a>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a1b1e31af0ed45cecebd9880ce6f9be2e">  119</a></span>&#160;    wxDouble    <a class="code" href="../../d2/d5a/class_draw_panel.html#a1b1e31af0ed45cecebd9880ce6f9be2e">mScaleMin</a>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a09373715bb1c10a856d969d8e6497d3a">  120</a></span>&#160;    wxDouble    <a class="code" href="../../d2/d5a/class_draw_panel.html#a09373715bb1c10a856d969d8e6497d3a">mScaleMax</a>;</div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#acfe9224e17bf1efe5a9b48814e068419">  121</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="../../d2/d5a/class_draw_panel.html#acfe9224e17bf1efe5a9b48814e068419">mScaledWidth</a>;</div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#aa21caddf16f474b174cab99e84045107">  122</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="../../d2/d5a/class_draw_panel.html#aa21caddf16f474b174cab99e84045107">mScaledHeight</a>;</div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a0012212730c53062a5b5f85e1819a0bb">  123</a></span>&#160;    wxRect      <a class="code" href="../../d2/d5a/class_draw_panel.html#a0012212730c53062a5b5f85e1819a0bb">mBitmapRect</a>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a8e5dbf204b63227093a4ef58c199b3fd">  125</a></span>&#160;    wxBitmap*   <a class="code" href="../../d2/d5a/class_draw_panel.html#a8e5dbf204b63227093a4ef58c199b3fd">mBitmap</a>;</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#aa5d4ead11b65e108588eb95c6a261926">  126</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="../../d2/d5a/class_draw_panel.html#aa5d4ead11b65e108588eb95c6a261926">mWidth</a>;</div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a24aef9405cda74c93c0f56394775c19f">  127</a></span>&#160;    <span class="keywordtype">int</span>         <a class="code" href="../../d2/d5a/class_draw_panel.html#a24aef9405cda74c93c0f56394775c19f">mHeight</a>;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    </div>
+<div class="line"><a name="l00129"></a><span class="lineno"><a class="code" href="../../d2/d5a/class_draw_panel.html#a29b5335bed9efeccb4d7acbace75c5d6">  129</a></span>&#160;    <a class="code" href="../../de/d7d/class_image_info.html">ImageInfo</a>*  <a class="code" href="../../d2/d5a/class_draw_panel.html#a29b5335bed9efeccb4d7acbace75c5d6">mImageInfo</a>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordtype">void</span> DrawFocus(wxDC&amp; dc);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordtype">void</span> CalculateScrollBars();</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">void</span> CheckEndDrag();</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">bool</span> CopySelection();</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordtype">int</span>         mAlign;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">bool</span>        mAllowScaling;          <span class="comment">// allows scaling by mouse wheel</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    wxSize      mPreviousSize;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span>          sRefCount;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;};</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="preprocessor">#endif</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по Universal Translators' Tool. Последние изменения: Вт 28 Май 2013 22:52:55. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="../../doxygen.png" alt="doxygen"/>
+</a> 1.8.4
+</small></address>
+</body>
+</html>

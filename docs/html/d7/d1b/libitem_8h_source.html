@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.4"/>
+<title>Universal Translators&#39; Tool: Исходный файл src/types/libitem.h</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Universal Translators&#39; Tool
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.4 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="../../namespaces.html"><span>Пространства&#160;имен</span></a></li>
+      <li><a href="../../annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>Файлы</span></a></li>
+      <li><a href="../../globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_0c0c9fa8a58db41e576adc3ce68c5ee9.html">types</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">libitem.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d7/d1b/libitem_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/***************************************************************</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Name:      libitem.h</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Purpose:   declaration of LibItem class</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Author:    Pavlovets Ilia (ilia.pavlovets@gmail.com)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Created:   2012-12-06</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * Copyright: Pavlovets Ilia</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * License:</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> **************************************************************/</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef LIBITEM_H_INCLUDED</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBITEM_H_INCLUDED</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">class </span><a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<a class="code" href="../../d6/d6d/thumbnail_8h.html#a34fe82e9f2e7c65a9c07287cbff1617b">WX_DEFINE_ARRAY</a>( <a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>* , LibItemArray );</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="code" href="../../d7/d1b/libitem_8h.html#a3190643f6efc8ac175d0f97b2f47906d">   15</a></span>&#160;<span class="keyword">typedef</span> LibItemArray::iterator <a class="code" href="../../d7/d1b/libitem_8h.html#a3190643f6efc8ac175d0f97b2f47906d">ItemsArrayIterator</a>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="code" href="../../d7/d1b/libitem_8h.html#a6e2eeba7e983d2983b10b568f280869b">   16</a></span>&#160;<span class="keyword">typedef</span> LibItemArray::const_iterator <a class="code" href="../../d7/d1b/libitem_8h.html#a6e2eeba7e983d2983b10b568f280869b">ConstItemsArrayItr</a>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">   18</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a> <a class="code" href="../../dc/d69/libitem_8cpp.html#ab4a33f8843130c97c46d352ef8ddaaac">LIBITEM_BADID</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a> <a class="code" href="../../dc/d69/libitem_8cpp.html#a3d4d7b11813d1c5a594e0609daeb8e79">LIBITEM_ROOTID</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<a class="code" href="../../d8/db5/projectwindow_8h.html#aebe7f722809017b08242c4d2cfc0f448">WX_DECLARE_HASH_MAP</a>( <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a>, <a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>*, wxIntegerHash, wxIntegerEqual, LibItemsMap );</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="code" href="../../d7/d1b/libitem_8h.html#a19489c708207a72c5fb902eb08b5a275">   25</a></span>&#160;<span class="keyword">typedef</span> LibItemsMap::iterator <a class="code" href="../../d7/d1b/libitem_8h.html#a19489c708207a72c5fb902eb08b5a275">ItemsMapIterator</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="code" href="../../d7/d1b/libitem_8h.html#a29833f7607a63c9ddcc114351605e079">   26</a></span>&#160;<span class="keyword">typedef</span> LibItemsMap::const_iterator <a class="code" href="../../d7/d1b/libitem_8h.html#a29833f7607a63c9ddcc114351605e079">ConstItemsMapItr</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// this class to hold item id in wxTreeListCtrl</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="code" href="../../df/d56/classwx_lib_tree_data.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d56/classwx_lib_tree_data.html">wxLibTreeData</a>: <span class="keyword">public</span> wxClientData</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="code" href="../../df/d56/classwx_lib_tree_data.html#aceafc9b5eca9656b4699bf392b4f94d4">   33</a></span>&#160;    <a class="code" href="../../df/d56/classwx_lib_tree_data.html#aceafc9b5eca9656b4699bf392b4f94d4">wxLibTreeData</a>(): <a class="code" href="../../df/d56/classwx_lib_tree_data.html#a0b85f95ac9994fb62503a1e1d857e4e0">mLibId</a>( <a class="code" href="../../dc/d69/libitem_8cpp.html#ab4a33f8843130c97c46d352ef8ddaaac">LIBITEM_BADID</a> ) {}</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="../../df/d56/classwx_lib_tree_data.html#a1beea1183a1ae0d20bfae4c2ac5cbcca">   34</a></span>&#160;    <a class="code" href="../../df/d56/classwx_lib_tree_data.html#a1beea1183a1ae0d20bfae4c2ac5cbcca">wxLibTreeData</a>( <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a> <span class="keywordtype">id</span> ):  <a class="code" href="../../df/d56/classwx_lib_tree_data.html#a0b85f95ac9994fb62503a1e1d857e4e0">mLibId</a>( id ) {}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="../../df/d56/classwx_lib_tree_data.html#a0b85f95ac9994fb62503a1e1d857e4e0">   36</a></span>&#160;    <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a> <a class="code" href="../../df/d56/classwx_lib_tree_data.html#a0b85f95ac9994fb62503a1e1d857e4e0">mLibId</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="../../da/d25/struct_lib_item_data.html">   41</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../da/d25/struct_lib_item_data.html">LibItemData</a></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="../../da/d25/struct_lib_item_data.html#aa194dcf3f102eee2ece3e83738a371fc">LibItemData</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="../../da/d25/struct_lib_item_data.html#aa194dcf3f102eee2ece3e83738a371fc">LibItemData</a>( <span class="keyword">const</span> <a class="code" href="../../da/d25/struct_lib_item_data.html">LibItemData</a>&amp; other );</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="../../da/d25/struct_lib_item_data.html#a29ec35d9108e320e11e3947cfd4f1567">   46</a></span>&#160;    <span class="keyword">virtual</span> <a class="code" href="../../da/d25/struct_lib_item_data.html#a29ec35d9108e320e11e3947cfd4f1567">~LibItemData</a>() {}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="code" href="../../da/d25/struct_lib_item_data.html#a2f13768ede27d10ec15197dbe23609e3">   48</a></span>&#160;    <span class="keyword">virtual</span> <a class="code" href="../../da/d25/struct_lib_item_data.html">LibItemData</a>* <a class="code" href="../../da/d25/struct_lib_item_data.html#a2f13768ede27d10ec15197dbe23609e3">Clone</a>() { <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../da/d25/struct_lib_item_data.html#aa194dcf3f102eee2ece3e83738a371fc">LibItemData</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="code" href="../../da/d25/struct_lib_item_data.html#a47bc077092e149a73e014c7c7f551aa9">   50</a></span>&#160;    <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a>       <a class="code" href="../../da/d25/struct_lib_item_data.html#a47bc077092e149a73e014c7c7f551aa9">mDataOwner</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="../../da/d25/struct_lib_item_data.html#a7bf384809d8ae11dd47fcc57b52b96c3">   51</a></span>&#160;    wxFileOffset    <a class="code" href="../../da/d25/struct_lib_item_data.html#a7bf384809d8ae11dd47fcc57b52b96c3">mLibFileOffset</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="../../da/d25/struct_lib_item_data.html#a8b92dd23f4e4133776f8fa79ab4ebd09">   52</a></span>&#160;    wxFileOffset    <a class="code" href="../../da/d25/struct_lib_item_data.html#a8b92dd23f4e4133776f8fa79ab4ebd09">mLibDataSize</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html">   57</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="../../df/dd1/class_lib_item.html#a036a89d4b46423bcbda7f745e2c66795">LibItem</a>();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../df/dd1/class_lib_item.html#a036a89d4b46423bcbda7f745e2c66795">LibItem</a>(<a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>* parent, <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="../../df/dd1/class_lib_item.html#a036a89d4b46423bcbda7f745e2c66795">LibItem</a>( <span class="keyword">const</span> <a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>&amp; item );</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="../../df/dd1/class_lib_item.html#a8069152a1ba1103a235ff736fd512726">~LibItem</a>();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#af34ac5562d73ca946a87b96f52441c48">   67</a></span>&#160;    <a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>* <a class="code" href="../../df/dd1/class_lib_item.html#af34ac5562d73ca946a87b96f52441c48">Clone</a>() { <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../df/dd1/class_lib_item.html#a036a89d4b46423bcbda7f745e2c66795">LibItem</a>(*<span class="keyword">this</span>); }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#a983cf4cf7498f951ffbee680c9099e36">   69</a></span>&#160;    <span class="keywordtype">bool</span>            <a class="code" href="../../df/dd1/class_lib_item.html#a983cf4cf7498f951ffbee680c9099e36">IsOk</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mIsOk; }</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#a3d33b67fc465ce1f6ed4d2b3e2609bc9">   70</a></span>&#160;    <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a>       <a class="code" href="../../df/dd1/class_lib_item.html#a3d33b67fc465ce1f6ed4d2b3e2609bc9">GetId</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mID; }</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#a8f9da8e71fc7c10d518cc328f888649b">   71</a></span>&#160;    <span class="keyword">const</span> wxString&amp; <a class="code" href="../../df/dd1/class_lib_item.html#a8f9da8e71fc7c10d518cc328f888649b">GetText</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mText; }</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#a25fb6a8dae169d410907c06007c0b19d">   72</a></span>&#160;    std::string     <a class="code" href="../../df/dd1/class_lib_item.html#a25fb6a8dae169d410907c06007c0b19d">LuaGetText</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mText.ToStdString(); }</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#afb5c63e6ac55888d4caa584ea5bd4695">   73</a></span>&#160;    <a class="code" href="../../da/d25/struct_lib_item_data.html">LibItemData</a>*    <a class="code" href="../../df/dd1/class_lib_item.html#afb5c63e6ac55888d4caa584ea5bd4695">GetData</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mData; }</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#adc49c72fa08e6786dd934429c9b44cb6">   74</a></span>&#160;    <span class="keywordtype">size_t</span>          <a class="code" href="../../df/dd1/class_lib_item.html#adc49c72fa08e6786dd934429c9b44cb6">GetChildrenCount</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mChildren.size(); }</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#a95f7a084804dd660e9e5e8f3fb9cc140">   75</a></span>&#160;    <span class="keywordtype">bool</span>            <a class="code" href="../../df/dd1/class_lib_item.html#a95f7a084804dd660e9e5e8f3fb9cc140">HasChildren</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mChildren.size() &gt; 0; }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    </div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#a1f7f64bd97f0911bc15354c848cf0282">   77</a></span>&#160;    <a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>*        <a class="code" href="../../df/dd1/class_lib_item.html#a1f7f64bd97f0911bc15354c848cf0282">GetChild</a>(<span class="keywordtype">size_t</span> n)<span class="keyword"> const </span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> n &lt; mChildren.size() ? mChildren[n] : NULL;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    </div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#af320df31f86fe246bb14201c415b9884">   82</a></span>&#160;    <span class="keyword">inline</span> <a class="code" href="../../d7/d1b/libitem_8h.html#a3190643f6efc8ac175d0f97b2f47906d">ItemsArrayIterator</a>   <a class="code" href="../../df/dd1/class_lib_item.html#af320df31f86fe246bb14201c415b9884">GetChildrenBegin</a>() { <span class="keywordflow">return</span> mChildren.begin(); }</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#ae24318345f458db324c149e7f8167241">   83</a></span>&#160;    <span class="keyword">inline</span> <a class="code" href="../../d7/d1b/libitem_8h.html#a3190643f6efc8ac175d0f97b2f47906d">ItemsArrayIterator</a>   <a class="code" href="../../df/dd1/class_lib_item.html#ae24318345f458db324c149e7f8167241">GetChildrenEnd</a>() { <span class="keywordflow">return</span> mChildren.end(); }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    </div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#a870c784daa82531ac02eb1241f7426cf">   85</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/dd1/class_lib_item.html#a870c784daa82531ac02eb1241f7426cf">SetText</a>(<span class="keyword">const</span> wxString&amp; txt) { mText = txt; }</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#a779eb3a6792430ddf91ec89e480a5770">   86</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/dd1/class_lib_item.html#a779eb3a6792430ddf91ec89e480a5770">SetText</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* txt ) { mText = wxString(txt); }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/dd1/class_lib_item.html#adb2f0548647f94de1510481b7a0e0b8f">SetData</a>( <a class="code" href="../../da/d25/struct_lib_item_data.html">LibItemData</a>* data );</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/dd1/class_lib_item.html#ac0a1c2672e42d71f475dfb890a99a713">CollectAllItems</a>( LibItemsMap&amp; dest );</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>* <a class="code" href="../../df/dd1/class_lib_item.html#a82c87856d684cbfc8345309beae36eb8">AddChild</a>();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="code" href="../../df/dd1/class_lib_item.html#a122dfa12155e507fa9b90c375316a509">   93</a></span>&#160;    <span class="keyword">static</span> <a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>  <a class="code" href="../../df/dd1/class_lib_item.html#a122dfa12155e507fa9b90c375316a509">BAD_ITEM</a>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">void</span>        ParseId( <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a> <span class="keywordtype">id</span>, <span class="keywordtype">int</span>&amp; level, <span class="keywordtype">int</span>&amp; n );</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a>   PackId( <span class="keywordtype">int</span> level, <span class="keywordtype">int</span> n );</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a>   CreateNewId();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span>        ClearData();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span>        ChangeParentItem( <a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>* parent );</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">void</span>        CopyChildren( <span class="keyword">const</span> LibItemArray&amp; src );</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="../../d7/d1b/libitem_8h.html#a4ca99cedbff37de2c3ad3757b91c0bdf">LibItemId</a>       mID;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    wxString        mText;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">bool</span>            mIsOk;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <a class="code" href="../../da/d25/struct_lib_item_data.html">LibItemData</a>*    mData;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="../../df/dd1/class_lib_item.html">LibItem</a>*        mParent;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    LibItemArray    mChildren;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;};</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#endif // LIBITEM_H_INCLUDED</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по Universal Translators' Tool. Последние изменения: Вт 28 Май 2013 22:52:55. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="../../doxygen.png" alt="doxygen"/>
+</a> 1.8.4
+</small></address>
+</body>
+</html>

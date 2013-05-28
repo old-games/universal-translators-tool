@@ -7,7 +7,7 @@
 		<Option compiler="msvc8" />
 		<Build>
 			<Target title="Debug Win32">
-				<Option output="../../bin/uttd" prefix_auto="1" extension_auto="1" />
+				<Option output="../../bin/utt_d" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../bin" />
 				<Option object_output="Debug Win32" />
 				<Option type="0" />
@@ -194,9 +194,15 @@
 		<Unit filename="../../src/gui/simplegui.h" />
 		<Unit filename="../../src/gui/symboleditgui.cpp" />
 		<Unit filename="../../src/gui/symboleditgui.h" />
+		<Unit filename="../../src/gui/uttdialogsgui.cpp" />
+		<Unit filename="../../src/gui/uttdialogsgui.fbp" />
+		<Unit filename="../../src/gui/uttdialogsgui.h" />
 		<Unit filename="../../src/gui/uttgui.cpp" />
 		<Unit filename="../../src/gui/uttgui.fbp" />
 		<Unit filename="../../src/gui/uttgui.h" />
+		<Unit filename="../../src/gui/uttpanelsgui.cpp" />
+		<Unit filename="../../src/gui/uttpanelsgui.fbp" />
+		<Unit filename="../../src/gui/uttpanelsgui.h" />
 		<Unit filename="../../src/gui/uttsimplegui.fbp" />
 		<Unit filename="../../src/helpers.cpp" />
 		<Unit filename="../../src/helpers.h" />
