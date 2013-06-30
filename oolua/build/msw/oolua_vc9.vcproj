@@ -178,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\default_trait_caller.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\determin_qualifier.h"
 				>
 			</File>
@@ -226,6 +230,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\oolua_boilerplate.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\oolua_c_func.h"
 				>
 			</File>
@@ -258,10 +266,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\oolua_paramater_macros.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\include\oolua_parameter_helper.h"
 				>
 			</File>
@@ -278,7 +282,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\oolua_typedefs.h"
+				RelativePath="..\..\include\oolua_tags.h"
 				>
 			</File>
 			<File

@@ -84,9 +84,6 @@
     <ClInclude Include="..\..\include\oolua_member_function.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\oolua_paramater_macros.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\oolua_parameter_helper.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -97,9 +94,6 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\oolua_storage.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\oolua_typedefs.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\oolua_userdata.h">
@@ -130,6 +124,15 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\typelist_structs.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\default_trait_caller.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\oolua_boilerplate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\oolua_tags.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
