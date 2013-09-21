@@ -66,7 +66,7 @@ bool Lua::Init()
 
 void Lua::Done()
 {
-    wxLogMessage( "Closing Lua...\n" ); // http://code.google.com/p/oolua/issues/detail?id=29
+    wxLogMessage( "Closing Lua...\n" );
 	delete gLuaState;
     gLuaState = NULL;
 	gRebootRequest = false;

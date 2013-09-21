@@ -26,8 +26,8 @@ namespace OOLUA
 		{
 			T const* lhs(0);
 			T const* rhs(0);
-			INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
-			INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
+			INTERNAL::LUA_CALLED::get(l,1,lhs);
+			INTERNAL::LUA_CALLED::get(l,2,rhs);
 			bool result (*lhs == *rhs);
 			OOLUA::push(l,result);
 			return 1;
@@ -38,8 +38,8 @@ namespace OOLUA
 		{
 			T const* lhs(0);
 			T const* rhs(0);
-			INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
-			INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
+			INTERNAL::LUA_CALLED::get(l,1,lhs);
+			INTERNAL::LUA_CALLED::get(l,2,rhs);
 			bool result (*lhs < *rhs);
 			OOLUA::push(l,result);
 			return 1;
@@ -50,8 +50,8 @@ namespace OOLUA
 		{
 			T const* lhs(0);
 			T const* rhs(0);
-			INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
-			INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
+			INTERNAL::LUA_CALLED::get(l,1,lhs);
+			INTERNAL::LUA_CALLED::get(l,2,rhs);
 			bool result (*lhs <= *rhs);
 			OOLUA::push(l,result);
 			return 1;
@@ -63,8 +63,8 @@ namespace OOLUA
 		{
 			T const* lhs(0);
 			T const* rhs(0);
-			INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
-			INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
+			INTERNAL::LUA_CALLED::get(l,1,lhs);
+			INTERNAL::LUA_CALLED::get(l,2,rhs);
 			T* result ( new T( *lhs + *rhs ) );
 			INTERNAL::add_ptr<T>(l,result,false,OOLUA::Lua);
 			return 1;
@@ -76,8 +76,8 @@ namespace OOLUA
 		{
 			T const* lhs(0);
 			T const* rhs(0);
-			INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
-			INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
+			INTERNAL::LUA_CALLED::get(l,1,lhs);
+			INTERNAL::LUA_CALLED::get(l,2,rhs);
 			T* result ( new T( *lhs - *rhs ) );
 			INTERNAL::add_ptr<T>(l,result,false,OOLUA::Lua);
 			return 1;
@@ -88,8 +88,8 @@ namespace OOLUA
 		{
 			T const* lhs(0);
 			T const* rhs(0);
-			INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
-			INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
+			INTERNAL::LUA_CALLED::get(l,1,lhs);
+			INTERNAL::LUA_CALLED::get(l,2,rhs);
 			T* result ( new T( *lhs * *rhs ) );
 			INTERNAL::add_ptr<T>(l,result,false,OOLUA::Lua);
 			return 1;
@@ -100,8 +100,8 @@ namespace OOLUA
 		{
 			T const* lhs(0);
 			T const* rhs(0);
-			INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
-			INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
+			INTERNAL::LUA_CALLED::get(l,1,lhs);
+			INTERNAL::LUA_CALLED::get(l,2,rhs);
 			T* result ( new T( *lhs / *rhs ) );
 			INTERNAL::add_ptr<T>(l,result,false,OOLUA::Lua);
 			return 1;
@@ -184,7 +184,7 @@ DEFINE_OOLUA_OPERATOR_FUNCTION_(div,"__div")
 		};
 		
 		template<typename ProxyType,typename Tag>
-		struct has_typedef
+		struct has_tag
 		{
 			enum {Result = TYPELIST::IndexOf<typename tag_type<typename ProxyType::class_>::type,Tag>::value == -1 ? 0 : 1};
 		};

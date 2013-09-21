@@ -382,18 +382,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\luac.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\src\lundump.c"
 				>
 			</File>

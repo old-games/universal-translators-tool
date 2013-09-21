@@ -13,6 +13,7 @@
 --11     2        PageWidth      The size of the screen the image is to be displayed on, in pixels,
 --12     2        PageHeight     Usually 320x200
 
+--! \brief Структура заголовка LBM файла
 LBMHeader = {}
 LBMHeader[1] = { WIDTH 			= "WORD_BE"	}
 LBMHeader[2] = { HEIGHT			= "WORD_BE"	}

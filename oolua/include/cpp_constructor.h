@@ -23,6 +23,44 @@
 #endif
 
 /** \cond INTERNAL*/
+
+
+#if	OOLUA_USE_EXCEPTIONS ==1
+#	include "oolua_error.h"
+
+#	define OOLUA_CONSTRUCTOR_TRY \
+	try { 
+
+#	define OOLUA_CONSTRUCTOR_RESPONSE(ExceptionType,Class,ArgNums) \
+	luaL_error(l, "%s exception in %d argument %s constructor. what() : %s"\
+			,ExceptionType \
+			, ArgNums \
+			, OOLUA::Proxy_class<Class>::class_name \
+			, err.what());
+
+#	define OOLUA_CONSTRUCTOR_CATCH(Class,Num) \
+	} \
+	catch(OOLUA::Runtime_error const& err) \
+	{ \
+		OOLUA_CONSTRUCTOR_RESPONSE("OOLUA::Runtime_error",Class,Num)\
+	}\
+	catch(std::runtime_error const& err) \
+	{ \
+		OOLUA_CONSTRUCTOR_RESPONSE("std::runtime_error",Class,Num)\
+	}\
+	catch(std::exception const& err) \
+	{ \
+		OOLUA_CONSTRUCTOR_RESPONSE("std::exception",Class,Num)\
+	}\
+	catch(...) \
+	{ \
+		luaL_error(l, "unknown exception in %s %d argument constructor", OOLUA::Proxy_class<Class>::class_name, Num); \
+	}
+#else
+#	define OOLUA_CONSTRUCTOR_TRY
+#	define OOLUA_CONSTRUCTOR_CATCH(Class,Num)
+#endif
+
  
 namespace OOLUA
 {
@@ -33,8 +71,10 @@ namespace OOLUA
 		{
 			static int construct(lua_State * l)
 			{
+				OOLUA_CONSTRUCTOR_TRY
 				Type* obj = new Type;
 				add_ptr(l,obj,false,Lua);
+				OOLUA_CONSTRUCTOR_CATCH(Type,0)
 				return 1;
 			}
 		};
@@ -57,7 +97,7 @@ namespace OOLUA
 			int const stack_count = lua_gettop(l);
 			if(stack_count == 0 )
 			{
-				return Constructor<T,has_typedef<OOLUA::Proxy_class<T>, OOLUA::No_default_constructor>::Result>::construct(l);
+				return Constructor<T,has_tag<OOLUA::Proxy_class<T>, OOLUA::No_default_constructor>::Result>::construct(l);
 			} 
 			luaL_error(l,"%s %d %s %s","Could not match",stack_count,"parameter constructor for type",OOLUA::Proxy_class<T>::class_name);
 			return 0;/*required by function sig yet luaL_error never returns*/
@@ -87,8 +127,10 @@ namespace OOLUA \
 			{ \
 				int index(1); \
 				OOLUA_CONSTRUCTOR_PARAM_##NUM \
+				OOLUA_CONSTRUCTOR_TRY \
 				Class* obj = new Class( OOLUA_CONVERTER_PARAMS_##NUM ); \
 				add_ptr(l,obj,false,Lua); \
+				OOLUA_CONSTRUCTOR_CATCH(Class,NUM) \
 			} \
 		}; \
 	} \
@@ -130,7 +172,7 @@ static int oolua_factory_function(lua_State* l) \
 #define OOLUA_CONSTRUCTORS_END \
 	if(stack_count == 0 ) \
 	{ \
-		return INTERNAL::Constructor<class_,INTERNAL::has_typedef<this_type, No_default_constructor>::Result>::construct(l); \
+		return INTERNAL::Constructor<class_,INTERNAL::has_tag<this_type, No_default_constructor>::Result>::construct(l); \
 	} \
 	luaL_error(l,"%s %d %s %s","Could not match",stack_count,"parameter constructor for type",class_name); \
 	return 0;/*required by function sig yet luaL_error never returns*/  \

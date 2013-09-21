@@ -3,7 +3,10 @@
 
 /** \cond INTERNAL*/
 
-#	include <string> //used for C style strings
+namespace LVD
+{
+	template<typename T>struct by_reference;
+}
 
 namespace OOLUA
 {
@@ -37,7 +40,21 @@ namespace OOLUA
 		Converter(Converter const &);
 		T* m_t;
 	};
-	
+
+	template<typename T>
+	struct Converter<T const*, T>
+	{
+		typedef char T_has_to_be_by_value[ LVD::by_reference<T>::value ? -1 : 1];
+		Converter(T const* t):m_t((T*)t){}
+		operator T& () const
+		{
+			return *m_t;
+		}
+		Converter& operator = (Converter const&);
+		Converter(Converter const&);
+		T* m_t;
+	};
+
 	template<typename T>
 	struct Converter<T,T*>
 	{
@@ -307,11 +324,14 @@ namespace OOLUA
 	
 	///////////////////////////////////////////////////////////////////////////////
 	///  Specialisation for C style strings
+	///	This removes const.
+	///	The cast has to happen somewhere if a function want to take a none
+	///	modifiable string as char* tut tut but it happerns.
 	///////////////////////////////////////////////////////////////////////////////
 	template<>
-	struct Converter<std::string,char *>
+	struct Converter<char const*,char *>
 	{
-		Converter(std::string & t):m_t(&t[0]){}
+		Converter(char const* & t):m_t((char*)t){}
 		operator char * () const
 		{
 			return m_t;
@@ -320,21 +340,7 @@ namespace OOLUA
 		Converter(Converter const &);
 		char * m_t;
 	};
-	
-
-	template<>
-	struct Converter<std::string,char const*>
-	{
-		Converter(std::string const& t):m_t(t.c_str()){}
-		operator char const* () const
-		{
-			return m_t;
-		}
-		Converter& operator =(Converter const &);
-		Converter(Converter const &);
-		char const* m_t;
-	};
-	
+		
 	}
 
 }
