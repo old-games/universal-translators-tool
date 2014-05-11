@@ -28,7 +28,7 @@ namespace Lua
 		LUA_REG_C_FUNCTION(editLibrary);
 	}
 
-}   // namespace Lua
+}	// namespace Lua
 
 
 
@@ -36,9 +36,8 @@ namespace Lua
 ///
 /// Экспорт класса LibTree
 ///
-EXPORT_OOLUA_FUNCTIONS_1_NON_CONST( LibTree, AddItem )
-
-EXPORT_OOLUA_FUNCTIONS_2_CONST( LibTree, FindItem, GetRoot )
+OOLUA_EXPORT_FUNCTIONS( LibTree, AddItem )
+OOLUA_EXPORT_FUNCTIONS_CONST( LibTree, FindItem, GetRoot )
 
 
 

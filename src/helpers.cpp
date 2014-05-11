@@ -116,12 +116,12 @@ bool PullTableOfStrings( wxArrayString& res, lua_State* L /* NULL */)
 
 	if ( L == NULL )
 	{
-		L = Lua::Get().get_ptr();
+		L = Lua::Get();
 	}
 
-	OOLUA::Lua_table modules;
+	OOLUA::Table modules;
 
-	if (!OOLUA::pull2cpp(L, modules))
+	if (!OOLUA::pull(L, modules))
 	{
 		return false;
 	}
@@ -145,12 +145,12 @@ void PullStringArguments( wxArrayString& res, lua_State* L /* NULL */)
 
 	if ( L == NULL )
 	{
-		L = Lua::Get().get_ptr();
+		L = Lua::Get();
 	}
 	
 	std::string txt;
 	
-	while(OOLUA::pull2cpp(L, txt))
+	while(OOLUA::pull(L, txt))
 	{
 		res.Insert(txt, 0);
 	}
@@ -163,7 +163,7 @@ bool HasModuleFunction(const wxString& func)
 	bool result = false;
 	
 	if ( !Lua::Get().call( "hasModuleCommand", func.ToStdString() ) || 
-		!OOLUA::pull2cpp( Lua::Get(), result ) )
+		!OOLUA::pull( Lua::Get(), result ) )
 	{
 		wxLogError("HasModuleFunction: error occured");
 		Lua::ShowLastError();

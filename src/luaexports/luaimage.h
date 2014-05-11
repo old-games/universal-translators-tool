@@ -21,19 +21,25 @@ namespace Lua
 
 
 
+OOLUA_PROXY(ImageInfo, IInfo)
+	OOLUA_MFUNC(SetImage)
+	OOLUA_MFUNC(SetPalette)
+	OOLUA_MFUNC_CONST(IsOk)
+OOLUA_PROXY_END
 
-OOLUA_CLASS( ImageInfo ) : public Proxy_class< IInfo >
-	OOLUA_BASIC
 
-	OOLUA_NO_TYPEDEFS
-	OOLUA_BASES_START IInfo OOLUA_BASES_END
-	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
-
-	OOLUA_MEM_FUNC_1( void, SetImage, IndexMask* )
-	OOLUA_MEM_FUNC_1( bool, SetPalette, Palette* )
-	OOLUA_MEM_FUNC_0_CONST( bool, IsOk )
-
-OOLUA_CLASS_END
+//OOLUA_CLASS( ImageInfo ) : public Proxy_class< IInfo >
+//	OOLUA_BASIC
+//
+//	OOLUA_NO_TYPEDEFS
+//	OOLUA_BASES_START IInfo OOLUA_BASES_END
+//	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
+//
+//	OOLUA_MEM_FUNC_1( void, SetImage, IndexMask* )
+//	OOLUA_MEM_FUNC_1( bool, SetPalette, Palette* )
+//	OOLUA_MEM_FUNC_0_CONST( bool, IsOk )
+//
+//OOLUA_CLASS_END
 
 
 

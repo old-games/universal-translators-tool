@@ -178,12 +178,12 @@ int selectFromList(lua_State *L)
 
 #define FILEDIALOG_BODY(txt, flags) \
 	std::string extensions;\
-	if ( !OOLUA::pull2cpp(L, extensions) )\
+	if ( !OOLUA::pull(L, extensions) )\
 	{	extensions = "Any file (*.*)|*.*";	}\
 	wxFileDialog dlg( NULL, txt, wxEmptyString, wxEmptyString, extensions, flags );\
 	if (dlg.ShowModal() != wxID_OK)\
 	{		return 0;	}\
-	OOLUA::push2lua(L, dlg.GetPath().ToStdString());\
+	OOLUA::push(L, dlg.GetPath().ToStdString());\
 	return 1;\
 
 
@@ -413,10 +413,10 @@ int strToUnsigned(lua_State *L)
 int swap16(lua_State *L)
 {
 	wxUint16 value;
-	if (OOLUA::pull2cpp( L, value ))
+	if (OOLUA::pull( L, value ))
 	{
 		Helpers::SwapEndian16( value );
-		OOLUA::push2lua( L, value );
+		OOLUA::push( L, value );
 		return 1;
 	}
 	return 0;
@@ -434,10 +434,10 @@ int swap16(lua_State *L)
 int swap32(lua_State *L)
 {
 	wxUint32 value;
-	if (OOLUA::pull2cpp( L, value ))
+	if (OOLUA::pull( L, value ))
 	{
 		Helpers::SwapEndian32( value );
-		OOLUA::push2lua( L, value );
+		OOLUA::push( L, value );
 		return 1;
 	}
 	return 0;
@@ -454,10 +454,10 @@ int swap32(lua_State *L)
 int swap64(lua_State *L)
 {
 	wxUint64 value;
-	if (OOLUA::pull2cpp( L, value ))
+	if (OOLUA::pull( L, value ))
 	{
 		Helpers::SwapEndian64( value );
-		OOLUA::push2lua( L, value );
+		OOLUA::push( L, value );
 		return 1;
 	}
 	return 0;
@@ -486,10 +486,10 @@ int swapStringBytes(lua_State *L)
 	int pos2 = 0;
 	int quantity = 0;
 
-	if (!OOLUA::pull2cpp( L, quantity ) ||
-		!OOLUA::pull2cpp( L, pos2 ) ||
-		!OOLUA::pull2cpp( L, pos1 ) ||
-		!OOLUA::pull2cpp( L, src ) )
+	if (!OOLUA::pull( L, quantity ) ||
+		!OOLUA::pull( L, pos2 ) ||
+		!OOLUA::pull( L, pos1 ) ||
+		!OOLUA::pull( L, src ) )
 	{
 		wxLogError("swapStringBytes: function need arguments (string, position 1, position 2, quantity");
 		return 0;
@@ -576,7 +576,7 @@ int messageBox(lua_State *L)
 {
 	std::string s;
 
-	if (OOLUA::pull2cpp( L, s ))
+	if (OOLUA::pull( L, s ))
 	{
 		wxMessageBox( s, "Module information" );
 	}
@@ -661,4 +661,4 @@ void CommonRegister()
 
 
 
-EXPORT_OOLUA_NO_FUNCTIONS( BusyCursor )
+OOLUA_EXPORT_NO_FUNCTIONS( BusyCursor )

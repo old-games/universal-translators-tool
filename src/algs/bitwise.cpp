@@ -23,8 +23,8 @@ int unpackBitBuffer(lua_State* L)
 	int bitCount = 0;
 	std::string s;
 	if ( lua_gettop(L) != 2 || 
-		!OOLUA::pull2cpp(L, bitCount) || 
-		!OOLUA::pull2cpp(L, s))
+		!OOLUA::pull(L, bitCount) || 
+		!OOLUA::pull(L, s))
 	{
 		wxLogError("unpackBitBuffer: function need a source buffer and source bit count");
 		return 0;
@@ -34,7 +34,7 @@ int unpackBitBuffer(lua_State* L)
 	char* res = UnpackBitBuffer( s.length(), s.c_str(), bitCount, destSize );
 
 	lua_pushlstring (L, res, destSize);
-	OOLUA::push2lua(L, destSize);
+	OOLUA::push(L, destSize);
 	free(res);
 	return 2;
 }

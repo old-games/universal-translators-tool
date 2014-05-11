@@ -19,15 +19,22 @@ namespace Lua
 }
 
 
+OOLUA_PROXY(IInfo)
+	OOLUA_TAGS(Abstract)
 
-OOLUA_CLASS_NO_BASES( IInfo )
+	OOLUA_MFUNC(SetOrigin)
+	OOLUA_MFUNC_CONST(GetOrigin)
+OOLUA_PROXY_END
 
-	OOLUA_TYPEDEFS Abstract OOLUA_END_TYPES
 
-	OOLUA_MEM_FUNC_1( void, SetOrigin, const Origin* )
-	OOLUA_MEM_FUNC_0_CONST( const Origin*, GetOrigin )
-
-OOLUA_CLASS_END
+//OOLUA_CLASS_NO_BASES( IInfo )
+//
+//	OOLUA_TYPEDEFS Abstract OOLUA_END_TYPES
+//
+//	OOLUA_MEM_FUNC_1( void, SetOrigin, const Origin* )
+//	OOLUA_MEM_FUNC_0_CONST( const Origin*, GetOrigin )
+//
+//OOLUA_CLASS_END
 
 
 

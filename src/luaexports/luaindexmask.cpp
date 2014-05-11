@@ -28,6 +28,6 @@ namespace Lua
 ///
 /// Экспорт класса IndexMask
 ///
-EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( IndexMask, SetMask, IsOk )
-EXPORT_OOLUA_FUNCTIONS_0_CONST( IndexMask )
+OOLUA_EXPORT_FUNCTIONS(IndexMask, SetMask)
+OOLUA_EXPORT_FUNCTIONS_CONST(IndexMask, IsOk)
 

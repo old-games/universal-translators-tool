@@ -27,7 +27,7 @@
 	if (Lua::Get().stack_count() != 1)\
 		{	wxLogMessage(#funcName": function need a filled "#infoName" class as argument"); return 0; } \
 		infoName* info;\
-		if ( OOLUA::pull2cpp(L, info) )\
+		if ( OOLUA::pull(L, info) )\
 		{	ChangeInfoEvent event( info );	\
 		wxTheApp->ProcessEvent( event );	} \
 		return 0; }
@@ -36,10 +36,10 @@
 
 namespace Lua
 {
-    bool Init();
-    void Done();
-    inline OOLUA::Script&	Get();
-    bool IsOk();
+	bool Init();
+	void Done();
+	inline OOLUA::Script&	Get();
+	bool IsOk();
 
 	void ShowLastError();
 

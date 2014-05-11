@@ -61,7 +61,8 @@
 
 
 // Lua headers
-#include <lua.hpp>
+#include <lua/lua.hpp>
+
 #ifndef __VISUALC__
 #include <oolua/oolua.h>
 #else

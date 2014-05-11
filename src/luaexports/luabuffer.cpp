@@ -28,7 +28,6 @@ namespace Lua
 ///
 /// Экспорт класса LibItem
 ///
-EXPORT_OOLUA_FUNCTIONS_1_NON_CONST( Buffer, GetBufferAsString )
-
-EXPORT_OOLUA_FUNCTIONS_1_CONST( Buffer, IsOk )
+OOLUA_EXPORT_FUNCTIONS( Buffer, GetBufferAsString )
+OOLUA_EXPORT_FUNCTIONS_CONST( Buffer, IsOk )
 

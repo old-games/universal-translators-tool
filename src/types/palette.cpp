@@ -186,7 +186,8 @@ wxPoint	Palette::GetIndexCoordinates( unsigned char n )
 
 
 
-unsigned int Palette::GetCorrectImageSize( int width, int height, bool forIndexMask /* false */)
+unsigned int Palette::GetCorrectImageSize( int width, int height,
+	bool forIndexMask /* false */) const
 {
 	unsigned int size = width * height;
 
@@ -209,7 +210,7 @@ unsigned int Palette::GetCorrectImageSize( int width, int height, bool forIndexM
 
 
 
-unsigned int  Palette::GetPaletteSize( BPP bits, SourceFormat fmt )
+unsigned int  Palette::GetPaletteSize( BPP bits, SourceFormat fmt ) const
 {
 	return ColourNumber[bits] * (fmt == sfBMP ? 4 : 3);
 }

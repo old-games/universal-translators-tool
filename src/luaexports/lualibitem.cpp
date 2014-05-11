@@ -30,14 +30,9 @@ namespace Lua
 ///
 /// Экспорт класса LibItemData
 ///
-EXPORT_OOLUA_FUNCTIONS_2_NON_CONST(LibItemData,
-								   set_mLibFileOffset,
-								   set_mLibDataSize)
-
-EXPORT_OOLUA_FUNCTIONS_3_CONST(LibItemData,
-								   get_mDataOwner,
-								   get_mLibFileOffset,
-								   get_mLibDataSize)
+OOLUA_EXPORT_FUNCTIONS(LibItemData, set_mLibFileOffset, set_mLibDataSize)
+OOLUA_EXPORT_FUNCTIONS_CONST(LibItemData, get_mDataOwner, get_mLibFileOffset,
+								get_mLibDataSize)
 
 
 
@@ -48,8 +43,7 @@ EXPORT_OOLUA_FUNCTIONS_3_CONST(LibItemData,
 ///
 /// Экспорт класса LibItem
 ///
-EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( LibItem, SetData, SetText )
-
-EXPORT_OOLUA_FUNCTIONS_6_CONST( LibItem, IsOk, GetId, GetData, GetText,
+OOLUA_EXPORT_FUNCTIONS( LibItem, SetData, SetText )
+OOLUA_EXPORT_FUNCTIONS_CONST( LibItem, IsOk, GetId, GetData, GetText,
 	GetChildrenCount, GetChild )
 

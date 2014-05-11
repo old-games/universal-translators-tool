@@ -61,7 +61,7 @@ MainFrameImpl::MainFrameImpl(void):
 	wxImage::AddHandler(new wxPNMHandler);
 	wxImage::AddHandler(new wxTGAHandler);
 	wxImage::AddHandler(new wxTIFFHandler);
-	wxImage::AddHandler(new wxIFFHandler);
+//	wxImage::AddHandler(new wxIFFHandler);
 	wxImage::AddHandler(new wxXPMHandler);
 
 
@@ -332,7 +332,7 @@ void MainFrameImpl::DoModuleChanged()
 
 	std::string s;
 
-	if ( OOLUA::pull2cpp(Lua::Get(), s ) )
+	if ( OOLUA::pull(Lua::Get(), s ) )
 	{
 		mStatusBar->SetStatusText(s, 1 );
 	}

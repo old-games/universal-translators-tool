@@ -29,8 +29,7 @@ namespace Lua
 ///
 /// Экспорт класса Origin
 ///
-EXPORT_OOLUA_FUNCTIONS_0_NON_CONST( Origin )
-
-EXPORT_OOLUA_FUNCTIONS_1_CONST( Origin, GetFullPath )
+OOLUA_EXPORT_FUNCTIONS( Origin )
+OOLUA_EXPORT_FUNCTIONS_CONST( Origin, GetFullPath )
 
 

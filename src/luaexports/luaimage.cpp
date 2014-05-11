@@ -37,7 +37,7 @@ namespace Lua
 
 
 
-EXPORT_OOLUA_FUNCTIONS_2_NON_CONST( ImageInfo, SetImage, SetPalette )
-EXPORT_OOLUA_FUNCTIONS_1_CONST( ImageInfo, IsOk )
+OOLUA_EXPORT_FUNCTIONS( ImageInfo, SetImage, SetPalette )
+OOLUA_EXPORT_FUNCTIONS_CONST( ImageInfo, IsOk )
 
 

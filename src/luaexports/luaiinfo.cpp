@@ -20,7 +20,7 @@ namespace Lua
 		LUA_REG_CLASS(IInfo);
 	}
 
-}   // namespace Lua
+}	// namespace Lua
 
 
 
@@ -29,8 +29,7 @@ namespace Lua
 ///
 
 
-
-EXPORT_OOLUA_FUNCTIONS_1_NON_CONST( IInfo, SetOrigin )
-EXPORT_OOLUA_FUNCTIONS_1_CONST( IInfo, GetOrigin )
+OOLUA_EXPORT_FUNCTIONS( IInfo, SetOrigin )
+OOLUA_EXPORT_FUNCTIONS_CONST( IInfo, GetOrigin )
 
 

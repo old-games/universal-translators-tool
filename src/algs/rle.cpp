@@ -18,7 +18,8 @@ int unpackLBMBody(lua_State* L)
 	std::string s;
 	unsigned int destSize = 0;
 
-	if ( lua_gettop(L) != 2 || !OOLUA::pull2cpp(L, destSize) || !OOLUA::pull2cpp(L, s)  )
+	if ( lua_gettop(L) != 2 || !OOLUA::pull(L, destSize)
+		|| !OOLUA::pull(L, s)  )
 	{
 		wxLogError("unpackLBMBody: function need a source buffer and destination buffer size");
 		return 0;
@@ -27,8 +28,9 @@ int unpackLBMBody(lua_State* L)
 	char* res = UnpackLBMBody( s.c_str(), destSize );
 
 	lua_pushlstring (L, res, destSize);
-	OOLUA::push2lua(L, destSize);
+	OOLUA::push(L, destSize);
 	free(res);
+
 	return 2;
 }
 

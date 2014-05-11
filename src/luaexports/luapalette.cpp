@@ -24,7 +24,7 @@ namespace Lua
 		LUA_REG_C_FUNCTION( setCurrentPalette );
 	}
 
-}   // namespace Lua
+} // namespace Lua
 
 
 
@@ -32,9 +32,11 @@ namespace Lua
 ///
 /// Экспорт класса Palette
 ///
-EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( Palette, Initiate, SetCGAType, GetCorrectImageSize, GetPaletteSize )
+OOLUA_EXPORT_FUNCTIONS( Palette, Initiate, SetCGAType)
+OOLUA_EXPORT_FUNCTIONS_CONST( Palette, IsOk, GetCorrectImageSize, GetPaletteSize)
 
-EXPORT_OOLUA_FUNCTIONS_1_CONST( Palette, IsOk )
+//EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( Palette, Initiate, SetCGAType, GetCorrectImageSize, GetPaletteSize )
+//EXPORT_OOLUA_FUNCTIONS_1_CONST( Palette, IsOk )
 
 
 
@@ -44,8 +46,8 @@ int	setCurrentPalette(lua_State *L)
 	int editorId = -1;
 
 	if (	Lua::Get().stack_count() != 2 || 
-			!OOLUA::pull2cpp(L, editorId) ||
-			!OOLUA::pull2cpp(L, pal) )
+			!OOLUA::pull(L, editorId) ||
+			!OOLUA::pull(L, pal) )
 	{
 		wxLogMessage("setCurrentPalette: function need a Palette and editorId as arguments");
 		return 0;

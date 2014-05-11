@@ -21,7 +21,7 @@ namespace Lua
 		LUA_REG_CLASS(IFFLib);
 	}
 
-}   // namespace Lua
+}	// namespace Lua
 
 
 
@@ -29,6 +29,5 @@ namespace Lua
 ///
 /// Экспорт класса IFFLib
 ///
-EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( IFFLib, LoadIFFFile, FindForm, FindChunk, ReadChunkData )
-
-EXPORT_OOLUA_FUNCTIONS_0_CONST( IFFLib )
+OOLUA_EXPORT_FUNCTIONS( IFFLib, LoadIFFFile, FindForm, FindChunk, ReadChunkData )
+OOLUA_EXPORT_FUNCTIONS_CONST( IFFLib )

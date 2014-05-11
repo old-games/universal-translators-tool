@@ -98,7 +98,8 @@ bool IStateStore::LoadFromFile( const wxString& fileName, bool useMemory /* true
 			size_t size = stream.GetSize();
 			block = malloc(size);
 			stream.Read( block, size );
-			res = LoadFromStream( wxMemoryInputStream(block, size) );
+			wxMemoryInputStream memStream(block, size);
+			res = LoadFromStream( memStream );
 		}
 		else
 		{

@@ -218,7 +218,7 @@ void LibraryPanel::DoContextMenu()
 	
 	if (action != wxID_NONE)
 	{
-		OOLUA::Lua_table items;
+		OOLUA::Table items;
 		OOLUA::new_table(Lua::Get(), items);
 		
 		for (size_t i = 0; i < selection.size(); ++i)
@@ -227,7 +227,7 @@ void LibraryPanel::DoContextMenu()
 			
 			if (item)
 			{
-				items.set_value(i + 1, item);
+				items.set(i + 1, item);
 			}
 		}
 
@@ -450,14 +450,14 @@ void LibraryPanel::OnItemExpanded( wxTreeListEvent& event )
 
 
 
-/* virtual */ bool LibraryPanel::SaveState( wxOutputStream& output )
+/* virtual */ bool LibraryPanel::SaveState( wxOutputStream& /*output*/ )
 {
 	return true;
 }
 
 
 
-/* virtual */ bool LibraryPanel::LoadState( wxInputStream& input, int version )
+/* virtual */ bool LibraryPanel::LoadState( wxInputStream& /*input*/, int /*version*/ )
 {
 	return true;
 }

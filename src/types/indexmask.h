@@ -33,7 +33,7 @@ public:
 	void SetMask( const wxByte* mask, int srcSize, 
 		int width, int height, int srcWidth = -1, int srcHeight = -1 );
 
-	bool			IsOk() { return mMask != NULL; }
+	bool			IsOk() const { return mMask != NULL; }
 	wxBitmap*		GetBitmap( Palette* pal );
 	const wxByte*	GetMask() const { return mMask; }
 	int				GetWidth() const { return mWidth; }

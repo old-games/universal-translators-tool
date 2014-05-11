@@ -62,8 +62,9 @@ public:
 	wxPoint			GetIndexCoordinates( unsigned char n );
 	int				GetCGAType() { return mCurrentCGAPal; }
 	bool			GetIntensity() { return mCGAIntensity; }
-	unsigned int	GetCorrectImageSize( int width, int height, bool forIndexMask = false );
-	unsigned int	GetPaletteSize( BPP bits, SourceFormat fmt );
+	unsigned int	GetCorrectImageSize( int width, int height,
+		bool forIndexMask = false ) const;
+	unsigned int	GetPaletteSize( BPP bits, SourceFormat fmt ) const;
 
 	
 	// available static constants

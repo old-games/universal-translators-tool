@@ -23,40 +23,46 @@ namespace Lua
 // LibItemData class
 
 
-OOLUA_CLASS_NO_BASES( LibItemData )
-
-	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
-	OOLUA_NO_TYPEDEFS
-
-	OOLUA_PUBLIC_MEMBER_GET(mDataOwner)
-	OOLUA_PUBLIC_MEMBER_GET_SET(mLibFileOffset)
-	OOLUA_PUBLIC_MEMBER_GET_SET(mLibDataSize)
-
-OOLUA_CLASS_END
+OOLUA_PROXY(LibItemData)
+	OOLUA_MGET(mDataOwner)
+	OOLUA_MGET_MSET(mLibFileOffset)
+	OOLUA_MGET_MSET(mLibDataSize)
+OOLUA_PROXY_END
 
 
 
 //////////////////////////////////////////////////////////////////////////
 // LibItem class
 
+OOLUA_PROXY(LibItem)
+	OOLUA_MFUNC(SetData)
+	OOLUA_MEM_FUNC(void, SetText, const char*)
+	OOLUA_MFUNC_CONST(IsOk)
+	OOLUA_MFUNC_CONST(GetId)
+	OOLUA_MFUNC_CONST(GetData)
+	OOLUA_MFUNC_CONST(GetChildrenCount)
+	OOLUA_MFUNC_CONST(GetChild)
+	OOLUA_MEM_FUNC_CONST_RENAME(GetText, std::string, LuaGetText)
+OOLUA_PROXY_END
 
-OOLUA_CLASS_NO_BASES( LibItem )
-	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
-	OOLUA_NO_TYPEDEFS
-	
-	OOLUA_MEM_FUNC_1( void, SetData, cpp_in_p<LibItemData*> )
-	//OOLUA_MEM_FUNC_1( void, SetData, LibItemData* )
-	OOLUA_MEM_FUNC_1( void, SetText, const char* )
-	
-	OOLUA_MEM_FUNC_0_CONST( bool, IsOk )
-	OOLUA_MEM_FUNC_0_CONST( LibItemId, GetId )
-	OOLUA_MEM_FUNC_0_CONST( LibItemData*, GetData )
-	OOLUA_MEM_FUNC_0_CONST_RENAME( GetText, std::string, LuaGetText)
-	OOLUA_MEM_FUNC_0_CONST( size_t, GetChildrenCount )
-	OOLUA_MEM_FUNC_1_CONST( LibItem*, GetChild, size_t )
-	
-OOLUA_CLASS_END
-
+//
+//OOLUA_CLASS_NO_BASES( LibItem )
+//	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
+//	OOLUA_NO_TYPEDEFS
+//	
+//	OOLUA_MEM_FUNC_1( void, SetData, cpp_in_p<LibItemData*> )
+//	//OOLUA_MEM_FUNC_1( void, SetData, LibItemData* )
+//	OOLUA_MEM_FUNC_1( void, SetText, const char* )
+//	
+//	OOLUA_MEM_FUNC_0_CONST( bool, IsOk )
+//	OOLUA_MEM_FUNC_0_CONST( LibItemId, GetId )
+//	OOLUA_MEM_FUNC_0_CONST( LibItemData*, GetData )
+//	OOLUA_MEM_FUNC_0_CONST_RENAME( GetText, std::string, LuaGetText)
+//	OOLUA_MEM_FUNC_0_CONST( size_t, GetChildrenCount )
+//	OOLUA_MEM_FUNC_1_CONST( LibItem*, GetChild, size_t )
+//	
+//OOLUA_CLASS_END
+//
 
 
 
