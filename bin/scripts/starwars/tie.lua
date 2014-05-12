@@ -9,7 +9,7 @@ function LoadStarwarsFont( filename )
 	local path, name, ext = parseFileName( filename )
 
 	
-	local pal = Palette:new()
+	local pal = Palette.new()
 	if pal:Initiate( Palette.bppMono, 0, Palette.sfNone, false ) ~= true then
 		print("TIE::LoadStarwarsFont:  error while setting palette")
 		return
@@ -21,7 +21,7 @@ function LoadStarwarsFont( filename )
 	end
 	
 	local big = string.match(name, "64") ~= nil
-	local font = FontInfo:new()
+	local font = FontInfo.new()
 
 	local first = readData( fh, FNTStruct )
 	fh:seek("set")
@@ -74,7 +74,7 @@ function LoadStarwarsFont( filename )
 		end
 		
 		local bytes, size = unpackBitBuffer(data, 1)
-		local mask = IndexMask:new()
+		local mask = IndexMask.new()
 		
 		mask:SetMask( bytes, size, maxWidth / 2, maxHeight, maxWidth, maxHeight)
 		
@@ -84,7 +84,7 @@ function LoadStarwarsFont( filename )
 	end
 	
 	fh:close()
-	font:SetOrigin( Origin:new(filename) )
+	font:SetOrigin( Origin.new(filename) )
 	
 	return font
 end
@@ -114,7 +114,7 @@ function LoadLFD( filename )
 	local done = false
 	local size = fileSize( filename )
 	local items = {}
-	local origin = Origin:new(filename)
+	local origin = Origin.new(filename)
 
 	local rmap = readData( fh, LFDStruct )
 	local itemSize = getDataSize(LFDStruct)
@@ -137,13 +137,13 @@ function LoadLFD( filename )
 		return
 	end
 	
-	local lib = LibTree:new()
+	local lib = LibTree.new()
 	local root = lib:GetRoot()
 	root:SetText(name.."_"..ext)
 	
 	for i, current in ipairs(items) do
 		local item = lib:AddItem( root )
-		local data = LibItemData:new()
+		local data = LibItemData.new()
 		
 		data:set_mLibFileOffset(startOffset)
 		data:set_mLibDataSize(current.SIZE + itemSize)

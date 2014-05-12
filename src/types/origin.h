@@ -28,11 +28,13 @@ public:
 	};
 
 	Origin();
-	Origin( const char* fileName );
-	Origin( Origin* parent, wxFileOffset offset, wxFileOffset size );
-	Origin( const Origin& other );
+	Origin(const std::string& fileName);
+	Origin(OriginPtr parent, wxFileOffset offset, wxFileOffset size);
+	Origin(const Origin& other);
+
 	virtual ~Origin();
-	Origin* Clone() const { return new Origin(*this); }
+
+	OriginPtr Clone() const { return std::make_shared<Origin>(*this); }
 
 	void SetOriginFileName( const wxString& fileName );
 	void SetOriginAdditional( const wxString& additional );
@@ -42,12 +44,12 @@ public:
 
 	wxString GetPath() const;
 	wxString GetFileName() const;
-	const Origin* GetParent() const;
+	OriginPtr GetParent() const;
 	OriginEnum GetOrigin() const { return mOriginFrom; }
 
 protected:
 	
-	void SetParent(const Origin* parent);
+	void SetParent(OriginPtr parent);
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
 	
@@ -56,7 +58,7 @@ protected:
 	wxString		mOriginAdditional;
 	wxFileOffset	mOffset;
 	wxULongLong		mSize;
-	Origin*			mParent;
+	WeakOriginPtr	mParent;
 };
 
 #endif // ORIGIN_H_INCLUDED

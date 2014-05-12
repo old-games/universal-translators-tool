@@ -74,7 +74,7 @@ private:
 
 	void			BindEvents();
 
-	void			CreateEditorAndSetIt( IInfo* info );
+	void			CreateEditorAndSetIt(IInfoPtr info);
 	void			CloseEditor( IEditor* editor, bool update );
 
 	void			AddEditorWindow( IEditor* editor, const wxString& wndName, bool update );

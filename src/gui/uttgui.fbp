@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <wxFormBuilder_Project>
-    <FileVersion major="1" minor="11" />
+    <FileVersion major="1" minor="12" />
     <object class="Project" expanded="1">
         <property name="class_decoration"></property>
         <property name="code_generation">C++</property>
@@ -20,11 +20,13 @@
         <property name="path">.</property>
         <property name="precompiled_header">#include &quot;pch.h&quot;</property>
         <property name="relative_path">1</property>
+        <property name="skip_lua_events">1</property>
         <property name="skip_php_events">1</property>
         <property name="skip_python_events">1</property>
+        <property name="ui_table">UI</property>
         <property name="use_enum">0</property>
         <property name="use_microsoft_bom">0</property>
-        <object class="Frame" expanded="0">
+        <object class="Frame" expanded="1">
             <property name="aui_managed">1</property>
             <property name="aui_manager_style">wxAUI_MGR_ALLOW_ACTIVE_PANE|wxAUI_MGR_ALLOW_FLOATING|wxAUI_MGR_LIVE_RESIZE|wxAUI_MGR_TRANSPARENT_DRAG|wxAUI_MGR_TRANSPARENT_HINT</property>
             <property name="bg"></property>
@@ -243,7 +245,7 @@
                     <property name="name">mImportExportMenu</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_MENU</property>
+                        <property name="bitmap">Load From Embedded File; ../icon/open_font.xpm</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -258,7 +260,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_MENU</property>
+                        <property name="bitmap">Load From Embedded File; ../icon/open_image.xpm</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -273,7 +275,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_MENU</property>
+                        <property name="bitmap">Load From Embedded File; ../icon/open_lib.xpm</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -288,7 +290,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_MENU</property>
+                        <property name="bitmap">Load From Embedded File; ../icon/open_anim.xpm</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -302,12 +304,42 @@
                         <event name="OnMenuSelection">OnMenuSelect</event>
                         <event name="OnUpdateUI"></event>
                     </object>
+                    <object class="wxMenuItem" expanded="0">
+                        <property name="bitmap">Load From Embedded File; ../icon/open_sound.xpm</property>
+                        <property name="checked">0</property>
+                        <property name="enabled">1</property>
+                        <property name="help"></property>
+                        <property name="id">wxID_IMPORT_SOUND</property>
+                        <property name="kind">wxITEM_NORMAL</property>
+                        <property name="label">Import sound</property>
+                        <property name="name">mIE_ImpSound</property>
+                        <property name="permission">none</property>
+                        <property name="shortcut"></property>
+                        <property name="unchecked_bitmap"></property>
+                        <event name="OnMenuSelection">OnMenuSelect</event>
+                        <event name="OnUpdateUI"></event>
+                    </object>
+                    <object class="wxMenuItem" expanded="0">
+                        <property name="bitmap">Load From Embedded File; ../icon/open_video.xpm</property>
+                        <property name="checked">0</property>
+                        <property name="enabled">1</property>
+                        <property name="help"></property>
+                        <property name="id">wxID_IMPORT_VIDEO</property>
+                        <property name="kind">wxITEM_NORMAL</property>
+                        <property name="label">Import video</property>
+                        <property name="name">mIE_ImpVideo</property>
+                        <property name="permission">none</property>
+                        <property name="shortcut"></property>
+                        <property name="unchecked_bitmap"></property>
+                        <event name="OnMenuSelection">OnMenuSelect</event>
+                        <event name="OnUpdateUI"></event>
+                    </object>
                     <object class="separator" expanded="0">
                         <property name="name">m_separator22</property>
                         <property name="permission">none</property>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_MENU</property>
+                        <property name="bitmap">Load From Embedded File; ../icon/save_font.xpm</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -322,7 +354,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_MENU</property>
+                        <property name="bitmap">Load From Embedded File; ../icon/save_image.xpm</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -337,7 +369,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_MENU</property>
+                        <property name="bitmap">Load From Embedded File; ../icon/save_lib.xpm</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -352,7 +384,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_MENU</property>
+                        <property name="bitmap">Load From Embedded File; ../icon/save_anim.xpm</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -360,6 +392,36 @@
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">Export animation</property>
                         <property name="name">mIE_ExpAnimation</property>
+                        <property name="permission">none</property>
+                        <property name="shortcut"></property>
+                        <property name="unchecked_bitmap"></property>
+                        <event name="OnMenuSelection">OnMenuSelect</event>
+                        <event name="OnUpdateUI"></event>
+                    </object>
+                    <object class="wxMenuItem" expanded="0">
+                        <property name="bitmap">Load From Embedded File; ../icon/save_sound.xpm</property>
+                        <property name="checked">0</property>
+                        <property name="enabled">1</property>
+                        <property name="help"></property>
+                        <property name="id">wxID_EXPORT_SOUND</property>
+                        <property name="kind">wxITEM_NORMAL</property>
+                        <property name="label">Export sound</property>
+                        <property name="name">mIE_ExpSound</property>
+                        <property name="permission">none</property>
+                        <property name="shortcut"></property>
+                        <property name="unchecked_bitmap"></property>
+                        <event name="OnMenuSelection">OnMenuSelect</event>
+                        <event name="OnUpdateUI"></event>
+                    </object>
+                    <object class="wxMenuItem" expanded="0">
+                        <property name="bitmap">Load From Embedded File; ../icon/save_video.xpm</property>
+                        <property name="checked">0</property>
+                        <property name="enabled">1</property>
+                        <property name="help"></property>
+                        <property name="id">wxID_EXPORT_VIDEO</property>
+                        <property name="kind">wxITEM_NORMAL</property>
+                        <property name="label">Export video</property>
+                        <property name="name">mIE_ExpVideo</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
@@ -491,7 +553,7 @@
                         <property name="permission">none</property>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Art Provider; wxART_HARDDISK; wxART_MENU</property>
+                        <property name="bitmap">Load From Art Provider; wxART_TIP; wxART_MENU</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -547,7 +609,7 @@
                     </object>
                 </object>
             </object>
-            <object class="wxAuiToolBar" expanded="0">
+            <object class="wxAuiToolBar" expanded="1">
                 <property name="BottomDockable">1</property>
                 <property name="LeftDockable">1</property>
                 <property name="RightDockable">1</property>

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct  8 2012)
+// C++ code generated with wxFormBuilder (version Feb 26 2014)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -39,18 +39,22 @@
 #define wxID_IMPORT_IMAGE 1008
 #define wxID_IMPORT_LIBRARY 1009
 #define wxID_IMPORT_ANIMATION 1010
-#define wxID_EXPORT_FONT 1011
-#define wxID_EXPORT_IMAGE 1012
-#define wxID_EXPORT_LIBRARY 1013
-#define wxID_EXPORT_ANIMATION 1014
-#define wxID_VIEW_TOOLBAR 1015
-#define wxID_VIEW_PROJECT 1016
-#define wxID_VIEW_LOG 1017
-#define wxID_LUA_SELECT 1018
-#define wxID_LUA_VERSION 1019
-#define wxID_LUA_REBOOT 1020
-#define wxID_HELP_HELP 1021
-#define wxID_HELP_ABOUT 1022
+#define wxID_IMPORT_SOUND 1011
+#define wxID_IMPORT_VIDEO 1012
+#define wxID_EXPORT_FONT 1013
+#define wxID_EXPORT_IMAGE 1014
+#define wxID_EXPORT_LIBRARY 1015
+#define wxID_EXPORT_ANIMATION 1016
+#define wxID_EXPORT_SOUND 1017
+#define wxID_EXPORT_VIDEO 1018
+#define wxID_VIEW_TOOLBAR 1019
+#define wxID_VIEW_PROJECT 1020
+#define wxID_VIEW_LOG 1021
+#define wxID_LUA_SELECT 1022
+#define wxID_LUA_VERSION 1023
+#define wxID_LUA_REBOOT 1024
+#define wxID_HELP_HELP 1025
+#define wxID_HELP_ABOUT 1026
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class UttMainFrame

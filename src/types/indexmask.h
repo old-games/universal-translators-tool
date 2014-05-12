@@ -33,16 +33,16 @@ public:
 	void SetMask( const wxByte* mask, int srcSize, 
 		int width, int height, int srcWidth = -1, int srcHeight = -1 );
 
-	bool			IsOk() const { return mMask != NULL; }
-	wxBitmap*		GetBitmap( Palette* pal );
+	inline bool		IsOk() const { return mMask != NULL; }
+	wxBitmap*		GetBitmap( PalettePtr pal ) const;
 	const wxByte*	GetMask() const { return mMask; }
 	int				GetWidth() const { return mWidth; }
 	int				GetHeight() const { return mHeight; }
 
-	IndexMask* Clone() const { return new IndexMask( *this ); }
+	IndexMaskPtr Clone() const { return std::make_shared<IndexMask>( *this ); }
 	
 	template<typename T>
-	bool InsertMask( const wxPoint& point, const IndexMask* src ) const
+	bool InsertMask( const wxPoint& point, IndexMaskPtr src ) const
 	{	
 		wxRect targetRect( point.x, point.y, src->GetWidth(), src->GetHeight() );
 		wxRect checkRect = targetRect;

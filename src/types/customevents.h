@@ -188,8 +188,9 @@ public:
 		mInfo( NULL )
 	{ }
 
-	ChangeInfoEvent( IInfo* info, int winId = 0 ): wxEvent(winId, uttEVT_CHANGEINFO),
-		mInfo( info )
+	ChangeInfoEvent( IInfoPtr info, int winId = 0 ):
+		wxEvent(winId, uttEVT_CHANGEINFO),
+			mInfo( info )
 	{ }
 
 	ChangeInfoEvent(const ChangeInfoEvent& event): wxEvent(event),
@@ -197,13 +198,13 @@ public:
 	{ }
 
 	virtual wxEvent *Clone() const { return new ChangeInfoEvent(*this); }
-	IInfo*	GetInfo() { return mInfo; }
+	IInfoPtr GetInfo() const { return mInfo; }
 
 protected:
 	
 private:
 
-	IInfo*		mInfo;
+	IInfoPtr	mInfo;
 
 	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangeInfoEvent)
 };
@@ -223,8 +224,6 @@ typedef void (wxEvtHandler::*ChangeInfoEventFunction)(ChangeInfoEvent&);
 
 
 
-class Palette;
-
 class ChangePaletteEvent : public wxEvent
 {
 public:
@@ -239,7 +238,7 @@ public:
 	
 
 
-	ChangePaletteEvent( int winid, Palette* pal, bool rebuild ):
+	ChangePaletteEvent( int winid, PalettePtr pal, bool rebuild ):
 		wxEvent(winid, uttEVT_CHANGEPALETTE),
 		mData( pal ),
 		mRebuild( rebuild )
@@ -254,14 +253,14 @@ public:
 
 	virtual wxEvent *Clone() const { return new ChangePaletteEvent(*this); }
 
-	Palette*	GetPalette() { return mData; }
-	bool		GetRebuild() { return mRebuild; }
+	inline PalettePtr	GetPalette() const { return mData; }
+	inline bool		GetRebuild() const { return mRebuild; }
 
 protected:
 	
 private:
 
-	Palette*	mData;
+	PalettePtr	mData;
 	bool		mRebuild;
 
 	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(ChangePaletteEvent)
@@ -344,38 +343,48 @@ public:
 		whNum
 	};
 
-    EditorRebuildDataEvent( )
-        : wxEvent(0, uttEVT_REBUILDDATA),
-		mWhat( whNum ),
-		mData( NULL ),
-		mBool( false )
-	{ 	
+	EditorRebuildDataEvent( ):
+		wxEvent(0, uttEVT_REBUILDDATA),
+			mWhat( whNum ),
+			mData(nullptr),
+			mBool( false )
+	{
 	}
 	
 
 
-    EditorRebuildDataEvent( int winid, WhatHappend what, void* data = NULL, bool additional = false )
-        : wxEvent(winid, uttEVT_REBUILDDATA),
-		mWhat( what ),
-		mData( data ),
-		mBool( additional )
-	{ 
-	}
-	
-    EditorRebuildDataEvent(const EditorRebuildDataEvent& event)
-        : wxEvent(event),
-		mWhat( event.mWhat ),
-		mData( event.mData ),
-		mBool(  event.mBool )
-    { 
+	EditorRebuildDataEvent( int winid, WhatHappend what,
+		void* data = NULL, bool additional = false ):
+			wxEvent(winid, uttEVT_REBUILDDATA),
+				mWhat( what ),
+				mData( data ),
+				mBool( additional )
+	{
 	}
 
-    virtual wxEvent *Clone() const { return new EditorRebuildDataEvent(*this); }
-  
-	int			GetWhat() { return mWhat; }
-	Palette*	GetPalette();
-	UttColour*  GetColour();
-	IEditor*	GetEditor();
+	EditorRebuildDataEvent( int winid, PalettePtr pal, bool additional = false ):
+			wxEvent(winid, uttEVT_REBUILDDATA),
+				mWhat( whPaletteChanged ),
+				mPalette( pal ),
+				mBool( additional )
+	{
+	}
+	
+	EditorRebuildDataEvent(const EditorRebuildDataEvent& event):
+		wxEvent(event),
+			mWhat(event.mWhat),
+			mData(event.mData),
+			mPalette(event.mPalette),
+			mBool(event.mBool)
+	{
+	}
+
+	virtual wxEvent *Clone() const { return new EditorRebuildDataEvent(*this); }
+
+	int			GetWhat() const { return mWhat; }
+	PalettePtr	GetPalette() const;
+	UttColour*	GetColour() const;
+	IEditor*	GetEditor() const;
 	bool		GetBool() { return mBool; }
 
 protected:
@@ -383,8 +392,9 @@ protected:
 private:
 
 	WhatHappend		mWhat;
-	void*			mData;
-	bool			mBool;
+	void*			mData = nullptr;
+	PalettePtr		mPalette;
+	bool			mBool = false;
 
 	DECLARE_DYNAMIC_CLASS_NO_ASSIGN(EditorRebuildDataEvent)
 };

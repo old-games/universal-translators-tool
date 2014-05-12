@@ -16,7 +16,7 @@ ControlLine::ControlLine( wxScrolledWindow* parent ):
 	mOrientation( wxVERTICAL ),
 	mColour( *wxBLACK ),
 	mWidth( 3 ),
-	mStyle( wxSOLID ),
+	mStyle( wxPENSTYLE_SOLID ),
 	mValue( 0 ),
 	mPosX( 0 ),
 	mPosY( 0 ),
@@ -38,7 +38,7 @@ void ControlLine::SetParameters( int orientation, const wxColour& colour,  int w
 	mOrientation = orientation;
 	mColour = colour;
 	mWidth = width;
-	mStyle = style;
+	mStyle = (wxPenStyle) style;
 	mToolTip = txt;
 	mCursor = wxCursor( mOrientation == wxVERTICAL ? wxCURSOR_SIZEWE : wxCURSOR_SIZENS );
 	mInitiated = true;

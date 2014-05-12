@@ -12,6 +12,7 @@
 #include "types/fontinfo.h"
 #include "types/indexmask.h"
 #include "types/palette.h"
+#include "types/symbolinfo.h"
 #include "types/ieditor.h"
 #include "panels/symbolpanel.h"
 #include "symboleditgui.h"
@@ -20,7 +21,7 @@
 
 
 
-const wxString	UUT_FONT_EXTENSIONS = "UTT Font files (*.uft)|*.uft";
+const wxString	UTT_FONT_EXTENSIONS = "UTT Font files (*.uft)|*.uft";
 
 
 
@@ -55,23 +56,23 @@ FontEditor::~FontEditor(void)
 
 SymbolPanel* FontEditor::GetSymbolPanel()
 {
-    return mSymbolEditor->GetSymbolPanel();
+	return mSymbolEditor->GetSymbolPanel();
 }
 
 
 
 void FontEditor::ClearFont( bool force /* false */ )
 {
-	if (mCurrentFont != NULL)
+	if (mCurrentFont)
 	{
 		if ( !force && CheckChanged())
 		{
 			return;
 		}
 
-		delete mCurrentFont;
-		mCurrentFont = NULL;
+		mCurrentFont = nullptr;
 	}
+
 	mSymbolEditor->Disable();
 }
 
@@ -79,19 +80,20 @@ void FontEditor::ClearFont( bool force /* false */ )
 
 bool FontEditor::CreateFont()
 {
-	if ( mCurrentFont != NULL && !CheckChanged() )
+	if ( mCurrentFont && !CheckChanged() )
 	{
 		return false;
 	}
 
-	mCurrentFont = new FontInfo();
+	mCurrentFont = std::make_shared<FontInfo>();
 
-	if ( ShowSettings() )
+	if (ShowSettings())
 	{
 		mCurrentSymbol = 0;
 		mSymbolEditor->GetSymbolPanel()->SetFontInfo( mCurrentFont, mCurrentSymbol );
 		return true;
 	}
+
 	return false;
 }
 
@@ -99,7 +101,7 @@ bool FontEditor::CreateFont()
 
 bool FontEditor::ShowSettings()
 {
-	if (mCurrentFont == NULL)
+	if (!mCurrentFont)
 	{
 		return CreateFont();
 	}
@@ -137,9 +139,10 @@ void FontEditor::UpdateRibbon()
 	Symbols& sym = mCurrentFont->GetSymbols();
 	mSymbolsRibbon->Clear();
 	mSymbolsRibbon->Reserve( sym.size() );
+
 	for ( size_t i = 0; i < sym.size(); ++i )
 	{
-		wxBitmap* bmp =  sym[i].GetData()->GetBitmap( mCurrentFont->GetPalette() ); 
+		wxBitmap* bmp =  sym[i]->GetData()->GetBitmap( mCurrentFont->GetPalette() ); 
 		mSymbolsRibbon->SetBitmap( i, bmp );
 	}
 
@@ -155,11 +158,13 @@ void FontEditor::CurrentSymbolChanged()
 
 	if (mCurrentFont && mCurrentSymbol < mCurrentFont->GetSymbols().size() )
 	{
-		SymbolInfo& info = mCurrentFont->GetSymbols()[mCurrentSymbol];
-		if (info.IsOk())
+		auto& symbols = mCurrentFont->GetSymbols();
+		SymbolInfoPtr info = symbols[mCurrentSymbol];
+
+		if (info->IsOk())
 		{
-			info.SetData( mSymbolEditor->GetIndexMask() );
-			wxBitmap* bmp = info.GetData()->GetBitmap( mCurrentFont->GetPalette() ); 
+			info->SetData( mSymbolEditor->GetIndexMask() );
+			wxBitmap* bmp = info->GetData()->GetBitmap(mCurrentFont->GetPalette());
 			mSymbolsRibbon->UpdateBitmap( mCurrentSymbol, bmp );
 		}
 	}
@@ -167,7 +172,7 @@ void FontEditor::CurrentSymbolChanged()
 
 
 
-void FontEditor::ChangeFontPalette( Palette* pal )
+void FontEditor::ChangeFontPalette( PalettePtr pal )
 {
 	mCurrentFont->SetPalette( pal );
 	UpdateFont();
@@ -177,7 +182,7 @@ void FontEditor::ChangeFontPalette( Palette* pal )
 
 void FontEditor::SetPaletteAsMain()
 {
-	Palette* pal = mCurrentFont->GetPalette();
+	PalettePtr pal = mCurrentFont->GetPalette();
 
 	if ( pal && pal->IsOk() )
 	{
@@ -211,7 +216,7 @@ void FontEditor::SetPaletteAsMain()
 
 /* virtual */ bool FontEditor::LoadState( wxInputStream& input, int version )
 {
-	FontInfo* fontInfo = new FontInfo();
+	FontInfoPtr fontInfo = std::make_shared<FontInfo>();
 
 	bool res = IEditor::LoadState(input, version) &&
 		fontInfo->LoadFromStream( input ) &&
@@ -222,23 +227,21 @@ void FontEditor::SetPaletteAsMain()
 		SetInfo( fontInfo );
 	}
 
-	delete fontInfo;
-
 	return res;
 }
 
 
 
-/* virtual */ const Origin*	FontEditor::GetOrigin() const
+/* override */ OriginPtr FontEditor::GetOrigin() const
 {
-	return mCurrentFont ? mCurrentFont->GetOrigin() : NULL;
+	return mCurrentFont ? mCurrentFont->GetOrigin() : nullptr;
 }
 
 
 
-/* virtual */ void FontEditor::SetInfo( IInfo* info )
+/* override */ void FontEditor::SetInfo( IInfoPtr info )
 {
-	FontInfo* newFont = static_cast<FontInfo*>( info );
+	FontInfoPtr newFont = std::static_pointer_cast<FontInfo>( info );
 	ClearFont();
 	mCurrentFont = newFont->Clone();
 	UpdateFont();
@@ -258,7 +261,7 @@ void FontEditor::SetPaletteAsMain()
 	}
 	else
 	{
-		wxFileDialog dlg( this, "Save font as...", wxEmptyString, "fontfile", UUT_FONT_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+		wxFileDialog dlg( this, "Save font as...", wxEmptyString, "fontfile", UTT_FONT_EXTENSIONS, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
 
 		if (dlg.ShowModal() == wxID_OK)
 		{
@@ -275,7 +278,7 @@ void FontEditor::SetPaletteAsMain()
 /* virtual */ bool FontEditor::LoadEditor()
 {
 	bool res = false;
-	wxFileDialog dlg( this, "Open UTT font...", wxEmptyString, "fontfile", UUT_FONT_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
+	wxFileDialog dlg( this, "Open UTT font...", wxEmptyString, "fontfile", UTT_FONT_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST );
 
 	if (dlg.ShowModal() == wxID_OK)
 	{

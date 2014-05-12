@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct  8 2012)
+// C++ code generated with wxFormBuilder (version Feb 26 2014)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -8,6 +8,11 @@
 #include "pch.h"
 
 #include "uttpanelsgui.h"
+
+#include "../icon/backward.xpm"
+#include "../icon/forward.xpm"
+#include "../icon/play.xpm"
+#include "../icon/stop.xpm"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -241,4 +246,82 @@ LibraryGui::LibraryGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
 
 LibraryGui::~LibraryGui()
 {
+}
+
+VideoPanelGui::VideoPanelGui( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxFlexGridSizer* fgSizer5;
+	fgSizer5 = new wxFlexGridSizer( 2, 1, 0, 0 );
+	fgSizer5->AddGrowableCol( 0 );
+	fgSizer5->AddGrowableRow( 0 );
+	fgSizer5->SetFlexibleDirection( wxBOTH );
+	fgSizer5->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	mVideoSizer = new wxGridSizer( 1, 1, 0, 0 );
+	
+	
+	fgSizer5->Add( mVideoSizer, 1, wxEXPAND, 5 );
+	
+	wxFlexGridSizer* fgSizer6;
+	fgSizer6 = new wxFlexGridSizer( 1, 5, 0, 0 );
+	fgSizer6->AddGrowableCol( 4 );
+	fgSizer6->AddGrowableRow( 0 );
+	fgSizer6->SetFlexibleDirection( wxBOTH );
+	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	mPlayBtn = new wxBitmapButton( this, wxID_PLAY_BTN, wxBitmap( play_xpm ), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	fgSizer6->Add( mPlayBtn, 0, wxALL, 5 );
+	
+	mBackBtn = new wxBitmapButton( this, wxID_BACKWARD_BTN, wxBitmap( backward_xpm ), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	fgSizer6->Add( mBackBtn, 0, wxALL, 5 );
+	
+	mStopBtn = new wxBitmapButton( this, wxID_STOP_BTN, wxBitmap( stop_xpm ), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	fgSizer6->Add( mStopBtn, 0, wxALL, 5 );
+	
+	mForwardBtn = new wxBitmapButton( this, wxID_FORWARD_BTN, wxBitmap( forward_xpm ), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	fgSizer6->Add( mForwardBtn, 0, wxALL, 5 );
+	
+	mPosSlider = new wxSlider( this, wxID_VIDEO_SLIDER, 0, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	fgSizer6->Add( mPosSlider, 0, wxALL, 5 );
+	
+	
+	fgSizer5->Add( fgSizer6, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( fgSizer5 );
+	this->Layout();
+	
+	// Connect Events
+	mPlayBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VideoPanelGui::OnButtonClick ), NULL, this );
+	mBackBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VideoPanelGui::OnButtonClick ), NULL, this );
+	mStopBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VideoPanelGui::OnButtonClick ), NULL, this );
+	mForwardBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VideoPanelGui::OnButtonClick ), NULL, this );
+	mPosSlider->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+}
+
+VideoPanelGui::~VideoPanelGui()
+{
+	// Disconnect Events
+	mPlayBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VideoPanelGui::OnButtonClick ), NULL, this );
+	mBackBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VideoPanelGui::OnButtonClick ), NULL, this );
+	mStopBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VideoPanelGui::OnButtonClick ), NULL, this );
+	mForwardBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VideoPanelGui::OnButtonClick ), NULL, this );
+	mPosSlider->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	mPosSlider->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( VideoPanelGui::OnSlider ), NULL, this );
+	
 }

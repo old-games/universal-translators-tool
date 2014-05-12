@@ -12,12 +12,6 @@
 #include "selectrect.h"
 
 
-// forward declaratinos
-class Palete;
-class IndexMask;
-class ImageInfo;
-
-
 enum UTTDrawParams
 {
 	utdNone		= 0x0000,
@@ -33,6 +27,8 @@ enum UTTDrawParams
 	utdStretch	= 0x0200
 };
 
+
+
 class DrawPanel :
 	public wxScrolledWindow, public SelectionRectangle
 {
@@ -41,7 +37,7 @@ public:
 	explicit DrawPanel( wxWindow* parent );
 	virtual ~DrawPanel(void);
 
-	void SetIndexedBitmap( ImageInfo* info, bool cloneInfo = true );
+	void SetIndexedBitmap( ImageInfoPtr info, bool cloneInfo = true );
 	void ResetIndexedBitmap();
 	void SetBitmap( wxBitmap* bitmap );
 	void SetBitmap(Pixel* buffer, int width, int height);
@@ -55,9 +51,9 @@ public:
 
 	static void RefCheck();
 
-	inline int GetRealWidth() { return mShowWidth; }
-	inline int GetRealHeight() { return mShowHeight; }
-	inline ImageInfo* GetImageInfo() { return mImageInfo; }
+	inline int GetRealWidth() const { return mShowWidth; }
+	inline int GetRealHeight() const { return mShowHeight; }
+	inline ImageInfoPtr GetImageInfo() const { return mImageInfo; }
 
 	inline bool IsOk() { return mBitmap && mBitmap->IsOk(); }
 
@@ -126,7 +122,7 @@ protected:
 	int		    mWidth;
 	int		    mHeight;
 	
-	ImageInfo*	mImageInfo;
+	ImageInfoPtr	mImageInfo;
 
 private:
 	void DrawFocus(wxDC& dc);

@@ -17,11 +17,10 @@
 
 PaletteWindowImpl::PaletteWindowImpl(  wxWindow* parent, wxWindowID eventsId /* wxID_ANY */ ):
 	PaletteWindowGui( parent ),
-	mPalPanel( NULL ),
-	mPalette( NULL )
+	mPalPanel( nullptr ),
+	mPalette()
 {
-
-	mPalette = new Palette();
+	mPalette = std::make_shared<Palette>();
 	mPalette->Initiate( Palette::bppMono, (wxByte*) NULL );
 
 	mPalPanel = new PalettePanel( this, mPalette, eventsId );
@@ -53,7 +52,6 @@ PaletteWindowImpl::~PaletteWindowImpl(void)
 {
 	this->Unbind( wxEVT_PAINT, &PaletteWindowImpl::OnPaint, this );
 	wxTheApp->Unbind( uttEVT_CHANGEPALETTE, &PaletteWindowImpl::OnPaletteChangeEvent, this, mPalPanel->GetEventsId() );
-	delete mPalette;
 }
 
 
@@ -333,14 +331,13 @@ void PaletteWindowImpl::PaletteChanged()
 {
 	if ( CheckLocked() )
 	{
-		delete mPalette;
-		mPalette = event.GetPalette()->Clone();
+		mPalette = event.GetPalette();
 		PaletteChanged();
 
 		if (event.GetRebuild())
 		{
-			EditorRebuildDataEvent* event = new EditorRebuildDataEvent(mPalPanel->GetEventsId(), 
-				EditorRebuildDataEvent::whPaletteChanged, mPalette); 
+			EditorRebuildDataEvent* event =
+				new EditorRebuildDataEvent(mPalPanel->GetEventsId(), mPalette);
 			wxTheApp->QueueEvent( event );
 		}
 

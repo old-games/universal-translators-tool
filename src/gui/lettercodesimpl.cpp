@@ -29,7 +29,7 @@ namespace ColumnsInfo
 	};
 }
 
-LetterCodesImpl::LetterCodesImpl(  wxWindow* parent, FontInfo* finfo ):
+LetterCodesImpl::LetterCodesImpl(  wxWindow* parent, FontInfoPtr finfo ):
 		LetterCodesGui( parent ),
 		mFontInfo( finfo ),
 		mSymbolsCopy( mFontInfo->GetSymbols() ),
@@ -62,10 +62,14 @@ LetterCodesImpl::LetterCodesImpl(  wxWindow* parent, FontInfo* finfo ):
 	
 }
 
+
+
 LetterCodesImpl::~LetterCodesImpl(void)
 {
 	this->Unbind( wxEVT_GRID_CELL_CHANGED, &LetterCodesImpl::OnCellChange, this);
 }
+
+
 
 void LetterCodesImpl::GenerateCodes()
 {
@@ -73,13 +77,17 @@ void LetterCodesImpl::GenerateCodes()
 	{
 		return;
 	}
+
 	wxInt32 val = mInitialSpinCtrl->GetValue();
+
 	for (size_t i = 0; i < mSymbolsCopy.size(); ++i)
 	{
-		mSymbolsCopy[ i ].SetCode(val++);		
+		mSymbolsCopy[i]->SetCode(val++);
 	}
 	UpdateTable();
 }
+
+
 
 void LetterCodesImpl::UpdateTable()
 {
@@ -136,12 +144,13 @@ void LetterCodesImpl::SetCurrentEncoding()
 
 inline void LetterCodesImpl::UpdateRow(wxUint32 n)
 {
-	SymbolInfo& symbol = mSymbolsCopy[ n ];
+	SymbolInfoPtr symbol = mSymbolsCopy[ n ];
 
-	mCodesGrid->SetCellValue( n, ColumnsInfo::ciValue, GridHexEditor::LongToHex( symbol.GetCode(), mHexAlign ) );
-	wxString toConvert = wxString::Format("%c", symbol.GetCode() );
+	mCodesGrid->SetCellValue( n, ColumnsInfo::ciValue, GridHexEditor::LongToHex( symbol->GetCode(), mHexAlign ) );
+	wxString toConvert = wxString::Format("%c", symbol->GetCode() );
 	mCodesGrid->SetCellValue( n, ColumnsInfo::ciSymbol, toConvert );
 	wxString convert = "N/A";
+
 	if ( mCanToSystem )
 	{
 		convert = mToSystem.Convert( toConvert );
@@ -162,7 +171,8 @@ void LetterCodesImpl::CellValueChanged(wxInt32 row, wxInt32 col)
 {
 	bool update = true;
 	wxString val = mCodesGrid->GetCellValue( row, col );
-	long intVal = mSymbolsCopy[ row ].GetCode();
+	long intVal = mSymbolsCopy[ row ]->GetCode();
+
 	switch ( col )
 	{
 		case ColumnsInfo::ciValue:
@@ -184,9 +194,10 @@ void LetterCodesImpl::CellValueChanged(wxInt32 row, wxInt32 col)
 			update = false;
 	}
 	wxASSERT( update );
+
 	if (update)
 	{
-		mSymbolsCopy[ row ].SetCode(intVal);
+		mSymbolsCopy[ row ]->SetCode(intVal);
 		this->UpdateRow( row );
 	}
 }
@@ -209,6 +220,7 @@ void LetterCodesImpl::OnBtnClick( wxCommandEvent& event )
 			wxFontMapper dlg;
 			dlg.SetDialogParent( this );
 			wxInt32 res = dlg.CharsetToEncoding("unknown", true);
+
 			if (res != -1)
 			{
 				mCurrentEncoding = res;

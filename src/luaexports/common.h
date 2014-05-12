@@ -19,19 +19,7 @@ namespace Lua
 
 
 
-class BusyCursor
-{
-public:
-	BusyCursor(): mBusy( new wxBusyCursor() ) {}
-	~BusyCursor() { delete mBusy; }
-private: 
-	wxBusyCursor*	mBusy;
-};
-
-
-
-
-OOLUA_PROXY(BusyCursor)
+OOLUA_PROXY(wxBusyCursor)
 OOLUA_PROXY_END
 
 

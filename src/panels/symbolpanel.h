@@ -31,7 +31,7 @@ public:
 	SymbolPanel( wxWindow* parent, wxWindowID eventsId = wxID_ANY );
 	~SymbolPanel(void);
 
-	void SetFontInfo( FontInfo* info, int symbolNumber );
+	void SetFontInfo( FontInfoPtr info, int symbolNumber );
 
 protected:
 
@@ -52,7 +52,7 @@ private:
 	bool DragLine();
 	void EndDragLine();
 
-	FontInfo*		mFontInfo;
+	FontInfoPtr		mFontInfo;
 	bool			mAllowEdit;
 	int				mSymbolNumber;
 	int				mActiveLine;

@@ -29,28 +29,28 @@ Origin::Origin():
 
 
 
-Origin::Origin( const char* fileName ):
+Origin::Origin( const std::string& fileName ):
 	IStateStore( ORIGINNAME, ORIGINVERSION ),
 	mOriginFrom(FromFile),
-	mOriginFileName( fileName ),
+	mOriginFileName( fileName.c_str() ),
 	mOriginAdditional( wxEmptyString ),
 	mOffset(0),
 	mSize(0),
-	mParent(NULL)
+	mParent()
 {
-	mSize = wxFileName::GetSize(fileName);
+	mSize = wxFileName::GetSize(mOriginFileName);
 }
 
 
 
-Origin::Origin( Origin* parent, wxFileOffset offset, wxFileOffset size ):
+Origin::Origin( OriginPtr parent, wxFileOffset offset, wxFileOffset size ):
 	IStateStore( ORIGINNAME, ORIGINVERSION ),
 	mOriginFrom(FromLibrary),
 	mOriginFileName( wxEmptyString ),
 	mOriginAdditional( wxEmptyString ),
 	mOffset(offset),
 	mSize(size),
-	mParent(NULL)
+	mParent()
 {
 	SetParent(parent);
 }
@@ -60,7 +60,7 @@ Origin::Origin( const Origin& other ):
 	mOriginFrom( other.mOriginFrom ),
 	mOriginFileName( other.mOriginFileName ),
 	mOriginAdditional( other.mOriginAdditional ),
-	mParent(NULL)
+	mParent()
 {
 	SetParent(other.GetParent());
 }
@@ -69,20 +69,18 @@ Origin::Origin( const Origin& other ):
 
 /* virtual */ Origin::~Origin()
 {
-	delete mParent;
 }
 
 
 
-void Origin::SetParent(const Origin* parent)
+void Origin::SetParent(OriginPtr parent)
 {
-	delete mParent;
-	mParent = NULL;
-	
-	if (parent)
-	{
-		mParent = parent->Clone();
-	}
+	mParent = parent;
+	//
+	//if (parent)
+	//{
+	//	mParent = parent->Clone();
+	//}
 }
 
 
@@ -126,16 +124,17 @@ wxString Origin::GetFileName() const
 
 
 
-const Origin* Origin::GetParent() const
+OriginPtr Origin::GetParent() const
 {
-	return mParent;
+	return mParent.lock();
 }
 
 
 
 /* virtual */ bool Origin::SaveState( wxOutputStream& output )
 {
-	bool hasParent = mParent && mParent->GetOrigin() != Unknown;
+	auto parent = mParent.lock();
+	bool hasParent = parent && parent->GetOrigin() != Unknown;
 	bool res = SaveSimpleType<wxInt32>( output, mOriginFrom) &&
 		SaveString( output, mOriginFileName ) &&
 		SaveString( output, mOriginAdditional ) && 
@@ -145,7 +144,7 @@ const Origin* Origin::GetParent() const
 	
 	if (hasParent)
 	{
-		res = mParent->SaveState(output);
+		res = parent->SaveState(output);
 	}
 
 	return res;
@@ -167,11 +166,12 @@ const Origin* Origin::GetParent() const
 	
 	if (hasParent)
 	{
-		if (!mParent)
+		if (!mParent.lock())
 		{
-			mParent = new Origin();
+			mParent = std::make_shared<Origin>();
 		}
-		res = mParent->LoadState(input, version);
+
+		res = mParent.lock()->LoadState(input, version);
 	}
 
 	return res;

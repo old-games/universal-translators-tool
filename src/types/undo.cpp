@@ -99,13 +99,13 @@ PlacePixelCommand::PlacePixelCommand( EditPanel* owner, const UttColour& oldValu
 
 
 
-ImagePasteCommand::ImagePasteCommand( EditPanel* owner, ImageInfo* oldValue, 
-								ImageInfo* newValue, const wxPoint& point ): 
+ImagePasteCommand::ImagePasteCommand( EditPanel* owner, ImageInfoPtr oldValue,
+								ImageInfoPtr newValue, const wxPoint& point ):
 	wxCommand(true, "ImagePasteCommand"),
-	mOwner( owner ),
-	mOldValue( oldValue ),
-	mNewValue( newValue ),
-	mPoint( point )
+		mOwner( owner ),
+		mOldValue( oldValue ),
+		mNewValue( newValue ),
+		mPoint( point )
 {
 }
 
@@ -113,8 +113,6 @@ ImagePasteCommand::ImagePasteCommand( EditPanel* owner, ImageInfo* oldValue,
 
 ImagePasteCommand::~ImagePasteCommand()
 {
-	delete mOldValue;
-	delete mNewValue;
 }
 
 

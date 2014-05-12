@@ -16,7 +16,7 @@
 #include "gui/editpanelimpl.h"
 #include "gui/palwindowimpl.h"
 #include "gui/libwindowimpl.h"
-
+#include "panels/videopanel.h"
 
 
 const wxString sCommandNames[iecNum] = 
@@ -286,7 +286,7 @@ bool Project::SaveEditors( wxOutputStream& output )
 	for (EditorsIterator it = mEditors.begin(); it != mEditors.end() && res; ++it)
 	{
 		IEditor* editor = *it;
-		const Origin* info = editor->GetOrigin();
+		OriginPtr info = editor->GetOrigin();
 		wxASSERT(info);
 		wxString command = GetFunctionName(iecImport, editor->GetType());
 		wxString path = info->GetFullPath();
@@ -306,18 +306,18 @@ bool Project::SaveEditors( wxOutputStream& output )
 
 
 
-void Project::CreateEditorAndSetIt( IInfo* info )
+void Project::CreateEditorAndSetIt(IInfoPtr info )
 {
 	IEditor* editor = IEditor::CreateEditor( info->GetEditorType(), true );
 
 	if (editor)
 	{
-		mEditors.push_back( editor );
-		editor->SetInfo( info );
+		mEditors.push_back(editor);
+		editor->SetInfo(info);
 		AddEditorWindow( editor, editor->CreateName(), true );
 
-		AUIWindowEvent* event = new AUIWindowEvent( AUIWindowEvent::ShowWindow, 
-			editor->GetWindow() );
+		AUIWindowEvent* event = new AUIWindowEvent(
+			AUIWindowEvent::ShowWindow, editor->GetWindow() );
 		wxTheApp->QueueEvent( event );
 	}
 }

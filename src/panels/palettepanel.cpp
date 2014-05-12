@@ -13,12 +13,12 @@
 
 
 
-PalettePanel::PalettePanel(  wxWindow* parent, Palette* pal, wxWindowID eventsId /* wxID_ANY */):
+PalettePanel::PalettePanel(  wxWindow* parent, PalettePtr pal, wxWindowID eventsId /* wxID_ANY */):
 	EditPanel( parent, eventsId ),
-	mLeftPos(0, 0),
-	mRightPos(1, 0),
-	mContainerMode( pal != NULL ),
-	mCurrentPal( pal )
+		mLeftPos(0, 0),
+		mRightPos(1, 0),
+		mContainerMode( pal != NULL ),
+		mCurrentPal( pal )
 {
 	SetAllowScaling( false );
 	SetAllowEdit( false );
@@ -30,7 +30,7 @@ PalettePanel::PalettePanel(  wxWindow* parent, Palette* pal, wxWindowID eventsId
 
 	if (!mContainerMode)
 	{
-		mCurrentPal = new Palette();
+		mCurrentPal = std::make_shared<Palette>();
 		mCurrentPal->Initiate( Palette::bppMono, (wxByte*) NULL  );
 		SetBitmapFromPalette();
 	}
@@ -44,15 +44,11 @@ PalettePanel::PalettePanel(  wxWindow* parent, Palette* pal, wxWindowID eventsId
 
 PalettePanel::~PalettePanel(void)
 {
-	if (!mContainerMode)
-	{
-		delete mCurrentPal;
-	}
 }
 
 
 
-void PalettePanel::SetNewPalette( Palette* pal )
+void PalettePanel::SetNewPalette(PalettePtr pal)
 {
 	if (mContainerMode)
 	{
@@ -60,17 +56,12 @@ void PalettePanel::SetNewPalette( Palette* pal )
 		return;
 	}
 
-	if (mCurrentPal != NULL)
-	{
-		delete mCurrentPal;
-		mCurrentPal = NULL;
-	}
 	mCurrentPal = pal->Clone();
 }
 
 
 
-void PalettePanel::SetCurrentPalette( Palette* pal )
+void PalettePanel::SetCurrentPalette( PalettePtr pal )
 {
 	if (!mContainerMode)
 	{
@@ -226,7 +217,7 @@ int	PalettePanel::FindColour( bool right, const UttColour& colour, bool andSet /
 	wxSize size( mRealScale + 2, mRealScale + 2);
 	dc.SetBrush( *wxTRANSPARENT_BRUSH );
 	dc.SetLogicalFunction( wxCOPY );
-	wxPen pen( *wxGREEN, 3, wxLONG_DASH );
+	wxPen pen( *wxGREEN, 3, wxPENSTYLE_LONG_DASH );
 	for (int i = 0; i < 2; ++i)
 	{
 		wxPoint pos = i == 0 ? mLeftPos : mRightPos;

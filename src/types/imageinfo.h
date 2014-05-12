@@ -11,38 +11,39 @@
 
 #include "iinfo.h"
 
+
+
 // forward declarations
-class IndexMask;
-class Palette;
 class ImageInfoDataObject;
+
+
 
 class ImageInfo: public IInfo
 {
 public:
 	ImageInfo();
-	ImageInfo(IndexMask* mask, Palette* pal);
-	ImageInfo( const ImageInfo& other );
+	ImageInfo(IndexMaskPtr mask, PalettePtr pal);
+	ImageInfo(const ImageInfo& other);
 
 	~ImageInfo();
-	ImageInfo* Clone() const { return new ImageInfo(*this); }
+	ImageInfoPtr Clone() const { return std::make_shared<ImageInfo>(*this); }
 
-	void SetImage( IndexMask* mask );
-	bool SetPalette(Palette* pal);
+	void SetImage(IndexMaskPtr mask);
+	bool SetPalette(PalettePtr pal);
 	void SetPaletteAsMain();
 	
 	bool		IsOk() const;
-	IndexMask*	GetImage() const { return mIndexMask; }
-	Palette*	GetPalette() { return mPalette; }
-	wxBitmap*	GetBitmap() const;
-	wxSize		GetSize() const;
+	IndexMaskPtr	GetImage() const { return mIndexMask; }
+	PalettePtr		GetPalette() const { return mPalette; }
+	wxBitmap*		GetBitmap() const;
+	wxSize			GetSize() const;
 
 	void		Clear();
 	bool		CopyToClipBoard( const wxRect& rect );
-	ImageInfo*	CopyToImageInfo( const wxRect& rect );
-	bool		PasteImageInfo( const wxPoint& point, const ImageInfo* src ) ;
+	ImageInfoPtr	CopyToImageInfo( const wxRect& rect );
+	bool			PasteImageInfo( const wxPoint& point, ImageInfoPtr src ) ;
 	
-	static void				Done() { delete sBuffered; sBuffered = NULL; }
-	static const ImageInfo*	GetBuffered() { return sBuffered; }
+	static const ImageInfoPtr	GetBuffered() { return sBuffered; }
 
 protected:
 
@@ -54,10 +55,10 @@ private:
 	void	ClearImage();
 	void	ClearPalette();
 
-	IndexMask*		mIndexMask;
-	Palette*		mPalette;
+	IndexMaskPtr	mIndexMask;
+	PalettePtr		mPalette;
 
-	static		ImageInfo*	sBuffered;
+	static	ImageInfoPtr	sBuffered;
 };
 
 
@@ -69,14 +70,14 @@ private:
 class ImageInfoDataObject: public wxBitmapDataObject
 {
 public:
-	ImageInfoDataObject( const ImageInfo* mImageInfo );
+	ImageInfoDataObject( ImageInfoPtr mImageInfo );
 	ImageInfoDataObject( const ImageInfoDataObject& other );
 	~ImageInfoDataObject();
 		
-	ImageInfo* ImageInfoDataObject::GetInfo();
+	ImageInfoPtr GetInfo() const;
 private:
 
-	ImageInfo*	mImageInfo;
+	ImageInfoPtr	mImageInfo;
 };
 
 

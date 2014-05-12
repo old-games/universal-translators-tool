@@ -13,7 +13,8 @@
 #include "editpanel.h"
 
 class PaletteWindowImpl;
-class Palette;
+
+
 
 class PalettePanel : public EditPanel
 {
@@ -21,7 +22,8 @@ class PalettePanel : public EditPanel
 friend class PaletteWindowImpl;
 
 public:
-	PalettePanel( wxWindow* parent, Palette* pal, wxWindowID eventsId = wxID_ANY );
+	PalettePanel(wxWindow* parent, PalettePtr pal,
+		wxWindowID eventsId = wxID_ANY);
 	~PalettePanel();
 
 	const UttColour& GetColour( bool right );
@@ -38,9 +40,9 @@ protected:
 
 private:
 
-	void SetNewPalette( Palette* pal );
-	void SetCurrentPalette( Palette* pal );
-	Palette* GetCurrentPalette() { return mCurrentPal; }
+	void SetNewPalette( PalettePtr pal );
+	void SetCurrentPalette( PalettePtr pal );
+	PalettePtr GetCurrentPalette() const { return mCurrentPal; }
 	void SetColourPosition( const wxPoint& pos, bool right );
 
 	void SetBitmapFromPalette();
@@ -55,7 +57,7 @@ private:
 	UttColour	mRightColour;
 	bool		mContainerMode; 
 
-	Palette*	mCurrentPal;
+	PalettePtr	mCurrentPal;
 
 };
 

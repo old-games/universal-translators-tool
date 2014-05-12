@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct  8 2012)
+// C++ code generated with wxFormBuilder (version Feb 26 2014)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -26,6 +26,11 @@
 #include <wx/stattext.h>
 #include <wx/choice.h>
 #include <wx/treelist.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
+#include <wx/icon.h>
+#include <wx/bmpbuttn.h>
+#include <wx/slider.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -38,6 +43,11 @@
 #define wxID_GRIDCOL_BTN 1006
 #define wxID_LIBRARYWINDOW 1007
 #define wxID_LIBTREE 1008
+#define wxID_PLAY_BTN 1009
+#define wxID_BACKWARD_BTN 1010
+#define wxID_STOP_BTN 1011
+#define wxID_FORWARD_BTN 1012
+#define wxID_VIDEO_SLIDER 1013
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class FontEditGui
@@ -120,6 +130,33 @@ class LibraryGui : public wxPanel
 		
 		LibraryGui( wxWindow* parent, wxWindowID id = wxID_LIBRARYWINDOW, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 509,482 ), long style = wxTAB_TRAVERSAL ); 
 		~LibraryGui();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class VideoPanelGui
+///////////////////////////////////////////////////////////////////////////////
+class VideoPanelGui : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxGridSizer* mVideoSizer;
+		wxBitmapButton* mPlayBtn;
+		wxBitmapButton* mBackBtn;
+		wxBitmapButton* mStopBtn;
+		wxBitmapButton* mForwardBtn;
+		wxSlider* mPosSlider;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSlider( wxScrollEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		VideoPanelGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL ); 
+		~VideoPanelGui();
 	
 };
 

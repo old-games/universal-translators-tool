@@ -12,7 +12,6 @@
 #include "uttpanelsgui.h"
 #include "types/ieditor.h"
 
-class FontInfo;
 class FontEditGui;
 class SymbolEditGui;
 class SymbolPanel;
@@ -35,8 +34,8 @@ public:
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
 
-	virtual const Origin*	GetOrigin() const;
-	virtual void SetInfo( IInfo* info );
+	virtual OriginPtr GetOrigin() const override;
+	virtual void SetInfo( IInfoPtr info ) override;
 
 protected:
 
@@ -51,7 +50,7 @@ private:
 	bool ShowSettings();
 	bool CreateFont();
 	void ClearFont( bool force = false );	// force - to clear memory from destructor
-	void ChangeFontPalette( Palette* pal );
+	void ChangeFontPalette(PalettePtr pal);
 	void SetPaletteAsMain();
 
 	void UpdateFont();
@@ -59,7 +58,7 @@ private:
 	void CurrentSymbolChanged();
 
 	SymbolEditGui*	mSymbolEditor;
-	FontInfo*		mCurrentFont;
+	FontInfoPtr		mCurrentFont;
 	wxUint32		mCurrentSymbol;
 
 };

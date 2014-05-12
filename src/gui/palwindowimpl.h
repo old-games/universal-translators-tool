@@ -51,7 +51,7 @@ private:
 	void LockChanged();
 
 	PalettePanel*	mPalPanel;
-	Palette*		mPalette;
+	PalettePtr		mPalette;
 };
 
 #endif

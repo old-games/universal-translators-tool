@@ -27,15 +27,5 @@ OOLUA_PROXY(IInfo)
 OOLUA_PROXY_END
 
 
-//OOLUA_CLASS_NO_BASES( IInfo )
-//
-//	OOLUA_TYPEDEFS Abstract OOLUA_END_TYPES
-//
-//	OOLUA_MEM_FUNC_1( void, SetOrigin, const Origin* )
-//	OOLUA_MEM_FUNC_0_CONST( const Origin*, GetOrigin )
-//
-//OOLUA_CLASS_END
-
-
 
 #endif // LUAIINFO_H_INCLUDED

@@ -48,7 +48,7 @@ private:
 	int					mOrientation;
 	wxColour			mColour;
 	int					mWidth;
-	int					mStyle;
+	wxPenStyle			mStyle;
 	int					mValue;				// если линия горизонтальная, то это Y, если вертикальная то X
 
 	wxCoord				mPosX;

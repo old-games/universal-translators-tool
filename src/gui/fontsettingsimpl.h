@@ -9,15 +9,17 @@
 #ifndef FONTSEETINGSIMPL_H_INCLUDED
 #define FONTSEETINGSIMPL_H_INCLUDED
 
+
+
 #include "uttdialogsgui.h"
 
-class FontInfo;
+
 
 class FontSettingsImpl :
 	public FontSettingsGui
 {
 public:
-	FontSettingsImpl( wxWindow* parent, FontInfo* finfo );
+	FontSettingsImpl( wxWindow* parent, FontInfoPtr finfo );
 	~FontSettingsImpl(void);
 
 protected:
@@ -31,7 +33,7 @@ private:
 	void SetValuesToControls();
 	void UpdateSpinRanges();
 
-	FontInfo*	mFontInfo;
+	FontInfoPtr		mFontInfo;
 
 };
 

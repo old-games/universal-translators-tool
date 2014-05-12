@@ -67,7 +67,7 @@ protected:
 
 	void DrawGrid( wxDC& dc );
 	bool DoPlacePixel( const wxPoint& pos, const UttColour& color );
-	bool DoPaste( const wxPoint& pos, const ImageInfo* img );
+	bool DoPaste( const wxPoint& pos, ImageInfoPtr img );
 	bool GetPixel( const wxPoint& pos, UttColour& color );
 
 	void SetEditColour( bool right, const UttColour& col );
@@ -82,7 +82,7 @@ private:
 
 	void ClearGridPoints();
 	bool CommandEdit();
-	bool CommandPaste( const ImageInfo* newValue );
+	bool CommandPaste(ImageInfoPtr newValue );
 	bool BeginDrawing();
 	void EndDrawing();
 	bool PasteSelection();

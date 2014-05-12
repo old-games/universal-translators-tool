@@ -12,9 +12,9 @@
 
 WX_DECLARE_OBJARRAY(wxEvtHandler*, EventHandlersArray);
 
+
 // forward declarations
 class EditPanel;
-class ImageInfo;
 
 
 class EventClient
@@ -35,8 +35,8 @@ public:
 	PlacePixelCommand( EditPanel* owner, const UttColour& oldValue, 
 		const UttColour& newValue, const wxPoint& point );
 
-    virtual bool Do();
-    virtual bool Undo();
+	virtual bool Do();
+	virtual bool Undo();
 
 private:
 
@@ -51,20 +51,20 @@ private:
 class ImagePasteCommand: public wxCommand
 {
 public:
-	ImagePasteCommand( EditPanel* owner, ImageInfo* oldValue, 
-		ImageInfo* newValue, const wxPoint& point );
+	ImagePasteCommand( EditPanel* owner, ImageInfoPtr oldValue,
+		ImageInfoPtr newValue, const wxPoint& point );
 
 	virtual ~ImagePasteCommand();
 
-    virtual bool Do();
-    virtual bool Undo();
+	virtual bool Do();
+	virtual bool Undo();
 
 private:
 
-	EditPanel*	mOwner;
-	ImageInfo*	mOldValue;
-	ImageInfo*	mNewValue;
-	wxPoint		mPoint;
+	EditPanel*		mOwner;
+	ImageInfoPtr	mOldValue;
+	ImageInfoPtr	mNewValue;
+	wxPoint			mPoint;
 };
 
 #endif	// UTTUNDO_H_INCLUDED

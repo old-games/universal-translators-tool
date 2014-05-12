@@ -17,14 +17,16 @@ const wxString	IMASKNAME = "IndexMask";
 const int		IMASKVERSION = 0x100;
 
 
-IndexMask::IndexMask(): 
+IndexMask::IndexMask():
 	IInfo( IMASKNAME, IMASKVERSION, etImage ),
-	mWidth(0), 
-	mHeight(0), 
-	mSize(0), 	
+	mWidth(0),
+	mHeight(0),
+	mSize(0),
 	mSrcWidth( 0 ),
-	mSrcHeight( 0 ), 
-	mMask(NULL) {}
+	mSrcHeight( 0 ),
+	mMask(NULL)
+{}
+
 
 IndexMask::IndexMask( const IndexMask& other ):
 	IInfo( other ),
@@ -33,9 +35,13 @@ IndexMask::IndexMask( const IndexMask& other ):
 	mSize( other.mSize ),
 	mSrcWidth( other.mSrcWidth ),
 	mSrcHeight( other.mSrcHeight ),
-	mMask( (wxByte*) malloc(other.mSize) )
+	mMask(nullptr)
 {
-	memcpy(mMask, other.mMask, other.mSize);
+	if (mSize > 0)
+	{
+		mMask = (wxByte*) malloc(other.mSize);
+		memcpy(mMask, other.mMask, other.mSize);
+	}
 }
 
 
@@ -112,7 +118,7 @@ void IndexMask::SetMask( const wxByte* mask, int srcSize, int width, int height,
 
 
 
-wxBitmap* IndexMask::GetBitmap( Palette* pal )
+wxBitmap* IndexMask::GetBitmap( PalettePtr pal ) const
 {
 	wxBitmap* res = NULL;
 	Pixel* buf = new Pixel[mSize];
@@ -124,7 +130,8 @@ wxBitmap* IndexMask::GetBitmap( Palette* pal )
 		case Palette::bpp2:
 		case Palette::bpp4:
 		case Palette::bpp8:
-			Helpers::Buffer8bpp_to_Pixels(buf, mWidth, mHeight, mMask, mWidth, mHeight, pal);
+			Helpers::Buffer8bpp_to_Pixels(buf, mWidth, mHeight,
+				mMask, mWidth, mHeight, pal.get());
 		break;
 
 		case Palette::bpp24:
@@ -149,10 +156,10 @@ wxBitmap* IndexMask::GetBitmap( Palette* pal )
 
 void IndexMask::Clear()
 {
-	if (mMask != NULL)
+	if (mMask)
 	{
 		free(mMask);
-		mMask = NULL;
+		mMask = nullptr;
 	}
 }
 

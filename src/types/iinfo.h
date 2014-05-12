@@ -22,8 +22,8 @@ public:
 	IInfo( const IInfo& other );
 	virtual ~IInfo();
 	
-	void SetOrigin( const Origin* origin );
-	const Origin* GetOrigin() const;
+	void SetOrigin( OriginPtr origin );
+	OriginPtr GetOrigin() const;
 
 	EditorType GetEditorType() const;
 protected:
@@ -31,7 +31,7 @@ protected:
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
 
-	Origin		mOrigin;
+	OriginPtr	mOrigin;
 	EditorType	mEdType;
 };
 

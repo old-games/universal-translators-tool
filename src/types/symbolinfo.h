@@ -10,8 +10,8 @@
 #define SYMBOLINFO_H_INCLUDED
 
 #include "istatestore.h"
-// forward declarations
-class IndexMask;
+
+
 
 class SymbolInfo: public IStateStore
 {
@@ -23,39 +23,39 @@ public:
 	virtual ~SymbolInfo();
 
 
-	SymbolInfo* Clone() { return new SymbolInfo(*this); }
+	SymbolInfoPtr Clone() { return std::make_shared<SymbolInfo>(*this); }
 
 	bool IsOk();
 
-	IndexMask* GetData();
-	int GetWidth() { return mWidth; }
-	int GetHeight() { return mHeight; }
-	int GetCode() { return mCode; }
+	IndexMaskPtr GetData();
+	inline int GetWidth() const { return mWidth; }
+	inline int GetHeight() const { return mHeight; }
+	inline int GetCode() const { return mCode; }
 
-	void SetData(const IndexMask* data = NULL);
-	void SetValues(int width, int height, unsigned int code, IndexMask* data = NULL);
+	void SetData(IndexMaskPtr data);
+	void SetValues(int width, int height, unsigned int code,
+		IndexMaskPtr data = nullptr);
 	void SetWidth( int w );
 	void SetHeight( int h );
 	void SetCode( int code ) { mCode = code; }
 
-	SymbolInfo &operator = ( const SymbolInfo &src );
+	//SymbolInfo &operator = ( const SymbolInfo &src );
 
 protected:
 
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
 
-	wxInt32		mWidth;				// ширина символа
-	wxInt32		mHeight;			// высота символа
-	wxUint32	mCode;				// код символа, для пробела 32 и т.д.
-	IndexMask*	mData;										
+	wxInt32			mWidth;				// ширина символа
+	wxInt32			mHeight;			// высота символа
+	wxUint32		mCode;				// код символа, для пробела 32 и т.д.
+	IndexMaskPtr	mData;
 
 private:
 
-	void	EraseData();
 };
 
-typedef wxVector<SymbolInfo> Symbols;
+
 
 
 

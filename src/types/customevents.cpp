@@ -68,17 +68,21 @@ IMPLEMENT_DYNAMIC_CLASS(SymbolSelectionEvent, wxEvent)
 wxDEFINE_EVENT( uttEVT_REBUILDDATA, EditorRebuildDataEvent );
 IMPLEMENT_DYNAMIC_CLASS(EditorRebuildDataEvent, wxEvent)
 
-Palette* EditorRebuildDataEvent::GetPalette()
+
+
+PalettePtr EditorRebuildDataEvent::GetPalette() const
 {
-	return static_cast<Palette*>(mData);
+	return mPalette;
 }
 
-UttColour* EditorRebuildDataEvent::GetColour()
+
+
+UttColour* EditorRebuildDataEvent::GetColour() const
 {
 	return static_cast<UttColour*>(mData);
 }
 
-IEditor* EditorRebuildDataEvent::GetEditor()
+IEditor* EditorRebuildDataEvent::GetEditor() const
 {
 	return static_cast<IEditor*>(mData);
 }

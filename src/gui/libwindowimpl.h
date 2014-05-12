@@ -36,8 +36,8 @@ public:
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
 
-	virtual const Origin*	GetOrigin() const;
-	virtual void SetInfo( IInfo* info );
+	virtual OriginPtr GetOrigin() const override;
+	virtual void SetInfo(IInfoPtr info) override;
 
 protected:
 
@@ -60,7 +60,7 @@ private:
 	void UpdateLibTree();
 	void ClearLibrary();
 
-	LibTree*		mLibInfo;
+	LibTreePtr		mLibInfo;
 	wxImageList*	mImageList;
 	wxTreeListItem	mRoot;
 };

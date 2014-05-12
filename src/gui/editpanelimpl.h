@@ -37,7 +37,7 @@ public:
 	}
 
 	void SetEditPanel( EditPanel* editPanel );
-	void ChangeImagePalette( Palette* pal );
+	void ChangeImagePalette( PalettePtr pal );
 	
 	// from IEditor
 	virtual bool SaveEditor();
@@ -46,8 +46,8 @@ public:
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
 
-	virtual const Origin*	GetOrigin() const;
-	virtual void SetInfo( IInfo* info );
+	virtual OriginPtr GetOrigin() const override;
+	virtual void SetInfo(IInfoPtr info) override;
 
 protected:
 

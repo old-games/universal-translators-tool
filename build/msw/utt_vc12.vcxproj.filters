@@ -29,6 +29,9 @@
     <Filter Include="algorithms">
       <UniqueIdentifier>{eb2a8f91-2d68-4bf4-9f02-c27adfa5344e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="res\xpm">
+      <UniqueIdentifier>{80397b31-dfce-4841-af48-dc304795becc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\helpers.cpp">
@@ -213,6 +216,21 @@
     </ClCompile>
     <ClCompile Include="..\..\src\gui\uttpanelsgui.cpp">
       <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\panels\videopanel.cpp">
+      <Filter>panels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\flic.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\video.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\animation.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\sound.cpp">
+      <Filter>types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -405,14 +423,26 @@
     <ClInclude Include="..\..\src\gui\uttpanelsgui.h">
       <Filter>gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\panels\videopanel.h">
+      <Filter>panels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\types\flic.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\types\video.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\types\animation.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\forwards.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\types\sound.h">
+      <Filter>types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\icon\to_left.xpm">
-      <Filter>res</Filter>
-    </None>
-    <None Include="..\..\src\icon\to_right.xpm">
-      <Filter>res</Filter>
-    </None>
     <None Include="..\..\src\gui\uttgui.fbp">
       <Filter>res</Filter>
     </None>
@@ -427,6 +457,66 @@
     </None>
     <None Include="..\..\bin\scripts\init.lua">
       <Filter>scripts</Filter>
+    </None>
+    <None Include="..\..\src\gui\uttdialogsgui.fbp">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\src\gui\uttpanelsgui.fbp">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\src\icon\backward.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\forward.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\play.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\stop.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\to_left.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\to_right.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\open_anim.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\open_font.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\open_image.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\open_lib.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\save_anim.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\save_font.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\save_image.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\save_lib.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\open_sound.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\open_video.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\save_sound.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\save_video.xpm">
+      <Filter>res\xpm</Filter>
     </None>
   </ItemGroup>
 </Project>

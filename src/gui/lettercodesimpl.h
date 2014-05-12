@@ -17,7 +17,7 @@ class LetterCodesImpl :
 	public LetterCodesGui
 {
 public:
-	LetterCodesImpl( wxWindow* parent, FontInfo* finfo );
+	LetterCodesImpl( wxWindow* parent, FontInfoPtr finfo );
 	~LetterCodesImpl(void);
 	void GenerateCodes();
 	void UpdateTable();
@@ -33,7 +33,7 @@ private:
 		void CellValueChanged(wxInt32 row, wxInt32 col);
 		void UpdateRow(wxUint32 n);
 
-		FontInfo*	mFontInfo;
+		FontInfoPtr	mFontInfo;
 		Symbols		mSymbolsCopy;
 
 		int			mCurrentEncoding;

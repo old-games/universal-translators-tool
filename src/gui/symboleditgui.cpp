@@ -31,9 +31,9 @@ SymbolEditGui::~SymbolEditGui(void)
 
 
 
-IndexMask* SymbolEditGui::GetIndexMask()
+IndexMaskPtr SymbolEditGui::GetIndexMask()
 {
-	IndexMask* res = NULL;
+	IndexMaskPtr res;
 
 	if ( mSymbolPanel->GetImageInfo()->IsOk() )
 	{

@@ -66,6 +66,7 @@ void ImageEditor::ClearImage( bool force /* false */ )
 	{
 		return;
 	}
+
 	mEditPanel->DestroyBitmap();
 }
 
@@ -225,7 +226,8 @@ void ImageEditor::SetEditPanel( EditPanel* editPanel )
 
 void ImageEditor::SetPaletteAsMain()
 {
-	Palette* pal = mEditPanel->mImageInfo->GetPalette();
+	PalettePtr pal = mEditPanel->mImageInfo->GetPalette();
+
 	if ( pal && pal->IsOk() )
 	{
 		ChangePaletteEvent palEvent( this->GetId(), pal, false );
@@ -235,7 +237,7 @@ void ImageEditor::SetPaletteAsMain()
 
 
 
-void ImageEditor::ChangeImagePalette( Palette* pal )
+void ImageEditor::ChangeImagePalette(PalettePtr pal)
 {
 	if (mEditPanel->mImageInfo->SetPalette(pal))
 	{
@@ -267,7 +269,7 @@ void ImageEditor::ChangeImagePalette( Palette* pal )
 
 /* virtual */ bool ImageEditor::LoadState( wxInputStream& input, int version )
 {
-	ImageInfo* imageInfo = new ImageInfo();
+	ImageInfoPtr imageInfo = std::make_shared<ImageInfo>();
 
 	bool res = IEditor::LoadState( input, version ) && 
 		imageInfo->LoadFromStream( input );
@@ -276,27 +278,25 @@ void ImageEditor::ChangeImagePalette( Palette* pal )
 	{
 		SetInfo(imageInfo);
 	}
-
-	delete imageInfo;
-
+	
 	return res;
 }
 
 
 
-/* virtual */ const Origin* ImageEditor::GetOrigin() const
+/* override */ OriginPtr ImageEditor::GetOrigin() const
 {
-	return mEditPanel->mImageInfo ? mEditPanel->mImageInfo->GetOrigin() : NULL;
+	return mEditPanel->mImageInfo ?
+		mEditPanel->mImageInfo->GetOrigin() : nullptr;
 }
 
 
 
-/* virtual */ void ImageEditor::SetInfo( IInfo* info )
+/* override */ void ImageEditor::SetInfo( IInfoPtr info )
 {
-	ImageInfo* newImage = static_cast<ImageInfo*>( info );
-
+	ImageInfoPtr newImage = std::static_pointer_cast<ImageInfo>( info );
 	ClearImage();
-	mEditPanel->SetIndexedBitmap(  newImage	);
+	mEditPanel->SetIndexedBitmap(newImage);
 	SetPaletteAsMain();
 }
 
@@ -332,7 +332,7 @@ void ImageEditor::ChangeImagePalette( Palette* pal )
 
 	if (dlg.ShowModal() == wxID_OK)
 	{
-		ImageInfo* imageInfo = new ImageInfo();
+		ImageInfoPtr imageInfo = std::make_shared<ImageInfo>();
 		imageInfo->LoadFromFile( dlg.GetPath() );
 
 		if ( imageInfo->IsOk() )
@@ -340,8 +340,6 @@ void ImageEditor::ChangeImagePalette( Palette* pal )
 			SetInfo(imageInfo);
 			res = true;
 		}
-
-		delete imageInfo;
 	}
 
 	return res;

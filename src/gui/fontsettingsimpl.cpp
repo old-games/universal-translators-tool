@@ -12,7 +12,7 @@
 #include "lettercodesimpl.h"
 #include "types/fontinfo.h"
 
-FontSettingsImpl::FontSettingsImpl(  wxWindow* parent, FontInfo* finfo ):
+FontSettingsImpl::FontSettingsImpl(  wxWindow* parent, FontInfoPtr finfo ):
 	FontSettingsGui( parent ),
 	mFontInfo( finfo )
 {

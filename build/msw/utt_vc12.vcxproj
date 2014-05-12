@@ -174,7 +174,12 @@
     <ClCompile Include="..\..\src\luacontrol.cpp" />
     <ClCompile Include="..\..\src\luaexports\luaiinfo.cpp" />
     <ClCompile Include="..\..\src\luaexports\luaorigin.cpp" />
+    <ClCompile Include="..\..\src\panels\videopanel.cpp" />
+    <ClCompile Include="..\..\src\types\animation.cpp" />
+    <ClCompile Include="..\..\src\types\flic.cpp" />
     <ClCompile Include="..\..\src\types\iinfo.cpp" />
+    <ClCompile Include="..\..\src\types\sound.cpp" />
+    <ClCompile Include="..\..\src\types\video.cpp" />
     <ClCompile Include="..\..\src\utt.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -235,6 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\crc32.h" />
+    <ClInclude Include="..\..\src\forwards.h" />
     <ClInclude Include="..\..\src\gui\createdlgimpl.h" />
     <ClInclude Include="..\..\src\gui\palholderctrl.h" />
     <ClInclude Include="..\..\src\gui\projectwindow.h" />
@@ -245,8 +251,13 @@
     <ClInclude Include="..\..\src\luacontrol.h" />
     <ClInclude Include="..\..\src\luaexports\luaiinfo.h" />
     <ClInclude Include="..\..\src\luaexports\luaorigin.h" />
+    <ClInclude Include="..\..\src\panels\videopanel.h" />
     <ClInclude Include="..\..\src\pch.h" />
+    <ClInclude Include="..\..\src\types\animation.h" />
+    <ClInclude Include="..\..\src\types\flic.h" />
     <ClInclude Include="..\..\src\types\iinfo.h" />
+    <ClInclude Include="..\..\src\types\sound.h" />
+    <ClInclude Include="..\..\src\types\video.h" />
     <ClInclude Include="..\..\src\utt.h" />
     <ClInclude Include="..\..\src\gui\bmpribbonctrl.h" />
     <ClInclude Include="..\..\src\gui\editpanelimpl.h" />
@@ -299,6 +310,24 @@
     <ClInclude Include="..\..\src\algs\rle.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\src\gui\uttdialogsgui.fbp" />
+    <None Include="..\..\src\gui\uttpanelsgui.fbp" />
+    <None Include="..\..\src\icon\backward.xpm" />
+    <None Include="..\..\src\icon\forward.xpm" />
+    <None Include="..\..\src\icon\open_anim.xpm" />
+    <None Include="..\..\src\icon\open_font.xpm" />
+    <None Include="..\..\src\icon\open_image.xpm" />
+    <None Include="..\..\src\icon\open_lib.xpm" />
+    <None Include="..\..\src\icon\open_sound.xpm" />
+    <None Include="..\..\src\icon\open_video.xpm" />
+    <None Include="..\..\src\icon\play.xpm" />
+    <None Include="..\..\src\icon\save_anim.xpm" />
+    <None Include="..\..\src\icon\save_font.xpm" />
+    <None Include="..\..\src\icon\save_image.xpm" />
+    <None Include="..\..\src\icon\save_lib.xpm" />
+    <None Include="..\..\src\icon\save_sound.xpm" />
+    <None Include="..\..\src\icon\save_video.xpm" />
+    <None Include="..\..\src\icon\stop.xpm" />
     <None Include="..\..\src\icon\to_left.xpm" />
     <None Include="..\..\src\icon\to_right.xpm" />
     <None Include="..\..\src\gui\uttgui.fbp" />

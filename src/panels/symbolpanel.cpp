@@ -15,21 +15,22 @@
 #include "panels/controlline.h"
 
 
-SymbolPanel::SymbolPanel(  wxWindow* parent, wxWindowID eventsId /* wxID_ANY */):
+SymbolPanel::SymbolPanel(wxWindow* parent, wxWindowID eventsId /* wxID_ANY */):
 	EditPanel( parent, eventsId ),
-	mFontInfo( NULL ),
-	mAllowEdit( true ),
-	mSymbolNumber( 0 ),
-	mActiveLine( -1 ),
-	mDragLine( false ),
-	mDragPoint( -1, -1 )
+		mFontInfo(),
+		mAllowEdit( true ),
+		mSymbolNumber( 0 ),
+		mActiveLine( -1 ),
+		mDragLine( false ),
+		mDragPoint( -1, -1 )
 {
 	for (int i = 0; i < clNum; ++i)
 	{
 		mLines[i] = new ControlLine( this );
 	}
-
 }
+
+
 
 SymbolPanel::~SymbolPanel(void)
 {
@@ -39,13 +40,17 @@ SymbolPanel::~SymbolPanel(void)
 	}
 }
 
-void SymbolPanel::SetFontInfo( FontInfo* info, int symbolNumber )
+
+
+void SymbolPanel::SetFontInfo( FontInfoPtr info, int symbolNumber )
 {
 	mFontInfo = info;
 	mSymbolNumber = symbolNumber;
 	UpdateBitmap();
 	UpdateControlLines();
 }
+
+
 
 void SymbolPanel::UpdateBitmap()
 {
@@ -55,24 +60,30 @@ void SymbolPanel::UpdateBitmap()
 		return;
 	}
 
-	SymbolInfo& sym = mFontInfo->GetSymbol( mSymbolNumber );
-	if (&sym == &FontInfo::sBadSymbol)
+	SymbolInfoPtr sym = mFontInfo->GetSymbol( mSymbolNumber );
+
+	if (!sym)
 	{
 		wxLogMessage( wxString::Format("SymbolPanel::UpdateBitmap: can't update bitmap for symbol %d", mSymbolNumber) );
 		return;
 	}
 
-	this->SetIndexedBitmap( new ImageInfo(sym.GetData(), mFontInfo->GetPalette()), false );
+	ImageInfoPtr img = std::make_shared<ImageInfo>(sym->GetData(),
+		mFontInfo->GetPalette());
+	this->SetIndexedBitmap(img, false );
 }
+
+
 
 void SymbolPanel::UpdateControlLines()
 {
-	SymbolInfo& sym = mFontInfo->GetSymbol( mSymbolNumber );
+	SymbolInfoPtr sym = mFontInfo->GetSymbol( mSymbolNumber );
+
 	mLines[ clSymbolWidth ]->SetParameters( wxVERTICAL, *wxRED, 3, wxSOLID, "Symbol width" );
-	mLines[ clSymbolWidth ]->SetValue( sym.GetWidth());
+	mLines[ clSymbolWidth ]->SetValue( sym->GetWidth());
 
 	mLines[ clSymbolHeight ]->SetParameters( wxHORIZONTAL, *wxBLUE, 3, wxSOLID, "Symbol height" );
-	mLines[ clSymbolHeight ]->SetValue( sym.GetHeight() );
+	mLines[ clSymbolHeight ]->SetValue( sym->GetHeight() );
 
 	mLines[ clBaseLine ]->SetParameters( wxHORIZONTAL, *wxGREEN, 3, wxSHORT_DASH, "Font base line" );
 	mLines[ clBaseLine ]->SetValue( mFontInfo->GetBaseLine() );
@@ -116,7 +127,7 @@ void SymbolPanel::UpdateControlLines()
 		}
 		else
 		{
-	    	res = BeginDragLine();
+			res = BeginDragLine();
 		}
 	}
 
@@ -223,9 +234,9 @@ void SymbolPanel::EndDragLine()
 
 void SymbolPanel::SyncronizeValues()
 {
-	SymbolInfo& sym = mFontInfo->GetSymbol( mSymbolNumber );
-	sym.SetWidth( mLines[clSymbolWidth]->GetValue() );
-	sym.SetHeight( mLines[clSymbolHeight]->GetValue() );
+	SymbolInfoPtr sym = mFontInfo->GetSymbol( mSymbolNumber );
+	sym->SetWidth( mLines[clSymbolWidth]->GetValue() );
+	sym->SetHeight( mLines[clSymbolHeight]->GetValue() );
 	mFontInfo->SetBaseLine( mLines[clBaseLine]->GetValue() );
 	mFontInfo->SetCapLine( mLines[clCapLine]->GetValue() );
 	mFontInfo->SetLowLine( mLines[clLowLine]->GetValue() );

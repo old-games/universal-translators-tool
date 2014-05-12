@@ -20,10 +20,10 @@ const int		SYMINFOVERSION = 0x100;
 
 SymbolInfo::SymbolInfo(): 
 	IStateStore( SYMINFONAME, SYMINFOVERSION ),
-	mWidth( 0 ), 
-	mHeight( 0 ), 
-	mCode( 0 ), 
-	mData( NULL ) 
+	mWidth( 0 ),
+	mHeight( 0 ),
+	mCode( 0 ),
+	mData()
 {}
 
 
@@ -33,67 +33,48 @@ SymbolInfo::SymbolInfo( const SymbolInfo& other ):
 	mWidth( other.mWidth ),
 	mHeight( other.mHeight ),
 	mCode( other.mCode ),
-	mData( NULL )
+	mData( other.mData ? other.mData->Clone() : other.mData)
 {
-	SetData(other.mData);
 }
 
 
 
-void SymbolInfo::SetValues(int width, int height, unsigned int code, IndexMask* data /* NULL */)
+void SymbolInfo::SetValues(int width, int height, unsigned int code,
+	IndexMaskPtr data /* nullptr */)
 {
 	mWidth = width;
 	mHeight = height;
 	mCode = code;
-	if (data != NULL)
-	{
-		SetData( data );
-	}
-	else
-	{
-		EraseData();
-	}
+	mData = data;
 }
 
 
 
 /* virtual */ SymbolInfo::~SymbolInfo()
 {
-	EraseData();
 }
 
 
 
-inline SymbolInfo &SymbolInfo::operator = ( const SymbolInfo &src )
+//inline SymbolInfo &SymbolInfo::operator = ( const SymbolInfo &src )
+//{
+//	this->SetValues(src.mWidth, src.mHeight, src.mCode, src.mData);
+//	return *this;
+//}
+
+
+
+void SymbolInfo::SetData(IndexMaskPtr data)
 {
-	this->SetValues(src.mWidth, src.mHeight, src.mCode, src.mData);
-	return *this;
+	mData = data;
 }
 
 
 
-void SymbolInfo::SetData(const IndexMask* data /* NULL */)
+
+IndexMaskPtr SymbolInfo::GetData()
 {
-	EraseData();
-	mData = data->Clone();
-}
-
-
-
-inline void SymbolInfo::EraseData()
-{
-	if (mData != NULL)
-	{
-		delete mData;
-		mData = NULL;
-	}
-}
-
-
-
-IndexMask* SymbolInfo::GetData()
-{
-	wxASSERT( mData != NULL );
+	wxASSERT( mData != nullptr);
 	return mData;
 }
 
@@ -141,9 +122,7 @@ bool SymbolInfo::IsOk()
 /* virtual */ bool SymbolInfo::LoadState( wxInputStream& input, int version )
 {
 	version;	// unused yet, must exist
-	
-	EraseData();
-	mData = new IndexMask();
+	mData = std::make_shared<IndexMask>();
 
 	bool res = LoadSimpleType<wxInt32>( input, mWidth ) &&
 		LoadSimpleType<wxInt32>( input, mHeight ) &&

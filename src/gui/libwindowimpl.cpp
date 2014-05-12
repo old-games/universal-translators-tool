@@ -135,12 +135,7 @@ void LibraryPanel::InitTree()
 
 void LibraryPanel::ClearLibrary()
 {
-	if (mLibInfo)
-	{
-		delete mLibInfo;
-		mLibInfo = NULL;
-	}
-	
+	mLibInfo = nullptr;
 	UpdateLibTree();
 }
 
@@ -464,17 +459,16 @@ void LibraryPanel::OnItemExpanded( wxTreeListEvent& event )
 
 
 
-/* virtual */ const Origin*	LibraryPanel::GetOrigin() const
+/* override */ OriginPtr LibraryPanel::GetOrigin() const
 {
-	return mLibInfo ? mLibInfo->GetOrigin() : NULL;
+	return mLibInfo ? mLibInfo->GetOrigin() : nullptr;
 }
 
 
 
-/* virtual */ void LibraryPanel::SetInfo( IInfo* info )
+/* override */ void LibraryPanel::SetInfo( IInfoPtr info )
 {
-	ClearLibrary();
-	mLibInfo = static_cast<LibTree*>( info )->Clone();
+	mLibInfo = std::static_pointer_cast<LibTree>(info);
 	UpdateLibTree();
 }
 

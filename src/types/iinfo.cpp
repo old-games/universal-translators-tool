@@ -23,7 +23,7 @@ IInfo::IInfo( const wxString& infoName, int infoVersion, EditorType edType ):
 
 IInfo::IInfo( const IInfo& other ):
 	IStateStore( other ),
-	mOrigin( other.mOrigin ),
+	mOrigin( other.mOrigin ? other.mOrigin->Clone() : other.mOrigin),
 	mEdType( other.mEdType )
 {
 }
@@ -36,16 +36,16 @@ IInfo::IInfo( const IInfo& other ):
 
 
 
-void IInfo::SetOrigin( const Origin* origin )
+void IInfo::SetOrigin(OriginPtr origin)
 {
-	mOrigin = Origin(*origin);
+	mOrigin = origin;
 }
 
 
 
-const Origin* IInfo::GetOrigin() const
+OriginPtr IInfo::GetOrigin() const
 {
-	return &mOrigin;
+	return mOrigin;
 }
 
 
@@ -59,7 +59,7 @@ EditorType IInfo::GetEditorType() const
 
 /* virtual */ bool IInfo::SaveState( wxOutputStream& output )
 {
-	bool res = mOrigin.SaveToStream( output );
+	bool res = mOrigin->SaveToStream( output );
 
 	return res;
 }
@@ -70,7 +70,7 @@ EditorType IInfo::GetEditorType() const
 {
 	version;	// unused yet, must exist
 	
-	bool res = mOrigin.LoadFromStream( input );
+	bool res = mOrigin->LoadFromStream( input );
 
 	return res;
 }

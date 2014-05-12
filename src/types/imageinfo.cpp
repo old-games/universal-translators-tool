@@ -12,43 +12,46 @@
 #include "imageinfo.h"
 #include "indexmask.h"
 
-ImageInfo*	ImageInfo::sBuffered = NULL;
+
+
+ImageInfoPtr	ImageInfo::sBuffered;
+
+
 
 const wxString	IMINFONAME = "ImageInfo";
 const int		IMINFOVERSION = 0x100;
 
 
+
 ImageInfo::ImageInfo(): 
 	IInfo( IMINFONAME, IMINFOVERSION, etImage ),
-	mIndexMask(NULL),
-	mPalette(NULL)
+	mIndexMask(),
+	mPalette()
 {
 }
 
 
 
-ImageInfo::ImageInfo(IndexMask* mask, Palette* pal):
+ImageInfo::ImageInfo(IndexMaskPtr mask, PalettePtr pal):
 	IInfo( IMINFONAME, IMINFOVERSION, etImage ),
-	mIndexMask(NULL),
-	mPalette(NULL)
+	mIndexMask(mask),
+	mPalette(pal)
 {
-	SetImage( mask );
-	SetPalette( pal );
 }
 
 
 
 ImageInfo::ImageInfo( const ImageInfo& other ):
 	IInfo( other ),
-	mIndexMask( NULL ),
-	mPalette( NULL )
+	mIndexMask(),
+	mPalette()
 {
-	if (other.mPalette != NULL)
+	if (other.mPalette)
 	{
 		mPalette = other.mPalette->Clone();
 	}
 
-	if (other.mIndexMask != NULL)
+	if (other.mIndexMask)
 	{
 		mIndexMask = other.mIndexMask->Clone();
 	}
@@ -58,56 +61,31 @@ ImageInfo::ImageInfo( const ImageInfo& other ):
 
 ImageInfo::~ImageInfo()
 {
-	Clear();
 }
 
 
 
 void ImageInfo::Clear()
 {
-	ClearPalette();
-	ClearImage();
+	mPalette = nullptr;
+	mIndexMask = nullptr;
 }
 
 
 
-void ImageInfo::SetImage( IndexMask* mask )
+void ImageInfo::SetImage( IndexMaskPtr mask )
 {
 	wxASSERT(mask);
-	ClearImage();
-	mIndexMask = mask->Clone();
+	mIndexMask = mask; //->Clone();
 }
 
 
 
-bool ImageInfo::SetPalette(Palette* pal)
+bool ImageInfo::SetPalette(PalettePtr pal)
 {
 	wxASSERT( pal );
-	ClearPalette();
-	mPalette = pal->Clone();
+	mPalette = pal; //->Clone();
 	return mPalette->IsOk();
-}
-
-
-
-void ImageInfo::ClearPalette()
-{
-	if (mPalette != NULL)
-	{
-		delete mPalette;
-		mPalette = NULL;
-	}
-}
-
-
-
-void ImageInfo::ClearImage()
-{
-	if (mIndexMask != NULL)
-	{
-		delete mIndexMask;
-		mIndexMask = NULL;
-	}
 }
 
 
@@ -135,15 +113,17 @@ bool ImageInfo::IsOk() const
 	
 
 
-ImageInfo* ImageInfo::CopyToImageInfo( const wxRect& rect )
+ImageInfoPtr ImageInfo::CopyToImageInfo( const wxRect& rect )
 {
-	
+	ImageInfoPtr result;
 	wxRect checkRect = rect;
 	checkRect.Intersect( wxRect(0, 0, mIndexMask->GetWidth(), mIndexMask->GetHeight()) );
+
 	if ( !(checkRect.GetWidth() >= 0 && checkRect.GetHeight() >= 0) )
 	{
-		return NULL;
+		return result;
 	}
+
 	int w = checkRect.GetWidth();
 	int h = checkRect.GetHeight();
 
@@ -180,23 +160,21 @@ ImageInfo* ImageInfo::CopyToImageInfo( const wxRect& rect )
 
 	
 	
-	IndexMask mask;
-	mask.SetMask( buf, size, w, h );
-	
+	IndexMaskPtr mask = std::make_shared<IndexMask>();
+	mask->SetMask( buf, size, w, h );
 	free(buf);
- 
-	ImageInfo* info = new ImageInfo( &mask, mPalette);
-	if (!info->IsOk())
+	result = std::make_shared<ImageInfo>(mask, mPalette);
+
+	if (!result->IsOk())
 	{
-		delete info;
-		info = NULL;
+		result = nullptr;
 	}
-	return info;
+	return result;
 }
 
 
 
-bool ImageInfo::PasteImageInfo( const wxPoint& point, const ImageInfo* src )
+bool ImageInfo::PasteImageInfo( const wxPoint& point, ImageInfoPtr src )
 {
 	bool res = false;
 	size_t size = mPalette->GetCorrectImageSize(10, 10, true);
@@ -231,24 +209,18 @@ bool ImageInfo::PasteImageInfo( const wxPoint& point, const ImageInfo* src )
 
 bool ImageInfo::CopyToClipBoard( const wxRect& rect )
 {
-	bool res = false;
-	ImageInfo* newBuffered = CopyToImageInfo( rect );
-	if (newBuffered->IsOk())
+	ImageInfoPtr newBuffered = CopyToImageInfo( rect );
+	bool res = newBuffered->IsOk();
+
+	if (res)
 	{
-	
-		delete sBuffered;
 		sBuffered = newBuffered;
 		
 		wxBitmap* bmp = sBuffered->GetBitmap();
 		Helpers::CopyToClipboard(bmp->ConvertToImage());
 		delete bmp;
+	}
 
-		res = true;
-	}
-	else
-	{
-		delete newBuffered;
-	}
 	return res;
 }
 
@@ -258,7 +230,7 @@ bool ImageInfo::CopyToClipBoard( const wxRect& rect )
 
 
 
-ImageInfoDataObject::ImageInfoDataObject( const ImageInfo* info ):
+ImageInfoDataObject::ImageInfoDataObject( ImageInfoPtr info ):
 	wxBitmapDataObject( *info->GetBitmap() ),
 	mImageInfo( info->Clone() )
 {
@@ -278,12 +250,11 @@ ImageInfoDataObject::ImageInfoDataObject( const ImageInfoDataObject& other ):
 
 ImageInfoDataObject::~ImageInfoDataObject()
 {
-	delete mImageInfo;
 }
 
 
 
-ImageInfo* ImageInfoDataObject::GetInfo()
+ImageInfoPtr ImageInfoDataObject::GetInfo() const
 {
 	return mImageInfo;
 }
@@ -312,8 +283,9 @@ ImageInfo* ImageInfoDataObject::GetInfo()
 	version;	// unused yet, must exist
 	
 	Clear();
-	mIndexMask = new IndexMask();
-	mPalette = new Palette();
+
+	mIndexMask = std::make_shared<IndexMask>();
+	mPalette = std::make_shared<Palette>();
 
 	bool res = IInfo::LoadState( input, version ) &&
 		mIndexMask->LoadFromStream(input) && mPalette->LoadFromStream(input);

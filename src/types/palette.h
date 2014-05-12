@@ -40,7 +40,8 @@ public:
 	Palette();
 	Palette( const Palette& other );
 	~Palette();
-	Palette* Clone() { return new Palette(*this); }
+
+	PalettePtr Clone() { return std::make_shared<Palette>(*this); }
 
 	// bpp - required parameter
 	// src - pointer to paletter buffer or NULL to use default

@@ -45,7 +45,14 @@
 #include <wx/treectrl.h>
 #include <wx/filename.h>
 
-// own written but wx compatible
+// standard headers
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <memory>
+
+// own
+#include "forwards.h"
 #include "types/customevents.h"
 #include "utt.h"
 #undef wxTheApp
@@ -54,9 +61,7 @@
 
 
 
-// standard headers
-#include <iostream>
-#include <fstream>
+
 
 
 
@@ -70,8 +75,6 @@
 #endif
 
 // project headers
-//#include "gui/simplegui.h"
-//#include "gui/uttgui.h"
 #include "types/uttypes.h"
 #include "types/defaultpals.h"
 #include "helpers.h"

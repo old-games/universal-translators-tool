@@ -93,7 +93,7 @@ void EditPanel::SetGridLogic(wxInt32 logic)
 	if (mDrawCursor)
 	{
 		dc.SetLogicalFunction(wxXOR);
-		dc.SetPen( wxPen( *wxWHITE, 3, wxSOLID ) );
+		dc.SetPen( wxPen( *wxWHITE, 3, wxPENSTYLE_SOLID ) );
 		wxPoint cursPos( mCursor );
 		cursPos.x *= mRealScale;
 		cursPos.y *= mRealScale;
@@ -474,12 +474,13 @@ void EditPanel::EndDrawing()
 
 
 
-bool EditPanel::DoPaste( const wxPoint& pos, const ImageInfo* src )
+bool EditPanel::DoPaste( const wxPoint& pos, ImageInfoPtr src )
 {
 	bool res = false;
+
 	if (mImageInfo->PasteImageInfo( pos, src ))
 	{
-		SetIndexedBitmap( mImageInfo->Clone(), false );
+		SetIndexedBitmap( mImageInfo/*->Clone()*/, false );
 		SendRebuildDataEvent();
 		res = true;
 	}
@@ -488,7 +489,7 @@ bool EditPanel::DoPaste( const wxPoint& pos, const ImageInfo* src )
 
 
 
-bool EditPanel::CommandPaste( const ImageInfo* newValue )
+bool EditPanel::CommandPaste(ImageInfoPtr newValue )
 {
 	if ( mImageInfo == NULL )
 	{
@@ -496,14 +497,15 @@ bool EditPanel::CommandPaste( const ImageInfo* newValue )
 	}
 
 	wxRect zone( mCursor, newValue->GetSize() );
-	ImageInfo* old = mImageInfo->CopyToImageInfo( zone );
+	ImageInfoPtr old = mImageInfo->CopyToImageInfo( zone );
 
 	if (old)
 	{
-		ImagePasteCommand* paste = new ImagePasteCommand( this, old->Clone(), newValue->Clone(), mCursor );
-		delete old;
+		ImagePasteCommand* paste = new ImagePasteCommand(this,
+			old->Clone(), newValue->Clone(), mCursor );
 		return COMMAND->Submit( paste );
 	}
+
 	return false;
 }
 
@@ -519,7 +521,8 @@ bool EditPanel::PasteSelection()
 		return res;
 	}
 	
-	const ImageInfo* buf = ImageInfo::GetBuffered();
+	ImageInfoPtr buf = ImageInfo::GetBuffered();
+
 	if ( buf != NULL )
 	{
 		CommandPaste( buf );

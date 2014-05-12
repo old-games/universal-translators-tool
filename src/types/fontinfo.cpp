@@ -12,8 +12,6 @@
 #include "palette.h"
 #include "indexmask.h"
 
-SymbolInfo FontInfo::sBadSymbol;
-
 
 
 const wxString	FINFONAME = "FontInfo";
@@ -32,7 +30,7 @@ FontInfo::FontInfo():
 	mLowLine( 0 ),
 	mBPP( Palette::bppMono ),
 	mFontCodePage( 0 ),
-	mPalette( NULL )
+	mPalette()
 {
 }
 
@@ -50,7 +48,7 @@ FontInfo::FontInfo( const FontInfo& other ):
 	mBPP( other.mBPP ),
 	mFontCodePage( other.mFontCodePage ),
 	mSymbols( other.mSymbols ),
-	mPalette( NULL )
+	mPalette()
 {
 	if (other.mPalette)
 	{
@@ -63,7 +61,6 @@ FontInfo::FontInfo( const FontInfo& other ):
 FontInfo::~FontInfo()
 {
 	mSymbols.clear();
-	ClearPalette();
 }
 
 
@@ -85,7 +82,7 @@ void FontInfo::SetValues( int maxWidth, int maxHeight, int minWidth, int minHeig
 
 
 
-size_t FontInfo::GetSymbolsNum()
+size_t FontInfo::GetSymbolsNum() const
 {
 	return mSymbols.size();
 }
@@ -101,56 +98,41 @@ void FontInfo::SetSymbolsNum(size_t n)
 
 
 
-SymbolInfo& FontInfo::GetSymbol(size_t n)
+SymbolInfoPtr FontInfo::GetSymbol(size_t n) const
 {
-	if ( n < mSymbols.size() )
-	{
-		return mSymbols[n];
-	}
-	return sBadSymbol;
+	return n < mSymbols.size() ? mSymbols[n] : nullptr;
 }
 
 
 
 void FontInfo::AddSymbolFromBuf( const wxByte* data, int width, int height, int swidth, int sheight )
 {
-	wxASSERT( mPalette != NULL );	
-	IndexMask mask;
-	mask.SetMask( data, width * height, width, height );
-	if (mask.IsOk())
+	wxASSERT( mPalette != NULL );
+	IndexMaskPtr mask = std::make_shared<IndexMask>();
+	mask->SetMask( data, width * height, width, height );
+
+	if (mask->IsOk())
 	{
-		AddSymbolIndexed( &mask, swidth, sheight );
+		AddSymbolIndexed(mask, swidth, sheight);
 	}
 }
 
 
 
-void FontInfo::AddSymbolIndexed( IndexMask* mask, int swidth, int sheight )
+void FontInfo::AddSymbolIndexed( IndexMaskPtr mask, int swidth, int sheight )
 {
 	wxASSERT( mPalette != NULL );
-	SymbolInfo info;
-	info.SetValues( swidth, sheight, mSymbols.size(), mask );
-	mSymbols.push_back( info );
+	SymbolInfoPtr info = std::make_shared<SymbolInfo>();
+	info->SetValues(swidth, sheight, mSymbols.size(), mask);
+	mSymbols.push_back(info);
 }
 
 
 
-void FontInfo::ClearPalette()
-{
-	if (mPalette != NULL)
-	{
-		delete mPalette;
-		mPalette = NULL;
-	}
-}
-
-
-
-bool FontInfo::SetPalette(Palette* pal)
+bool FontInfo::SetPalette(PalettePtr pal)
 {
 	wxASSERT( pal );
-	ClearPalette();
-	mPalette = pal->Clone();
+	mPalette = pal;//->Clone();
 	return mPalette->IsOk();
 }
 
@@ -180,7 +162,7 @@ bool FontInfo::SetPalette(Palette* pal)
 	{
 		for (size_t i = 0; i < mSymbols.size() && res; ++i)
 		{
-			res = mSymbols[i].SaveToStream(output);
+			res = mSymbols[i]->SaveToStream(output);
 		}
 
 		if (res)
@@ -199,8 +181,7 @@ bool FontInfo::SetPalette(Palette* pal)
 	version;	// unused yet, must exist
 	
 	wxUint32 symNum = 0;
-
-	ClearPalette();
+	mPalette = nullptr;
 	mSymbols.clear();
 
 	bool res = IInfo::LoadState( input, version ) &&
@@ -219,8 +200,9 @@ bool FontInfo::SetPalette(Palette* pal)
 	{
 		for (size_t i = 0; i <  symNum && res; ++i)
 		{
-			SymbolInfo info;
-			res = info.LoadFromStream( input );
+			SymbolInfoPtr info = std::make_shared<SymbolInfo>();
+			res = info->LoadFromStream( input );
+
 			if (res)
 			{
 				mSymbols.push_back( info );
@@ -229,12 +211,12 @@ bool FontInfo::SetPalette(Palette* pal)
 
 		if (res)
 		{
-			Palette* pal = new Palette();
+			PalettePtr pal = std::make_shared<Palette>();
+
 			if (pal->LoadFromStream(input))
 			{
 				res = SetPalette( pal );
 			}
-			delete pal;
 		}
 	}
 

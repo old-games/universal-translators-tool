@@ -31,7 +31,7 @@ function loadBMP( filename )
 	showTable( data2 )
 	
 	local s = "bpp"..string.format(data2.BITCOUNT, "%d")
-	local pal = Palette:new()
+	local pal = Palette.new()
 	
 	local palBuffer = 0
 	
@@ -43,10 +43,10 @@ function loadBMP( filename )
 	pal:Initiate( Palette[s], palBuffer, Palette.sfBMP, false )
 	
 	if pal:IsOk() then 
-		local img = ImageInfo:new()
+		local img = ImageInfo.new()
 		
 		if img:SetPalette( pal ) then
-			local mask = IndexMask:new()
+			local mask = IndexMask.new()
 			local size =  data2.SIZEIMAGE    --pal:GetCorrectImageSize(data2.WIDTH, data2.HEIGHT)
 			
 			if size == 0 then

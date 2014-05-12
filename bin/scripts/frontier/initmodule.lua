@@ -42,7 +42,7 @@ function loadOVL( filename )
 		return
 	end
 
-	local pal = Palette:new()
+	local pal = Palette.new()
 	if pal:Initiate( Palette.bppMono, 0, Palette.sfNone, false ) ~= true then
 		print("Frontier::LoadOVL:  error while setting palette")
 		return
@@ -60,14 +60,14 @@ function loadOVL( filename )
 	
 	fh:seek("set", fontStart)
 	
-	local font = FontInfo:new()
+	local font = FontInfo.new()
 	font:SetValues( maxWidth, maxHeight, 0, 0, 0, 7, 0, 2 )
 	font:SetPalette( pal )
 	
 	for i = 0, fontNum do 
 		local data = readData( fh, SymbolStruct )
 		local bytes, size = unpackBitBuffer(data.BUFFER, 1)
-		local mask = IndexMask:new()
+		local mask = IndexMask.new()
 		mask:SetMask( bytes, size, maxWidth, maxHeight, -1, -1)
 		
 		if mask:IsOk() then

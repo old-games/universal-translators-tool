@@ -233,7 +233,7 @@ void ProjectWindow::UpdateProjectTree()
 			continue;
 		}
 
-		const Origin* origin = editor->GetOrigin();
+		OriginPtr origin = editor->GetOrigin();
 
 		if (origin)
 		{
@@ -280,7 +280,7 @@ void ProjectWindow::DoItemContextMenu( wxTreeListItem item )
 	AUIWindowEvent* event = NULL;
 	ProjectItemData* data = GetItemData( item );
 
-    switch ( this->GetPopupMenuSelectionFromUser( *mItemMenu ) )
+	switch ( this->GetPopupMenuSelectionFromUser( *mItemMenu ) )
 	{
 		case ItemMenu::imOpen:
 			event = new AUIWindowEvent( AUIWindowEvent::ShowWindow, data->mEditor->GetWindow() );

@@ -651,7 +651,7 @@ void CommonRegister()
 	LUA_REG_C_FUNCTION( saveFileDialog );
 
 	// export for wxBusyCursor class, will be usefull for continious operations
-	Get().register_class<BusyCursor>();
+	Get().register_class<wxBusyCursor>();
 
 	RegisterBitwiseFunctions();
 	RegisterRLEFunctions();
@@ -661,4 +661,4 @@ void CommonRegister()
 
 
 
-OOLUA_EXPORT_NO_FUNCTIONS( BusyCursor )
+OOLUA_EXPORT_NO_FUNCTIONS( wxBusyCursor )

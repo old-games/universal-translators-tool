@@ -42,7 +42,7 @@ OOLUA_EXPORT_FUNCTIONS_CONST( Palette, IsOk, GetCorrectImageSize, GetPaletteSize
 
 int	setCurrentPalette(lua_State *L)
 {
-	Palette* pal = NULL;
+	PalettePtr pal = NULL;
 	int editorId = -1;
 
 	if (	Lua::Get().stack_count() != 2 || 

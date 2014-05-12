@@ -12,9 +12,7 @@
 #include "symbolinfo.h"
 #include "iinfo.h"
 
-// forward declarations
-class Palette;
-class IndexMask;
+
 
 class FontInfo: public IInfo
 {
@@ -25,7 +23,7 @@ public:
 	FontInfo( const FontInfo& other );
 	~FontInfo();
 
-	FontInfo* Clone() const { return new FontInfo(*this); } 
+	FontInfoPtr Clone() const { return std::make_shared<FontInfo>(*this); }
 
 	void SetValues( int maxWidth, int maxHeight, int minWidth, int minHeight,
 					int fontCodePage = wxFONTENCODING_DEFAULT,
@@ -33,112 +31,43 @@ public:
 					int capLine = 0,
 					int lowLine = 0 );
 
-	int GetEncoding()
-	{
-		return mFontCodePage;
-	}
+	inline int GetEncoding() const { return mFontCodePage; }
+	inline void SetEncoding(int n) { mFontCodePage = n; }
 
-	void SetEncoding(int n)
-	{
-		mFontCodePage = n;
-	}
-
-
-	size_t GetSymbolsNum();
+	size_t GetSymbolsNum() const;
 	void SetSymbolsNum(size_t n);
 
+	SymbolInfoPtr GetSymbol(size_t n) const;
+	Symbols& GetSymbols() { return mSymbols; }
 
-
-	SymbolInfo& GetSymbol(size_t n);
-
-
-	Symbols& GetSymbols()
-	{
-		return mSymbols;
-	}
-
-	void SetSymbols(const Symbols& src)
-	{
-		mSymbols = src;
-	}
+	void SetSymbols(const Symbols& src) { mSymbols = src; }
 
 	void AddSymbolFromBuf( const wxByte* data, int width, int height, int swidth, int sheight );
-	void AddSymbolIndexed( IndexMask* mask, int swidth, int sheight );
+	void AddSymbolIndexed( IndexMaskPtr mask, int swidth, int sheight );
 
-	int GetMaxWidth()
-	{
-		return mMaxWidth;
-	}
+	inline int GetMaxWidth() const { return mMaxWidth; }
+	inline void SetMaxWidth( int width ) { mMaxWidth = width; }
 
-	void SetMaxWidth( int width )
-	{
-		mMaxWidth = width;
-	}
+	inline int GetMaxHeight() const { return mMaxHeight; }
+	inline void SetMaxHeight( int height ) { mMaxHeight = height; }
 
-	int GetMaxHeight()
-	{
-		return mMaxHeight;
-	}
+	inline int GetMinWidth() const { return mMinWidth; }
+	inline void SetMinWidth( int width ) { mMinWidth = width; }
 
-	void SetMaxHeight( int height )
-	{
-		mMaxHeight = height;
-	}
+	inline int GetMinHeight() const { return mMinHeight; }
+	inline void SetMinHeight( int height ) { mMinHeight = height; }
 
-	int GetMinWidth()
-	{
-		return mMinWidth;
-	}
+	inline int	GetBaseLine() const { return mBaseLine; }
+	inline void SetBaseLine(int baseLine) { mBaseLine = baseLine; }
 
-	void SetMinWidth( int width )
-	{
-		mMinWidth = width;
-	}
+	inline int	GetCapLine() const { return mCapLine; }
+	inline void SetCapLine(int capLine) { mCapLine = capLine; }
 
-	int GetMinHeight()
-	{
-		return mMinHeight;
-	}
+	inline int GetLowLine() const { return mLowLine; }
+	inline void SetLowLine(int lowLine) { mLowLine = lowLine; }
 
-	void SetMinHeight( int height )
-	{
-		mMinHeight = height;
-	}
-
-	int	GetBaseLine()
-	{
-		return mBaseLine;
-	}
-
-	void SetBaseLine(int baseLine)
-	{
-		mBaseLine = baseLine;
-	}
-
-	int	GetCapLine()
-	{
-		return mCapLine;
-	}
-
-	void SetCapLine(int capLine)
-	{
-		mCapLine = capLine;
-	}
-
-	int	GetLowLine()
-	{
-		return mLowLine;
-	}
-
-	void SetLowLine(int lowLine)
-	{
-		mLowLine = lowLine;
-	}
-
-	bool SetPalette(Palette* pal);
-	Palette* GetPalette() { return mPalette; }
-
-	static SymbolInfo	sBadSymbol;
+	bool SetPalette(PalettePtr pal);
+	inline PalettePtr GetPalette() const { return mPalette; }
 
 protected:
 
@@ -146,7 +75,6 @@ protected:
 	virtual bool LoadState( wxInputStream& input, int version );
 
 private: 
-	void ClearPalette();
 
 	wxInt32			mMaxHeight;							// максимальная высота
 	wxInt32			mMinHeight;							// минимальная высота
@@ -158,7 +86,7 @@ private:
 	wxInt32			mBPP;								// бит на пиксель
 	wxInt32			mFontCodePage;						// кодировка, относительный параметр, для лучшего представления шрифта
 	Symbols			mSymbols;							// символы
-	Palette*        mPalette;							// палитра
+	PalettePtr		mPalette;							// палитра
 	Origin			mOrigin;
 
 

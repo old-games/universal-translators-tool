@@ -126,7 +126,7 @@ void DrawPanel::SetDrawFocus( bool b /* true */ )
 
 
 
-void DrawPanel::SetIndexedBitmap( ImageInfo* info, bool cloneInfo /* true */ )
+void DrawPanel::SetIndexedBitmap( ImageInfoPtr info, bool cloneInfo /* true */ )
 {
 	DestroyBitmap();
 	mBitmap = info->GetBitmap();
@@ -189,13 +189,12 @@ void DrawPanel::DestroyBitmap( bool leaveInfo /* false */ )
 	if (mBitmap)
 	{
 		delete mBitmap;
-		mBitmap = NULL;
+		mBitmap = nullptr;
 	}
 
-	if (mImageInfo && !leaveInfo)
+	if (!leaveInfo)
 	{
-		delete mImageInfo;
-		mImageInfo = NULL;
+		mImageInfo = nullptr;
 	}
 }
 
@@ -265,7 +264,7 @@ void DrawPanel::DrawRectAround( wxDC& dc, const wxColour& colour )
 	{
 		rect.SetHeight( mShowHeight );
 	}
-	wxPen borderPen( colour, 3, wxSOLID );
+	wxPen borderPen( colour, 3, wxPENSTYLE_SOLID );
 	dc.SetPen( borderPen );
 	rect.SetLeftTop( this->GetViewStart() );
 	dc.DrawRectangle(rect);

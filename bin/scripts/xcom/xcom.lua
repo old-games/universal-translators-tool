@@ -161,7 +161,7 @@ end
 function CreateXcomPalette( path, n, owner )
 	local palBuffer = GetXComPalette(path, n)
 	if palBuffer ~= nil then
-		local pal = Palette:new()
+		local pal = Palette.new()
 		if pal:Initiate( Palette.bpp8, palBuffer, Palette.sfPlain, true ) then
 			if owner:SetPalette( pal ) then
 				print "Palette successfully loaded."
@@ -213,7 +213,7 @@ function LoadXcomFont( fileName )
 	local height = params.height
 	local bufsize = width * height
 	local num = 0
-	local font = FontInfo:new()
+	local font = FontInfo.new()
 	
 	local symWidths = GetFontWidth(path.."../"..exec.name, 
 		params.offset, params.num, name == 'biglets')
@@ -241,7 +241,7 @@ function LoadXcomFont( fileName )
 				w = getStrInt(symWidths, num)
 			end
 			
-			local mask = IndexMask:new()
+			local mask = IndexMask.new()
 			mask:SetMask( bytes, bufsize, width, height, width, height)
 			
 			if mask:IsOk() then
@@ -254,7 +254,7 @@ function LoadXcomFont( fileName )
 	
 	print ("Symbols loaded: ", num)
 
-	local origin = Origin:new(Origin.FromFile, fileName)
+	local origin = Origin.new(fileName)
 	font:SetOrigin(origin)
 	
 	return font
@@ -280,7 +280,7 @@ function LoadXcomImage( filename )
 	local width = params.width
 	local height = params.height
 	local bufsize = width * height
-	local image = ImageInfo:new()
+	local image = ImageInfo.new()
 	
 	if not 	CreateXcomPalette( path.."../", params.palette, image ) then
 		return
@@ -293,14 +293,14 @@ function LoadXcomImage( filename )
 	print ("Image loading...", bytes:len(), "bytes loaded")
 	
 	if bytes ~= nil and bytes:len() == bufsize then
-		local mask = IndexMask:new()
+		local mask = IndexMask.new()
 		mask:SetMask( bytes, bufsize, width, height, -1, -1)
 		
 		if mask:IsOk() then
 		
 			image:SetImage( mask )
 
-			local origin = Origin:new(Origin.FromFile, filename)
+			local origin = Origin.new(Origin.FromFile, filename)
 			image:SetOrigin(origin)
 			
 			return image
@@ -334,7 +334,7 @@ function ChangePalette(gamePath, editorId)
 	local palBuffer = GetXComPalette(gamePath, selected)
 	
 	if palBuffer ~= nil then
-		local pal = Palette:new()
+		local pal = Palette.new()
 		if pal:Initiate( Palette.bpp8, palBuffer, Palette.sfPlain, true ) then
 			setCurrentPalette( pal, editorId )
 		end
@@ -345,7 +345,7 @@ end
 
 
 function LoadLBM( filename )
-	local iff = IFFLib:new()
+	local iff = IFFLib.new()
 	iff:LoadIFFFile( filename )
 	
 	local form = iff:FindForm("PBM ")
@@ -385,8 +385,8 @@ function LoadLBM( filename )
 	
 	
 	local size = info.WIDTH * info.HEIGHT
-	local image = ImageInfo:new()
-	local pal = Palette:new()
+	local image = ImageInfo.new()
+	local pal = Palette.new()
 	
 	if pal:Initiate( Palette.bpp8, palBuf, Palette.sfPlain, false ) then
 		if not image:SetPalette( pal ) then
@@ -395,9 +395,9 @@ function LoadLBM( filename )
 		end
 	end
 	
-	local origin = Origin:new(Origin.FromFile, filename)
+	local origin = Origin.new(Origin.FromFile, filename)
 	
-	local mask = IndexMask:new()
+	local mask = IndexMask.new()
 	mask:SetMask( unpackLBMBody(imgBuf, size), size, info.WIDTH, info.HEIGHT, -1, -1)
 	
 	if mask:IsOk() then

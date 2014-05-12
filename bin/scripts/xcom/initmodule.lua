@@ -114,10 +114,10 @@ CATStruct[2] =	{ SIZE 		= "DWORD" 	}
 
 function loadCAT( filename )
 	local path, name, ext = parseFileName( filename )
-	local origin = Origin:new(filename)
+	local origin = Origin.new(filename)
 	
 	if ext == "lbm" then
-		local iff = IFFLib:new()
+		local iff = IFFLib.new()
 		iff:LoadIFFFile( filename )
 		iff:SetOrigin( origin )
 		return iff
@@ -148,11 +148,11 @@ function loadCAT( filename )
 		return
 	end
 	
-	local lib = LibTree:new()
+	local lib = LibTree.new()
 	local root = lib:GetRoot()
 	for i, current in ipairs(items) do
 		local item = lib:AddItem( root )
-		local data = LibItemData:new()
+		local data = LibItemData.new()
 		data.mLibDataOffset = current.OFFSET
 		item:SetText( name.." #"..tostring(i) )
 		item:SetData( data )
@@ -175,6 +175,20 @@ function Xcom.ImportLibrary()
 		
 		if lib then
 			editLibrary(lib)
+		end
+	end
+end
+
+
+
+function Xcom.ImportVideo()
+	local fileName = openFileDialog("VID Files (*.VID)|*.vid")
+	
+	if fileName ~= nil then
+		local lib = loadXComVID( fileName )
+		
+		if lib then
+			editVideo(lib)
 		end
 	end
 end

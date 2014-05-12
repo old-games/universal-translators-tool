@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct  8 2012)
+// C++ code generated with wxFormBuilder (version Feb 26 2014)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -8,6 +8,19 @@
 #include "pch.h"
 
 #include "uttgui.h"
+
+#include "../icon/open_anim.xpm"
+#include "../icon/open_font.xpm"
+#include "../icon/open_image.xpm"
+#include "../icon/open_lib.xpm"
+#include "../icon/open_sound.xpm"
+#include "../icon/open_video.xpm"
+#include "../icon/save_anim.xpm"
+#include "../icon/save_font.xpm"
+#include "../icon/save_image.xpm"
+#include "../icon/save_lib.xpm"
+#include "../icon/save_sound.xpm"
+#include "../icon/save_video.xpm"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -85,76 +98,112 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxMenuItem* mIE_ImpFont;
 	mIE_ImpFont = new wxMenuItem( mImportExportMenu, wxID_IMPORT_FONT, wxString( wxT("Import font") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	mIE_ImpFont->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	mIE_ImpFont->SetBitmaps( wxBitmap( open_font_xpm ) );
 	#elif defined( __WXGTK__ )
-	mIE_ImpFont->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	mIE_ImpFont->SetBitmap( wxBitmap( open_font_xpm ) );
 	#endif
 	mImportExportMenu->Append( mIE_ImpFont );
 	
 	wxMenuItem* mIE_ImpImage;
 	mIE_ImpImage = new wxMenuItem( mImportExportMenu, wxID_IMPORT_IMAGE, wxString( wxT("Import image") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	mIE_ImpImage->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	mIE_ImpImage->SetBitmaps( wxBitmap( open_image_xpm ) );
 	#elif defined( __WXGTK__ )
-	mIE_ImpImage->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	mIE_ImpImage->SetBitmap( wxBitmap( open_image_xpm ) );
 	#endif
 	mImportExportMenu->Append( mIE_ImpImage );
 	
 	wxMenuItem* mIE_ImpLibrary;
 	mIE_ImpLibrary = new wxMenuItem( mImportExportMenu, wxID_IMPORT_LIBRARY, wxString( wxT("Import library") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	mIE_ImpLibrary->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	mIE_ImpLibrary->SetBitmaps( wxBitmap( open_lib_xpm ) );
 	#elif defined( __WXGTK__ )
-	mIE_ImpLibrary->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	mIE_ImpLibrary->SetBitmap( wxBitmap( open_lib_xpm ) );
 	#endif
 	mImportExportMenu->Append( mIE_ImpLibrary );
 	
 	wxMenuItem* mIE_ImpAnimation;
 	mIE_ImpAnimation = new wxMenuItem( mImportExportMenu, wxID_IMPORT_ANIMATION, wxString( wxT("Import animation") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	mIE_ImpAnimation->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	mIE_ImpAnimation->SetBitmaps( wxBitmap( open_anim_xpm ) );
 	#elif defined( __WXGTK__ )
-	mIE_ImpAnimation->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_MENU ) );
+	mIE_ImpAnimation->SetBitmap( wxBitmap( open_anim_xpm ) );
 	#endif
 	mImportExportMenu->Append( mIE_ImpAnimation );
+	
+	wxMenuItem* mIE_ImpSound;
+	mIE_ImpSound = new wxMenuItem( mImportExportMenu, wxID_IMPORT_SOUND, wxString( wxT("Import sound") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ImpSound->SetBitmaps( wxBitmap( open_sound_xpm ) );
+	#elif defined( __WXGTK__ )
+	mIE_ImpSound->SetBitmap( wxBitmap( open_sound_xpm ) );
+	#endif
+	mImportExportMenu->Append( mIE_ImpSound );
+	
+	wxMenuItem* mIE_ImpVideo;
+	mIE_ImpVideo = new wxMenuItem( mImportExportMenu, wxID_IMPORT_VIDEO, wxString( wxT("Import video") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ImpVideo->SetBitmaps( wxBitmap( open_video_xpm ) );
+	#elif defined( __WXGTK__ )
+	mIE_ImpVideo->SetBitmap( wxBitmap( open_video_xpm ) );
+	#endif
+	mImportExportMenu->Append( mIE_ImpVideo );
 	
 	mImportExportMenu->AppendSeparator();
 	
 	wxMenuItem* mIE_ExpFont;
 	mIE_ExpFont = new wxMenuItem( mImportExportMenu, wxID_EXPORT_FONT, wxString( wxT("Export font") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	mIE_ExpFont->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	mIE_ExpFont->SetBitmaps( wxBitmap( save_font_xpm ) );
 	#elif defined( __WXGTK__ )
-	mIE_ExpFont->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	mIE_ExpFont->SetBitmap( wxBitmap( save_font_xpm ) );
 	#endif
 	mImportExportMenu->Append( mIE_ExpFont );
 	
 	wxMenuItem* mIE_ExpImage;
 	mIE_ExpImage = new wxMenuItem( mImportExportMenu, wxID_EXPORT_IMAGE, wxString( wxT("Export image") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	mIE_ExpImage->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	mIE_ExpImage->SetBitmaps( wxBitmap( save_image_xpm ) );
 	#elif defined( __WXGTK__ )
-	mIE_ExpImage->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	mIE_ExpImage->SetBitmap( wxBitmap( save_image_xpm ) );
 	#endif
 	mImportExportMenu->Append( mIE_ExpImage );
 	
 	wxMenuItem* mIE_ExpLibrary;
 	mIE_ExpLibrary = new wxMenuItem( mImportExportMenu, wxID_EXPORT_LIBRARY, wxString( wxT("Export library") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	mIE_ExpLibrary->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	mIE_ExpLibrary->SetBitmaps( wxBitmap( save_lib_xpm ) );
 	#elif defined( __WXGTK__ )
-	mIE_ExpLibrary->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	mIE_ExpLibrary->SetBitmap( wxBitmap( save_lib_xpm ) );
 	#endif
 	mImportExportMenu->Append( mIE_ExpLibrary );
 	
 	wxMenuItem* mIE_ExpAnimation;
 	mIE_ExpAnimation = new wxMenuItem( mImportExportMenu, wxID_EXPORT_ANIMATION, wxString( wxT("Export animation") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	mIE_ExpAnimation->SetBitmaps( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	mIE_ExpAnimation->SetBitmaps( wxBitmap( save_anim_xpm ) );
 	#elif defined( __WXGTK__ )
-	mIE_ExpAnimation->SetBitmap( wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_MENU ) );
+	mIE_ExpAnimation->SetBitmap( wxBitmap( save_anim_xpm ) );
 	#endif
 	mImportExportMenu->Append( mIE_ExpAnimation );
+	
+	wxMenuItem* mIE_ExpSound;
+	mIE_ExpSound = new wxMenuItem( mImportExportMenu, wxID_EXPORT_SOUND, wxString( wxT("Export sound") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ExpSound->SetBitmaps( wxBitmap( save_sound_xpm ) );
+	#elif defined( __WXGTK__ )
+	mIE_ExpSound->SetBitmap( wxBitmap( save_sound_xpm ) );
+	#endif
+	mImportExportMenu->Append( mIE_ExpSound );
+	
+	wxMenuItem* mIE_ExpVideo;
+	mIE_ExpVideo = new wxMenuItem( mImportExportMenu, wxID_EXPORT_VIDEO, wxString( wxT("Export video") ) , wxEmptyString, wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	mIE_ExpVideo->SetBitmaps( wxBitmap( save_video_xpm ) );
+	#elif defined( __WXGTK__ )
+	mIE_ExpVideo->SetBitmap( wxBitmap( save_video_xpm ) );
+	#endif
+	mImportExportMenu->Append( mIE_ExpVideo );
 	
 	mMainMenu->Append( mImportExportMenu, wxT("Import/Export") ); 
 	
@@ -236,9 +285,9 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxMenuItem* mLuaReboot;
 	mLuaReboot = new wxMenuItem( mLuaMenu, wxID_LUA_REBOOT, wxString( wxT("Reboot scripts") ) + wxT('\t') + wxT("CTRL-R"), wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	mLuaReboot->SetBitmaps( wxArtProvider::GetBitmap( wxART_HARDDISK, wxART_MENU ) );
+	mLuaReboot->SetBitmaps( wxArtProvider::GetBitmap( wxART_TIP, wxART_MENU ) );
 	#elif defined( __WXGTK__ )
-	mLuaReboot->SetBitmap( wxArtProvider::GetBitmap( wxART_HARDDISK, wxART_MENU ) );
+	mLuaReboot->SetBitmap( wxArtProvider::GetBitmap( wxART_TIP, wxART_MENU ) );
 	#endif
 	mLuaMenu->Append( mLuaReboot );
 	
@@ -328,10 +377,14 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( mIE_ImpImage->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mIE_ImpLibrary->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mIE_ImpAnimation->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ImpSound->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ImpVideo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mIE_ExpFont->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mIE_ExpImage->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mIE_ExpLibrary->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mIE_ExpAnimation->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ExpSound->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( mIE_ExpVideo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mEditUndo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mEditRedo->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( mViewToolBar->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
@@ -370,10 +423,14 @@ UttMainFrame::~UttMainFrame()
 	this->Disconnect( wxID_IMPORT_IMAGE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_IMPORT_LIBRARY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_IMPORT_ANIMATION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_IMPORT_SOUND, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_IMPORT_VIDEO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_EXPORT_FONT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_EXPORT_IMAGE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_EXPORT_LIBRARY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_EXPORT_ANIMATION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_EXPORT_SOUND, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_EXPORT_VIDEO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_REDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_VIEW_TOOLBAR, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );

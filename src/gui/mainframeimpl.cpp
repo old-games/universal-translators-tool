@@ -158,8 +158,6 @@ void MainFrameImpl::Init()
 
 void MainFrameImpl::Deinit()
 {
-	ImageInfo::Done();
-
 	if (mHelpController)
 	{
 		delete mHelpController;
@@ -490,11 +488,15 @@ void MainFrameImpl::UpdateMenuStates()
 	UPDATE_STATE( wxID_IMPORT_IMAGE, iecImport, etImage )
 	UPDATE_STATE( wxID_IMPORT_LIBRARY, iecImport, etLibrary )
 	UPDATE_STATE( wxID_IMPORT_ANIMATION, iecImport, etAnimation )
+	UPDATE_STATE( wxID_IMPORT_SOUND, iecImport, etSound )
+	UPDATE_STATE( wxID_IMPORT_VIDEO, iecImport, etVideo )
 	
 	UPDATE_STATE( wxID_EXPORT_FONT, iecExport, etFont )
 	UPDATE_STATE( wxID_EXPORT_IMAGE, iecExport, etImage )
 	UPDATE_STATE( wxID_EXPORT_LIBRARY, iecExport, etLibrary )
 	UPDATE_STATE( wxID_EXPORT_ANIMATION, iecExport, etAnimation )
+	UPDATE_STATE( wxID_EXPORT_SOUND, iecExport, etSound )
+	UPDATE_STATE( wxID_EXPORT_VIDEO, iecExport, etVideo )
 #undef UPDATE_STATE
 
 	mMainToolBar->Refresh();
@@ -651,6 +653,16 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 			who = etAnimation;
 		break;
 
+		case wxID_IMPORT_SOUND:
+			what = iecImport;
+			who = etSound;
+		break;
+
+		case wxID_IMPORT_VIDEO:
+			what = iecImport;
+			who = etVideo;
+		break;
+
 		case wxID_EXPORT_FONT:
 			what = iecExport;
 			who = etFont;
@@ -669,6 +681,16 @@ void MainFrameImpl::OnMenuSelect( wxCommandEvent& event )
 		case wxID_EXPORT_ANIMATION:
 			what = iecExport;
 			who = etAnimation;
+		break;
+
+		case wxID_EXPORT_SOUND:
+			what = iecExport;
+			who = etSound;
+		break;
+
+		case wxID_EXPORT_VIDEO:
+			what = iecExport;
+			who = etVideo;
 		break;
 
 		case wxID_VIEW_TOOLBAR:
