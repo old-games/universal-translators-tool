@@ -11,8 +11,6 @@
 #include "buffer.h"
 
 
-Buffer	Buffer::BAD_BUFFER;
-
 
 Buffer::Buffer():
 	mData(NULL),

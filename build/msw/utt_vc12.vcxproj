@@ -80,20 +80,21 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(WXWIN)/lib/vc_lib/mswud;$(LUA_DEV)/include;$(OOLUA)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXDEBUG;__WXDEBUG__;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(SFML)/include;$(WXWIN)/lib/vc_lib/mswud;$(LUA_DEV)/include;$(OOLUA)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SFML_STATIC;_DEBUG;__WXMSW__;WXDEBUG;__WXDEBUG__;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>luad.lib;oolua_d.lib;Rpcrt4.lib;comctl32.lib;wxbase31ud.lib;wxbase31ud_xml.lib;wxexpatd.lib;wxjpegd.lib;wxmsw31ud_adv.lib;wxmsw31ud_aui.lib;wxmsw31ud_core.lib;wxmsw31ud_gl.lib;wxmsw31ud_html.lib;wxmsw31ud_media.lib;wxmsw31ud_propgrid.lib;wxmsw31ud_qa.lib;wxmsw31ud_ribbon.lib;wxmsw31ud_richtext.lib;wxmsw31ud_stc.lib;wxmsw31ud_webview.lib;wxmsw31ud_xrc.lib;wxpngd.lib;wxregexud.lib;wxscintillad.lib;wxtiffd.lib;wxzlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>openal32.lib;sndfile.lib;winmm.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;luad.lib;oolua_d.lib;Rpcrt4.lib;comctl32.lib;wxbase31ud.lib;wxbase31ud_xml.lib;wxexpatd.lib;wxjpegd.lib;wxmsw31ud_adv.lib;wxmsw31ud_aui.lib;wxmsw31ud_core.lib;wxmsw31ud_gl.lib;wxmsw31ud_html.lib;wxmsw31ud_media.lib;wxmsw31ud_propgrid.lib;wxmsw31ud_qa.lib;wxmsw31ud_ribbon.lib;wxmsw31ud_richtext.lib;wxmsw31ud_stc.lib;wxmsw31ud_webview.lib;wxmsw31ud_xrc.lib;wxpngd.lib;wxregexud.lib;wxscintillad.lib;wxtiffd.lib;wxzlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>%(OutputFile)</OutputFile>
-      <AdditionalLibraryDirectories>$(WXWIN)/lib/vc_lib;$(LUA_DEV);$(OOLUA)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SFML)/x32/lib;$(WXWIN)/lib/vc_lib;$(LUA_DEV);$(OOLUA)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -103,19 +104,20 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(WXWIN)/lib/vc_lib/mswu;$(LUA_DEV)/include;$(OOLUA)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;__WXMSW__;_WINDOWS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(SFML)/include;$(WXWIN)/lib/vc_lib/mswu;$(LUA_DEV)/include;$(OOLUA)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SFML_STATIC;NDEBUG;__WXMSW__;_WINDOWS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>lua.lib;oolua.lib;Rpcrt4.lib;comctl32.lib;wxbase31u.lib;wxbase31u_net.lib;wxbase31u_xml.lib;wxexpat.lib;wxjpeg.lib;wxmsw31u_adv.lib;wxmsw31u_aui.lib;wxmsw31u_core.lib;wxmsw31u_gl.lib;wxmsw31u_html.lib;wxmsw31u_media.lib;wxmsw31u_propgrid.lib;wxmsw31u_qa.lib;wxmsw31u_ribbon.lib;wxmsw31u_richtext.lib;wxmsw31u_stc.lib;wxmsw31u_webview.lib;wxmsw31u_xrc.lib;wxpng.lib;wxregexu.lib;wxscintilla.lib;wxtiff.lib;wxzlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>openal32.lib;sndfile.lib;winmm.lib;sfml-system-s.lib;sfml-audio-s.lib;lua.lib;oolua.lib;Rpcrt4.lib;comctl32.lib;wxbase31u.lib;wxbase31u_net.lib;wxbase31u_xml.lib;wxexpat.lib;wxjpeg.lib;wxmsw31u_adv.lib;wxmsw31u_aui.lib;wxmsw31u_core.lib;wxmsw31u_gl.lib;wxmsw31u_html.lib;wxmsw31u_media.lib;wxmsw31u_propgrid.lib;wxmsw31u_qa.lib;wxmsw31u_ribbon.lib;wxmsw31u_richtext.lib;wxmsw31u_stc.lib;wxmsw31u_webview.lib;wxmsw31u_xrc.lib;wxpng.lib;wxregexu.lib;wxscintilla.lib;wxtiff.lib;wxzlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>%(OutputFile)</OutputFile>
-      <AdditionalLibraryDirectories>$(WXWIN)/lib/vc_lib;$(LUA_DEV);$(OOLUA)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SFML)/x32/lib;$(WXWIN)/lib/vc_lib;$(LUA_DEV);$(OOLUA)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -125,41 +127,43 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(WXWIN)/lib/vc_x64_lib/mswud;$(LUA_DEV)/include;$(OOLUA)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(SFML)/include;$(WXWIN)/lib/vc_x64_lib/mswud;$(LUA_DEV)/include;$(OOLUA)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXDEBUG;__WXDEBUG__;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <PreprocessorDefinitions>SFML_STATIC;X64;_DEBUG;__WXMSW__;WXDEBUG;__WXDEBUG__;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <Optimization>Disabled</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>%(OutputFile)</OutputFile>
-      <AdditionalLibraryDirectories>$(WXWIN)/lib/vc_x64_lib;$(LUA_DEV);$(OOLUA)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua64d.lib;oolua64_d.lib;Rpcrt4.lib;comctl32.lib;wxbase31ud.lib;wxbase31ud_xml.lib;wxexpatd.lib;wxjpegd.lib;wxmsw31ud_adv.lib;wxmsw31ud_aui.lib;wxmsw31ud_core.lib;wxmsw31ud_gl.lib;wxmsw31ud_html.lib;wxmsw31ud_media.lib;wxmsw31ud_propgrid.lib;wxmsw31ud_qa.lib;wxmsw31ud_ribbon.lib;wxmsw31ud_richtext.lib;wxmsw31ud_stc.lib;wxmsw31ud_webview.lib;wxmsw31ud_xrc.lib;wxpngd.lib;wxregexud.lib;wxscintillad.lib;wxtiffd.lib;wxzlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SFML)/x64/lib;$(WXWIN)/lib/vc_x64_lib;$(LUA_DEV);$(OOLUA)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>openal32.lib;sndfile.lib;winmm.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;lua64d.lib;oolua64_d.lib;Rpcrt4.lib;comctl32.lib;wxbase31ud.lib;wxbase31ud_xml.lib;wxexpatd.lib;wxjpegd.lib;wxmsw31ud_adv.lib;wxmsw31ud_aui.lib;wxmsw31ud_core.lib;wxmsw31ud_gl.lib;wxmsw31ud_html.lib;wxmsw31ud_media.lib;wxmsw31ud_propgrid.lib;wxmsw31ud_qa.lib;wxmsw31ud_ribbon.lib;wxmsw31ud_richtext.lib;wxmsw31ud_stc.lib;wxmsw31ud_webview.lib;wxmsw31ud_xrc.lib;wxpngd.lib;wxregexud.lib;wxscintillad.lib;wxtiffd.lib;wxzlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
       <OutputFile>%(OutputFile)</OutputFile>
-      <AdditionalLibraryDirectories>$(WXWIN)/lib/vc_x64_lib;$(LUA_DEV);$(OOLUA)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua64.lib;oolua64.lib;Rpcrt4.lib;comctl32.lib;wxbase31u.lib;wxbase31u_xml.lib;wxexpat.lib;wxjpeg.lib;wxmsw31u_adv.lib;wxmsw31u_aui.lib;wxmsw31u_core.lib;wxmsw31u_gl.lib;wxmsw31u_html.lib;wxmsw31u_media.lib;wxmsw31u_propgrid.lib;wxmsw31u_qa.lib;wxmsw31u_ribbon.lib;wxmsw31u_richtext.lib;wxmsw31u_stc.lib;wxmsw31u_webview.lib;wxmsw31u_xrc.lib;wxpng.lib;wxregexu.lib;wxscintilla.lib;wxtiff.lib;wxzlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SFML)/x64/lib;$(WXWIN)/lib/vc_x64_lib;$(LUA_DEV);$(OOLUA)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>openal32.lib;sndfile.lib;winmm.lib;sfml-system-s.lib;sfml-audio-s.lib;lua64.lib;oolua64.lib;Rpcrt4.lib;comctl32.lib;wxbase31u.lib;wxbase31u_xml.lib;wxexpat.lib;wxjpeg.lib;wxmsw31u_adv.lib;wxmsw31u_aui.lib;wxmsw31u_core.lib;wxmsw31u_gl.lib;wxmsw31u_html.lib;wxmsw31u_media.lib;wxmsw31u_propgrid.lib;wxmsw31u_qa.lib;wxmsw31u_ribbon.lib;wxmsw31u_richtext.lib;wxmsw31u_stc.lib;wxmsw31u_webview.lib;wxmsw31u_xrc.lib;wxpng.lib;wxregexu.lib;wxscintilla.lib;wxtiff.lib;wxzlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(WXWIN)/lib/vc_x64_lib/mswu;$(LUA_DEV)/include;$(OOLUA)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src/.;$(WXWIN)/include;$(SFML)/include;$(WXWIN)/lib/vc_x64_lib/mswu;$(LUA_DEV)/include;$(OOLUA)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG;__WXMSW__;_WINDOWS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;X64;NDEBUG;__WXMSW__;_WINDOWS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -169,16 +173,25 @@
     <ClCompile Include="..\..\src\gui\projectwindow.cpp" />
     <ClCompile Include="..\..\src\gui\uttdialogsgui.cpp" />
     <ClCompile Include="..\..\src\gui\uttpanelsgui.cpp" />
+    <ClCompile Include="..\..\src\gui\videoeditor.cpp" />
     <ClCompile Include="..\..\src\helpers.cpp" />
     <ClCompile Include="..\..\src\luaconsole.cpp" />
     <ClCompile Include="..\..\src\luacontrol.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luaanimation.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luadynamicchunk.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luaflic.cpp" />
     <ClCompile Include="..\..\src\luaexports\luaiinfo.cpp" />
     <ClCompile Include="..\..\src\luaexports\luaorigin.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luasound.cpp" />
+    <ClCompile Include="..\..\src\luaexports\luavideo.cpp" />
     <ClCompile Include="..\..\src\panels\videopanel.cpp" />
     <ClCompile Include="..\..\src\types\animation.cpp" />
+    <ClCompile Include="..\..\src\types\dynamicchunk.cpp" />
     <ClCompile Include="..\..\src\types\flic.cpp" />
+    <ClCompile Include="..\..\src\types\flicchunks.cpp" />
     <ClCompile Include="..\..\src\types\iinfo.cpp" />
     <ClCompile Include="..\..\src\types\sound.cpp" />
+    <ClCompile Include="..\..\src\types\soundbuffer.cpp" />
     <ClCompile Include="..\..\src\types\video.cpp" />
     <ClCompile Include="..\..\src\utt.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -246,17 +259,27 @@
     <ClInclude Include="..\..\src\gui\projectwindow.h" />
     <ClInclude Include="..\..\src\gui\uttdialogsgui.h" />
     <ClInclude Include="..\..\src\gui\uttpanelsgui.h" />
+    <ClInclude Include="..\..\src\gui\videoeditor.h" />
     <ClInclude Include="..\..\src\helpers.h" />
     <ClInclude Include="..\..\src\luaconsole.h" />
     <ClInclude Include="..\..\src\luacontrol.h" />
+    <ClInclude Include="..\..\src\luaexports\luaanimation.h" />
+    <ClInclude Include="..\..\src\luaexports\luadynamicchunk.h" />
+    <ClInclude Include="..\..\src\luaexports\luaflic.h" />
     <ClInclude Include="..\..\src\luaexports\luaiinfo.h" />
     <ClInclude Include="..\..\src\luaexports\luaorigin.h" />
+    <ClInclude Include="..\..\src\luaexports\luasound.h" />
+    <ClInclude Include="..\..\src\luaexports\luavideo.h" />
     <ClInclude Include="..\..\src\panels\videopanel.h" />
     <ClInclude Include="..\..\src\pch.h" />
+    <ClInclude Include="..\..\src\taskqueue.h" />
     <ClInclude Include="..\..\src\types\animation.h" />
+    <ClInclude Include="..\..\src\types\dynamicchunk.h" />
     <ClInclude Include="..\..\src\types\flic.h" />
+    <ClInclude Include="..\..\src\types\flicchunks.h" />
     <ClInclude Include="..\..\src\types\iinfo.h" />
     <ClInclude Include="..\..\src\types\sound.h" />
+    <ClInclude Include="..\..\src\types\soundbuffer.h" />
     <ClInclude Include="..\..\src\types\video.h" />
     <ClInclude Include="..\..\src\utt.h" />
     <ClInclude Include="..\..\src\gui\bmpribbonctrl.h" />
@@ -320,6 +343,7 @@
     <None Include="..\..\src\icon\open_lib.xpm" />
     <None Include="..\..\src\icon\open_sound.xpm" />
     <None Include="..\..\src\icon\open_video.xpm" />
+    <None Include="..\..\src\icon\pause.xpm" />
     <None Include="..\..\src\icon\play.xpm" />
     <None Include="..\..\src\icon\save_anim.xpm" />
     <None Include="..\..\src\icon\save_font.xpm" />

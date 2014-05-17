@@ -67,10 +67,12 @@ public:
 		bool forIndexMask = false ) const;
 	unsigned int	GetPaletteSize( BPP bits, SourceFormat fmt ) const;
 
+	void SetColourByIndex(unsigned n, wxByte r, wxByte g, wxByte b);
+	void SetColourByIndex(const UttColour& colour);
 	
 	// available static constants
-	static const int		ColourNumber[bppNum];
-	static const int		Bits[bppNum];
+	static const unsigned	ColourNumber[bppNum];
+	static const unsigned	Bits[bppNum];
 	static const wxString	Names[bppNum];
 	static const wxSize		BitmapSize[bppNum];
 	static const wxDouble	BitmapScale[bppNum];

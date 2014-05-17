@@ -7,11 +7,21 @@
  * License:
  **************************************************************/
 
+typedef std::shared_ptr<wxInputStream> InputStreamPtr;
+typedef std::shared_ptr<wxOutputStream> OutputStreamPtr;
+
+
+class Project;
+typedef std::shared_ptr<Project> ProjectPtr;
+
 class Palette;
 typedef std::shared_ptr<Palette> PalettePtr;
 
 class IndexMask;
 typedef std::shared_ptr<IndexMask> IndexMaskPtr;
+
+class Buffer;
+typedef std::shared_ptr<Buffer> BufferPtr;
 
 class Origin;
 typedef std::shared_ptr<Origin> OriginPtr;
@@ -43,4 +53,6 @@ class Video;
 typedef std::shared_ptr<Video> VideoPtr;
 
 
+class SoundBuffer;
+typedef std::shared_ptr<SoundBuffer> SoundBufferPtr;
 

@@ -21,6 +21,7 @@ namespace Lua
 
 
 OOLUA_PROXY(Buffer)
+	OOLUA_TAGS(Shared)
 	OOLUA_MFUNC(GetBufferAsString)
 	OOLUA_MFUNC_CONST(IsOk)
 OOLUA_PROXY_END

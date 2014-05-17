@@ -10,6 +10,7 @@
 #include "pch.h"
 #include "helpers.h"
 #include "types/palette.h"
+#include "types/soundbuffer.h"
 #include "luacontrol.h"
 
 namespace Helpers
@@ -171,5 +172,59 @@ bool HasModuleFunction(const wxString& func)
 	
 	return result;
 }
+
+
+
+sf::Int16* RawToSoundData(const wxByte* src, size_t srcSize,
+	wxByte xorByte /* 0 */)
+{
+	sf::Int16* data = (sf::Int16*) malloc(srcSize << 1);
+
+#ifndef X64
+	__asm
+	{
+		mov ecx, srcSize
+		mov esi, src
+		mov edi, data
+		mov dl, xorByte
+		cld
+convert_loop:
+			lodsb
+			xor al, dl
+			shl ax, 8
+			stosw
+			dec cx
+		jnz convert_loop
+	}
+#else
+	for (size_t i = 0; i < srcSize; ++i)
+	{
+		sf::Int16& w = data[i];
+		wxByte b = src[i] ^ xorByte;
+		w = b;
+		w <<= 8;
+	}
+#endif
+
+	return data;
+}
+
+
+
+SoundBufferPtr RawToSoundBuffer(const wxByte* src, size_t srcSize, unsigned chn,
+	unsigned freq, wxByte xorByte /* 0 */)
+{
+	auto data = RawToSoundData(src, srcSize, xorByte);
+	auto bptr = std::make_shared<SoundBuffer>();
+	bool res = bptr->loadFromSamples(data, srcSize, chn, freq);
+	free(data);
+	
+	if (!res)
+	{
+		bptr = nullptr;
+	}
+	return bptr;
+}
+
 
 } // namespace Helpers

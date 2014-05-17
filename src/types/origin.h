@@ -53,11 +53,11 @@ protected:
 	virtual bool SaveState( wxOutputStream& output );
 	virtual bool LoadState( wxInputStream& input, int version );
 	
-	OriginEnum		mOriginFrom;
+	OriginEnum		mOriginFrom = Unknown;
 	wxString		mOriginFileName;
 	wxString		mOriginAdditional;
-	wxFileOffset	mOffset;
-	wxULongLong		mSize;
+	wxFileOffset	mOffset = wxInvalidOffset;
+	wxULongLong		mSize = wxInvalidSize;
 	WeakOriginPtr	mParent;
 };
 

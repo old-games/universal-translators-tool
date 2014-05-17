@@ -24,4 +24,33 @@ OOLUA_PROXY_END
 
 
 
+
+OOLUA_PROXY(wxStreamBase)
+	OOLUA_TAGS(Abstract)
+
+	OOLUA_MFUNC_CONST(IsOk)
+	OOLUA_MFUNC_CONST(GetSize)
+
+OOLUA_PROXY_END
+
+
+
+
+OOLUA_PROXY(wxInputStream, wxStreamBase)
+	OOLUA_TAGS(Abstract)
+OOLUA_PROXY_END
+
+
+
+OOLUA_PROXY(wxFileInputStream, wxInputStream)
+	OOLUA_TAGS(Shared, No_default_constructor)
+
+	OOLUA_CTORS
+	(
+		OOLUA_CTOR(int)
+	)
+OOLUA_PROXY_END
+
+
+
 #endif // LUAFONT_H_INCLUDED

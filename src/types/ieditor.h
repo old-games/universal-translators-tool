@@ -35,6 +35,7 @@ public:
 	void CreateEditorId();
 	void SetEditorId( int id ) { mEditorId = id; }
 
+	virtual void	Deinit() {}
 	virtual bool	CheckChanged();
 	virtual bool	SaveEditor() = 0; 
 	virtual bool	LoadEditor() = 0; 

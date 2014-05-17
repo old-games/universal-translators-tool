@@ -44,12 +44,29 @@
 #include <wx/stopwatch.h>
 #include <wx/treectrl.h>
 #include <wx/filename.h>
+#include <wx/fileconf.h>
+
 
 // standard headers
+#include <map>
+#include <list>
+#include <vector>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <memory>
+#include <functional>
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include <queue>
+
+
+
+// SFML
+#include <SFML/Audio.hpp>
+
+
 
 // own
 #include "forwards.h"

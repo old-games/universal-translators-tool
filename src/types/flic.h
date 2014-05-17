@@ -11,72 +11,51 @@
 #ifndef __FLIC_H__
 #define __FLIC_H__
 
-//typedef struct {
-//  DWORD size;          /* Size of FLIC including this header */
-//  WORD  type;          /* File type 0xAF11, 0xAF12, 0xAF30, 0xAF44, ... */
-//  WORD  frames;        /* Number of frames in first segment */
-//  WORD  width;         /* FLIC width in pixels */
-//  WORD  height;        /* FLIC height in pixels */
-//  WORD  depth;         /* Bits per pixel (usually 8) */
-//  WORD  flags;         /* Set to zero or to three */
-//  DWORD speed;         /* Delay between frames */
-//  WORD  reserved1;     /* Set to zero */
-//  DWORD created;       /* Date of FLIC creation (FLC only) */
-//  DWORD creator;       /* Serial number or compiler id (FLC only) */
-//  DWORD updated;       /* Date of FLIC update (FLC only) */
-//  DWORD updater;       /* Serial number (FLC only), see creator */
-//  WORD  aspect_dx;     /* Width of square rectangle (FLC only) */
-//  WORD  aspect_dy;     /* Height of square rectangle (FLC only) */
-//  WORD  ext_flags;     /* EGI: flags for specific EGI extensions */
-//  WORD  keyframes;     /* EGI: key-image frequency */
-//  WORD  totalframes;   /* EGI: total number of frames (segments) */
-//  DWORD req_memory;    /* EGI: maximum chunk size (uncompressed) */
-//  WORD  max_regions;   /* EGI: max. number of regions in a CHK_REGION chunk */
-//  WORD  transp_num;    /* EGI: number of transparent levels */
-//  BYTE  reserved2[24]; /* Set to zero */
-//  DWORD oframe1;       /* Offset to frame 1 (FLC only) */
-//  DWORD oframe2;       /* Offset to frame 2 (FLC only) */
-//  BYTE  reserved3[40]; /* Set to zero */
-//} FLIC_HEADER;
+#include "animation.h"
+#include "flicchunks.h"
+#include "dynamicchunk.h"
 
 
 
-class FlicHeader final
+//////////////////////////////////////////////////////////////////////////
+/// FlicAnimation
+
+
+
+class FlicAnimation: public Animation
 {
-public:
-	
-	FlicHeader() = default;
-	FlicHeader(const FlicHeader& other);
 
-	bool Load(wxInputStream& input);
+typedef std::map<wxUint16, DynamicFlicChunk::Ptr> DynamicChunkMap;
+typedef std::map<wxUint16, FlicChunk::ChunkList> ChunkMap;
+
+public:
+
+	FlicAnimation();
+
+	bool IsOk() const { return mInputStream != nullptr; }
+	bool OpenFlicFile(const std::string& filename);
+	bool Open(wxInputStream& stream);
+	void AddDynamicChunk(wxUint16 type, DynamicFlicChunk::Ptr chunk);
+
+	size_t GetChunksCount(wxUint16 type) const;
+	FlicChunk::Ptr GetChunk(wxUint16 type, size_t n) const;
+	DynamicFlicChunk::Ptr GetDynamicChunk(wxUint16 type, size_t n) const;
+
+	virtual ImageInfoPtr GetFrame(unsigned frame) override;
+	virtual void SetCurrentFrame(unsigned frame) override;
 
 private:
 
-	wxUint32	mSize = 0;          /* Size of FLIC including this header */
-	wxUint16	mType = 0;          /* File type 0xAF11, 0xAF12, 0xAF30, 0xAF44, ... */
-	wxUint16	mFrames = 0;        /* Number of frames in first segment */
-	wxUint16	mWidth = 0;         /* FLIC width in pixels */
-	wxUint16	mHeight = 0;        /* FLIC height in pixels */
-	wxUint16	mDepth = 0;         /* Bits per pixel (usually 8) */
-	wxUint16	mFlags = 0;         /* Set to zero or to three */
-	wxUint32	mSpeed = 0;         /* Delay between frames */
-	wxUint16	mReserved1 = 0;     /* Set to zero */
-	wxUint32	mCreated = 0;       /* Date of FLIC creation (FLC only) */
-	wxUint32	mCreator = 0;       /* Serial number or compiler id (FLC only) */
-	wxUint32	mUpdated = 0;       /* Date of FLIC update (FLC only) */
-	wxUint32	mUpdater = 0;       /* Serial number (FLC only), see creator */
-	wxUint16	mAspect_dx = 0;     /* Width of square rectangle (FLC only) */
-	wxUint16	mAspect_dy = 0;     /* Height of square rectangle (FLC only) */
-	wxUint16	mExt_flags = 0;     /* EGI: flags for specific EGI extensions */
-	wxUint16	mKeyframes = 0;     /* EGI: key-image frequency */
-	wxUint16	mTotalframes = 0;   /* EGI: total number of frames (segments) */
-	wxUint32	mReq_memory = 0;    /* EGI: maximum chunk size (uncompressed) */
-	wxUint16	mMax_regions = 0;   /* EGI: max. number of regions in a CHK_REGION chunk */
-	wxUint16	mTransp_num = 0;    /* EGI: number of transparent levels */
-	wxUint8		mReserved2[24];     /* Set to zero */
-	wxUint32	mOframe1 = 0;       /* Offset to frame 1 (FLC only) */
-	wxUint32	mOframe2 = 0;       /* Offset to frame 2 (FLC only) */
-	wxUint8		mReserved3[40];     /* Set to zero */
+	bool LoadChunk(wxInputStream& stream, wxUint16 chunkType, wxUint32 size);
+	FlicChunk::Ptr CreateDynamicChunk(wxUint16 chunkType, wxUint32 size);
+	ImageDataChunk::Ptr CheckImageChunk(FrameChunk::Ptr chunk) const;
+
+	wxString			mFilename;
+	FlicHeader			mHeader;
+	DynamicChunkMap		mDynamicChunks;
+	ChunkMap			mLoadedChunks;
+	InputStreamPtr		mInputStream;
+	PalettePtr			mPalette;
 };
 
 

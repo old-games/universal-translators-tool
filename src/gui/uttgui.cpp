@@ -332,23 +332,31 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	mMainToolBar->AddSeparator(); 
 	
-	mMainToolBar->AddTool( wxID_IMPORT_FONT, wxT("Import font"), wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Import font"), wxEmptyString, NULL ); 
+	mMainToolBar->AddTool( wxID_IMPORT_FONT, wxT("Import font"), wxBitmap( open_font_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Import font"), wxEmptyString, NULL ); 
 	
-	mMainToolBar->AddTool( wxID_IMPORT_IMAGE, wxT("Import image"), wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Import image"), wxEmptyString, NULL ); 
+	mMainToolBar->AddTool( wxID_IMPORT_IMAGE, wxT("Import image"), wxBitmap( open_image_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Import image"), wxEmptyString, NULL ); 
 	
-	mMainToolBar->AddTool( wxID_IMPORT_LIBRARY, wxT("Import library"), wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Import library"), wxEmptyString, NULL ); 
+	mMainToolBar->AddTool( wxID_IMPORT_LIBRARY, wxT("Import library"), wxBitmap( open_lib_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Import library"), wxEmptyString, NULL ); 
 	
-	mMainToolBar->AddTool( wxID_IMPORT_ANIMATION, wxT("Import animation"), wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Import animation"), wxEmptyString, NULL ); 
+	mMainToolBar->AddTool( wxID_IMPORT_ANIMATION, wxT("Import animation"), wxBitmap( open_anim_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Import animation"), wxEmptyString, NULL ); 
+	
+	mMainToolBar->AddTool( wxID_IMPORT_SOUND, wxT("Import sound"), wxBitmap( open_sound_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Import sound"), wxEmptyString, NULL ); 
+	
+	mMainToolBar->AddTool( wxID_IMPORT_VIDEO, wxT("Import video"), wxBitmap( open_video_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Import video"), wxEmptyString, NULL ); 
 	
 	mMainToolBar->AddSeparator(); 
 	
-	mMainToolBar->AddTool( wxID_EXPORT_FONT, wxT("Export font"), wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Export font"), wxEmptyString, NULL ); 
+	mMainToolBar->AddTool( wxID_EXPORT_FONT, wxT("Export font"), wxBitmap( save_font_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Export font"), wxEmptyString, NULL ); 
 	
-	mMainToolBar->AddTool( wxID_EXPORT_IMAGE, wxT("Export image"), wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Export image"), wxEmptyString, NULL ); 
+	mMainToolBar->AddTool( wxID_EXPORT_IMAGE, wxT("Export image"), wxBitmap( save_image_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Export image"), wxEmptyString, NULL ); 
 	
-	mMainToolBar->AddTool( wxID_EXPORT_LIBRARY, wxT("Export library"), wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Export library"), wxEmptyString, NULL ); 
+	mMainToolBar->AddTool( wxID_EXPORT_LIBRARY, wxT("Export library"), wxBitmap( save_lib_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Export library"), wxEmptyString, NULL ); 
 	
-	mMainToolBar->AddTool( wxID_EXPORT_ANIMATION, wxT("Export animation"), wxArtProvider::GetBitmap( wxART_FILE_SAVE, wxART_TOOLBAR ), wxNullBitmap, wxITEM_NORMAL, wxT("Export animation"), wxEmptyString, NULL ); 
+	mMainToolBar->AddTool( wxID_EXPORT_ANIMATION, wxT("Export animation"), wxBitmap( save_anim_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Export animation"), wxEmptyString, NULL ); 
+	
+	mMainToolBar->AddTool( wxID_EXPORT_SOUND, wxT("Export sound"), wxBitmap( save_sound_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Export sound"), wxEmptyString, NULL ); 
+	
+	mMainToolBar->AddTool( wxID_EXPORT_VIDEO, wxT("Export video"), wxBitmap( save_video_xpm ), wxNullBitmap, wxITEM_NORMAL, wxT("Export video"), wxEmptyString, NULL ); 
 	
 	mMainToolBar->Realize();
 	m_mgr.AddPane( mMainToolBar, wxAuiPaneInfo().Name( wxT("MainToolbar") ).Top().CaptionVisible( false ).PinButton( true ).PaneBorder( false ).Gripper().Dock().Fixed().DockFixed( false ).Row( 1 ).Layer( 10 ).ToolbarPane() );
@@ -402,10 +410,14 @@ UttMainFrame::UttMainFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( wxID_IMPORT_IMAGE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_IMPORT_LIBRARY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_IMPORT_ANIMATION, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( wxID_IMPORT_SOUND, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( wxID_IMPORT_VIDEO, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_EXPORT_FONT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_EXPORT_IMAGE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_EXPORT_LIBRARY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Connect( wxID_EXPORT_ANIMATION, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( wxID_EXPORT_SOUND, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Connect( wxID_EXPORT_VIDEO, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 }
 
 UttMainFrame::~UttMainFrame()
@@ -448,10 +460,14 @@ UttMainFrame::~UttMainFrame()
 	this->Disconnect( wxID_IMPORT_IMAGE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_IMPORT_LIBRARY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_IMPORT_ANIMATION, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_IMPORT_SOUND, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_IMPORT_VIDEO, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_EXPORT_FONT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_EXPORT_IMAGE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_EXPORT_LIBRARY, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	this->Disconnect( wxID_EXPORT_ANIMATION, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_EXPORT_SOUND, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
+	this->Disconnect( wxID_EXPORT_VIDEO, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( UttMainFrame::OnMenuSelect ) );
 	
 	m_mgr.UnInit();
 	

@@ -585,6 +585,10 @@ int messageBox(lua_State *L)
 
 
 
+int openFileInputStream(lua_State *L);
+
+
+
 namespace Lua
 {
 
@@ -650,8 +654,14 @@ void CommonRegister()
 	LUA_REG_C_FUNCTION( openFileDialog );
 	LUA_REG_C_FUNCTION( saveFileDialog );
 
+	//
+	LUA_REG_C_FUNCTION( openFileInputStream );
+
 	// export for wxBusyCursor class, will be usefull for continious operations
 	Get().register_class<wxBusyCursor>();
+	LUA_REG_CLASS(wxStreamBase)
+	LUA_REG_CLASS(wxInputStream)
+	LUA_REG_CLASS(wxFileInputStream)
 
 	RegisterBitwiseFunctions();
 	RegisterRLEFunctions();
@@ -662,3 +672,36 @@ void CommonRegister()
 
 
 OOLUA_EXPORT_NO_FUNCTIONS( wxBusyCursor )
+
+OOLUA_EXPORT_FUNCTIONS(wxStreamBase)
+OOLUA_EXPORT_FUNCTIONS_CONST(wxStreamBase, IsOk, GetSize)
+
+OOLUA_EXPORT_FUNCTIONS(wxInputStream)
+OOLUA_EXPORT_FUNCTIONS_CONST(wxInputStream)
+
+OOLUA_EXPORT_FUNCTIONS(wxFileInputStream)
+OOLUA_EXPORT_FUNCTIONS_CONST(wxFileInputStream)
+
+
+
+int openFileInputStream(lua_State *L)
+{
+	std::string s;
+
+	if (!OOLUA::pull( L, s ))
+	{
+		wxLogError("openFileStream requires file's name");
+		return 0;
+	}
+
+	auto res = std::make_shared<wxFileInputStream>(s.c_str());
+
+	if (!res->IsOk())
+	{
+		wxLogError("openFileStream: can't open %s", s.c_str());
+		return 0;
+	}
+
+	OOLUA::push(L, res);
+	return 1;
+}

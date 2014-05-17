@@ -19,6 +19,12 @@
 #include "luaexports/lualibtree.h"
 #include "luaexports/luaifflib.h"
 #include "luaexports/luabuffer.h"
+#include "luaexports/luadynamicchunk.h"
+#include "luaexports/luaanimation.h"
+#include "luaexports/luaflic.h"
+#include "luaexports/luasound.h"
+#include "luaexports/luavideo.h"
+
 
 
 static OOLUA::Script* gLuaState = NULL;
@@ -58,6 +64,11 @@ bool Lua::Init()
 	LibItemRegister();
 	LibTreeRegister();
 	IFFLibRegister();
+	DynamicChunkRegister();
+	SoundRegister();
+	AnimationRegister();
+	FlicRegister();
+	VideoRegister();
 	
 	return gLuaState->run_file("scripts/init.lua");
 }

@@ -7,8 +7,8 @@
  * License:
  **************************************************************/
 
-#ifndef LUAPALETTE_H_INCLUDED
-#define LUAPALETTE_H_INCLUDED
+#ifndef __LUA_PALETTE_H__
+#define __LUA_PALETTE_H__
 
 #include "types/palette.h"
 
@@ -53,4 +53,4 @@ OOLUA_PROXY_END
 
 
 
-#endif // LUAFONT_H_INCLUDED
+#endif // __LUA_PALETTE_H__

@@ -146,12 +146,12 @@ void ProjectWindow::Clear()
 		mTypeRoots[i] = wxTreeListItem();
 	}
 
-	mProject = NULL;
+	mProject = nullptr;
 }
 
 
 
-void ProjectWindow::SetProject( Project* project )
+void ProjectWindow::SetProject( ProjectPtr project )
 {
 	Clear();
 	mProject = project;

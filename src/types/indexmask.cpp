@@ -118,6 +118,19 @@ void IndexMask::SetMask( const wxByte* mask, int srcSize, int width, int height,
 
 
 
+void IndexMask::InitMask(int width, int height)
+{
+	Clear();
+	mWidth = width;
+	mHeight = height;
+	mSrcWidth = width;
+	mSrcHeight = height;
+	mSize = mHeight * mWidth;
+	mMask = (wxByte*) malloc( mSize );
+}
+
+
+
 wxBitmap* IndexMask::GetBitmap( PalettePtr pal ) const
 {
 	wxBitmap* res = NULL;

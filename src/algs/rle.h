@@ -18,6 +18,8 @@ namespace Lua
 
 
 char* UnpackLBMBody( const char* src, unsigned int destSize );
+void UnpackFLIByteRun(wxByte* dest, const wxByte* src, unsigned width, unsigned height);
+void UnpackFLCDelta(wxByte* dest, const wxByte* src, unsigned width);
 
 
 #endif // RLEALGS_H_INCLUDED

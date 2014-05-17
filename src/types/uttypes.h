@@ -16,11 +16,13 @@
 #define MAXIMUM_SYMBOL_WIDTH		64
 #define MAXIMUM_SYMBOL_HEIGHT		64
 
+#define PAUSE(x) std::this_thread::sleep_for(std::chrono::milliseconds(x));
 
 typedef wxByte Pixel[3];
 typedef wxByte PixelA[4];
 
-
+typedef std::function<void()>			VoidCallback;
+typedef std::function<void(unsigned)>	UnsignedCallback;
 
 enum EditorType
 {
@@ -79,6 +81,33 @@ public:
 private:
 
 	int mIndex;
+};
+
+
+
+class wxGuiMutex final
+{
+public:
+	explicit wxGuiMutex():
+		mCanLock(!wxIsMainThread())
+	{
+		if (mCanLock)
+		{
+			wxMutexGuiEnter();
+		}
+	}
+
+	~wxGuiMutex()
+	{
+		if (mCanLock)
+		{
+			wxMutexGuiLeave();
+		}
+	}
+
+private:
+	
+	bool mCanLock;
 };
 
 

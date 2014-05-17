@@ -5,10 +5,9 @@
  * Created:   2012-01-17
  * Copyright: Pavlovets Ilia
  * License:
-*
+ *
  * Notes to whole project:
- *		- we are not using STL except std::string in OOLUA functions
- *		- we are using iterators in wxARRAY because they are faster than [] operator
+ *     - C++11 compiler required
  ************************************************************************************/
 
 
@@ -27,14 +26,22 @@
 
 #define MODULE_MENU_START	(wxID_HIGHEST + 1)
 #define MODULE_MENU_END		(MODULE_MENU_START + 32)
+#define CONFIG_FILENAME		"utt.cfg"
+
+// config entries
+#define LAST_PROJECT	"LastProject"
+
+
 
 const wxString PROJECT_EXTENSIONS = "UTT Project file (*.uttproj)|*.uttproj";
+
 
 MainFrameImpl::MainFrameImpl(void):
 	UttMainFrame(0L),
 	mHelpController( NULL ),
 	mCurrentProject( NULL ),
-	mCurrentPane( NULL )
+	mCurrentPane( NULL ),
+	mConfig("", "", wxFileName::GetCwd() + wxFileName::GetPathSeparator() + CONFIG_FILENAME)
 {
 	
 	COMMAND->SetEditMenu( mEditMenu );
@@ -97,6 +104,29 @@ MainFrameImpl::~MainFrameImpl(void)
 
 
 
+void MainFrameImpl::LoadConfig()
+{
+	wxString proj = mConfig.Read(LAST_PROJECT, wxEmptyString);
+
+	if (!proj.IsEmpty())
+	{
+		LoadProject(proj);
+	}
+	
+	UpdateMenuStates();
+}
+
+
+
+void MainFrameImpl::SaveConfig()
+{
+	mConfig.Write(LAST_PROJECT, mCurrentProject ? mCurrentProject->GetProjectFileName() : "");
+	mConfig.Flush();
+}
+
+
+
+
 void MainFrameImpl::OnCommonEvent( CommonEvent& event )
 {
 	if (event.GetAction() == CommonEvent::ceModuleChanged)
@@ -151,7 +181,20 @@ void MainFrameImpl::Init()
 		mHelpController = NULL;
 	}
 
+	LoadConfig();
 	UpdateMenuStates();
+
+	//sf::SoundBuffer buf;
+	//
+	//if (buf.loadFromFile("canary.wav"))
+	//{
+	//	sf::Sound snd(buf);
+	//	snd.play();
+
+	//	while (snd.getStatus() == sf::SoundSource::Playing)
+	//	{
+	//	}
+	//}
 }
 
 
@@ -170,24 +213,14 @@ void MainFrameImpl::Deinit()
 
 
 
-void MainFrameImpl::DoOpenProject()
+void MainFrameImpl::LoadProject(const wxString& filename)
 {
-	
-	wxFileDialog dlg(this, "Open project", wxEmptyString, wxEmptyString, PROJECT_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+	ProjectPtr newProject = std::make_shared<Project>();
 
-	if ( dlg.ShowModal() != wxID_OK || !DoCloseProject() )
+	if (!newProject->LoadProject( filename ))
 	{
+		wxLogError("MainFrameImpl::LoadProject: there was an error(s). Project NOT loaded!");
 		return;
-	}
-
-	Project* old = mCurrentProject;
-	Project* newProject = new Project();
-
-	if (!newProject->LoadProject( dlg.GetPath() ))
-	{
-		delete newProject;
-		newProject = old;
-		wxLogError("MainFrameImpl::DoOpenProject: there was an error(s). Project NOT loaded!");
 	}
 
 	mCurrentProject = newProject;
@@ -200,6 +233,21 @@ void MainFrameImpl::DoOpenProject()
 		mCurrentProject->ReparentEditorWindows( this );
 		m_mgr.Update();
 	}
+}
+
+
+
+void MainFrameImpl::DoOpenProject()
+{
+	
+	wxFileDialog dlg(this, "Open project", wxEmptyString, wxEmptyString, PROJECT_EXTENSIONS, wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+
+	if ( dlg.ShowModal() != wxID_OK || !DoCloseProject() )
+	{
+		return;
+	}
+
+	LoadProject(dlg.GetPath());
 	UpdateMenuStates();
 }
 
@@ -231,13 +279,12 @@ bool MainFrameImpl::DoCloseProject(bool force /* true */)
 {
 	bool result = true;
 
-	if (mCurrentProject != NULL)
+	if (mCurrentProject)
 	{	
 		if ( force || CheckProject() )
 		{
 			mCurrentProject->CloseProject();
-			delete mCurrentProject;
-			mCurrentProject = NULL;
+			mCurrentProject = nullptr;
 
 			mProjectWindow->SetProject( NULL );
 			m_mgr.GetPane( mProjectWindow ).Caption( "No active project" );
@@ -280,7 +327,7 @@ void MainFrameImpl::CreateNewProject()
 		return;
 	}
 
-	mCurrentProject = new Project();
+	mCurrentProject = std::make_shared<Project>();
 	mCurrentProject->CreateProject( dlg.GetPath(), dlg.GetGamePath(), dlg.GetModule(), dlg.GetVersion() );
 
 	mProjectWindow->SetProject( mCurrentProject );
@@ -499,6 +546,15 @@ void MainFrameImpl::UpdateMenuStates()
 	UPDATE_STATE( wxID_EXPORT_VIDEO, iecExport, etVideo )
 #undef UPDATE_STATE
 
+	wxString title = "UTT";
+
+	if (projectActive)
+	{
+		title = wxString::Format("%s %s",
+			mCurrentProject->GetProjectFileName(), projectChanged ? "*" : "");
+	}
+
+	this->SetTitle(title);
 	mMainToolBar->Refresh();
 }
 
@@ -534,6 +590,8 @@ void MainFrameImpl::OnShow( wxShowEvent& event )
 
 void MainFrameImpl::OnClose( wxCloseEvent& event )
 {
+	SaveConfig();
+
 	if ( !DoCloseProject() )
 	{
 		event.Veto();
@@ -548,6 +606,7 @@ void MainFrameImpl::OnClose( wxCloseEvent& event )
 void MainFrameImpl::OnModuleMenuSelect( wxCommandEvent& event )
 {
 	int id = event.GetId();
+
 	if ( id >= MODULE_MENU_START && id < MODULE_MENU_END )
 	{
 		DoModuleCommand( id );

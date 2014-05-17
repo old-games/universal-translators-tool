@@ -281,8 +281,8 @@ VideoPanelGui::VideoPanelGui( wxWindow* parent, wxWindowID id, const wxPoint& po
 	mForwardBtn = new wxBitmapButton( this, wxID_FORWARD_BTN, wxBitmap( forward_xpm ), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	fgSizer6->Add( mForwardBtn, 0, wxALL, 5 );
 	
-	mPosSlider = new wxSlider( this, wxID_VIDEO_SLIDER, 0, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	fgSizer6->Add( mPosSlider, 0, wxALL, 5 );
+	mPosSlider = new wxSlider( this, wxID_VIDEO_SLIDER, 0, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_AUTOTICKS|wxSL_HORIZONTAL|wxSL_TOP );
+	fgSizer6->Add( mPosSlider, 0, wxALL|wxEXPAND, 5 );
 	
 	
 	fgSizer5->Add( fgSizer6, 1, wxEXPAND, 5 );

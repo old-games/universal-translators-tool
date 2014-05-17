@@ -197,6 +197,65 @@ end
 
 
 
+local function GetSoundFromXComVid(filename, anim)
+	local num = anim:GetChunksCount(0xAAAA)
+	local snd
+	local stream = openFileInputStream(filename)
+	
+	if not stream or not num then
+		return 
+	end
+	
+	num = num - 1
+	
+	for i = 0, num do
+		--local chunk = anim:GetChunk(0xAAAA, i)
+		local chunk = anim:GetDynamicChunk(0xAAAA, i)
+
+		if not snd then
+			snd = Sound.new(chunk:GetUnsignedIntValue("FREQ"), 1)
+		end
+		
+		if chunk:LoadData(stream) then
+			snd:AddRawData(chunk:GetData(), true) -- true - for change sign
+		end
+	end
+	
+	return snd
+end
+
+
+function LoadXComVID( filename )
+	local audioChunk = DynamicFlicChunk.new()
+	audioChunk:AddValue("ZERO", DataType.dtWORD)
+	audioChunk:AddValue("FREQ", DataType.dtWORD)
+	audioChunk:AddValue("_1", DataType.dtWORD)
+	audioChunk:AddValue("_F", DataType.dtDWORD)
+	-- в XCom VID аудио чанк имеет нестандартное значние размера чанка, обычно размер указывается вместе с данными заголовка,
+	-- но в данном случае размер указывает только на размер данных
+	audioChunk:SetSizeFull(false) 
+	
+	local anim = FlicAnimation.new()
+	anim:AddDynamicChunk(0xAAAA, audioChunk)
+	
+	if anim:OpenFlicFile(filename) then
+		local snd = GetSoundFromXComVid(filename, anim)
+		local vid = Video.new()
+		vid:SetAnimation(anim)
+		
+		if snd then
+			vid:SetSound(snd)
+			vid:SetSoundPerFrame(true) -- время показа каждого кадра зависит от длины буфера звука
+		end
+		
+		local origin = Origin.new(filename)
+		vid:SetOrigin(origin)
+		return vid
+	end
+end
+
+
+
 function LoadXcomFont( fileName )
 	local fh = assert(io.open(fileName, "rb"))
 	if not fh then

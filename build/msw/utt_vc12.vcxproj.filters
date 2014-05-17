@@ -232,6 +232,33 @@
     <ClCompile Include="..\..\src\types\sound.cpp">
       <Filter>types</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\luaexports\luaanimation.cpp">
+      <Filter>luaexports</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\luaexports\luaflic.cpp">
+      <Filter>luaexports</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\luaexports\luasound.cpp">
+      <Filter>luaexports</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\luaexports\luavideo.cpp">
+      <Filter>luaexports</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\dynamicchunk.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\luaexports\luadynamicchunk.cpp">
+      <Filter>luaexports</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\flicchunks.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\videoeditor.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\soundbuffer.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\helpers.h">
@@ -441,6 +468,36 @@
     <ClInclude Include="..\..\src\types\sound.h">
       <Filter>types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\luaexports\luaanimation.h">
+      <Filter>luaexports</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\luaexports\luaflic.h">
+      <Filter>luaexports</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\luaexports\luasound.h">
+      <Filter>luaexports</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\luaexports\luavideo.h">
+      <Filter>luaexports</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\types\dynamicchunk.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\luaexports\luadynamicchunk.h">
+      <Filter>luaexports</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\types\flicchunks.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\videoeditor.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\taskqueue.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\types\soundbuffer.h">
+      <Filter>types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\gui\uttgui.fbp">
@@ -516,6 +573,9 @@
       <Filter>res\xpm</Filter>
     </None>
     <None Include="..\..\src\icon\save_video.xpm">
+      <Filter>res\xpm</Filter>
+    </None>
+    <None Include="..\..\src\icon\pause.xpm">
       <Filter>res\xpm</Filter>
     </None>
   </ItemGroup>

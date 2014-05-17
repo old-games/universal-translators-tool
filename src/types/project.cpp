@@ -192,6 +192,7 @@ bool Project::LoadProject( const wxString& fullPath )
 	if ( CheckChanged() )
 	{
 		result = LoadFromFile( fullPath );
+		mProjectFileName = fullPath;
 		mChanged = false;
 	}
 
@@ -230,7 +231,8 @@ void Project::CloseProject()
 
 void Project::CloseEditor( IEditor* editor, bool update )
 {
-	AUIWindowEvent event( AUIWindowEvent::RemoveWindow, editor->GetWindow(), update ); 
+	editor->Deinit();
+	AUIWindowEvent event( AUIWindowEvent::RemoveWindow, editor->GetWindow(), update );
 	wxTheApp->ProcessEvent( event );
 }
 

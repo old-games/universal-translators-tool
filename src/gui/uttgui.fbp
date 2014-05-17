@@ -760,7 +760,7 @@
                     <property name="permission">protected</property>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_TOOLBAR</property>
+                    <property name="bitmap">Load From Embedded File; ../icon/open_font.xpm</property>
                     <property name="context_menu">0</property>
                     <property name="id">wxID_IMPORT_FONT</property>
                     <property name="kind">wxITEM_NORMAL</property>
@@ -781,7 +781,7 @@
                     <event name="OnUpdateUI"></event>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_TOOLBAR</property>
+                    <property name="bitmap">Load From Embedded File; ../icon/open_image.xpm</property>
                     <property name="context_menu">0</property>
                     <property name="id">wxID_IMPORT_IMAGE</property>
                     <property name="kind">wxITEM_NORMAL</property>
@@ -802,7 +802,7 @@
                     <event name="OnUpdateUI"></event>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_TOOLBAR</property>
+                    <property name="bitmap">Load From Embedded File; ../icon/open_lib.xpm</property>
                     <property name="context_menu">0</property>
                     <property name="id">wxID_IMPORT_LIBRARY</property>
                     <property name="kind">wxITEM_NORMAL</property>
@@ -823,7 +823,7 @@
                     <event name="OnUpdateUI"></event>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Art Provider; wxART_FILE_OPEN; wxART_TOOLBAR</property>
+                    <property name="bitmap">Load From Embedded File; ../icon/open_anim.xpm</property>
                     <property name="context_menu">0</property>
                     <property name="id">wxID_IMPORT_ANIMATION</property>
                     <property name="kind">wxITEM_NORMAL</property>
@@ -843,11 +843,53 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
+                <object class="tool" expanded="1">
+                    <property name="bitmap">Load From Embedded File; ../icon/open_sound.xpm</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_IMPORT_SOUND</property>
+                    <property name="kind">wxITEM_NORMAL</property>
+                    <property name="label">Import sound</property>
+                    <property name="name">mImportSoundTB</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar"></property>
+                    <property name="tooltip">Import sound</property>
+                    <event name="OnAuiToolBarBeginDrag"></event>
+                    <event name="OnAuiToolBarMiddleClick"></event>
+                    <event name="OnAuiToolBarOverflowClick"></event>
+                    <event name="OnAuiToolBarRightClick"></event>
+                    <event name="OnAuiToolBarToolDropDown"></event>
+                    <event name="OnMenuSelection"></event>
+                    <event name="OnToolClicked">OnMenuSelect</event>
+                    <event name="OnToolEnter"></event>
+                    <event name="OnToolRClicked"></event>
+                    <event name="OnUpdateUI"></event>
+                </object>
+                <object class="tool" expanded="1">
+                    <property name="bitmap">Load From Embedded File; ../icon/open_video.xpm</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_IMPORT_VIDEO</property>
+                    <property name="kind">wxITEM_NORMAL</property>
+                    <property name="label">Import video</property>
+                    <property name="name">mImportVideoTB</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar"></property>
+                    <property name="tooltip">Import video</property>
+                    <event name="OnAuiToolBarBeginDrag"></event>
+                    <event name="OnAuiToolBarMiddleClick"></event>
+                    <event name="OnAuiToolBarOverflowClick"></event>
+                    <event name="OnAuiToolBarRightClick"></event>
+                    <event name="OnAuiToolBarToolDropDown"></event>
+                    <event name="OnMenuSelection"></event>
+                    <event name="OnToolClicked">OnMenuSelect</event>
+                    <event name="OnToolEnter"></event>
+                    <event name="OnToolRClicked"></event>
+                    <event name="OnUpdateUI"></event>
+                </object>
                 <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_TOOLBAR</property>
+                    <property name="bitmap">Load From Embedded File; ../icon/save_font.xpm</property>
                     <property name="context_menu">0</property>
                     <property name="id">wxID_EXPORT_FONT</property>
                     <property name="kind">wxITEM_NORMAL</property>
@@ -868,7 +910,7 @@
                     <event name="OnUpdateUI"></event>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_TOOLBAR</property>
+                    <property name="bitmap">Load From Embedded File; ../icon/save_image.xpm</property>
                     <property name="context_menu">0</property>
                     <property name="id">wxID_EXPORT_IMAGE</property>
                     <property name="kind">wxITEM_NORMAL</property>
@@ -889,7 +931,7 @@
                     <event name="OnUpdateUI"></event>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_TOOLBAR</property>
+                    <property name="bitmap">Load From Embedded File; ../icon/save_lib.xpm</property>
                     <property name="context_menu">0</property>
                     <property name="id">wxID_EXPORT_LIBRARY</property>
                     <property name="kind">wxITEM_NORMAL</property>
@@ -910,7 +952,7 @@
                     <event name="OnUpdateUI"></event>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Art Provider; wxART_FILE_SAVE; wxART_TOOLBAR</property>
+                    <property name="bitmap">Load From Embedded File; ../icon/save_anim.xpm</property>
                     <property name="context_menu">0</property>
                     <property name="id">wxID_EXPORT_ANIMATION</property>
                     <property name="kind">wxITEM_NORMAL</property>
@@ -919,6 +961,48 @@
                     <property name="permission">protected</property>
                     <property name="statusbar"></property>
                     <property name="tooltip">Export animation</property>
+                    <event name="OnAuiToolBarBeginDrag"></event>
+                    <event name="OnAuiToolBarMiddleClick"></event>
+                    <event name="OnAuiToolBarOverflowClick"></event>
+                    <event name="OnAuiToolBarRightClick"></event>
+                    <event name="OnAuiToolBarToolDropDown"></event>
+                    <event name="OnMenuSelection"></event>
+                    <event name="OnToolClicked">OnMenuSelect</event>
+                    <event name="OnToolEnter"></event>
+                    <event name="OnToolRClicked"></event>
+                    <event name="OnUpdateUI"></event>
+                </object>
+                <object class="tool" expanded="1">
+                    <property name="bitmap">Load From Embedded File; ../icon/save_sound.xpm</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_EXPORT_SOUND</property>
+                    <property name="kind">wxITEM_NORMAL</property>
+                    <property name="label">Export sound</property>
+                    <property name="name">mExportSoundTB</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar"></property>
+                    <property name="tooltip">Export sound</property>
+                    <event name="OnAuiToolBarBeginDrag"></event>
+                    <event name="OnAuiToolBarMiddleClick"></event>
+                    <event name="OnAuiToolBarOverflowClick"></event>
+                    <event name="OnAuiToolBarRightClick"></event>
+                    <event name="OnAuiToolBarToolDropDown"></event>
+                    <event name="OnMenuSelection"></event>
+                    <event name="OnToolClicked">OnMenuSelect</event>
+                    <event name="OnToolEnter"></event>
+                    <event name="OnToolRClicked"></event>
+                    <event name="OnUpdateUI"></event>
+                </object>
+                <object class="tool" expanded="1">
+                    <property name="bitmap">Load From Embedded File; ../icon/save_video.xpm</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_EXPORT_VIDEO</property>
+                    <property name="kind">wxITEM_NORMAL</property>
+                    <property name="label">Export video</property>
+                    <property name="name">mExportVideoTB</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar"></property>
+                    <property name="tooltip">Export video</property>
                     <event name="OnAuiToolBarBeginDrag"></event>
                     <event name="OnAuiToolBarMiddleClick"></event>
                     <event name="OnAuiToolBarOverflowClick"></event>

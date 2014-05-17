@@ -167,11 +167,13 @@ end
 
 
 
-function Xcom.ImportLibrary()
-	local fileName = openFileDialog("CAT Files (*.CAT)|*.cat|LBM Files (*.LBM)|*.lbm")
+function Xcom.ImportLibrary(filename)
+	if not filename then
+		fileName = openFileDialog("CAT Files (*.CAT)|*.cat|LBM Files (*.LBM)|*.lbm")
+	end
 	
-	if fileName ~= nil then
-		local lib = loadCAT( fileName )
+	if filename ~= nil then
+		local lib = loadCAT( filename )
 		
 		if lib then
 			editLibrary(lib)
@@ -181,14 +183,16 @@ end
 
 
 
-function Xcom.ImportVideo()
-	local fileName = openFileDialog("VID Files (*.VID)|*.vid")
+function Xcom.ImportVideo(filename)
+	if not filename then
+		filename = openFileDialog("VID Files (*.VID)|*.vid")
+	end
 	
-	if fileName ~= nil then
-		local lib = loadXComVID( fileName )
+	if filename ~= nil then
+		local video = LoadXComVID( filename )
 		
-		if lib then
-			editVideo(lib)
+		if video then
+			editVideo(video)
 		end
 	end
 end

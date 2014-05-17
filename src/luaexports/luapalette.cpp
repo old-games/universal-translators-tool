@@ -28,15 +28,8 @@ namespace Lua
 
 
 
-
-///
-/// Экспорт класса Palette
-///
 OOLUA_EXPORT_FUNCTIONS( Palette, Initiate, SetCGAType)
 OOLUA_EXPORT_FUNCTIONS_CONST( Palette, IsOk, GetCorrectImageSize, GetPaletteSize)
-
-//EXPORT_OOLUA_FUNCTIONS_4_NON_CONST( Palette, Initiate, SetCGAType, GetCorrectImageSize, GetPaletteSize )
-//EXPORT_OOLUA_FUNCTIONS_1_CONST( Palette, IsOk )
 
 
 

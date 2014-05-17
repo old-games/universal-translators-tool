@@ -17,13 +17,7 @@ const int		ORIGINVERSION = 0x100;
 
 
 Origin::Origin():
-	IStateStore( ORIGINNAME, ORIGINVERSION ),
-	mOriginFrom(Unknown),
-	mOriginFileName( wxEmptyString ),
-	mOriginAdditional( wxEmptyString ),
-	mOffset(wxInvalidOffset),
-	mSize(wxInvalidOffset),
-	mParent()
+	IStateStore( ORIGINNAME, ORIGINVERSION )
 {
 }
 

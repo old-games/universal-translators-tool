@@ -12,6 +12,7 @@
 #include "gui/fonteditimpl.h"
 #include "gui/editpanelimpl.h"
 #include "gui/libwindowimpl.h"
+#include "gui/videoeditor.h"
 
 
 
@@ -164,15 +165,19 @@ void IEditor::Changed( bool b /* true */)
 	{
 		case etFont:
 			result = static_cast<IEditor*> ( new FontEditor( sParentWindow ) );
-			break;
+		break;
 
 		case etImage:
 			result = static_cast<IEditor*> ( new ImageEditor( sParentWindow, iemFullMode ) );
-			break;
+		break;
 		
 		case etLibrary:
 			result = static_cast<IEditor*> ( new LibraryPanel( sParentWindow ) );
-			break;
+		break;
+
+		case etVideo:
+			result = static_cast<IEditor*> ( new VideoEditor( sParentWindow ) );
+		break;
 
 		default:
 			wxLogError("IEditor::CreateEditor: unable to create editor %d", edType);

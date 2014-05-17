@@ -12,8 +12,7 @@
 #include "types/ieditor.h"
 #include "gui/simplegui.h"
 
-// forward declarations
-class Project;
+
 
 WX_DECLARE_HASH_MAP( wxUint32, wxTreeListItem, wxIntegerHash, wxIntegerEqual, TreeItemStorage );
 
@@ -34,7 +33,7 @@ public:
 	ProjectWindow( wxWindow* parent, wxWindowID id );
 	~ProjectWindow(void);
 
-	void SetProject( Project* project );
+	void SetProject(ProjectPtr project );
 	bool SetEditor( wxWindow* wnd );	// highlight current editor
 	void UpdateProjectTree();
 	void UpdateState( IEditor* editor );
@@ -60,7 +59,7 @@ private:
 	wxTreeListItem	GetEditorItem( IEditor* editor );
 	ProjectItemData*GetItemData( wxTreeListItem item ) const;
 
-	Project*		mProject;
+	ProjectPtr		mProject;
 
 	wxMenu*			mItemMenu;
 	wxMenu*			mCategoryMenu;

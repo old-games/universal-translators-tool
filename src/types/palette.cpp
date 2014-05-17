@@ -12,7 +12,7 @@
 
 
 
-const int Palette::ColourNumber[bppNum] =
+const unsigned Palette::ColourNumber[bppNum] =
 {
 	2,
 	4,
@@ -26,7 +26,7 @@ const int Palette::ColourNumber[bppNum] =
 
 
 
-const int Palette::Bits[bppNum] =
+const unsigned Palette::Bits[bppNum] =
 {
 	1,
 	2,
@@ -145,6 +145,24 @@ bool Palette::IsOk() const
 bool Palette::IsIndexed()
 {
 	return mBPP <= bpp8;
+}
+
+
+
+void Palette::SetColourByIndex(unsigned n, wxByte r, wxByte g, wxByte b)
+{
+	wxASSERT( IsOk() && n < ColourNumber[mBPP] );
+	Pixel& p = ((Pixel*) mCurrent)[n];
+	p[0] = r;
+	p[1] = g;
+	p[2] = b;
+}
+
+
+
+void Palette::SetColourByIndex(const UttColour& colour)
+{
+	SetColourByIndex(colour.GetIndex(), colour.Red(), colour.Green(), colour.Blue());
 }
 
 
@@ -287,7 +305,8 @@ void Palette::ShiftPalette()
 	}
 
 	Pixel* pal = (Pixel*) mCurrent;
-	for (int i = 0; i < ColourNumber[mBPP]; ++i)
+
+	for (unsigned i = 0; i < ColourNumber[mBPP]; ++i)
 	{
 		(*pal)[0] <<= 2;
 		(*pal)[1] <<= 2;
@@ -308,7 +327,7 @@ void Palette::CopyPalette( void* dest, void* src, bool skipFourth /* false */ )
 	{
 		char* csrc = (char*) src;
 		char* cdest = (char*) dest;
-		for (int i = 0; i < ColourNumber[mBPP]; ++i)
+		for (unsigned i = 0; i < ColourNumber[mBPP]; ++i)
 		{
 			cdest[0] = csrc[2];
 			cdest[1] = csrc[1];
@@ -429,7 +448,7 @@ wxBitmap* Palette::GeneratePalBitmap()
 		int x = startx;
 		int leftGreen = mBPP == bpp15 ? 3 : 2;
 		int stepX = mBPP == bpp15 ? 64 : 128;
-		for (int i = 0; i < ColourNumber[ mBPP ]; ++i)
+		for (unsigned i = 0; i < ColourNumber[ mBPP ]; ++i)
 		{
 			unsigned char r = 0, g = 0, b = 0;
 			ConvertHighColour2RGB(x, r, g, b);
@@ -438,7 +457,8 @@ wxBitmap* Palette::GeneratePalBitmap()
 			dst[1] = g << leftGreen;
 			dst[2] = b << 3;
 			x += stepX;
-			if (x >= ColourNumber[ mBPP ])
+
+			if (x >= (int) ColourNumber[ mBPP ])
 			{
 				x = ++startx;
 			}

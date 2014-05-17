@@ -10,8 +10,8 @@
  * Copyright: Pavlovets Ilia
  * License:
  **************************************************************/
-#ifndef BUFFER_H_INCLUDED
-#define BUFFER_H_INCLUDED
+#ifndef __BUFFER_H__
+#define __BUFFER_H__
 
 
 
@@ -38,8 +38,9 @@ public:
 	void SetData( const std::string& src );
 
 	std::string GetBufferAsString();
+	inline const wxByte* GetData() const { return (wxByte*) mData; }
+	inline size_t GetSize() const { return mSize; }
 
-	static Buffer BAD_BUFFER;
 private:
 
 	void*	mData;
@@ -47,4 +48,4 @@ private:
 	bool	mOwnData;
 };
 
-#endif // BUFFER_H_INCLUDED
+#endif // __BUFFER_H__

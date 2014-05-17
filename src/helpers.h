@@ -158,6 +158,33 @@ inline void SwapEndian64(wxUint64 &x)
     x |= x2;
 }
 
+
+template<typename T>
+inline void AutoSwapEndian(T& x);
+
+template<>
+inline void AutoSwapEndian(wxUint8&){}
+
+template<>
+inline void AutoSwapEndian(wxInt8&){}
+
+
+#define SWAP_MACRO(n)\
+	template<> inline void AutoSwapEndian(wxUint##n& x)\
+	{ SwapEndian##n(x); } \
+	template<> inline void AutoSwapEndian(wxInt##n& x)\
+	{ SwapEndian##n((wxUint##n&) x); }
+
+SWAP_MACRO(16)
+SWAP_MACRO(32)
+SWAP_MACRO(64)
+
+#undef SWAP_MACRO
+
+sf::Int16* RawToSoundData(const wxByte* src, size_t srcSize, wxByte xorByte = 0);
+SoundBufferPtr RawToSoundBuffer(const wxByte* src, size_t srcSize, unsigned chn,
+	unsigned freq, wxByte xorByte = 0);
+
 } // namespace Helpers
 
 

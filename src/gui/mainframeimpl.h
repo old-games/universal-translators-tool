@@ -13,8 +13,6 @@
 
 #include "uttgui.h"
 
-class Project;
-
 
 
 class MainFrameImpl:
@@ -28,6 +26,9 @@ public:
 	void Deinit();
 
 private:
+
+	void LoadConfig();
+	void SaveConfig();
 
 	virtual void OnClose( wxCloseEvent& event );
 	virtual void OnMenuSelect( wxCommandEvent& event );
@@ -50,6 +51,7 @@ private:
 	bool CheckProject();
 	void CreateNewProject();
 
+	void LoadProject(const wxString& filename);
 	void DoOpenProject();
 	void DoSaveProject( bool saveAs = false );
 	void DoSelectModule();
@@ -62,9 +64,10 @@ private:
 	void ClearModuleMenu();
 	void SetActivePane( wxWindow* wnd );
 
-	wxHelpController*		mHelpController;
-	Project*				mCurrentProject;
-	wxAuiPaneInfo*			mCurrentPane;
+	wxHelpController*	mHelpController;
+	ProjectPtr			mCurrentProject;
+	wxAuiPaneInfo*		mCurrentPane;
+	wxFileConfig		mConfig;
 };
 
 #endif

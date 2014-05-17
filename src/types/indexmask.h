@@ -32,10 +32,13 @@ public:
 		int width, int height, int srcWidth = -1, int srcHeight = -1 );
 	void SetMask( const wxByte* mask, int srcSize, 
 		int width, int height, int srcWidth = -1, int srcHeight = -1 );
+	void InitMask(int width, int height);
+
 
 	inline bool		IsOk() const { return mMask != NULL; }
 	wxBitmap*		GetBitmap( PalettePtr pal ) const;
 	const wxByte*	GetMask() const { return mMask; }
+	wxByte*			GetMaskForWriting() const { return mMask; }
 	int				GetWidth() const { return mWidth; }
 	int				GetHeight() const { return mHeight; }
 
